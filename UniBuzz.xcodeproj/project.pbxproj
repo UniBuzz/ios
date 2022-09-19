@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
+		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
+		CB3236F728D881A10098AF14 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F628D881A10098AF14 /* RxTest */; };
 		D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
 		D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
 		D4BB0E2828D86F7900E28C3D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2728D86F7900E28C3D /* ViewController.swift */; };
@@ -42,6 +45,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CB3236F128D880A00098AF14 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		D4BB0E2028D86F7900E28C3D /* UniBuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,12 +66,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB3236F728D881A10098AF14 /* RxTest in Frameworks */,
 				D4BB0E6428D8746000E28C3D /* FirebaseDatabase in Frameworks */,
 				D4BB0E6228D8746000E28C3D /* FirebaseAuth in Frameworks */,
 				D4BB0E6628D8746000E28C3D /* FirebaseFirestore in Frameworks */,
 				D4BB0E6D28D8751200E28C3D /* SnapKit in Frameworks */,
 				D4BB0E6A28D8746000E28C3D /* FirebaseStorage in Frameworks */,
 				D4BB0E6828D8746000E28C3D /* FirebaseFunctions in Frameworks */,
+				CB3236F528D881A10098AF14 /* RxSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -149,6 +155,7 @@
 				D4BB0E5928D8719500E28C3D /* Authentication */,
 				D4BB0E5828D8719200E28C3D /* Chat */,
 				D4BB0E5728D8718D00E28C3D /* Feed */,
+				CB3236F128D880A00098AF14 /* TabBarViewController.swift */,
 			);
 			path = Feature;
 			sourceTree = "<group>";
@@ -266,6 +273,8 @@
 				D4BB0E6728D8746000E28C3D /* FirebaseFunctions */,
 				D4BB0E6928D8746000E28C3D /* FirebaseStorage */,
 				D4BB0E6C28D8751200E28C3D /* SnapKit */,
+				CB3236F428D881A10098AF14 /* RxSwift */,
+				CB3236F628D881A10098AF14 /* RxTest */,
 			);
 			productName = UniBuzz;
 			productReference = D4BB0E2028D86F7900E28C3D /* UniBuzz.app */;
@@ -342,6 +351,7 @@
 			packageReferences = (
 				D4BB0E6028D8746000E28C3D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				D4BB0E6B28D8751200E28C3D /* XCRemoteSwiftPackageReference "SnapKit" */,
+				CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */,
 			);
 			productRefGroup = D4BB0E2128D86F7900E28C3D /* Products */;
 			projectDirPath = "";
@@ -386,6 +396,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,
 				D4BB0E2828D86F7900E28C3D /* ViewController.swift in Sources */,
 				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
 				D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */,
@@ -732,6 +743,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ReactiveX/RxSwift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 		D4BB0E6028D8746000E28C3D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -751,6 +770,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CB3236F428D881A10098AF14 /* RxSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxSwift;
+		};
+		CB3236F628D881A10098AF14 /* RxTest */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxTest;
+		};
 		D4BB0E6128D8746000E28C3D /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = D4BB0E6028D8746000E28C3D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
