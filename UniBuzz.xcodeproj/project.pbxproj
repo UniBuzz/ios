@@ -9,16 +9,12 @@
 /* Begin PBXBuildFile section */
 		CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
-		CB3236F728D881A10098AF14 /* RxTest in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F628D881A10098AF14 /* RxTest */; };
+		CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2728D86F7900E28C3D /* ViewController.swift */; };
 		D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
 		D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
-		D4BB0E2828D86F7900E28C3D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2728D86F7900E28C3D /* ViewController.swift */; };
 		D4BB0E2B28D86F7900E28C3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2928D86F7900E28C3D /* Main.storyboard */; };
 		D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */; };
 		D4BB0E3028D86F7A00E28C3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2E28D86F7A00E28C3D /* LaunchScreen.storyboard */; };
-		D4BB0E3B28D86F7B00E28C3D /* UniBuzzTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E3A28D86F7B00E28C3D /* UniBuzzTests.swift */; };
-		D4BB0E4528D86F7B00E28C3D /* UniBuzzUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E4428D86F7B00E28C3D /* UniBuzzUITests.swift */; };
-		D4BB0E4728D86F7B00E28C3D /* UniBuzzUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E4628D86F7B00E28C3D /* UniBuzzUITestsLaunchTests.swift */; };
 		D4BB0E6228D8746000E28C3D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6128D8746000E28C3D /* FirebaseAuth */; };
 		D4BB0E6428D8746000E28C3D /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6328D8746000E28C3D /* FirebaseDatabase */; };
 		D4BB0E6628D8746000E28C3D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6528D8746000E28C3D /* FirebaseFirestore */; };
@@ -26,23 +22,6 @@
 		D4BB0E6A28D8746000E28C3D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6928D8746000E28C3D /* FirebaseStorage */; };
 		D4BB0E6D28D8751200E28C3D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6C28D8751200E28C3D /* SnapKit */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		D4BB0E3728D86F7B00E28C3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4BB0E1828D86F7900E28C3D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D4BB0E1F28D86F7900E28C3D;
-			remoteInfo = UniBuzz;
-		};
-		D4BB0E4128D86F7B00E28C3D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D4BB0E1828D86F7900E28C3D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D4BB0E1F28D86F7900E28C3D;
-			remoteInfo = UniBuzz;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		CB3236F128D880A00098AF14 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
@@ -54,11 +33,6 @@
 		D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4BB0E2F28D86F7A00E28C3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4BB0E3128D86F7A00E28C3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D4BB0E3628D86F7B00E28C3D /* UniBuzzTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UniBuzzTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4BB0E3A28D86F7B00E28C3D /* UniBuzzTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniBuzzTests.swift; sourceTree = "<group>"; };
-		D4BB0E4028D86F7B00E28C3D /* UniBuzzUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UniBuzzUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4BB0E4428D86F7B00E28C3D /* UniBuzzUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniBuzzUITests.swift; sourceTree = "<group>"; };
-		D4BB0E4628D86F7B00E28C3D /* UniBuzzUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniBuzzUITestsLaunchTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,7 +40,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB3236F728D881A10098AF14 /* RxTest in Frameworks */,
 				D4BB0E6428D8746000E28C3D /* FirebaseDatabase in Frameworks */,
 				D4BB0E6228D8746000E28C3D /* FirebaseAuth in Frameworks */,
 				D4BB0E6628D8746000E28C3D /* FirebaseFirestore in Frameworks */,
@@ -77,20 +50,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4BB0E3328D86F7B00E28C3D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4BB0E3D28D86F7B00E28C3D /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -98,8 +57,6 @@
 			isa = PBXGroup;
 			children = (
 				D4BB0E2228D86F7900E28C3D /* UniBuzz */,
-				D4BB0E3928D86F7B00E28C3D /* UniBuzzTests */,
-				D4BB0E4328D86F7B00E28C3D /* UniBuzzUITests */,
 				D4BB0E2128D86F7900E28C3D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -108,8 +65,6 @@
 			isa = PBXGroup;
 			children = (
 				D4BB0E2028D86F7900E28C3D /* UniBuzz.app */,
-				D4BB0E3628D86F7B00E28C3D /* UniBuzzTests.xctest */,
-				D4BB0E4028D86F7B00E28C3D /* UniBuzzUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -130,23 +85,6 @@
 				D4BB0E3128D86F7A00E28C3D /* Info.plist */,
 			);
 			path = UniBuzz;
-			sourceTree = "<group>";
-		};
-		D4BB0E3928D86F7B00E28C3D /* UniBuzzTests */ = {
-			isa = PBXGroup;
-			children = (
-				D4BB0E3A28D86F7B00E28C3D /* UniBuzzTests.swift */,
-			);
-			path = UniBuzzTests;
-			sourceTree = "<group>";
-		};
-		D4BB0E4328D86F7B00E28C3D /* UniBuzzUITests */ = {
-			isa = PBXGroup;
-			children = (
-				D4BB0E4428D86F7B00E28C3D /* UniBuzzUITests.swift */,
-				D4BB0E4628D86F7B00E28C3D /* UniBuzzUITestsLaunchTests.swift */,
-			);
-			path = UniBuzzUITests;
 			sourceTree = "<group>";
 		};
 		D4BB0E5328D8715D00E28C3D /* Feature */ = {
@@ -274,47 +212,10 @@
 				D4BB0E6928D8746000E28C3D /* FirebaseStorage */,
 				D4BB0E6C28D8751200E28C3D /* SnapKit */,
 				CB3236F428D881A10098AF14 /* RxSwift */,
-				CB3236F628D881A10098AF14 /* RxTest */,
 			);
 			productName = UniBuzz;
 			productReference = D4BB0E2028D86F7900E28C3D /* UniBuzz.app */;
 			productType = "com.apple.product-type.application";
-		};
-		D4BB0E3528D86F7B00E28C3D /* UniBuzzTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4BB0E4D28D86F7B00E28C3D /* Build configuration list for PBXNativeTarget "UniBuzzTests" */;
-			buildPhases = (
-				D4BB0E3228D86F7B00E28C3D /* Sources */,
-				D4BB0E3328D86F7B00E28C3D /* Frameworks */,
-				D4BB0E3428D86F7B00E28C3D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D4BB0E3828D86F7B00E28C3D /* PBXTargetDependency */,
-			);
-			name = UniBuzzTests;
-			productName = UniBuzzTests;
-			productReference = D4BB0E3628D86F7B00E28C3D /* UniBuzzTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		D4BB0E3F28D86F7B00E28C3D /* UniBuzzUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = D4BB0E5028D86F7B00E28C3D /* Build configuration list for PBXNativeTarget "UniBuzzUITests" */;
-			buildPhases = (
-				D4BB0E3C28D86F7B00E28C3D /* Sources */,
-				D4BB0E3D28D86F7B00E28C3D /* Frameworks */,
-				D4BB0E3E28D86F7B00E28C3D /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				D4BB0E4228D86F7B00E28C3D /* PBXTargetDependency */,
-			);
-			name = UniBuzzUITests;
-			productName = UniBuzzUITests;
-			productReference = D4BB0E4028D86F7B00E28C3D /* UniBuzzUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
 
@@ -328,14 +229,6 @@
 				TargetAttributes = {
 					D4BB0E1F28D86F7900E28C3D = {
 						CreatedOnToolsVersion = 14.0;
-					};
-					D4BB0E3528D86F7B00E28C3D = {
-						CreatedOnToolsVersion = 14.0;
-						TestTargetID = D4BB0E1F28D86F7900E28C3D;
-					};
-					D4BB0E3F28D86F7B00E28C3D = {
-						CreatedOnToolsVersion = 14.0;
-						TestTargetID = D4BB0E1F28D86F7900E28C3D;
 					};
 				};
 			};
@@ -358,8 +251,6 @@
 			projectRoot = "";
 			targets = (
 				D4BB0E1F28D86F7900E28C3D /* UniBuzz */,
-				D4BB0E3528D86F7B00E28C3D /* UniBuzzTests */,
-				D4BB0E3F28D86F7B00E28C3D /* UniBuzzUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -375,20 +266,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4BB0E3428D86F7B00E28C3D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4BB0E3E28D86F7B00E28C3D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -397,43 +274,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,
-				D4BB0E2828D86F7900E28C3D /* ViewController.swift in Sources */,
 				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
+				CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */,
 				D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D4BB0E3228D86F7B00E28C3D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4BB0E3B28D86F7B00E28C3D /* UniBuzzTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D4BB0E3C28D86F7B00E28C3D /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D4BB0E4728D86F7B00E28C3D /* UniBuzzUITestsLaunchTests.swift in Sources */,
-				D4BB0E4528D86F7B00E28C3D /* UniBuzzUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		D4BB0E3828D86F7B00E28C3D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D4BB0E1F28D86F7900E28C3D /* UniBuzz */;
-			targetProxy = D4BB0E3728D86F7B00E28C3D /* PBXContainerItemProxy */;
-		};
-		D4BB0E4228D86F7B00E28C3D /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D4BB0E1F28D86F7900E28C3D /* UniBuzz */;
-			targetProxy = D4BB0E4128D86F7B00E28C3D /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D4BB0E2928D86F7900E28C3D /* Main.storyboard */ = {
@@ -576,12 +423,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L54R5L5GQL;
+				DEVELOPMENT_TEAM = 2CYTFH24FS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniBuzz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -604,12 +450,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L54R5L5GQL;
+				DEVELOPMENT_TEAM = 2CYTFH24FS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniBuzz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -622,82 +467,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		D4BB0E4E28D86F7B00E28C3D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L54R5L5GQL;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.farhan.UniBuzzTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UniBuzz.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UniBuzz";
-			};
-			name = Debug;
-		};
-		D4BB0E4F28D86F7B00E28C3D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L54R5L5GQL;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.farhan.UniBuzzTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/UniBuzz.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/UniBuzz";
-			};
-			name = Release;
-		};
-		D4BB0E5128D86F7B00E28C3D /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L54R5L5GQL;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.farhan.UniBuzzUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = UniBuzz;
-			};
-			name = Debug;
-		};
-		D4BB0E5228D86F7B00E28C3D /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = L54R5L5GQL;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.farhan.UniBuzzUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = UniBuzz;
 			};
 			name = Release;
 		};
@@ -718,24 +487,6 @@
 			buildConfigurations = (
 				D4BB0E4B28D86F7B00E28C3D /* Debug */,
 				D4BB0E4C28D86F7B00E28C3D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4BB0E4D28D86F7B00E28C3D /* Build configuration list for PBXNativeTarget "UniBuzzTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4BB0E4E28D86F7B00E28C3D /* Debug */,
-				D4BB0E4F28D86F7B00E28C3D /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		D4BB0E5028D86F7B00E28C3D /* Build configuration list for PBXNativeTarget "UniBuzzUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				D4BB0E5128D86F7B00E28C3D /* Debug */,
-				D4BB0E5228D86F7B00E28C3D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -774,11 +525,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
-		};
-		CB3236F628D881A10098AF14 /* RxTest */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */;
-			productName = RxTest;
 		};
 		D4BB0E6128D8746000E28C3D /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
