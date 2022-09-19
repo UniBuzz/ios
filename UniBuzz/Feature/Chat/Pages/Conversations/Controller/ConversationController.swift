@@ -22,16 +22,15 @@ class ConversationController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureTableView()
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.backgroundColor = .white
-        self.navigationController?.navigationBar.scrollEdgeAppearance = .none
-        self.navigationItem.title = "Chats"
     }
     
     //MARK: - Functions
     func configureUI() {
         view.backgroundColor = .white
-        
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationController?.navigationBar.scrollEdgeAppearance = .none
+        self.navigationItem.title = "Chats"
     }
     
     func configureTableView() {
@@ -43,11 +42,19 @@ class ConversationController: UIViewController {
         view.addSubview(tableView)
         tableView.frame = self.view.frame
     }
+    
+    func showChatController(forUser user: String) {
+        let controller = ChatController(user: user)
+        navigationController?.pushViewController(controller, animated: true)
+    }
 }
 
 //MARK: - Extensions
 extension ConversationController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let user = conversations[indexPath.row].username
+        showChatController(forUser: user)
+    }
 }
 
 extension ConversationController: UITableViewDataSource {
