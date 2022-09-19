@@ -11,6 +11,9 @@
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2728D86F7900E28C3D /* ViewController.swift */; };
 		CB83311628D8B42A00F6ED1B /* ConversationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83311528D8B42A00F6ED1B /* ConversationController.swift */; };
+		CB83311C28D8BEC400F6ED1B /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83311B28D8BEC400F6ED1B /* FeedController.swift */; };
+		CB83312228D8BFCF00F6ED1B /* ProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312128D8BFCF00F6ED1B /* ProfileController.swift */; };
+		CB83312828D8C04100F6ED1B /* MissionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312728D8C04100F6ED1B /* MissionController.swift */; };
 		D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
 		D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
 		D4BB0E2B28D86F7900E28C3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2928D86F7900E28C3D /* Main.storyboard */; };
@@ -27,6 +30,9 @@
 /* Begin PBXFileReference section */
 		CB3236F128D880A00098AF14 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		CB83311528D8B42A00F6ED1B /* ConversationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationController.swift; sourceTree = "<group>"; };
+		CB83311B28D8BEC400F6ED1B /* FeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
+		CB83312128D8BFCF00F6ED1B /* ProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileController.swift; sourceTree = "<group>"; };
+		CB83312728D8C04100F6ED1B /* MissionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MissionController.swift; sourceTree = "<group>"; };
 		D4BB0E2028D86F7900E28C3D /* UniBuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -55,10 +61,98 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		CB83311728D8B44400F6ED1B /* Controller */ = {
+		CB83311728D8B44400F6ED1B /* Conversations */ = {
+			isa = PBXGroup;
+			children = (
+				CB83311928D8BE8C00F6ED1B /* Controller */,
+			);
+			path = Conversations;
+			sourceTree = "<group>";
+		};
+		CB83311828D8BE6600F6ED1B /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				CB83311A28D8BEA200F6ED1B /* Feeds */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		CB83311928D8BE8C00F6ED1B /* Controller */ = {
 			isa = PBXGroup;
 			children = (
 				CB83311528D8B42A00F6ED1B /* ConversationController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		CB83311A28D8BEA200F6ED1B /* Feeds */ = {
+			isa = PBXGroup;
+			children = (
+				CB83311B28D8BEC400F6ED1B /* FeedController.swift */,
+			);
+			path = Feeds;
+			sourceTree = "<group>";
+		};
+		CB83311D28D8BF6000F6ED1B /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CB83311E28D8BF9C00F6ED1B /* Pages */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		CB83311E28D8BF9C00F6ED1B /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				CB83311F28D8BFA800F6ED1B /* Profile */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		CB83311F28D8BFA800F6ED1B /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CB83312028D8BFB600F6ED1B /* Controller */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		CB83312028D8BFB600F6ED1B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CB83312128D8BFCF00F6ED1B /* ProfileController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		CB83312328D8C01800F6ED1B /* Mission */ = {
+			isa = PBXGroup;
+			children = (
+				CB83312428D8C02000F6ED1B /* Pages */,
+			);
+			path = Mission;
+			sourceTree = "<group>";
+		};
+		CB83312428D8C02000F6ED1B /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				CB83312528D8C02D00F6ED1B /* Missions */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		CB83312528D8C02D00F6ED1B /* Missions */ = {
+			isa = PBXGroup;
+			children = (
+				CB83312628D8C03400F6ED1B /* Controller */,
+			);
+			path = Missions;
+			sourceTree = "<group>";
+		};
+		CB83312628D8C03400F6ED1B /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CB83312728D8C04100F6ED1B /* MissionController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -100,6 +194,8 @@
 		D4BB0E5328D8715D00E28C3D /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				CB83312328D8C01800F6ED1B /* Mission */,
+				CB83311D28D8BF6000F6ED1B /* Profile */,
 				D4BB0E5928D8719500E28C3D /* Authentication */,
 				D4BB0E5828D8719200E28C3D /* Chat */,
 				D4BB0E5728D8718D00E28C3D /* Feed */,
@@ -132,6 +228,7 @@
 		D4BB0E5728D8718D00E28C3D /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				CB83311828D8BE6600F6ED1B /* Pages */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -157,7 +254,7 @@
 		D4BB0E5A28D871B200E28C3D /* Pages */ = {
 			isa = PBXGroup;
 			children = (
-				CB83311728D8B44400F6ED1B /* Controller */,
+				CB83311728D8B44400F6ED1B /* Conversations */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -284,7 +381,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB83312828D8C04100F6ED1B /* MissionController.swift in Sources */,
+				CB83312228D8BFCF00F6ED1B /* ProfileController.swift in Sources */,
 				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,
+				CB83311C28D8BEC400F6ED1B /* FeedController.swift in Sources */,
 				CB83311628D8B42A00F6ED1B /* ConversationController.swift in Sources */,
 				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
 				CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */,
