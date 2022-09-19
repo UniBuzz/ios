@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>SmokeLess</h1>
+  <h1>UniBuzz</h1>
 </div>
 
 ## Getting Started
