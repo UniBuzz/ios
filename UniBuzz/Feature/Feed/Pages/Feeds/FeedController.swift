@@ -9,18 +9,21 @@ import UIKit
 
 class FeedController: UIViewController {
 
+    //MARK: - Properties
     lazy var titleText: UILabel = {
         var label: UILabel = UILabel()
         label.text = "Feeds"
         return label
     }()
 
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .blue
         configureUI()
     }
     
+    //MARK: - Functions
     func configureUI() {
         self.view.addSubview(titleText)
         titleText.snp.makeConstraints { make in
