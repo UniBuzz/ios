@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2728D86F7900E28C3D /* ViewController.swift */; };
@@ -59,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */,
 				D4BB0E6428D8746000E28C3D /* FirebaseDatabase in Frameworks */,
 				D4BB0E6228D8746000E28C3D /* FirebaseAuth in Frameworks */,
 				D4BB0E6628D8746000E28C3D /* FirebaseFirestore in Frameworks */,
@@ -73,6 +75,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C42BB93E28DA21E700006F71 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		CB83311728D8B44400F6ED1B /* Conversations */ = {
 			isa = PBXGroup;
 			children = (
@@ -218,6 +227,7 @@
 			children = (
 				D4BB0E2228D86F7900E28C3D /* UniBuzz */,
 				D4BB0E2128D86F7900E28C3D /* Products */,
+				C42BB93E28DA21E700006F71 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -378,6 +388,7 @@
 				D4BB0E6C28D8751200E28C3D /* SnapKit */,
 				CB3236F428D881A10098AF14 /* RxSwift */,
 				CBE0414428DA10090098395E /* RxDataSources */,
+				C42BB93F28DA21E700006F71 /* RxCocoa */,
 			);
 			productName = UniBuzz;
 			productReference = D4BB0E2028D86F7900E28C3D /* UniBuzz.app */;
@@ -705,6 +716,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C42BB93F28DA21E700006F71 /* RxCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */;
+			productName = RxCocoa;
+		};
 		CB3236F428D881A10098AF14 /* RxSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */;
