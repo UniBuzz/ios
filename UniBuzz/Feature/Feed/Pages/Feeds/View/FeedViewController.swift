@@ -6,16 +6,20 @@
 //
 
 import UIKit
+import RxSwift
 
 class FeedViewController: UIViewController {
-
+    
     //MARK: - Properties
-    lazy var titleText: UILabel = {
-        var label: UILabel = UILabel()
-        label.text = "Feeds"
-        return label
+    lazy var feedTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.backgroundColor = .yellow
+        tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.cellIdentifier)
+        return tableView
     }()
-
+    
+    private var dummyData = DummyData()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,9 +29,12 @@ class FeedViewController: UIViewController {
     
     //MARK: - Functions
     func configureUI() {
-        self.view.addSubview(titleText)
-        titleText.snp.makeConstraints { make in
-            make.center.equalTo(self.view)
+        self.view.addSubview(feedTableView)
+        feedTableView.snp.makeConstraints { make in
+            make.left.equalTo(view)
+            make.right.equalTo(view)
+            make.top.equalTo(view)
+            make.bottom.equalTo(view)
         }
     }
 }
