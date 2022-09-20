@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxDataSources
 
 class ConversationViewController: UIViewController {
     
@@ -14,33 +16,29 @@ class ConversationViewController: UIViewController {
     fileprivate let reuseIdentifier = "ConversationCell"
     private let tableView = UITableView()
     private var conversations = dummyConversations
-    private var conversationDictionary = [String : Conversation]()
-
+    private var viewModel = ConversationViewModel()
+    private let disposeBag = DisposeBag()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureTableView()
+        bindTableView()
     }
     
     //MARK: - Funcations
     func configureUI() {
-            view.backgroundColor = .white
-            self.navigationController?.navigationBar.prefersLargeTitles = true
-            self.navigationController?.navigationBar.backgroundColor = .white
-            self.navigationController?.navigationBar.scrollEdgeAppearance = .none
-            self.navigationItem.title = "Messages"
-        }
-    
-    func configureTableView() {
-        tableView.backgroundColor = .white
-        tableView.rowHeight = 80
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(ConversationCell.self, forCellReuseIdentifier: reuseIdentifier)
+        view.backgroundColor = .white
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationController?.navigationBar.scrollEdgeAppearance = .none
+        self.navigationItem.title = "Messages"
         view.addSubview(tableView)
         tableView.frame = self.view.frame
+        tableView.backgroundColor = .white
+        tableView.rowHeight = 80
     }
+    
     
     func showChatController(forUser user: String) {
         let controller = ChatCollectionViewController(user: user)
@@ -49,23 +47,21 @@ class ConversationViewController: UIViewController {
     }
 }
 
-//MARK: - Extensions
-extension ConversationViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let user = conversations[indexPath.row].username
-        showChatController(forUser: user)
+//MARK: - Binding
+extension ConversationViewController {
+    
+    func bindTableView() {
+        tableView.register(ConversationCell.self, forCellReuseIdentifier: reuseIdentifier)
+        
+        viewModel.items.bind(to: tableView.rx.items(cellIdentifier:reuseIdentifier, cellType: ConversationCell.self)) { (row,item,cell) in
+            cell.conversation = item
+        }.disposed(by: disposeBag)
+        
+        tableView.rx.modelSelected(Conversation.self).subscribe{ item in
+            let user = item.username
+            self.showChatController(forUser: user)
+        }.disposed(by: disposeBag)
     }
 }
 
-extension ConversationViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return conversations.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
-        cell.selectionStyle = .none
-        cell.conversation = conversations[indexPath.row]
-        return cell
-    }
-}
+
