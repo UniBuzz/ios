@@ -245,7 +245,7 @@
 				CB83312328D8C01800F6ED1B /* Mission */,
 				CB83311D28D8BF6000F6ED1B /* Profile */,
 				D4BB0E5928D8719500E28C3D /* Authentication */,
-				D4BB0E5828D8719200E28C3D /* Chat */,
+				D4BB0E5828D8719200E28C3D /* Message */,
 				D4BB0E5728D8718D00E28C3D /* Feed */,
 				CB3236F128D880A00098AF14 /* TabBarViewController.swift */,
 			);
@@ -281,13 +281,13 @@
 			path = Feed;
 			sourceTree = "<group>";
 		};
-		D4BB0E5828D8719200E28C3D /* Chat */ = {
+		D4BB0E5828D8719200E28C3D /* Message */ = {
 			isa = PBXGroup;
 			children = (
 				D4BB0E5B28D871D100E28C3D /* Model */,
 				D4BB0E5A28D871B200E28C3D /* Pages */,
 			);
-			path = Chat;
+			path = Message;
 			sourceTree = "<group>";
 		};
 		D4BB0E5928D8719500E28C3D /* Authentication */ = {
