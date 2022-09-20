@@ -85,7 +85,6 @@ class CustomInputAccessoryView: UIView {
         placeholderLabel.snp.makeConstraints { make in
             make.left.equalTo(messageInputTextView.snp.left).offset(4)
             make.top.equalTo(messageInputTextView).offset(8)
-//          make.centerY.equalTo(messageInputTextView)
         }
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextInputChange), name: UITextView.textDidChangeNotification, object: nil)
         

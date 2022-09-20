@@ -11,7 +11,6 @@ import SnapKit
 class ConversationViewController: UIViewController {
     
     //MARK: - Properties
-    
     fileprivate let reuseIdentifier = "ConversationCell"
     private let tableView = UITableView()
     private var conversations = dummyConversations
@@ -24,14 +23,14 @@ class ConversationViewController: UIViewController {
         configureTableView()
     }
     
-    //MARK: - Functions
+    //MARK: - Funcations
     func configureUI() {
-        view.backgroundColor = .white
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.backgroundColor = .white
-        self.navigationController?.navigationBar.scrollEdgeAppearance = .none
-        self.navigationItem.title = "Messages"
-    }
+            view.backgroundColor = .white
+            self.navigationController?.navigationBar.prefersLargeTitles = true
+            self.navigationController?.navigationBar.backgroundColor = .white
+            self.navigationController?.navigationBar.scrollEdgeAppearance = .none
+            self.navigationItem.title = "Messages"
+        }
     
     func configureTableView() {
         tableView.backgroundColor = .white
@@ -65,10 +64,8 @@ extension ConversationViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
+        cell.selectionStyle = .none
         cell.conversation = conversations[indexPath.row]
         return cell
     }
-    
-    
-    
 }

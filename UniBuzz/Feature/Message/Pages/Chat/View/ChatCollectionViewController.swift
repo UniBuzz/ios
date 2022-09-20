@@ -64,8 +64,11 @@ class ChatCollectionViewController: UICollectionViewController {
     // MARK: - Functions and selectors
     func configureUI() {
         view.backgroundColor = .white
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.backgroundColor = .white
-        self.navigationController?.navigationBar.scrollEdgeAppearance = .none
+        configureNavigationBar()
+    }
+    
+    func configureNavigationBar() {
+
+
     }
 }
