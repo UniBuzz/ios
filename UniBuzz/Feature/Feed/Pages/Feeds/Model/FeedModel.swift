@@ -8,5 +8,8 @@
 import Foundation
 
 struct FeedModel {
-    
+    let userName: String
+    let content: String
+    let upvoteCount: Int
+    let commentCount: Int
 }
