@@ -9,6 +9,7 @@ import UIKit
 
 class TabBarViewController: UITabBarController {
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         self.tabBar.backgroundColor = .white
@@ -17,6 +18,7 @@ class TabBarViewController: UITabBarController {
         
     }
     
+    // MARK: - Functions and Selectors
     func navigationController(image: UIImage?, title: String, rootViewController: UIViewController) ->
         UINavigationController{
             let nav = UINavigationController(rootViewController: rootViewController)

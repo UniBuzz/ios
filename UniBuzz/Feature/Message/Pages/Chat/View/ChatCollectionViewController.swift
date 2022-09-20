@@ -10,7 +10,14 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class ChatCollectionViewController: UICollectionViewController {
-
+    
+    // MARK: - properties
+    private lazy var CustomInputView: CustomInputAccessoryView = {
+        let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        return iv
+    }()
+    
+    // MARK: - Lifecycle
     init(user: String){
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
         self.navigationItem.title = user
@@ -22,18 +29,19 @@ class ChatCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Register cell classes
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-
-        // Do any additional setup after loading the view.
-        view.backgroundColor = .white
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.backgroundColor = .white
-        self.navigationController?.navigationBar.scrollEdgeAppearance = .none
+        configureUI()
+    }
+    
+    override var inputAccessoryView: UIView? {
+        get {return CustomInputView}
+    }
+    
+    override var canBecomeFirstResponder: Bool {
+        return true
     }
 
-
+    // MARK: - CollectionView Functions
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 0
@@ -52,5 +60,15 @@ class ChatCollectionViewController: UICollectionViewController {
     
         return cell
     }
+    
+    // MARK: - Functions and selectors
+    func configureUI() {
+        view.backgroundColor = .white
+        configureNavigationBar()
+    }
+    
+    func configureNavigationBar() {
 
+
+    }
 }

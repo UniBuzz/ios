@@ -17,6 +17,9 @@
 		CB83312B28D8CD4B00F6ED1B /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312A28D8CD4B00F6ED1B /* Conversation.swift */; };
 		CB83312E28D8D2E800F6ED1B /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312D28D8D2E800F6ED1B /* ConversationCell.swift */; };
 		CB83313228D8DD0800F6ED1B /* ChatCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83313128D8DD0700F6ED1B /* ChatCollectionViewController.swift */; };
+		CBE0414028D972C90098395E /* CustomInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */; };
+		CBE0414228DA0D550098395E /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414128DA0D550098395E /* ConversationViewModel.swift */; };
+		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
 		D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
 		D4BB0E2B28D86F7900E28C3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2928D86F7900E28C3D /* Main.storyboard */; };
@@ -39,6 +42,8 @@
 		CB83312A28D8CD4B00F6ED1B /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		CB83312D28D8D2E800F6ED1B /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		CB83313128D8DD0700F6ED1B /* ChatCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCollectionViewController.swift; sourceTree = "<group>"; };
+		CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputAccessoryView.swift; sourceTree = "<group>"; };
+		CBE0414128DA0D550098395E /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		D4BB0E2028D86F7900E28C3D /* UniBuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,6 +64,7 @@
 				D4BB0E6628D8746000E28C3D /* FirebaseFirestore in Frameworks */,
 				D4BB0E6D28D8751200E28C3D /* SnapKit in Frameworks */,
 				D4BB0E6A28D8746000E28C3D /* FirebaseStorage in Frameworks */,
+				CBE0414528DA10090098395E /* RxDataSources in Frameworks */,
 				D4BB0E6828D8746000E28C3D /* FirebaseFunctions in Frameworks */,
 				CB3236F528D881A10098AF14 /* RxSwift in Frameworks */,
 			);
@@ -88,6 +94,7 @@
 		CB83311928D8BE8C00F6ED1B /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				CBE0414128DA0D550098395E /* ConversationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -193,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				CB83313128D8DD0700F6ED1B /* ChatCollectionViewController.swift */,
+				CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -369,6 +377,7 @@
 				D4BB0E6928D8746000E28C3D /* FirebaseStorage */,
 				D4BB0E6C28D8751200E28C3D /* SnapKit */,
 				CB3236F428D881A10098AF14 /* RxSwift */,
+				CBE0414428DA10090098395E /* RxDataSources */,
 			);
 			productName = UniBuzz;
 			productReference = D4BB0E2028D86F7900E28C3D /* UniBuzz.app */;
@@ -402,6 +411,7 @@
 				D4BB0E6028D8746000E28C3D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				D4BB0E6B28D8751200E28C3D /* XCRemoteSwiftPackageReference "SnapKit" */,
 				CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */,
+				CBE0414328DA10090098395E /* XCRemoteSwiftPackageReference "RxDataSources" */,
 			);
 			productRefGroup = D4BB0E2128D86F7900E28C3D /* Products */;
 			projectDirPath = "";
@@ -441,6 +451,8 @@
 				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
 				CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */,
 				D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */,
+				CBE0414228DA0D550098395E /* ConversationViewModel.swift in Sources */,
+				CBE0414028D972C90098395E /* CustomInputAccessoryView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +678,14 @@
 				minimumVersion = 6.0.0;
 			};
 		};
+		CBE0414328DA10090098395E /* XCRemoteSwiftPackageReference "RxDataSources" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/RxSwiftCommunity/RxDataSources";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		D4BB0E6028D8746000E28C3D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -689,6 +709,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */;
 			productName = RxSwift;
+		};
+		CBE0414428DA10090098395E /* RxDataSources */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CBE0414328DA10090098395E /* XCRemoteSwiftPackageReference "RxDataSources" */;
+			productName = RxDataSources;
 		};
 		D4BB0E6128D8746000E28C3D /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
