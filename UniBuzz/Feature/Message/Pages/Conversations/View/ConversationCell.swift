@@ -28,6 +28,14 @@ class ConversationCell: UITableViewCell {
         return label
     }()
     
+    let profileImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.backgroundColor = .lightGray
+        return iv
+    }()
+    
     // MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -44,9 +52,16 @@ class ConversationCell: UITableViewCell {
         stack.axis = .vertical
         stack.spacing = 4
         addSubview(stack)
+        addSubview(profileImageView)
+        profileImageView.layer.cornerRadius = 50/2
         stack.snp.makeConstraints { make in
-            make.left.equalToSuperview().offset(16)
+            make.left.equalTo(profileImageView.snp.right).offset(12)
             make.right.equalToSuperview().offset(16)
+            make.centerY.equalToSuperview()
+        }
+        profileImageView.snp.makeConstraints { make in
+            make.left.equalToSuperview().offset(12)
+            make.width.height.equalTo(50)
             make.centerY.equalToSuperview()
         }
     }
