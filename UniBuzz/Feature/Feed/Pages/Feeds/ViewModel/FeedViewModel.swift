@@ -9,4 +9,28 @@ import Foundation
 
 class FeedViewModel {
     
+    func fetchFeed() {
+        
+    }
+    
+    func refreshFeed() {
+        
+    }
+    
+    func upVoteContent() {
+        
+    }
+    
+    func loadComments() {
+        
+    }
+    
+    func sendMessageToSender() {
+        
+    }
+    
+    func feedOption() {
+        
+    }
+    
 }
