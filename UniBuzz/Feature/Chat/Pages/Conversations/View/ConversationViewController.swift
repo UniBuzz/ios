@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ConversationController: UIViewController {
+class ConversationViewController: UIViewController {
     
     //MARK: - Properties
     
@@ -30,7 +30,7 @@ class ConversationController: UIViewController {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationController?.navigationBar.backgroundColor = .white
         self.navigationController?.navigationBar.scrollEdgeAppearance = .none
-        self.navigationItem.title = "Chats"
+        self.navigationItem.title = "Messages"
     }
     
     func configureTableView() {
@@ -44,20 +44,20 @@ class ConversationController: UIViewController {
     }
     
     func showChatController(forUser user: String) {
-        let controller = ChatController(user: user)
+        let controller = ChatCollectionViewController(user: user)
         navigationController?.pushViewController(controller, animated: true)
     }
 }
 
 //MARK: - Extensions
-extension ConversationController: UITableViewDelegate {
+extension ConversationViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = conversations[indexPath.row].username
         showChatController(forUser: user)
     }
 }
 
-extension ConversationController: UITableViewDataSource {
+extension ConversationViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
     }

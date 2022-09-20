@@ -1,5 +1,5 @@
 //
-//  ProfileController.swift
+//  MissionController.swift
 //  UniBuzz
 //
 //  Created by Kevin ahmad on 19/09/22.
@@ -7,19 +7,19 @@
 
 import UIKit
 
-class ProfileController: UIViewController {
+class MissionViewController: UIViewController {
 
     //MARK: - Properties
     lazy var titleText: UILabel = {
         var label: UILabel = UILabel()
-        label.text = "Profile"
+        label.text = "Mission"
         return label
     }()
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .green
+        view.backgroundColor = .brown
         configureUI()
     }
     

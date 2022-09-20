@@ -27,13 +27,13 @@ class TabBarViewController: UITabBarController {
         }
     
     func configureViewControllers() {
-        let feeds = FeedController()
+        let feeds = FeedViewController()
         let nav1 = navigationController(image: UIImage(systemName: "house"),title: "Feeds", rootViewController: feeds)
-        let mission = MissionController()
+        let mission = MissionViewController()
         let nav2 = navigationController(image: UIImage(systemName: "doc.plaintext"),title: "Mission", rootViewController: mission)
-        let conversation = ConversationController()
-        let nav3 = navigationController(image: UIImage(systemName: "envelope"), title: "Chat", rootViewController: conversation)
-        let profile = ProfileController()
+        let conversation = ConversationViewController()
+        let nav3 = navigationController(image: UIImage(systemName: "envelope"), title: "Message", rootViewController: conversation)
+        let profile = ProfileViewController()
         let nav4 = navigationController(image: UIImage(systemName: "person"), title: "Profile", rootViewController: profile)
         viewControllers = [nav1,nav2,nav3,nav4]
     }

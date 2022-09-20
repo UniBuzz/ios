@@ -9,7 +9,7 @@ import UIKit
 
 private let reuseIdentifier = "Cell"
 
-class ChatController: UICollectionViewController {
+class ChatCollectionViewController: UICollectionViewController {
 
     init(user: String){
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
