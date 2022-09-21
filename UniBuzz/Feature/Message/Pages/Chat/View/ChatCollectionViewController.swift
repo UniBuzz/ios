@@ -13,7 +13,7 @@ class ChatCollectionViewController: UICollectionViewController {
     
     // MARK: - properties
     private lazy var CustomInputView: CustomInputAccessoryView = {
-        let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 67))
         return iv
     }()
     
@@ -63,7 +63,7 @@ class ChatCollectionViewController: UICollectionViewController {
     
     // MARK: - Functions and selectors
     func configureUI() {
-        view.backgroundColor = .white
+        collectionView.backgroundColor = .midnights
         configureNavigationBar()
     }
     

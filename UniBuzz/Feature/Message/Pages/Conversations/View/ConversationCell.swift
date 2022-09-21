@@ -19,27 +19,30 @@ class ConversationCell: UITableViewCell {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.tintColor = .heavenlyWhite
         return label
     }()
     
     let messageLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
+        label.tintColor = .cloudSky
         return label
     }()
     
     let timeStamp: UILabel = { 
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 10)
+        label.tintColor = .cloudSky
         return label
     }()
     
     let notificationStamp: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 10)
-        label.backgroundColor = .lightGray
         label.layer.masksToBounds = true
         label.layer.cornerRadius = label.frame.size.height/2.0
+        label.textColor = .black
         return label
     }()
     
@@ -55,7 +58,7 @@ class ConversationCell: UITableViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.backgroundColor = .lightGray
+        iv.backgroundColor = .heavenlyWhite
         return iv
     }()
     
@@ -72,6 +75,7 @@ class ConversationCell: UITableViewCell {
     // MARK: - Helpers
     func configureUI() {
         self.separatorInset = .zero
+        self.backgroundColor = .midnights
         let stackMessage = UIStackView(arrangedSubviews: [usernameLabel, messageLabel])
         stackMessage.axis = .vertical
         stackMessage.spacing = 4

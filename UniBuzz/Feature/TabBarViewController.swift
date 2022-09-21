@@ -12,9 +12,10 @@ class TabBarViewController: UITabBarController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.tabBar.backgroundColor = .white
-        self.tabBar.tintColor = .blue
+        self.tabBar.backgroundColor = UIColor.eternalBlack
+        self.tabBar.tintColor = UIColor.heavenlyWhite
         configureViewControllers()
+        overrideUserInterfaceStyle = .dark
         
     }
     
@@ -24,7 +25,8 @@ class TabBarViewController: UITabBarController {
             let nav = UINavigationController(rootViewController: rootViewController)
             nav.tabBarItem.image = image
             nav.tabBarItem.title = title
-            nav.navigationBar.barTintColor = .black
+            nav.navigationBar.barTintColor = .heavenlyWhite
+            nav.navigationBar.backgroundColor = .eternalBlack
             return nav
         }
     

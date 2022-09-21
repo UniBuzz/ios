@@ -27,14 +27,14 @@ class ConversationViewController: UIViewController {
     
     //MARK: - Funcations
     func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .midnights
         self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationController?.navigationBar.backgroundColor = .midnights
         self.navigationController?.navigationBar.scrollEdgeAppearance = .none
-        self.navigationItem.title = "Messages"
+        self.navigationItem.title = "Direct Messages"
         view.addSubview(tableView)
         tableView.frame = self.view.frame
-        tableView.backgroundColor = .white
+        tableView.backgroundColor = .midnights
         tableView.rowHeight = 80
         tableView.separatorStyle = .none
     }
