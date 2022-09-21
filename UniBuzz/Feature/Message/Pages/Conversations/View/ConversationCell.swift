@@ -36,7 +36,7 @@ class ConversationCell: UITableViewCell {
     
     let notificationStamp: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 12)
+        label.font = UIFont.boldSystemFont(ofSize: 10)
         label.backgroundColor = .lightGray
         label.layer.masksToBounds = true
         label.layer.cornerRadius = label.frame.size.height/2.0
@@ -44,6 +44,14 @@ class ConversationCell: UITableViewCell {
     }()
     
     let profileImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.backgroundColor = .lightGray
+        return iv
+    }()
+    
+    let circle: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
@@ -68,7 +76,7 @@ class ConversationCell: UITableViewCell {
         stackMessage.axis = .vertical
         stackMessage.spacing = 4
         
-        let stackStamp = UIStackView(arrangedSubviews: [timeStamp, notificationStamp])
+        let stackStamp = UIStackView(arrangedSubviews: [timeStamp, circle])
         stackStamp.axis = .vertical
         stackStamp.spacing = 4
         stackStamp.alignment = .trailing
@@ -82,6 +90,16 @@ class ConversationCell: UITableViewCell {
             make.left.equalToSuperview().offset(16)
             make.width.height.equalTo(50)
             make.centerY.equalToSuperview()
+        }
+        
+        circle.layer.cornerRadius = 20/2
+        circle.snp.makeConstraints { make in
+            make.width.height.equalTo(20)
+        }
+        
+        circle.addSubview(notificationStamp)
+        notificationStamp.snp.makeConstraints { make in
+            make.centerY.centerX.equalToSuperview()
         }
         
         stackStamp.snp.makeConstraints { make in
@@ -103,7 +121,7 @@ class ConversationCell: UITableViewCell {
             messageLabel.text = data.message
             timeStamp.text = data.timeStamp
             notificationStamp.text = String(data.notification)
-            notificationStamp.isHidden = viewModel.isNotificationEmpty(data)
+            circle.isHidden = viewModel.isNotificationEmpty(data)
         }
     }
 }
