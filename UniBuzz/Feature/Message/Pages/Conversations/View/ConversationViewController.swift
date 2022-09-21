@@ -36,6 +36,7 @@ class ConversationViewController: UIViewController {
         tableView.frame = self.view.frame
         tableView.backgroundColor = .white
         tableView.rowHeight = 80
+        tableView.separatorStyle = .none
     }
     
     func showChatController(forUser user: String) {

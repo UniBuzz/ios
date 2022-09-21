@@ -23,6 +23,7 @@
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		CBE0414928DA388B0098395E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414828DA388B0098395E /* Message.swift */; };
 		CBE0414B28DA391E0098395E /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414A28DA391E0098395E /* ChatViewModel.swift */; };
+		CBE0414D28DAFCA20098395E /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414C28DAFCA20098395E /* MessageCell.swift */; };
 		D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
 		D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
 		D4BB0E2B28D86F7900E28C3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2928D86F7900E28C3D /* Main.storyboard */; };
@@ -49,6 +50,7 @@
 		CBE0414128DA0D550098395E /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		CBE0414828DA388B0098395E /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		CBE0414A28DA391E0098395E /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		CBE0414C28DAFCA20098395E /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
 		D4BB0E2028D86F7900E28C3D /* UniBuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 			children = (
 				CB83313128D8DD0700F6ED1B /* ChatCollectionViewController.swift */,
 				CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */,
+				CBE0414C28DAFCA20098395E /* MessageCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -458,6 +461,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB83313228D8DD0800F6ED1B /* ChatCollectionViewController.swift in Sources */,
+				CBE0414D28DAFCA20098395E /* MessageCell.swift in Sources */,
 				CB83312828D8C04100F6ED1B /* MissionViewController.swift in Sources */,
 				CB83312228D8BFCF00F6ED1B /* ProfileViewController.swift in Sources */,
 				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,

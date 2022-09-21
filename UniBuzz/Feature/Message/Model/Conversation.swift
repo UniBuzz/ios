@@ -11,4 +11,5 @@ struct Conversation {
     let username: String
     let message: String
     var timeStamp: String
+    var notification: Int
 }

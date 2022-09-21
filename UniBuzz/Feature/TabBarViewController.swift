@@ -29,7 +29,7 @@ class TabBarViewController: UITabBarController {
         }
     
     func configureViewControllers() {
-        let feeds = FeedViewController()
+        let feeds = ConversationViewController()
         let nav1 = navigationController(image: UIImage(systemName: "house"),title: "Feeds", rootViewController: feeds)
         let mission = MissionViewController()
         let nav2 = navigationController(image: UIImage(systemName: "doc.plaintext"),title: "Mission", rootViewController: mission)
