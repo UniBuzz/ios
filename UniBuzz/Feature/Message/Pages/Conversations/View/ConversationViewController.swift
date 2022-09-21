@@ -25,13 +25,13 @@ class ConversationViewController: UIViewController {
         bindTableView()
     }
     
-    //MARK: - Funcations
+    override func viewWillAppear(_ animated:Bool) {
+        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: "Message", preferredLargeTitle: true)
+    }
+    
+    //MARK: - Functions
     func configureUI() {
         view.backgroundColor = .midnights
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.backgroundColor = .midnights
-        self.navigationController?.navigationBar.scrollEdgeAppearance = .none
-        self.navigationItem.title = "Direct Messages"
         view.addSubview(tableView)
         tableView.frame = self.view.frame
         tableView.backgroundColor = .midnights

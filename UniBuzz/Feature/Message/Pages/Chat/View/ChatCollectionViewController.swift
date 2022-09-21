@@ -20,7 +20,7 @@ class ChatCollectionViewController: UICollectionViewController {
     // MARK: - Lifecycle
     init(user: String){
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
-        self.navigationItem.title = user
+        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: user, preferredLargeTitle: true)
     }
     
     required init?(coder: NSCoder) {
@@ -31,6 +31,8 @@ class ChatCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         configureUI()
+        navigationItem.largeTitleDisplayMode = .never
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "person.badge.key"), style: .plain, target: self, action: nil)
     }
     
     override var inputAccessoryView: UIView? {
@@ -68,7 +70,7 @@ class ChatCollectionViewController: UICollectionViewController {
     }
     
     func configureNavigationBar() {
-
+        
 
     }
 }

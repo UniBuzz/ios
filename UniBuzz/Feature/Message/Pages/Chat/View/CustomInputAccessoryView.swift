@@ -43,6 +43,12 @@ class CustomInputAccessoryView: UIView {
         return label
     }()
     
+    private let backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .eternalBlack
+        return view
+    }()
+    
     // MARK: - Lifecycle
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -90,6 +96,12 @@ class CustomInputAccessoryView: UIView {
         }
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextInputChange), name: UITextView.textDidChangeNotification, object: nil)
         
+        addSubview(backgroundView)
+        backgroundView.snp.makeConstraints { make in
+            make.top.equalTo(messageInputTextView.snp.bottom).offset(10)
+            make.left.right.equalToSuperview()
+            make.bottom.equalToSuperview().offset(40)
+        }
     }
     
     @objc func handleSendMessage() {
