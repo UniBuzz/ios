@@ -28,7 +28,7 @@ class ConversationCell: UITableViewCell {
         return label
     }()
     
-    let timeStamp: UILabel = {
+    let timeStamp: UILabel = { 
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 10)
         return label
