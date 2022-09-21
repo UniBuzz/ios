@@ -21,6 +21,8 @@
 		CBE0414028D972C90098395E /* CustomInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */; };
 		CBE0414228DA0D550098395E /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414128DA0D550098395E /* ConversationViewModel.swift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
+		CBE0414928DA388B0098395E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414828DA388B0098395E /* Message.swift */; };
+		CBE0414B28DA391E0098395E /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414A28DA391E0098395E /* ChatViewModel.swift */; };
 		D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
 		D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
 		D4BB0E2B28D86F7900E28C3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2928D86F7900E28C3D /* Main.storyboard */; };
@@ -45,6 +47,8 @@
 		CB83313128D8DD0700F6ED1B /* ChatCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCollectionViewController.swift; sourceTree = "<group>"; };
 		CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputAccessoryView.swift; sourceTree = "<group>"; };
 		CBE0414128DA0D550098395E /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
+		CBE0414828DA388B0098395E /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		CBE0414A28DA391E0098395E /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		D4BB0E2028D86F7900E28C3D /* UniBuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,7 +89,6 @@
 		CB83311728D8B44400F6ED1B /* Conversations */ = {
 			isa = PBXGroup;
 			children = (
-				CB83312928D8CD3100F6ED1B /* Model */,
 				CB83312C28D8D2B400F6ED1B /* View */,
 				CB83311928D8BE8C00F6ED1B /* ViewModel */,
 			);
@@ -180,14 +183,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		CB83312928D8CD3100F6ED1B /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				CB83312A28D8CD4B00F6ED1B /* Conversation.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		CB83312C28D8D2B400F6ED1B /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -201,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				CB83313028D8DCE200F6ED1B /* View */,
+				CBE0414728DA38570098395E /* ViewModel */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -220,6 +216,14 @@
 				CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		CBE0414728DA38570098395E /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CBE0414A28DA391E0098395E /* ChatViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		D4BB0E1728D86F7900E28C3D = {
@@ -329,6 +333,8 @@
 		D4BB0E5B28D871D100E28C3D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				CBE0414828DA388B0098395E /* Message.swift */,
+				CB83312A28D8CD4B00F6ED1B /* Conversation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -464,6 +470,8 @@
 				D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */,
 				CBE0414228DA0D550098395E /* ConversationViewModel.swift in Sources */,
 				CBE0414028D972C90098395E /* CustomInputAccessoryView.swift in Sources */,
+				CBE0414B28DA391E0098395E /* ChatViewModel.swift in Sources */,
+				CBE0414928DA388B0098395E /* Message.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

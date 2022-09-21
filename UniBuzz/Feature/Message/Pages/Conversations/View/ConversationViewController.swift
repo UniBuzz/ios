@@ -15,7 +15,6 @@ class ConversationViewController: UIViewController {
     //MARK: - Properties
     fileprivate let reuseIdentifier = "ConversationCell"
     private let tableView = UITableView()
-    private var conversations = dummyConversations
     private var viewModel = ConversationViewModel()
     private let disposeBag = DisposeBag()
     
@@ -39,7 +38,6 @@ class ConversationViewController: UIViewController {
         tableView.rowHeight = 80
     }
     
-    
     func showChatController(forUser user: String) {
         let controller = ChatCollectionViewController(user: user)
         controller.hidesBottomBarWhenPushed = true
@@ -49,12 +47,12 @@ class ConversationViewController: UIViewController {
 
 //MARK: - Binding
 extension ConversationViewController {
-    
     func bindTableView() {
         tableView.register(ConversationCell.self, forCellReuseIdentifier: reuseIdentifier)
         
         viewModel.items.bind(to: tableView.rx.items(cellIdentifier:reuseIdentifier, cellType: ConversationCell.self)) { (row,item,cell) in
             cell.conversation = item
+            cell.selectionStyle = .none
         }.disposed(by: disposeBag)
         
         tableView.rx.modelSelected(Conversation.self).subscribe{ item in
