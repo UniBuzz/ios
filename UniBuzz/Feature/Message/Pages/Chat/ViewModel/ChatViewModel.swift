@@ -10,4 +10,9 @@ import Foundation
 struct ChatViewModel {
     private let message: Message
     
+//    var messageTextColor: UIColor {
+//        
+//    }
+    
+    
 }

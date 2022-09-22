@@ -8,17 +8,25 @@
 import UIKit
 import SnapKit
 
+protocol CustomInputAccessoryViewDelegate: class {
+    func inputView(_ inputView: CustomInputAccessoryView, wantsToSend message: String)
+}
+
 class CustomInputAccessoryView: UIView {
 
     // MARK: - properties
+    weak var delegate: CustomInputAccessoryViewDelegate?
+    
     private lazy var messageInputTextView: UITextView = {
         let tv = UITextView()
         tv.backgroundColor = .midnights
         tv.autocorrectionType = .no
         tv.font = UIFont.systemFont(ofSize: 16)
-        tv.isScrollEnabled = false
+        tv.isScrollEnabled = true
         tv.layer.cornerRadius = 15
         tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+//        tv.textContainer.maximumNumberOfLines = 4
+//        tv.textContainer.lineBreakMode = .
         return tv
     }()
     
@@ -29,9 +37,10 @@ class CustomInputAccessoryView: UIView {
         button.tintColor = .midnights
         button.titleLabel?.font = UIFont.systemFont(ofSize: 12)
         button.setTitleColor(UIColor.black, for: .normal)
-        button.backgroundColor = .creamyYellow
+        button.backgroundColor = .cloudSky
         button.layer.cornerRadius = 35/2
         button.addTarget(self, action: #selector(handleSendMessage), for: .touchUpInside)
+        button.isEnabled = false
         return button
     }()
     
@@ -82,9 +91,9 @@ class CustomInputAccessoryView: UIView {
         
         addSubview(messageInputTextView)
         messageInputTextView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(12)
+            make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(4)
-            make.bottom.equalTo(safeAreaLayoutGuide).offset(-12)
+//            make.bottom.equalTo(safeAreaLayoutGuide).offset(-12)
             make.right.equalTo(sendButton.snp.left).offset(-20)
             make.height.greaterThanOrEqualTo(35)
         }
@@ -105,12 +114,18 @@ class CustomInputAccessoryView: UIView {
     }
     
     @objc func handleSendMessage() {
-        print(messageInputTextView.text as Any)
+//        print(messageInputTextView.text as Any)
+        guard let message = messageInputTextView.text else { return  }
+        delegate?.inputView(self, wantsToSend: message)
         messageInputTextView.text = nil
         placeholderLabel.isHidden = false
+        sendButton.backgroundColor = .cloudSky
+        sendButton.isEnabled = false
     }
     
     @objc func handleTextInputChange() {
         placeholderLabel.isHidden = !self.messageInputTextView.text.isEmpty
+        sendButton.backgroundColor = self.messageInputTextView.text.isEmpty ? .cloudSky : .creamyYellow
+        sendButton.isEnabled = !self.messageInputTextView.text.isEmpty
     }
 }
