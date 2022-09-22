@@ -27,6 +27,7 @@
 		CBE0414F28DB34270098395E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CBE0414E28DB34270098395E /* GoogleService-Info.plist */; };
 		CBE0415128DB6F1E0098395E /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0415028DB6F1E0098395E /* ColorExtension.swift */; };
 		CBE0415328DB86650098395E /* NavBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0415228DB86650098395E /* NavBarExtension.swift */; };
+		CBE06C4128DCE7E40059CCFF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4028DCE7E40059CCFF /* LoginViewController.swift */; };
 		D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
 		D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
 		D4BB0E2B28D86F7900E28C3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2928D86F7900E28C3D /* Main.storyboard */; };
@@ -57,6 +58,7 @@
 		CBE0414E28DB34270098395E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		CBE0415028DB6F1E0098395E /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		CBE0415228DB86650098395E /* NavBarExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavBarExtension.swift; sourceTree = "<group>"; };
+		CBE06C4028DCE7E40059CCFF /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		D4BB0E2028D86F7900E28C3D /* UniBuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -235,6 +237,14 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		CBE06C3F28DCE7C80059CCFF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CBE06C4028DCE7E40059CCFF /* LoginViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		D4BB0E1728D86F7900E28C3D = {
 			isa = PBXGroup;
 			children = (
@@ -370,6 +380,7 @@
 		D4BB0E5E28D871EA00E28C3D /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				CBE06C3F28DCE7C80059CCFF /* View */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -474,6 +485,7 @@
 				CBE0414D28DAFCA20098395E /* MessageCell.swift in Sources */,
 				CB83312828D8C04100F6ED1B /* MissionViewController.swift in Sources */,
 				CB83312228D8BFCF00F6ED1B /* ProfileViewController.swift in Sources */,
+				CBE06C4128DCE7E40059CCFF /* LoginViewController.swift in Sources */,
 				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,
 				CB83312B28D8CD4B00F6ED1B /* Conversation.swift in Sources */,
 				CBE0415128DB6F1E0098395E /* ColorExtension.swift in Sources */,
