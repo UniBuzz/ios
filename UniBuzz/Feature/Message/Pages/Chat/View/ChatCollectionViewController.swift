@@ -13,14 +13,14 @@ class ChatCollectionViewController: UICollectionViewController {
     
     // MARK: - properties
     private lazy var CustomInputView: CustomInputAccessoryView = {
-        let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 50))
+        let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 67))
         return iv
     }()
     
     // MARK: - Lifecycle
     init(user: String){
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
-        self.navigationItem.title = user
+        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: user, preferredLargeTitle: true)
     }
     
     required init?(coder: NSCoder) {
@@ -31,6 +31,8 @@ class ChatCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         configureUI()
+        navigationItem.largeTitleDisplayMode = .never
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "person.badge.key"), style: .plain, target: self, action: nil)
     }
     
     override var inputAccessoryView: UIView? {
@@ -63,12 +65,11 @@ class ChatCollectionViewController: UICollectionViewController {
     
     // MARK: - Functions and selectors
     func configureUI() {
-        view.backgroundColor = .white
+        collectionView.backgroundColor = .midnights
         configureNavigationBar()
     }
     
     func configureNavigationBar() {
-
-
+    
     }
 }
