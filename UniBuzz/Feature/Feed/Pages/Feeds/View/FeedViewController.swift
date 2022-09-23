@@ -50,9 +50,14 @@ class FeedViewController: UIViewController {
         }.disposed(by: bag)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+    
     //MARK: - Functions
     @objc func addFeedButtonPressed() {
-
+        let createFeedVC = PostFeedViewController()
+        self.navigationController?.pushViewController(createFeedVC, animated: true)
     }
     
     @objc func searchButtonPressed() {
