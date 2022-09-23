@@ -57,7 +57,7 @@ class RegistrationViewController: UIViewController {
     }()
     
     private let haveAccountButton: UIButton = {
-        let button = InputThemes().attributtedButton("Don't have an account? ", "Sign Up")
+        let button = InputThemes().attributtedButton("Already have an account? ", "Log in")
         button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
         return button
     }()
@@ -110,7 +110,7 @@ class RegistrationViewController: UIViewController {
         }
         
         haveAccountButton.snp.makeConstraints { make in
-            make.top.equalTo(registButton.snp.bottom).offset(30)
+            make.top.equalTo(registButton.snp.bottom).offset(10)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
