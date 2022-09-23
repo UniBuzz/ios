@@ -11,6 +11,10 @@ import RxCocoa
 
 class FeedViewController: UIViewController {
     
+    //MARK: - Variables
+    private var bag = DisposeBag()
+    private var viewModel = FeedViewModel()
+    
     //MARK: - Properties
     lazy var feedTableView: UITableView = {
         let tableView = UITableView()
@@ -31,25 +35,39 @@ class FeedViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .regular)), for: .normal)
         button.tintColor = .eternalBlack
+        button.addTarget(self, action: #selector(addFeedButtonPressed), for: .touchUpInside)
         return button
     }()
-    
-    private var bag = DisposeBag()
-    private var viewModel = FeedViewModel()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureNavigationItems()
         fetchData()
         viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
             cell.feed = item
         }.disposed(by: bag)
     }
-
+    
     //MARK: - Functions
+    @objc func addFeedButtonPressed() {
+
+    }
+    
+    @objc func searchButtonPressed() {
+        
+    }
+    
+    @objc func notificationButtonPressed() {
+        
+    }
+    
+    func fetchData() {
+        viewModel.fetchDummyData()
+    }
+    
     func configureUI() {
-//        self.navigationItem.titleView = UIView()
         self.view.addSubview(feedTableView)
         self.view.addSubview(addFeedButtonContainer)
         addFeedButtonContainer.addSubview(addFeedButton)
@@ -75,8 +93,24 @@ class FeedViewController: UIViewController {
             make.bottom.equalToSuperview().offset(-5)
         }
     }
-      
-    func fetchData() {
-        viewModel.fetchDummyData()
+    
+    func configureNavigationItems(){
+                
+        let title = UILabel()
+        title.frame = .init(x: 0, y: 0, width: view.frame.width, height: 50)
+        title.text = "Feeds"
+        title.font = UIFont.boldSystemFont(ofSize: 25)
+        title.textAlignment = .left
+        title.textColor = .heavenlyWhite
+        
+        let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonPressed))
+        let notificationButton = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: self, action: #selector(notificationButtonPressed))
+        searchButton.tintColor = .heavenlyWhite
+        notificationButton.tintColor = .heavenlyWhite
+        navigationItem.rightBarButtonItems = [searchButton, notificationButton]
+        
+        self.navigationController?.navigationBar.backgroundColor = .midnights
+        self.navigationItem.titleView = title
+
     }
 }
