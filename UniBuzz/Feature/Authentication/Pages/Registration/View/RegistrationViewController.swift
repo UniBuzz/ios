@@ -55,12 +55,27 @@ class RegistrationViewController: UIViewController {
         button.isEnabled = false
         return button
     }()
+    
+    private let haveAccountButton: UIButton = {
+        let button = InputThemes().attributtedButton("Don't have an account? ", "Sign Up")
+        button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
+        return button
+    }()
+    
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         overrideUserInterfaceStyle = .dark
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationItem.hidesBackButton = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        navigationItem.hidesBackButton = false
     }
     // MARK: - Helpers
     func configureUI() {
@@ -71,6 +86,7 @@ class RegistrationViewController: UIViewController {
         view.addSubview(passwordContainerView)
         view.addSubview(pseudoContainerView)
         view.addSubview(registButton)
+        view.addSubview(haveAccountButton)
         
         emailContainerView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(200)
@@ -93,11 +109,21 @@ class RegistrationViewController: UIViewController {
             make.right.equalToSuperview().offset(-30)
         }
         
+        haveAccountButton.snp.makeConstraints { make in
+            make.top.equalTo(registButton.snp.bottom).offset(30)
+            make.left.equalToSuperview().offset(30)
+            make.right.equalToSuperview().offset(-30)
+        }
+        
         emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
     }
     
     @objc func textDidChange() {
         
+    }
+    
+    @objc func handleShowLogin() {
+        navigationController?.popViewController(animated: true)
     }
 
 }

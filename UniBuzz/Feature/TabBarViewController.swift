@@ -16,6 +16,7 @@ class TabBarViewController: UITabBarController {
         self.tabBar.tintColor = UIColor.heavenlyWhite
         configureViewControllers()
         overrideUserInterfaceStyle = .dark
+        presentLoginScreen()
         
     }
     
@@ -33,7 +34,7 @@ class TabBarViewController: UITabBarController {
         }
     
     func configureViewControllers() {
-        let feeds = FeedViewController()
+        let feeds = LoginViewController()
         let nav1 = navigationController(image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"),title: "Feeds", rootViewController: feeds)
         let mission = MissionViewController()
         let nav2 = navigationController(image: UIImage(systemName: "list.bullet.rectangle.portrait"),selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"),title: "Mission", rootViewController: mission)
@@ -42,5 +43,14 @@ class TabBarViewController: UITabBarController {
         let profile = ProfileViewController()
         let nav4 = navigationController(image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"),title: "Profile", rootViewController: profile)
         viewControllers = [nav1,nav2,nav3,nav4]
+    }
+    
+    func presentLoginScreen() {
+        DispatchQueue.main.async {
+            let controller = LoginViewController()
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        }
     }
 }
