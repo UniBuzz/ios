@@ -47,7 +47,7 @@ extension FeedViewModel {
                              upvoteCount: 13,
                              commentCount: 8),
             FeedModel(userName: "Mabahoki123",
-                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
                              upvoteCount: 13,
                              commentCount: 8),
             FeedModel(userName: "Mabahoki123",

@@ -11,6 +11,7 @@ class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Variables
     static var cellIdentifier = "FeedCell"
+    let actionContainerColor = UIColor.rgb(red: 83, green: 83, blue: 83)
 
     var feed: FeedModel? {
         didSet {
@@ -25,7 +26,7 @@ class FeedTableViewCell: UITableViewCell {
     //MARK: - UIElements
     lazy var container: UIView = {
         let view = UIView()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .stoneGrey
         view.layer.cornerRadius = 15
         return view
     }()
@@ -33,7 +34,7 @@ class FeedTableViewCell: UITableViewCell {
     lazy var userName: UILabel = {
         let label = UILabel()
         label.text = "sampleUserName"
-        label.textColor = .white
+        label.textColor = .heavenlyWhite
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         return label
     }()
@@ -42,26 +43,40 @@ class FeedTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = "sampleContent"
         label.numberOfLines = 0
-        label.textColor = .white
+        label.textColor = .heavenlyWhite
         label.font = UIFont.systemFont(ofSize: 16)
         return label
+    }()
+    
+    lazy var upVoteCountContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = actionContainerColor
+        view.layer.cornerRadius = 10
+        return view
     }()
     
     lazy var upVoteCount: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.up", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .bold)), for: .normal)
-        button.setTitle(" 10", for: .normal)
-//        button.titleLabel?.textColor = .white
-        button.tintColor = .white
+        button.setTitle("10", for: .normal)
+        button.titleLabel?.textColor = .heavenlyWhite
+        button.tintColor = .heavenlyWhite
         return button
+    }()
+    
+    lazy var commentCountContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = actionContainerColor
+        view.layer.cornerRadius = 10
+        return view
     }()
     
     lazy var commentCount: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message", withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)), for: .normal)
-        button.setTitle(" 8", for: .normal)
-        button.titleLabel?.textColor = .white
-        button.tintColor = .white
+        button.setTitle("8", for: .normal)
+        button.titleLabel?.textColor = .heavenlyWhite
+        button.tintColor = .heavenlyWhite
         return button
     }()
     
@@ -69,15 +84,22 @@ class FeedTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .bold)),
                         for: .normal)
-        button.tintColor = .white
+        button.tintColor = .heavenlyWhite
         return button
+    }()
+    
+    lazy var sendMessageButtonContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = actionContainerColor
+        view.layer.cornerRadius = 10
+        return view
     }()
     
     lazy var sendMessageButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "envelope", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .semibold)),
                         for: .normal)
-        button.tintColor = .white
+        button.tintColor = .heavenlyWhite
         return button
     }()
     
@@ -106,26 +128,34 @@ class FeedTableViewCell: UITableViewCell {
     }
     
     func configureCell() {
+        self.contentView.backgroundColor = .midnights
         self.contentView.addSubview(container)
         self.container.addSubview(userName)
         self.container.addSubview(content)
         self.container.addSubview(optionButton)
         self.container.addSubview(sendMessageButton)
         self.container.addSubview(sendAndCommentHStack)
+        self.container.addSubview(sendMessageButtonContainer)
+        self.container.addSubview(upVoteCountContainer)
+        self.container.addSubview(commentCountContainer)
         
-        sendAndCommentHStack.addArrangedSubview(upVoteCount)
-        sendAndCommentHStack.addArrangedSubview(commentCount)
+        sendMessageButtonContainer.addSubview(sendMessageButton)
+        upVoteCountContainer.addSubview(upVoteCount)
+        commentCountContainer.addSubview(commentCount)
+        
+        sendAndCommentHStack.addArrangedSubview(upVoteCountContainer)
+        sendAndCommentHStack.addArrangedSubview(commentCountContainer)
 
         container.snp.makeConstraints { make in
-            make.left.equalTo(contentView.snp.left).offset(10)
-            make.top.equalTo(contentView.snp.top).offset(10)
-            make.right.equalTo(contentView.snp.right).offset(-10)
-            make.bottom.equalTo(contentView.snp.bottom).offset(-10)
+            make.left.equalTo(contentView.snp.left).offset(32)
+            make.top.equalTo(contentView.snp.top).offset(32)
+            make.right.equalTo(contentView.snp.right).offset(-32)
+            make.bottom.equalTo(contentView.snp.bottom)
         }
         
         userName.snp.makeConstraints { make in
-            make.left.equalTo(container.snp.left).offset(10)
-            make.top.equalTo(container.snp.top).offset(10)
+            make.left.equalTo(container.snp.left).offset(15)
+            make.top.equalTo(container.snp.top).offset(13)
         }
         
         optionButton.snp.makeConstraints { make in
@@ -134,21 +164,42 @@ class FeedTableViewCell: UITableViewCell {
         }
         
         content.snp.makeConstraints { make in
-            make.top.equalTo(userName.snp.bottom).offset(10)
+            make.top.equalTo(userName.snp.bottom).offset(15)
             make.left.equalTo(userName.snp.left)
             make.right.equalTo(optionButton.snp.left)
         }
-
+        
         sendAndCommentHStack.snp.makeConstraints { make in
             make.left.equalTo(userName.snp.left)
             make.top.equalTo(content.snp.bottom).offset(20)
-            make.bottom.equalTo(container.snp.bottom).offset(-10)
+            make.bottom.equalTo(container.snp.bottom).offset(-16)
         }
-
-        sendMessageButton.snp.makeConstraints { make in
+        
+        upVoteCount.snp.makeConstraints { make in
+            make.top.equalTo(upVoteCountContainer.snp.top).offset(2)
+            make.left.equalTo(upVoteCountContainer.snp.left).offset(8)
+            make.bottom.equalTo(upVoteCountContainer.snp.bottom).offset(-2)
+            make.right.equalTo(upVoteCountContainer.snp.right).offset(-8)
+        }
+        
+        commentCount.snp.makeConstraints { make in
+            make.top.equalTo(commentCountContainer.snp.top).offset(2)
+            make.left.equalTo(commentCountContainer.snp.left).offset(8)
+            make.bottom.equalTo(commentCountContainer.snp.bottom).offset(-2)
+            make.right.equalTo(commentCountContainer.snp.right).offset(-8)
+        }
+        
+        sendMessageButtonContainer.snp.makeConstraints { make in
             make.top.equalTo(sendAndCommentHStack.snp.top)
             make.bottom.equalTo(sendAndCommentHStack.snp.bottom)
             make.right.equalTo(container.snp.right).offset(-20)
+        }
+        
+        sendMessageButton.snp.makeConstraints { make in
+            make.top.equalTo(sendMessageButtonContainer).offset(2)
+            make.left.equalTo(sendMessageButtonContainer).offset(8)
+            make.right.equalTo(sendMessageButtonContainer).offset(-8)
+            make.bottom.equalTo(sendMessageButtonContainer).offset(-2)
         }
         
     }
