@@ -25,10 +25,8 @@ class FeedViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
         fetchData()
-        
         viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
             cell.feed = item
         }.disposed(by: bag)
@@ -37,6 +35,7 @@ class FeedViewController: UIViewController {
     
     //MARK: - Functions
     func configureUI() {
+        self.navigationItem.titleView = UIView()
         self.view.addSubview(feedTableView)
         feedTableView.snp.makeConstraints { make in
             make.left.equalTo(view)
