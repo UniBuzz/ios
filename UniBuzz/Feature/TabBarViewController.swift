@@ -13,7 +13,7 @@ class TabBarViewController: UITabBarController {
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        logout()
+//        logout()
         configureUI()
         authenticateUser()
     }
@@ -46,6 +46,7 @@ class TabBarViewController: UITabBarController {
         let conversation = ConversationViewController()
         let nav3 = navigationController(image: UIImage(systemName: "envelope"),selectedImage: UIImage(systemName: "envelope.fill"), title: "Message", rootViewController: conversation)
         let profile = ProfileViewController()
+        profile.delegate = self
         let nav4 = navigationController(image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"),title: "Profile", rootViewController: profile)
         viewControllers = [nav1,nav2,nav3,nav4]
     }
@@ -53,6 +54,7 @@ class TabBarViewController: UITabBarController {
     func presentLoginScreen() {
         DispatchQueue.main.async {
             let controller = LoginViewController()
+            controller.delegate = self
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
@@ -74,6 +76,7 @@ class TabBarViewController: UITabBarController {
         } catch {
             print("DEBUG: Error signin out..")
         }
+        authenticateUser()
     }
     
 
@@ -84,5 +87,12 @@ extension TabBarViewController: AuthenticationDelegate {
         configureUI()
 //        fetchConversations()
         dismiss(animated: true, completion: nil)
+        print("dismiss")
+    }
+}
+
+extension TabBarViewController: ProfileControllerDelegate {
+    func handleLogout() {
+        logout()
     }
 }
