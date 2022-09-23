@@ -1,5 +1,5 @@
 //
-//  LoginViewController.swift
+//  RegistrationViewController.swift
 //  UniBuzz
 //
 //  Created by Kevin ahmad on 23/09/22.
@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class LoginViewController: UIViewController {
+class RegistrationViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -34,9 +34,19 @@ class LoginViewController: UIViewController {
         return tf
     }()
     
-    private let loginButton: UIButton = {
+    private lazy var pseudoContainerView: UIView = {
+        let view = InputThemes().inputContainerView(textfield: pseudoTextField, title: "Pseudoname")
+        return view
+    }()
+    
+    private let pseudoTextField: UITextField = {
+        let tf = InputThemes().textField(withPlaceholder: "Maba_ezz_123")
+        return tf
+    }()
+    
+    private let registButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Login", for: .normal)
+        button.setTitle("Create Account", for: .normal)
         button.setTitleColor(.eternalBlack, for: .normal)
         button.backgroundColor = .creamyYellow
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
@@ -46,12 +56,6 @@ class LoginViewController: UIViewController {
         return button
     }()
 
-    private let dontHaveAccountButton: UIButton = {
-        let button = InputThemes().attributtedButton("Don't have an account? ", "Sign Up")
-        button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
-        return button
-    }()
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,8 +69,8 @@ class LoginViewController: UIViewController {
         
         view.addSubview(emailContainerView)
         view.addSubview(passwordContainerView)
-        view.addSubview(loginButton)
-        view.addSubview(dontHaveAccountButton)
+        view.addSubview(pseudoContainerView)
+        view.addSubview(registButton)
         
         emailContainerView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(200)
@@ -78,14 +82,13 @@ class LoginViewController: UIViewController {
             make.left.right.equalToSuperview()
         }
         
-        loginButton.snp.makeConstraints { make in
+        pseudoContainerView.snp.makeConstraints { make in
             make.top.equalTo(passwordContainerView.snp.bottom).offset(30)
-            make.left.equalToSuperview().offset(30)
-            make.right.equalToSuperview().offset(-30)
+            make.left.right.equalToSuperview()
         }
         
-        dontHaveAccountButton.snp.makeConstraints { make in
-            make.top.equalTo(loginButton.snp.bottom).offset(10)
+        registButton.snp.makeConstraints { make in
+            make.top.equalTo(pseudoContainerView.snp.bottom).offset(30)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
@@ -97,10 +100,5 @@ class LoginViewController: UIViewController {
         
     }
 
-    @objc func handleShowSignUp() {
-        let controller = RegistrationViewController()
-//        controller.delegate = delegate
-        print("move")
-        navigationController?.pushViewController(controller, animated: true)
-    }
 }
+
