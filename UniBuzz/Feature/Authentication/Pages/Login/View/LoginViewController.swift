@@ -7,11 +7,16 @@
 
 import UIKit
 import SnapKit
+import Firebase
+
+protocol AuthenticationDelegate: class {
+    func authenticationComplete()
+}
 
 class LoginViewController: UIViewController {
     
     // MARK: - Properties
-    
+    weak var delegate: AuthenticationDelegate?
     
     private lazy var emailContainerView: UIView = {
         let view = InputThemes().inputContainerView(textfield: emailTextField, title: "University Email")
@@ -42,7 +47,7 @@ class LoginViewController: UIViewController {
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.layer.cornerRadius = 25
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.isEnabled = false
+        button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
 
@@ -104,7 +109,18 @@ class LoginViewController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    func presentLoginScreen() {
+    @objc func handleLogin() {
+        guard let email = emailTextField.text else { return  }
+        guard let password = passwordTextField.text else { return  }
         
+//        showLoader(true, withText: "Logging in")
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("DEBUG: error with message - \(error.localizedDescription)")
+                return
+            }
+            print("DEBUG result: \(result)")
+            self.delegate?.authenticationComplete()
+        }
     }
 }

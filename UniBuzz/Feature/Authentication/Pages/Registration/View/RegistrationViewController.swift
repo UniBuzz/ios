@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Firebase
 
 class RegistrationViewController: UIViewController {
     
@@ -52,7 +53,8 @@ class RegistrationViewController: UIViewController {
         button.heightAnchor.constraint(equalToConstant: 50).isActive = true
         button.layer.cornerRadius = 25
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.isEnabled = false
+//        button.isEnabled = false
+        button.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         return button
     }()
     
@@ -80,8 +82,6 @@ class RegistrationViewController: UIViewController {
     // MARK: - Helpers
     func configureUI() {
         view.backgroundColor = .midnights
-        
-        
         view.addSubview(emailContainerView)
         view.addSubview(passwordContainerView)
         view.addSubview(pseudoContainerView)
@@ -124,6 +124,36 @@ class RegistrationViewController: UIViewController {
     
     @objc func handleShowLogin() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func handleRegistration() {
+        guard let email = emailTextField.text else {return}
+        guard let password = passwordTextField.text else {return}
+        guard let pseudo = pseudoTextField.text else {return}
+        
+        print(email)
+        print(password)
+        print(pseudo)
+
+        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
+            if let error {
+                print("DEBUG: Error with error value -> \(error)")
+                return
+            }
+            
+            guard let uid = result?.user.uid else {return}
+            
+            let data = ["email" : email, "pseudoname" : pseudo, "uid" : uid] as [String : Any]
+            Firestore.firestore().collection("users").document(uid).setData(data) { error in
+                print("DEBUG: Did create user")
+                
+                if let error {
+                    print("DEBUG: Firestore error with error value -> \(error.localizedDescription)")
+                    return
+                }
+            }
+            
+        }
     }
 
 }
