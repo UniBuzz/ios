@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
-		C42BB93928D9BD1A00006F71 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB93828D9BD1A00006F71 /* FeedViewModel.swift */; };
-		C42BB93B28D9BDF200006F71 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB93A28D9BDF200006F71 /* FeedModel.swift */; };
-		C42BB93D28D9C30D00006F71 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB93C28D9C30D00006F71 /* FeedTableViewCell.swift */; };
+		C42BB94928DA2A1400006F71 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* FeedModel.swift */; };
+		C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94828DA2A1400006F71 /* FeedViewModel.swift */; };
+		C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */; };
 		CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2728D86F7900E28C3D /* ViewController.swift */; };
@@ -52,9 +52,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C42BB93828D9BD1A00006F71 /* FeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
-		C42BB93A28D9BDF200006F71 /* FeedModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
-		C42BB93C28D9C30D00006F71 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		C42BB94728DA2A1400006F71 /* FeedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
+		C42BB94828DA2A1400006F71 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
+		C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		CB3236F128D880A00098AF14 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		CB83311528D8B42A00F6ED1B /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -114,18 +114,20 @@
 			children = (
 			);
 			name = Frameworks;
-		C42BB93628D9BCE600006F71 /* ViewModel */ = {
+			sourceTree = "<group>";
+		};
+		C42BB94B28DA2A2300006F71 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				C42BB93828D9BD1A00006F71 /* FeedViewModel.swift */,
+				C42BB94828DA2A1400006F71 /* FeedViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		C42BB93728D9BCFE00006F71 /* Model */ = {
+		C42BB94C28DA2A2A00006F71 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C42BB93A28D9BDF200006F71 /* FeedModel.swift */,
+				C42BB94728DA2A1400006F71 /* FeedModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -158,8 +160,8 @@
 		CB83311A28D8BEA200F6ED1B /* Feeds */ = {
 			isa = PBXGroup;
 			children = (
-				C42BB93728D9BCFE00006F71 /* Model */,
-				C42BB93628D9BCE600006F71 /* ViewModel */,
+				C42BB94C28DA2A2A00006F71 /* Model */,
+				C42BB94B28DA2A2300006F71 /* ViewModel */,
 				CBE0413E28D948CC0098395E /* View */,
 			);
 			path = Feeds;
@@ -260,8 +262,8 @@
 		CBE0413E28D948CC0098395E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */,
 				CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */,
-				C42BB93C28D9C30D00006F71 /* FeedTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -554,7 +556,6 @@
 				CBE0414D28DAFCA20098395E /* MessageCell.swift in Sources */,
 				CBE06C5028DE20C30059CCFF /* User.swift in Sources */,
 				CB83312828D8C04100F6ED1B /* MissionViewController.swift in Sources */,
-				C42BB93928D9BD1A00006F71 /* FeedViewModel.swift in Sources */,
 				CB83312228D8BFCF00F6ED1B /* ProfileViewController.swift in Sources */,
 				CBE06C5428DF118C0059CCFF /* LoadingExtension.swift in Sources */,
 				CBE06C4128DCE7E40059CCFF /* LoginViewController.swift in Sources */,
@@ -564,15 +565,16 @@
 				CBE0415128DB6F1E0098395E /* ColorExtension.swift in Sources */,
 				CBE06C4428DD51D90059CCFF /* LoginViewModel.swift in Sources */,
 				CBE06C4E28DE206E0059CCFF /* Constant.swift in Sources */,
+				C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */,
 				CB83312E28D8D2E800F6ED1B /* ConversationCell.swift in Sources */,
 				CB83311C28D8BEC400F6ED1B /* FeedViewController.swift in Sources */,
-				C42BB93B28D9BDF200006F71 /* FeedModel.swift in Sources */,
-				C42BB93D28D9C30D00006F71 /* FeedTableViewCell.swift in Sources */,
 				CB83311628D8B42A00F6ED1B /* ConversationViewController.swift in Sources */,
+				C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */,
 				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
 				CBE06C4928DD723A0059CCFF /* RegistrationViewController.swift in Sources */,
 				CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */,
 				D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */,
+				C42BB94928DA2A1400006F71 /* FeedModel.swift in Sources */,
 				CBE0414228DA0D550098395E /* ConversationViewModel.swift in Sources */,
 				CBE0414028D972C90098395E /* CustomInputAccessoryView.swift in Sources */,
 				CBE0415328DB86650098395E /* NavBarExtension.swift in Sources */,

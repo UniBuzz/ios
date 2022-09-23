@@ -7,25 +7,33 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class FeedViewController: UIViewController {
     
     //MARK: - Properties
     lazy var feedTableView: UITableView = {
         let tableView = UITableView()
-        tableView.backgroundColor = .yellow
         tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.cellIdentifier)
+        tableView.separatorStyle = .none
         return tableView
     }()
     
-    private var dummyData = DummyData()
+    private var bag = DisposeBag()
+    private var viewModel = FeedViewModel()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .blue
+        
         configureUI()
+        fetchData()
+        
+        viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
+            cell.feed = item
+        }.disposed(by: bag)
     }
+
     
     //MARK: - Functions
     func configureUI() {
@@ -36,5 +44,9 @@ class FeedViewController: UIViewController {
             make.top.equalTo(view)
             make.bottom.equalTo(view)
         }
+    }
+      
+    func fetchData() {
+        viewModel.fetchDummyData()
     }
 }

@@ -9,17 +9,9 @@ import Foundation
 import RxSwift
 
 struct FeedModel {
-    let userName: String
-    let content: String
-    let upvoteCount: Int
-    let commentCount: Int
+    var userName: String
+    var content: String
+    var upvoteCount: Int
+    var commentCount: Int
 }
 
-struct DummyData {
-    func getDummyData() -> Observable<FeedModel> {
-        return Observable.just(FeedModel(userName: "Mabahoki123",
-                                         content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-                                         upvoteCount: 13,
-                                         commentCount: 8))
-    }
-}

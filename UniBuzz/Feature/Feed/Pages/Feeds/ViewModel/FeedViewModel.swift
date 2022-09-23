@@ -6,8 +6,12 @@
 //
 
 import Foundation
+import RxSwift
+import RxRelay
 
 class FeedViewModel {
+    
+    var feedsData = BehaviorRelay(value: [FeedModel]())
     
     func fetchFeed() {
         
@@ -33,4 +37,25 @@ class FeedViewModel {
         
     }
     
+}
+
+extension FeedViewModel {
+    func fetchDummyData() {
+        let data = [
+            FeedModel(userName: "Mabahoki123",
+                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+                             upvoteCount: 13,
+                             commentCount: 8),
+            FeedModel(userName: "Mabahoki123",
+                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+                             upvoteCount: 13,
+                             commentCount: 8),
+            FeedModel(userName: "Mabahoki123",
+                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
+                             upvoteCount: 13,
+                             commentCount: 8)
+            ]
+        
+        feedsData.accept(data)
+    }
 }
