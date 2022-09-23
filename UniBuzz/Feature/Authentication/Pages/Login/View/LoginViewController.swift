@@ -104,7 +104,7 @@ class LoginViewController: UIViewController {
 
     @objc func handleShowSignUp() {
         let controller = RegistrationViewController()
-//        controller.delegate = delegate
+        controller.delegate = delegate
         print("move")
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -117,9 +117,11 @@ class LoginViewController: UIViewController {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("DEBUG: error with message - \(error.localizedDescription)")
+                let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+                self.present(alert, animated: true,completion: nil)
                 return
             }
-            print("DEBUG result: \(result)")
             self.delegate?.authenticationComplete()
         }
     }
