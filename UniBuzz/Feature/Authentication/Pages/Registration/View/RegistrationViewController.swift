@@ -64,6 +64,14 @@ class RegistrationViewController: UIViewController {
         return button
     }()
     
+    private let loadingSpinner: UIActivityIndicatorView = {
+       let spin = UIActivityIndicatorView()
+        spin.sizeToFit()
+        spin.style = .large
+        spin.backgroundColor = .eternalBlack
+        spin.color = .heavenlyWhite
+        return spin
+    }()
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
@@ -87,6 +95,7 @@ class RegistrationViewController: UIViewController {
         view.addSubview(pseudoContainerView)
         view.addSubview(registButton)
         view.addSubview(haveAccountButton)
+        view.addSubview(loadingSpinner)
         
         emailContainerView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(200)
@@ -115,11 +124,10 @@ class RegistrationViewController: UIViewController {
             make.right.equalToSuperview().offset(-30)
         }
         
-        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-    }
-    
-    @objc func textDidChange() {
-        
+        loadingSpinner.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(100)
+        }
     }
     
     @objc func handleShowLogin() {
@@ -131,15 +139,15 @@ class RegistrationViewController: UIViewController {
         guard let password = passwordTextField.text else {return}
         guard let pseudo = pseudoTextField.text else {return}
         
-        print(email)
-        print(password)
-        print(pseudo)
-
+        loadingSpinner.startAnimating()
+        registButton.isEnabled = false
         Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
             if let error {
                 print("DEBUG: Error with error value -> \(error)")
                 let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+                self.loadingSpinner.stopAnimating()
+                self.registButton.isEnabled = true
                 self.present(alert, animated: true,completion: nil)
                 return
             }
@@ -154,9 +162,13 @@ class RegistrationViewController: UIViewController {
                     print("DEBUG: Firestore error with error value -> \(error.localizedDescription)")
                     let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
                     alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+                    self.loadingSpinner.stopAnimating()
+                    self.registButton.isEnabled = true
                     self.present(alert, animated: true,completion: nil)
                     return
                 }
+                self.loadingSpinner.stopAnimating()
+                self.registButton.isEnabled = true
                 self.delegate?.authenticationComplete()
             }
             

@@ -57,6 +57,15 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private let loadingSpinner: UIActivityIndicatorView = {
+       let spin = UIActivityIndicatorView()
+        spin.sizeToFit()
+        spin.style = .large
+        spin.backgroundColor = .eternalBlack
+        spin.color = .heavenlyWhite
+        return spin
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,12 +75,11 @@ class LoginViewController: UIViewController {
     // MARK: - Helpers
     func configureUI() {
         view.backgroundColor = .midnights
-        
-        
         view.addSubview(emailContainerView)
         view.addSubview(passwordContainerView)
         view.addSubview(loginButton)
         view.addSubview(dontHaveAccountButton)
+        view.addSubview(loadingSpinner)
         
         emailContainerView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(200)
@@ -95,33 +103,35 @@ class LoginViewController: UIViewController {
             make.right.equalToSuperview().offset(-30)
         }
         
-        emailTextField.addTarget(self, action: #selector(textDidChange), for: .editingChanged)
-    }
-    
-    @objc func textDidChange() {
-        
+        loadingSpinner.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(100)
+        }
     }
 
     @objc func handleShowSignUp() {
         let controller = RegistrationViewController()
         controller.delegate = delegate
-        print("move")
         navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc func handleLogin() {
         guard let email = emailTextField.text else { return  }
         guard let password = passwordTextField.text else { return  }
-        
-//        showLoader(true, withText: "Logging in")
+        loadingSpinner.startAnimating()
+        loginButton.isEnabled = false
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("DEBUG: error with message - \(error.localizedDescription)")
                 let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+                self.loadingSpinner.stopAnimating()
+                self.loginButton.isEnabled = true
                 self.present(alert, animated: true,completion: nil)
                 return
             }
+            self.loadingSpinner.stopAnimating()
+            self.loginButton.isEnabled = true
             self.delegate?.authenticationComplete()
         }
     }
