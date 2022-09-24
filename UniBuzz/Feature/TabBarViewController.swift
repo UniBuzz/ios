@@ -6,20 +6,26 @@
 //
 
 import UIKit
+import Firebase
 
 class TabBarViewController: UITabBarController {
 
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+//        logout()
+        configureUI()
+        authenticateUser()
+    }
+    
+    // MARK: - Functions and Selectors
+    func configureUI() {
         self.tabBar.backgroundColor = UIColor.eternalBlack
         self.tabBar.tintColor = UIColor.heavenlyWhite
         configureViewControllers()
         overrideUserInterfaceStyle = .dark
-        
     }
     
-    // MARK: - Functions and Selectors
     func navigationController(image: UIImage?, selectedImage: UIImage?, title: String, rootViewController: UIViewController) ->
         UINavigationController{
             let nav = UINavigationController(rootViewController: rootViewController)
@@ -40,7 +46,53 @@ class TabBarViewController: UITabBarController {
         let conversation = ConversationViewController()
         let nav3 = navigationController(image: UIImage(systemName: "envelope"),selectedImage: UIImage(systemName: "envelope.fill"), title: "Message", rootViewController: conversation)
         let profile = ProfileViewController()
+        profile.delegate = self
         let nav4 = navigationController(image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"),title: "Profile", rootViewController: profile)
         viewControllers = [nav1,nav2,nav3,nav4]
+    }
+    
+    func presentLoginScreen() {
+        DispatchQueue.main.async {
+            let controller = LoginViewController()
+            controller.delegate = self
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            self.present(nav, animated: true, completion: nil)
+        }
+    }
+    
+    // MARK: - API
+    func authenticateUser() {
+        if Auth.auth().currentUser?.uid == nil {
+            presentLoginScreen()
+        }else {
+            print("DEBUG: the current user id is \(Auth.auth().currentUser?.uid ?? "")")
+        }
+    }
+    
+    func logout() {
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print("DEBUG: Error signin out..")
+        }
+        authenticateUser()
+    }
+    
+
+}
+
+extension TabBarViewController: AuthenticationDelegate {
+    func authenticationComplete() {
+        configureUI()
+//        fetchConversations()
+        dismiss(animated: true, completion: nil)
+        print("dismiss")
+    }
+}
+
+extension TabBarViewController: ProfileControllerDelegate {
+    func handleLogout() {
+        logout()
     }
 }
