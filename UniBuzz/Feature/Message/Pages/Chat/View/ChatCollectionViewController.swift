@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 private let reuseIdentifier = "MessageCell"
 
@@ -18,12 +19,14 @@ class ChatCollectionViewController: UICollectionViewController {
         return iv
     }()
     
-    var messages: [Message] = [Message(text: "test", toId: "notme", fromId: "me"),Message(text: "lol", toId: "notme", fromId: "me"),Message(text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.", toId: "notme", fromId: "me")]
+    fileprivate let user: User
+    var messages: [Message] = [Message(dictionary: ["text": "test", "toId": "notme", "fromId": "me"])]
     
     // MARK: - Lifecycle
-    init(user: String){
+    init(user: User){
+        self.user = user
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
-        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: user, preferredLargeTitle: true)
+        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
     }
     
     required init?(coder: NSCoder) {
@@ -34,6 +37,7 @@ class ChatCollectionViewController: UICollectionViewController {
         super.viewDidLoad()
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         configureUI()
+        fectMessages()
     }
     
     override var inputAccessoryView: UIView? {
@@ -75,16 +79,31 @@ class ChatCollectionViewController: UICollectionViewController {
     func configureNavigationBar() {
     
     }
+    
+    // MARK: - fetch message API
+
+    func fectMessages() {
+        Service.fetchMessages(forUser: user) { messages in
+            self.messages = messages
+            self.collectionView.reloadData()
+            self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
+        }
+    }
 }
 
-    // MARK: - Functions and selectors
+
+
+    // MARK: - Extensions
 
 extension ChatCollectionViewController: CustomInputAccessoryViewDelegate {
     func inputView(_ inputView: CustomInputAccessoryView, wantsToSend message: String) {
-        messages.append(Message(text: message, toId: "NotMe", fromId: "Me"))
-        print(messages)
-        self.collectionView.reloadData()
-        self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
+        Service.uploadMessage(message, to: user) { error in
+            if let error {
+                print("DEBUG: Error sending message with error \(error.localizedDescription)")
+            }
+            print(message)
+            self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
+        }
     }
 }
 
@@ -104,7 +123,4 @@ extension ChatCollectionViewController: UICollectionViewDelegateFlowLayout {
         return .init(width: view.frame.width, height: estimatedSize.height)
     }
     
-//    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-//        return CGSize(width: view.frame.width, height: 50)
-//    }
 }

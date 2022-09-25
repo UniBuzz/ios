@@ -54,8 +54,12 @@ class MessageCell: UICollectionViewCell {
         bubbleContainer.snp.makeConstraints { make in
             make.top.bottom.equalToSuperview()
             make.width.lessThanOrEqualTo(250)
-            make.right.equalToSuperview().offset(-12)
         }
+        bubbleLeftAnchor = bubbleContainer.leftAnchor.constraint(equalTo: leftAnchor, constant: 12)
+        bubbleLeftAnchor.isActive = false
+        
+        bubbleRightAnchor = bubbleContainer.rightAnchor.constraint(equalTo: rightAnchor, constant: -12)
+        bubbleRightAnchor.isActive = false
         
         bubbleContainer.addSubview(textView)
         textView.snp.makeConstraints { make in
@@ -67,6 +71,14 @@ class MessageCell: UICollectionViewCell {
     }
     
     func configureText() {
-        textView.text = message?.text
+        guard let message = message else { return  }
+        textView.text = message.text
+        
+        let viewModel = MessageViewModel(message: message)
+        bubbleContainer.backgroundColor = viewModel.messageBackgroundColor
+        textView.textColor = viewModel.messageTextColor
+        
+        bubbleLeftAnchor.isActive = viewModel.leftAnchorActive
+        bubbleRightAnchor.isActive = viewModel.rightAnchorActive
     }
 }

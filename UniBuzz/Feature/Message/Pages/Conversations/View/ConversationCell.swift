@@ -121,10 +121,10 @@ class ConversationCell: UITableViewCell {
     
     func configure() {
         if let data = conversation {
-            usernameLabel.text = data.username
-            messageLabel.text = data.message
-            timeStamp.text = data.timeStamp
-            notificationStamp.text = String(data.notification)
+            usernameLabel.text = data.user.pseudoname
+            messageLabel.text = data.message.text
+//            timeStamp.text = data.timeStamp
+//            notificationStamp.text = String(data.notification)
             circle.isHidden = viewModel.isNotificationEmpty(data)
         }
     }
