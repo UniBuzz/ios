@@ -10,39 +10,23 @@
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
-		D47FD28028E498E400FD4960 /* MissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312728D8C04100F6ED1B /* MissionViewController.swift */; };
-		D47FD28128E498E400FD4960 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312128D8BFCF00F6ED1B /* ProfileViewController.swift */; };
-		D47FD28328E498E400FD4960 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4D28DE206E0059CCFF /* Constant.swift */; };
-		D47FD28428E498E400FD4960 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4F28DE20C30059CCFF /* User.swift */; };
-		D47FD28528E498E400FD4960 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4328DD51D90059CCFF /* LoginViewModel.swift */; };
-		D47FD28628E498E400FD4960 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4028DCE7E40059CCFF /* LoginViewController.swift */; };
-		D47FD28728E498E400FD4960 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4828DD723A0059CCFF /* RegistrationViewController.swift */; };
-		D47FD28828E498E400FD4960 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414828DA388B0098395E /* Message.swift */; };
-		D47FD28928E498E400FD4960 /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312A28D8CD4B00F6ED1B /* Conversation.swift */; };
-		D47FD28A28E498E400FD4960 /* ChatCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83313128D8DD0700F6ED1B /* ChatCollectionViewController.swift */; };
-		D47FD28B28E498E400FD4960 /* CustomInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */; };
-		D47FD28C28E498E400FD4960 /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414C28DAFCA20098395E /* MessageCell.swift */; };
-		D47FD28D28E498E400FD4960 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414A28DA391E0098395E /* ChatViewModel.swift */; };
-		D47FD28E28E498E400FD4960 /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C5728E037470059CCFF /* MessageViewModel.swift */; };
-		D47FD28F28E498E400FD4960 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83311528D8B42A00F6ED1B /* ConversationViewController.swift */; };
-		D47FD29028E498E400FD4960 /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312D28D8D2E800F6ED1B /* ConversationCell.swift */; };
-		D47FD29128E498E400FD4960 /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414128DA0D550098395E /* ConversationViewModel.swift */; };
-		D47FD29228E498E400FD4960 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* FeedModel.swift */; };
-		D47FD29328E498E400FD4960 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94828DA2A1400006F71 /* FeedViewModel.swift */; };
-		D47FD29428E498E400FD4960 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */; };
-		D47FD29528E498E400FD4960 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */; };
-		D47FD29628E498E400FD4960 /* PostFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */; };
-		D47FD29728E498E400FD4960 /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */; };
-		D47FD29828E498E400FD4960 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
-		D47FD29928E498E400FD4960 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4894128E42D020012D67E /* AuthService.swift */; };
-		D47FD29A28E498E400FD4960 /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4894328E43AF40012D67E /* Service.swift */; };
-		D47FD29B28E498E400FD4960 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0415028DB6F1E0098395E /* ColorExtension.swift */; };
-		D47FD29C28E498E400FD4960 /* NavBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0415228DB86650098395E /* NavBarExtension.swift */; };
-		D47FD29D28E498E400FD4960 /* InputThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4528DD5D360059CCFF /* InputThemes.swift */; };
-		D47FD29E28E498E400FD4960 /* LoadingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C5328DF118C0059CCFF /* LoadingExtension.swift */; };
-		D47FD29F28E498E400FD4960 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
-		D47FD2A028E498E400FD4960 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
-		D47FD2A128E498E400FD4960 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2728D86F7900E28C3D /* ViewController.swift */; };
+		CBE0414928DA388B0098395E /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414828DA388B0098395E /* Message.swift */; };
+		CBE0414B28DA391E0098395E /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414A28DA391E0098395E /* ChatViewModel.swift */; };
+		CBE0414D28DAFCA20098395E /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414C28DAFCA20098395E /* MessageCell.swift */; };
+		CBE0415128DB6F1E0098395E /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0415028DB6F1E0098395E /* ColorExtension.swift */; };
+		CBE0415328DB86650098395E /* NavBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0415228DB86650098395E /* NavBarExtension.swift */; };
+		CBE06C4128DCE7E40059CCFF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4028DCE7E40059CCFF /* LoginViewController.swift */; };
+		CBE06C4428DD51D90059CCFF /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4328DD51D90059CCFF /* LoginViewModel.swift */; };
+		CBE06C4628DD5D360059CCFF /* InputThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4528DD5D360059CCFF /* InputThemes.swift */; };
+		CBE06C4928DD723A0059CCFF /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4828DD723A0059CCFF /* RegistrationViewController.swift */; };
+		CBE06C4C28DE203C0059CCFF /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4B28DE203C0059CCFF /* Service.swift */; };
+		CBE06C4E28DE206E0059CCFF /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4D28DE206E0059CCFF /* Constant.swift */; };
+		CBE06C5028DE20C30059CCFF /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4F28DE20C30059CCFF /* User.swift */; };
+		CBE06C5428DF118C0059CCFF /* LoadingExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C5328DF118C0059CCFF /* LoadingExtension.swift */; };
+		CBE06C5828E037470059CCFF /* MessageViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C5728E037470059CCFF /* MessageViewModel.swift */; };
+		D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
+		D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
+		D4BB0E2B28D86F7900E28C3D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2928D86F7900E28C3D /* Main.storyboard */; };
 		D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */; };
 		D4BB0E3028D86F7A00E28C3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2E28D86F7A00E28C3D /* LaunchScreen.storyboard */; };
 		D4BB0E6228D8746000E28C3D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6128D8746000E28C3D /* FirebaseAuth */; };
@@ -724,6 +708,38 @@
 				D47FD2A028E498E400FD4960 /* SceneDelegate.swift in Sources */,
 				D47FD2A128E498E400FD4960 /* ViewController.swift in Sources */,
 				D4ECE59728EAC66300E24223 /* ButtonThemes.swift in Sources */,
+				CB83313228D8DD0800F6ED1B /* ChatCollectionViewController.swift in Sources */,
+				CBE06C4C28DE203C0059CCFF /* Service.swift in Sources */,
+				CBE0414D28DAFCA20098395E /* MessageCell.swift in Sources */,
+				CBE06C5028DE20C30059CCFF /* User.swift in Sources */,
+				CB83312828D8C04100F6ED1B /* MissionViewController.swift in Sources */,
+				CB83312228D8BFCF00F6ED1B /* ProfileViewController.swift in Sources */,
+				CBE06C5428DF118C0059CCFF /* LoadingExtension.swift in Sources */,
+				CBE06C4128DCE7E40059CCFF /* LoginViewController.swift in Sources */,
+				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,
+				CB83312B28D8CD4B00F6ED1B /* Conversation.swift in Sources */,
+				CBE06C4628DD5D360059CCFF /* InputThemes.swift in Sources */,
+				CBE0415128DB6F1E0098395E /* ColorExtension.swift in Sources */,
+				CBE06C4428DD51D90059CCFF /* LoginViewModel.swift in Sources */,
+				CBE06C4E28DE206E0059CCFF /* Constant.swift in Sources */,
+				C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */,
+				C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */,
+				CB83312E28D8D2E800F6ED1B /* ConversationCell.swift in Sources */,
+				CB83311C28D8BEC400F6ED1B /* FeedViewController.swift in Sources */,
+				CB83311628D8B42A00F6ED1B /* ConversationViewController.swift in Sources */,
+				C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */,
+				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
+				CBE06C4928DD723A0059CCFF /* RegistrationViewController.swift in Sources */,
+				CBE06C5828E037470059CCFF /* MessageViewModel.swift in Sources */,
+				CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */,
+				C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */,
+				D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */,
+				C42BB94928DA2A1400006F71 /* FeedModel.swift in Sources */,
+				CBE0414228DA0D550098395E /* ConversationViewModel.swift in Sources */,
+				CBE0414028D972C90098395E /* CustomInputAccessoryView.swift in Sources */,
+				CBE0415328DB86650098395E /* NavBarExtension.swift in Sources */,
+				CBE0414B28DA391E0098395E /* ChatViewModel.swift in Sources */,
+				CBE0414928DA388B0098395E /* Message.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
