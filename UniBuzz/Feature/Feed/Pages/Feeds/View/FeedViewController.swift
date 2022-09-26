@@ -112,8 +112,7 @@ class FeedViewController: UIViewController {
         let notificationButton = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: self, action: #selector(notificationButtonPressed))
         searchButton.tintColor = .heavenlyWhite
         notificationButton.tintColor = .heavenlyWhite
-        navigationItem.rightBarButtonItems = [searchButton, notificationButton]
-        
+        navigationItem.rightBarButtonItems = [notificationButton, searchButton]
         self.navigationController?.navigationBar.backgroundColor = .midnights
         self.navigationItem.titleView = title
 
