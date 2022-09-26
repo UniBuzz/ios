@@ -8,8 +8,7 @@
 import Firebase
 
 struct Conversation {
-    let username: String
-    let message: String
-    var timeStamp: String
-    var notification: Int
+    let user: User
+    let message: Message
+//    var notification: Int
 }

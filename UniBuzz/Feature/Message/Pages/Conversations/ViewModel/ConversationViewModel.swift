@@ -9,25 +9,18 @@ import RxSwift
 
 struct ConversationViewModel {
     
+    //dummy chat item
     var items = Observable<[Conversation]>.just([
-        Conversation(username: "neodroid", message: "Halo nama kamu siapa?", timeStamp: "2h", notification: 1),
-        Conversation(username: "pineapple", message: "testing 123", timeStamp: "2h", notification: 0),
-        Conversation(username: "koze_fam", message: "p", timeStamp: "2h", notification: 0),
-        Conversation(username: "mabahoki123", message: "WOOOOOOOI dsa asd asd asd sad asd asdas da sdqwa dasd a w d adw", timeStamp: "2h", notification: 3),
-        Conversation(username: "teknikuwiw", message: "Lorem Ipsum", timeStamp: "2h", notification: 99),
-        Conversation(username: "neodroid", message: "Halo nama kamu siapa?", timeStamp: "2h", notification: 2),
-        Conversation(username: "pineapple", message: "testing 123", timeStamp: "2h", notification: 0),
-        Conversation(username: "koze_fam", message: "p", timeStamp: "2h", notification: 0),
-        Conversation(username: "mabahoki123", message: "WOOOOOOOI", timeStamp: "2h", notification: 1),
-        Conversation(username: "teknikuwiw", message: "Lorem Ipsum", timeStamp: "2h", notification: 1)
+        Conversation(user: User(dictionary: ["uid": "yUeZmvI1k5VA8bmTXXhCtIEPD9o1", "pseudoname": "Udin_petot", "email": "Lol@gmail.id"]), message: Message(dictionary: ["text": "test", "toId": "notme", "fromId": "me"]))
     ])
     
     func isNotificationEmpty(_ conversation: Conversation) -> Bool {
-        if conversation.notification == 0 {
-            return true
-        }else {
-            return false
-        }
+//        if conversation.notification == 0 {
+//            return true
+//        }else {
+//            return false
+//        }
+        return true
     }
     
 }
