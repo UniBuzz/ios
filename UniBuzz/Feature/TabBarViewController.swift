@@ -48,7 +48,7 @@ class TabBarViewController: UITabBarController {
         let profile = ProfileViewController()
         profile.delegate = self
         let nav4 = navigationController(image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"),title: "Profile", rootViewController: profile)
-        viewControllers = [nav1,nav2,nav3,nav4]
+        viewControllers = [nav1,nav3,nav4]
     }
     
     func presentLoginScreen() {

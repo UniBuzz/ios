@@ -64,13 +64,11 @@ class ConversationViewController: UIViewController {
 extension ConversationViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return conversations.count
-//        return 1
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
         cell.conversation = conversations[indexPath.row]
-//        cell.conversation = Conversation(user: User(dictionary: ["uid": "ApxUC6qLj9VNcGNamhnoZ5ABozU2", "pseudoname": "Mabamaba", "email": "Z@z.id"]), message: Message(dictionary: ["text": "test", "toId": "notme", "fromId": "me"]))
         return cell
     }
 }
@@ -80,7 +78,6 @@ extension ConversationViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = conversations[indexPath.row].user
-//        let user = User(dictionary:  ["uid": "ApxUC6qLj9VNcGNamhnoZ5ABozU2", "pseudoname": "Mabamaba", "email": "Z@z.id"])
         showChatController(forUser: user)
 
     }

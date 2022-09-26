@@ -7,9 +7,15 @@
 
 import UIKit
 
+protocol FeedCellDelegate {
+    func didTapMessage(uid: String, pseudoname: String)
+}
+
 class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Variables
+    var feedDelegate: FeedCellDelegate!
+    
     static var cellIdentifier = "FeedCell"
     let actionContainerColor = UIColor.rgb(red: 83, green: 83, blue: 83)
 
@@ -135,6 +141,9 @@ class FeedTableViewCell: UITableViewCell {
     
     @objc func sendMessagePressed() {
         print("send message to this id: \(feed?.uid)")
+        if let feed {
+            feedDelegate.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
+        }
     }
     
     //MARK: - Functions

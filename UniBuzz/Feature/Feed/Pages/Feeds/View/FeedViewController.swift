@@ -47,6 +47,7 @@ class FeedViewController: UIViewController {
         fetchData()
         viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
             cell.feed = item
+            cell.feedDelegate = self
         }.disposed(by: bag)
         feedTableView.rx.modelSelected(FeedModel.self).subscribe { feed in
             print(feed)
@@ -121,5 +122,14 @@ class FeedViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .midnights
         self.navigationItem.titleView = title
         self.navigationController?.navigationBar.barTintColor = .midnights
+    }
+}
+
+extension FeedViewController: FeedCellDelegate {
+    func didTapMessage(uid: String, pseudoname: String) {
+        print(pseudoname)
+        let controller = ChatCollectionViewController(user: User(dictionary: ["uid": uid, "pseudoname": pseudoname]))
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
