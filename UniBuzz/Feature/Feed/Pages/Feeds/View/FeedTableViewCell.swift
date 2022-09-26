@@ -58,6 +58,7 @@ class FeedTableViewCell: UITableViewCell {
     lazy var upVoteCount: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "chevron.up", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .bold)), for: .normal)
+        button.addTarget(self, action: #selector(upVotePressed), for: .touchUpInside)
         button.setTitle("10", for: .normal)
         button.titleLabel?.textColor = .heavenlyWhite
         button.tintColor = .heavenlyWhite
@@ -74,6 +75,7 @@ class FeedTableViewCell: UITableViewCell {
     lazy var commentCount: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "message", withConfiguration: UIImage.SymbolConfiguration(pointSize: 18, weight: .bold)), for: .normal)
+        button.addTarget(self, action: #selector(commentCountPressed), for: .touchUpInside)
         button.setTitle("8", for: .normal)
         button.titleLabel?.textColor = .heavenlyWhite
         button.tintColor = .heavenlyWhite
@@ -99,6 +101,7 @@ class FeedTableViewCell: UITableViewCell {
         let button = UIButton()
         button.setImage(UIImage(systemName: "envelope", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .semibold)),
                         for: .normal)
+        button.addTarget(self, action: #selector(sendMessagePressed), for: .touchUpInside)
         button.tintColor = .heavenlyWhite
         return button
     }()
@@ -118,6 +121,20 @@ class FeedTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    //MARK: - Selectors
+    @objc func upVotePressed() {
+        // need to keep track to only one upvote acceptable
+        feed?.upvoteCount += 1
+    }
+    
+    @objc func commentCountPressed() {
+        print("Go To Comment Page with content of \(feed?.content)")
+    }
+    
+    @objc func sendMessagePressed() {
+        print("send message to this id: \(feed?.uid)")
     }
     
     //MARK: - Functions
@@ -166,7 +183,7 @@ class FeedTableViewCell: UITableViewCell {
         content.snp.makeConstraints { make in
             make.top.equalTo(userName.snp.bottom).offset(15)
             make.left.equalTo(userName.snp.left)
-            make.right.equalTo(optionButton.snp.left)
+            make.right.equalTo(container.snp.right).offset(-50)
         }
         
         sendAndCommentHStack.snp.makeConstraints { make in

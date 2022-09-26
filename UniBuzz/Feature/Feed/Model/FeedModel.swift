@@ -13,12 +13,16 @@ struct FeedModel {
     var content: String
     var upvoteCount: Int
     var commentCount: Int
+    var uid: String
+    var timestamp: Int
     
     init(dictionary: [String:Any]) {
         self.userName = dictionary["userName"] as? String ?? ""
         self.content = dictionary["content"] as? String ?? ""
         self.upvoteCount = dictionary["upvoteCount"] as? Int ?? 0
         self.commentCount = dictionary["commentCount"] as? Int ?? 0
+        self.uid = dictionary["uid"] as? String ?? ""
+        self.timestamp = dictionary["timestamp"] as? Int ?? 0
     }
 }
 

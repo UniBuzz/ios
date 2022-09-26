@@ -13,7 +13,7 @@
 		C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */; };
 		C44DAF0328DD5B200061A8BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44DAF0228DD5B200061A8BE /* GoogleService-Info.plist */; };
 		C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */; };
-		C4EA0AB728E1D92A00A013AF /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA0AB628E1D92A00A013AF /* Constant.swift */; };
+		C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */; };
 		CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2728D86F7900E28C3D /* ViewController.swift */; };
@@ -59,7 +59,7 @@
 		C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		C44DAF0228DD5B200061A8BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
-		C4EA0AB628E1D92A00A013AF /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewModel.swift; sourceTree = "<group>"; };
 		CB3236F128D880A00098AF14 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		CB83311528D8B42A00F6ED1B /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
@@ -139,9 +139,33 @@
 		C4EA0AB528E1D91800A013AF /* API */ = {
 			isa = PBXGroup;
 			children = (
-				C4EA0AB628E1D92A00A013AF /* Constant.swift */,
 			);
 			path = API;
+			sourceTree = "<group>";
+		};
+		C4EA0ABB28E1DFA000A013AF /* PostFeed */ = {
+			isa = PBXGroup;
+			children = (
+				C4EA0ABC28E1DFCB00A013AF /* ViewModel */,
+				C4EA0ABD28E1DFD000A013AF /* View */,
+			);
+			path = PostFeed;
+			sourceTree = "<group>";
+		};
+		C4EA0ABC28E1DFCB00A013AF /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C4EA0ABD28E1DFD000A013AF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		CB83311728D8B44400F6ED1B /* Conversations */ = {
@@ -157,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				CB83311A28D8BEA200F6ED1B /* Feeds */,
+				C4EA0ABB28E1DFA000A013AF /* PostFeed */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -275,7 +300,6 @@
 			children = (
 				C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */,
 				CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */,
-				C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -584,11 +608,11 @@
 				CB83312E28D8D2E800F6ED1B /* ConversationCell.swift in Sources */,
 				CB83311C28D8BEC400F6ED1B /* FeedViewController.swift in Sources */,
 				CB83311628D8B42A00F6ED1B /* ConversationViewController.swift in Sources */,
-				C4EA0AB728E1D92A00A013AF /* Constant.swift in Sources */,
 				C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */,
 				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
 				CBE06C4928DD723A0059CCFF /* RegistrationViewController.swift in Sources */,
 				CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */,
+				C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */,
 				D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */,
 				C42BB94928DA2A1400006F71 /* FeedModel.swift in Sources */,
 				CBE0414228DA0D550098395E /* ConversationViewModel.swift in Sources */,

@@ -10,6 +10,7 @@ import UIKit
 class PostFeedViewController: UIViewController {
 
     //MARK: - Variables
+    let viewModel = PostFeedViewModel()
     
     //MARK: - Properties
     lazy var cancelButton: UIButton = {
@@ -21,23 +22,20 @@ class PostFeedViewController: UIViewController {
         return button
     }()
     
-    lazy var postButton: UIView = {
+    lazy var postButtonContainer: UIView = {
         let view = UIView()
+        view.backgroundColor = .creamyYellow
+        view.layer.cornerRadius = 20
+        return view
+    }()
+    
+    lazy var postButton: UIButton = {
         let button = UIButton()
         button.setTitle("Post", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         button.setTitleColor(.eternalBlack, for: .normal)
-        button.addTarget(self, action: #selector(postButtonPressed), for: .touchUpInside)
-        view.addSubview(button)
-        button.snp.makeConstraints { make in
-            make.top.equalTo(view).offset(10)
-            make.left.equalTo(view).offset(20)
-            make.right.equalTo(view).offset(-20)
-            make.bottom.equalTo(view).offset(-10)
-        }
-        view.backgroundColor = .creamyYellow
-        view.layer.cornerRadius = 20
-        return view
+        button.addTarget(self, action: #selector(postButtonPresseds), for: .touchUpInside)
+        return button
     }()
     
     lazy var textFieldContainer: UIView = {
@@ -102,9 +100,11 @@ class PostFeedViewController: UIViewController {
     
     @objc func cancelButtonPressed() {
         self.navigationController?.popViewController(animated: true)
+ 
     }
     
-    @objc func postButtonPressed() {
+    @objc func postButtonPresseds() {
+        viewModel.uploadFeed(content: textField.text ?? "")
         print("post pressed")
     }
     
@@ -114,12 +114,13 @@ class PostFeedViewController: UIViewController {
         self.navigationItem.hidesBackButton = true
         
         view.addSubview(cancelButton)
-        view.addSubview(postButton)
         view.addSubview(textField)
         view.addSubview(titleLabel)
         view.addSubview(textFieldContainer)
-        textFieldContainer.addSubview(textField)
         view.addSubview(characterCountLabel)
+        view.addSubview(postButtonContainer)
+        textFieldContainer.addSubview(textField)
+        postButtonContainer.addSubview(postButton)
 
         showPlaceHolder()
         
@@ -128,11 +129,18 @@ class PostFeedViewController: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
         }
         
-        postButton.snp.makeConstraints { make in
+        postButtonContainer.snp.makeConstraints { make in
             make.right.equalTo(view.safeAreaLayoutGuide).offset(-20)
             make.top.equalTo(cancelButton)
             make.width.equalTo(81)
             make.height.equalTo(37)
+        }
+
+        postButton.snp.makeConstraints { make in
+            make.top.equalTo(postButtonContainer).offset(10)
+            make.left.equalTo(postButtonContainer).offset(20)
+            make.right.equalTo(postButtonContainer).offset(-20)
+            make.bottom.equalTo(postButtonContainer).offset(-10)
         }
         
         titleLabel.snp.makeConstraints { make in

@@ -48,6 +48,9 @@ class FeedViewController: UIViewController {
         viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
             cell.feed = item
         }.disposed(by: bag)
+        feedTableView.rx.modelSelected(FeedModel.self).subscribe { feed in
+            print(feed)
+        }.disposed(by: bag)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -70,7 +73,7 @@ class FeedViewController: UIViewController {
     
     //MARK: - Functions
     func fetchData() {
-        viewModel.fetchDummyData()
+        viewModel.fetchFeed()
     }
     
     func configureUI() {
