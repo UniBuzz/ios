@@ -74,10 +74,11 @@ class FeedViewController: UIViewController {
     }
     
     func configureUI() {
+        view.backgroundColor = .midnights
         self.view.addSubview(feedTableView)
         self.view.addSubview(addFeedButtonContainer)
         addFeedButtonContainer.addSubview(addFeedButton)
-        
+
         feedTableView.snp.makeConstraints { make in
             make.left.equalTo(view)
             make.right.equalTo(view)
@@ -116,6 +117,6 @@ class FeedViewController: UIViewController {
         navigationItem.rightBarButtonItems = [notificationButton, searchButton]
         self.navigationController?.navigationBar.backgroundColor = .midnights
         self.navigationItem.titleView = title
-
+        self.navigationController?.navigationBar.barTintColor = .midnights
     }
 }
