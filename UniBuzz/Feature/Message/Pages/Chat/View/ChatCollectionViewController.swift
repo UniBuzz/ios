@@ -20,7 +20,7 @@ class ChatCollectionViewController: UICollectionViewController {
     }()
     
     fileprivate let user: User
-    var messages: [Message] = [Message(dictionary: ["text": "test", "toId": "notme", "fromId": "me"])]
+    var messages = [Message]()
     
     // MARK: - Lifecycle
     init(user: User){
