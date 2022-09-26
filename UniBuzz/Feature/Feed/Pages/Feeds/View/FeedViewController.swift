@@ -54,7 +54,7 @@ class FeedViewController: UIViewController {
         super.viewWillDisappear(animated)
     }
     
-    //MARK: - Functions
+    //MARK: - Selector Functions
     @objc func addFeedButtonPressed() {
         let createFeedVC = PostFeedViewController()
         self.navigationController?.pushViewController(createFeedVC, animated: true)
@@ -68,6 +68,7 @@ class FeedViewController: UIViewController {
         
     }
     
+    //MARK: - Functions
     func fetchData() {
         viewModel.fetchDummyData()
     }
