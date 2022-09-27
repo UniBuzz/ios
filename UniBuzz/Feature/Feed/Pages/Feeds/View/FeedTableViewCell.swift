@@ -18,6 +18,7 @@ class FeedTableViewCell: UITableViewCell {
     
     static var cellIdentifier = "FeedCell"
     let actionContainerColor = UIColor.rgb(red: 83, green: 83, blue: 83)
+    var upVoteTapped = false
 
     var feed: FeedModel? {
         didSet {
@@ -116,6 +117,7 @@ class FeedTableViewCell: UITableViewCell {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 10
+        stack.distribution = .fillProportionally
         return stack
     }()
         
@@ -131,8 +133,20 @@ class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Selectors
     @objc func upVotePressed() {
-        // need to keep track to only one upvote acceptable
-        feed?.upvoteCount += 1
+        if upVoteTapped {
+            feed?.upvoteCount -= 1
+            upVoteTapped = false
+            upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
+            upVoteCount.tintColor = .heavenlyWhite
+            upVoteCountContainer.backgroundColor = actionContainerColor
+        } else {
+            feed?.upvoteCount += 1
+            upVoteTapped = true
+            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
+            upVoteCount.titleLabel?.textColor = .eternalBlack
+            upVoteCount.tintColor = .eternalBlack
+            upVoteCountContainer.backgroundColor = .creamyYellow
+        }
     }
     
     @objc func commentCountPressed() {
