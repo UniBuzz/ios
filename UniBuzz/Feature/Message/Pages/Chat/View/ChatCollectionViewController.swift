@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SnapKit
 
 private let reuseIdentifier = "MessageCell"
 
@@ -22,6 +23,15 @@ class ChatCollectionViewController: UICollectionViewController {
     fileprivate let user: User
     var messages = [Message]()
     
+    private let loadingSpinner: UIActivityIndicatorView = {
+       let spin = UIActivityIndicatorView()
+        spin.sizeToFit()
+        spin.style = .large
+//        spin.backgroundColor = .midnights
+        spin.color = .heavenlyWhite
+        return spin
+    }()
+    
     // MARK: - Lifecycle
     init(user: User){
         self.user = user
@@ -35,6 +45,7 @@ class ChatCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadingSpinner.startAnimating()
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         configureUI()
         fectMessages()
@@ -74,6 +85,11 @@ class ChatCollectionViewController: UICollectionViewController {
         collectionView.register(MessageCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.alwaysBounceVertical = true
         collectionView.keyboardDismissMode = .interactive
+        
+        view.addSubview(loadingSpinner)
+        loadingSpinner.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
     
     func configureNavigationBar() {
@@ -83,10 +99,12 @@ class ChatCollectionViewController: UICollectionViewController {
     // MARK: - fetch message API
 
     func fectMessages() {
+        loadingSpinner.startAnimating()
         Service.fetchMessages(forUser: user) { messages in
             self.messages = messages
             self.collectionView.reloadData()
             self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
+            self.loadingSpinner.stopAnimating()
         }
     }
 }
