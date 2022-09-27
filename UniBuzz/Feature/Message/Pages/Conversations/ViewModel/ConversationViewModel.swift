@@ -24,8 +24,20 @@ struct ConversationViewModel {
     var timestamp: String {
         let date = conversation.message.timestamp.dateValue()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        return dateFormatter.string(from: date)
+//        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = "d"
+        let stampDate = Int(dateFormatter.string(from: date))
+        let todayDate = Int(dateFormatter.string(from: Date()))!
+        if  stampDate == todayDate {
+            dateFormatter.dateFormat = "HH:mm"
+            return dateFormatter.string(from: date)
+        }else if stampDate == (todayDate) - 1 {
+            return "yesterday"
+        }else {
+            dateFormatter.dateFormat = "MM/dd/yy"
+            return dateFormatter.string(from: date)
+        }
+        
     }
     
     init(conversation: Conversation){
