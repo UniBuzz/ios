@@ -6,13 +6,11 @@
 //
 
 import RxSwift
+import Foundation
 
 struct ConversationViewModel {
     
-    //dummy chat item
-    var items = Observable<[Conversation]>.just([
-        Conversation(user: User(dictionary: ["uid": "yUeZmvI1k5VA8bmTXXhCtIEPD9o1", "pseudoname": "Udin_petot", "email": "Lol@gmail.id"]), message: Message(dictionary: ["text": "test", "toId": "notme", "fromId": "me"]))
-    ])
+    private let conversation: Conversation
     
     func isNotificationEmpty(_ conversation: Conversation) -> Bool {
 //        if conversation.notification == 0 {
@@ -21,6 +19,17 @@ struct ConversationViewModel {
 //            return false
 //        }
         return true
+    }
+    
+    var timestamp: String {
+        let date = conversation.message.timestamp.dateValue()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        return dateFormatter.string(from: date)
+    }
+    
+    init(conversation: Conversation){
+        self.conversation = conversation
     }
     
 }

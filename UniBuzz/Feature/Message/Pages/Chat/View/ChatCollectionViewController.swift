@@ -27,7 +27,6 @@ class ChatCollectionViewController: UICollectionViewController {
        let spin = UIActivityIndicatorView()
         spin.sizeToFit()
         spin.style = .large
-//        spin.backgroundColor = .midnights
         spin.color = .heavenlyWhite
         return spin
     }()
