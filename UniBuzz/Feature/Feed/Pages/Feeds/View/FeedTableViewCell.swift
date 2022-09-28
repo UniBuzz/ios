@@ -6,9 +6,11 @@
 //
 
 import UIKit
+import Firebase
 
 protocol FeedCellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
+    func didTapUpVote(model: UpvoteModel)
 }
 
 class FeedTableViewCell: UITableViewCell {
@@ -19,6 +21,7 @@ class FeedTableViewCell: UITableViewCell {
     static var cellIdentifier = "FeedCell"
     let actionContainerColor = UIColor.rgb(red: 83, green: 83, blue: 83)
     var upVoteTapped = false
+    var userUID = ""
 
     var feed: FeedModel? {
         didSet {
@@ -133,6 +136,9 @@ class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Selectors
     @objc func upVotePressed() {
+        
+        guard let currentUserID = Auth.auth().currentUser?.uid else { return }
+                
         if upVoteTapped {
             feed?.upvoteCount -= 1
             upVoteTapped = false
@@ -147,6 +153,8 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCount.tintColor = .eternalBlack
             upVoteCountContainer.backgroundColor = .creamyYellow
         }
+        feedDelegate?.didTapUpVote(model: UpvoteModel(feedID: feed?.feedID ?? ""
+                                                      , userID: currentUserID))
     }
     
     @objc func commentCountPressed() {
