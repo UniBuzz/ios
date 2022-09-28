@@ -21,7 +21,7 @@ class PostFeedViewModel {
                           "uid": uid,
                           "timestamp": Int(Date().timeIntervalSince1970),
                           "content": content,
-                          "upvoteComment": 0,
+                          "upvoteCount": 0,
                           "commentCount": 0] as [String : Any]
 
             COLLECTION_FEEDS.addDocument(data: values)

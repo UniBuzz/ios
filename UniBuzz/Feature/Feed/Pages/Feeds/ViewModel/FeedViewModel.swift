@@ -30,6 +30,7 @@ class FeedViewModel {
                         feedModel.upvoteCount = voteCount
                         self.feedsDataArray.append(feedModel)
                     }
+                    print(document.data())
                     self.feedsData.accept(self.feedsDataArray)
                 })
             }
