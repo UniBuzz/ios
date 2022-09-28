@@ -16,6 +16,7 @@ struct FeedModel {
     var uid: String
     var feedID: String
     var timestamp: Int
+    var isUpvoted = false
     
     init(dictionary: [String:Any], feedID: String) {
         self.userName = dictionary["userName"] as? String ?? ""
@@ -24,13 +25,13 @@ struct FeedModel {
         self.commentCount = dictionary["commentCount"] as? Int ?? 0
         self.uid = dictionary["uid"] as? String ?? ""
         self.timestamp = dictionary["timestamp"] as? Int ?? 0
-        self.feedID = feedID as? String ?? ""
+        self.feedID = feedID 
     }
 }
 
 struct UpvoteModel {
-    var feedID: String
-    var userID: String
+    var feedToVoteID: String
+    var currenUserID: String
 }
 
 struct CommentModel {

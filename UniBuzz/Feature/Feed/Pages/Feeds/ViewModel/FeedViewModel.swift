@@ -8,48 +8,51 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Firebase
 
 class FeedViewModel {
     
     var feedsData = BehaviorRelay(value: [FeedModel]())
     var feedsDataArray = [FeedModel]()
 
-    func fetchAllData() {
+    func fetchAllData(completion: @escaping([FeedModel]) -> Void) {
+        guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
         feedsDataArray = []
+    
         COLLECTION_FEEDS
             .order(by: "timestamp", descending: true)
-            .limit(to: 5)
             .getDocuments { querySnapshot, err in
                 if let err = err {
                     print(err)
                     return
                 }
                 querySnapshot?.documents.forEach({ document in
-                    self.getUpvoteCount(feedID: document.documentID) { voteCount in
+                    self.getUpvoteCount(feedID: document.documentID) { userIDs in
                         var feedModel = FeedModel(dictionary: document.data(), feedID: document.documentID)
-                        feedModel.upvoteCount = voteCount
+                        feedModel.upvoteCount = userIDs.count
+                        feedModel.isUpvoted = userIDs.contains(currentUserUID)
+                        print(feedModel.isUpvoted, userIDs)
                         self.feedsDataArray.append(feedModel)
+                        completion(self.feedsDataArray)
                     }
-                    print(document.data())
-                    self.feedsData.accept(self.feedsDataArray)
                 })
             }
         }
     
-    func getUpvoteCount(feedID: String, completion: @escaping(Int) -> Void) {
+    func getUpvoteCount(feedID: String, completion: @escaping([String]) -> Void) {
         var userIDs: [String] = [String]()
         COLLECTION_FEEDS_UPVOTES.document(feedID).getDocument { document, err in
             if let document = document, document.exists {
                 userIDs = document.data()!["userIDs"] as! [String]
-                completion(userIDs.count)
+                completion(userIDs)
+            } else {
+                completion([])
             }
         }
-        completion(0)
     }
     
     func updateForTheLatestData() {
         COLLECTION_FEEDS.order(by: "timestamp", descending: true)
-            .limit(to: 5)
             .getDocuments { querySnapshot, err in
                 if let err = err {
                     print(err)
@@ -58,7 +61,10 @@ class FeedViewModel {
                 querySnapshot?.documentChanges.forEach({ change in
                     switch change.type {
                     case .added:
-                        self.fetchAllData()
+                        print("added")
+                        self.fetchAllData { data in
+                            self.feedsData.accept(data)
+                        }
                     case .modified:
                         print("modified")
                     case .removed:
@@ -76,19 +82,29 @@ class FeedViewModel {
     func upVoteContent(model: UpvoteModel) {
         var userIDs: [String] = [String]()
         print("Upvoting ...")
-        COLLECTION_FEEDS_UPVOTES.document(model.feedID).getDocument { document, err in
+        COLLECTION_FEEDS_UPVOTES.document(model.feedToVoteID).getDocument { document, err in
             if let document = document, document.exists {
                 print("DEBUG: Doc is exist")
                 userIDs = document.data()!["userIDs"] as! [String]
-                if !userIDs.contains(model.userID) {
-                    userIDs.append(model.userID)
+                if !userIDs.contains(model.currenUserID) {
+                    userIDs.append(model.currenUserID)
                 } else {
-                    userIDs.removeAll { $0 == model.userID }
+                    userIDs.removeAll { $0 == model.currenUserID }
                 }
-                COLLECTION_FEEDS_UPVOTES.document(model.feedID).setData(["userIDs": userIDs])
+                COLLECTION_FEEDS_UPVOTES.document(model.feedToVoteID).setData(["userIDs": userIDs])
+                COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["upvoteCount": userIDs.count]) { err in
+                    if let err = err {
+                        print(err)
+                    } else { print("success update data") }
+                }
             } else {
                 print("DEBUG: Doc is not exist, setting document")
-                COLLECTION_FEEDS_UPVOTES.document(model.feedID).setData(["userIDs": [model.userID]])
+                COLLECTION_FEEDS_UPVOTES.document(model.feedToVoteID).setData(["userIDs": [model.currenUserID]])
+                COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["upvoteCount": 1]) { err in
+                    if let err = err {
+                        print(err)
+                    } else { print("success update data") }
+                }
             }
         }
     }

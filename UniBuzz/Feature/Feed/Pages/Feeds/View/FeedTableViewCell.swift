@@ -20,16 +20,18 @@ class FeedTableViewCell: UITableViewCell {
     
     static var cellIdentifier = "FeedCell"
     let actionContainerColor = UIColor.rgb(red: 83, green: 83, blue: 83)
-    var upVoteTapped = false
     var userUID = ""
+    var isUpvoted = false
 
     var feed: FeedModel? {
         didSet {
-            guard let feed = feed else {return}
+            guard let feed = feed else { return }
             userName.text = feed.userName
             content.text = feed.content
             upVoteCount.setTitle(String(feed.upvoteCount), for: .normal)
             commentCount.setTitle(String(feed.commentCount), for: .normal)
+            isUpvoted = feed.isUpvoted
+            configureCell()
         }
     }
     
@@ -127,7 +129,6 @@ class FeedTableViewCell: UITableViewCell {
     //MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureCell()
     }
     
     required init?(coder: NSCoder) {
@@ -139,22 +140,21 @@ class FeedTableViewCell: UITableViewCell {
         
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
                 
-        if upVoteTapped {
+        if isUpvoted {
             feed?.upvoteCount -= 1
-            upVoteTapped = false
+            isUpvoted = false
             upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
             upVoteCount.tintColor = .heavenlyWhite
             upVoteCountContainer.backgroundColor = actionContainerColor
         } else {
             feed?.upvoteCount += 1
-            upVoteTapped = true
+            isUpvoted = true
             upVoteCount.setTitleColor(.eternalBlack, for: .normal)
             upVoteCount.titleLabel?.textColor = .eternalBlack
             upVoteCount.tintColor = .eternalBlack
             upVoteCountContainer.backgroundColor = .creamyYellow
         }
-        feedDelegate?.didTapUpVote(model: UpvoteModel(feedID: feed?.feedID ?? ""
-                                                      , userID: currentUserID))
+        feedDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: feed?.feedID ?? "", currenUserID: currentUserID))
     }
     
     @objc func commentCountPressed() {
@@ -250,6 +250,13 @@ class FeedTableViewCell: UITableViewCell {
             make.bottom.equalTo(sendMessageButtonContainer).offset(-2)
         }
         
+        if isUpvoted {
+            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
+            upVoteCount.titleLabel?.textColor = .eternalBlack
+            upVoteCount.tintColor = .eternalBlack
+            upVoteCountContainer.backgroundColor = .creamyYellow
+        }
+                
     }
 
 }

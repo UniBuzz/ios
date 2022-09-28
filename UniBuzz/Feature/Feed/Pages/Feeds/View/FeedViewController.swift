@@ -45,7 +45,9 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNavigationItems()
-        viewModel.fetchAllData()
+        viewModel.fetchAllData { data in
+            self.viewModel.feedsData.accept(data)
+        }
         bind()
     }
     
@@ -61,7 +63,9 @@ class FeedViewController: UIViewController {
     }
     
     @objc func searchButtonPressed() {
-        viewModel.fetchAllData()
+        viewModel.fetchAllData { data in
+            self.viewModel.feedsData.accept(data)
+        }
     }
     
     @objc func notificationButtonPressed() {
