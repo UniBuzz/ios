@@ -30,10 +30,21 @@ class FeedViewModel {
                         feedModel.upvoteCount = voteCount
                         self.feedsDataArray.append(feedModel)
                     }
+                    self.feedsData.accept(self.feedsDataArray)
                 })
-                self.feedsData.accept(self.feedsDataArray)
             }
         }
+    
+    func getUpvoteCount(feedID: String, completion: @escaping(Int) -> Void) {
+        var userIDs: [String] = [String]()
+        COLLECTION_FEEDS_UPVOTES.document(feedID).getDocument { document, err in
+            if let document = document, document.exists {
+                userIDs = document.data()!["userIDs"] as! [String]
+                completion(userIDs.count)
+            }
+        }
+        completion(0)
+    }
     
     func updateForTheLatestData() {
         COLLECTION_FEEDS.order(by: "timestamp", descending: true)
@@ -56,17 +67,6 @@ class FeedViewModel {
             }
     }
     
-    func getUpvoteCount(feedID: String, completion: @escaping(Int) -> Void) {
-        var userIDs: [String] = [String]()
-        COLLECTION_FEEDS_UPVOTES.document(feedID).getDocument { document, err in
-            if let document = document, document.exists {
-                userIDs = document.data()!["userIDs"] as! [String]
-                print(document.data())
-                completion(userIDs.count)
-            }
-        }
-        completion(0)
-    }
     
     func pullToRefreshFeed() {
         
@@ -79,7 +79,11 @@ class FeedViewModel {
             if let document = document, document.exists {
                 print("DEBUG: Doc is exist")
                 userIDs = document.data()!["userIDs"] as! [String]
-                userIDs.append(model.userID)
+                if !userIDs.contains(model.userID) {
+                    userIDs.append(model.userID)
+                } else {
+                    userIDs.removeAll { $0 == model.userID }
+                }
                 COLLECTION_FEEDS_UPVOTES.document(model.feedID).setData(["userIDs": userIDs])
             } else {
                 print("DEBUG: Doc is not exist, setting document")
