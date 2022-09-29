@@ -15,7 +15,7 @@ class FeedViewModel {
     var feedsData = BehaviorRelay(value: [FeedModel]())
     var feedsDataArray = [FeedModel]()
 
-    func fetchAllData(completion: @escaping([FeedModel]) -> Void) {
+    func fetchAllData() {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
         feedsDataArray = []
     
@@ -27,15 +27,10 @@ class FeedViewModel {
                     return
                 }
                 querySnapshot?.documents.forEach({ document in
-                    self.getUpvoteCount(feedID: document.documentID) { userIDs in
-                        var feedModel = FeedModel(dictionary: document.data(), feedID: document.documentID)
-                        feedModel.upvoteCount = userIDs.count
-                        feedModel.isUpvoted = userIDs.contains(currentUserUID)
-                        print(feedModel.isUpvoted, userIDs)
-                        self.feedsDataArray.append(feedModel)
-                        completion(self.feedsDataArray)
-                    }
+                    let feedModel = FeedModel(dictionary: document.data(), feedID: document.documentID)
+                    self.feedsDataArray.append(feedModel)
                 })
+                self.feedsData.accept(self.feedsDataArray)
             }
         }
     
@@ -52,7 +47,7 @@ class FeedViewModel {
     }
     
     func updateForTheLatestData() {
-        COLLECTION_FEEDS.order(by: "timestamp", descending: true)
+        COLLECTION_FEEDS.order(by: "timestamp", descending: true).limit(to: 1)
             .getDocuments { querySnapshot, err in
                 if let err = err {
                     print(err)
@@ -61,10 +56,8 @@ class FeedViewModel {
                 querySnapshot?.documentChanges.forEach({ change in
                     switch change.type {
                     case .added:
-                        print("added")
-                        self.fetchAllData { data in
-                            self.feedsData.accept(data)
-                        }
+                        self.fetchAllData()
+                        print("added \(change.document.data())")
                     case .modified:
                         print("modified")
                     case .removed:
