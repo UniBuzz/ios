@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Firebase
 
-protocol AuthenticationDelegate: class {
+protocol AuthenticationDelegate: AnyObject {
     func authenticationComplete()
 }
 
@@ -17,6 +17,8 @@ class LoginViewController: UIViewController {
     
     // MARK: - Properties
     weak var delegate: AuthenticationDelegate?
+    
+    private let viewModel = LoginViewModel()
     
     private lazy var emailContainerView: UIView = {
         let view = InputThemes().inputContainerView(textfield: emailTextField, title: "University Email")
@@ -39,7 +41,7 @@ class LoginViewController: UIViewController {
         return tf
     }()
     
-    private let loginButton: UIButton = {
+    private lazy var loginButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Login", for: .normal)
         button.setTitleColor(.eternalBlack, for: .normal)
@@ -50,15 +52,15 @@ class LoginViewController: UIViewController {
         button.addTarget(self, action: #selector(handleLogin), for: .touchUpInside)
         return button
     }()
-
-    private let dontHaveAccountButton: UIButton = {
+    
+    private lazy var dontHaveAccountButton: UIButton = {
         let button = InputThemes().attributtedButton("Don't have an account? ", "Sign Up")
         button.addTarget(self, action: #selector(handleShowSignUp), for: .touchUpInside)
         return button
     }()
     
     private let loadingSpinner: UIActivityIndicatorView = {
-       let spin = UIActivityIndicatorView()
+        let spin = UIActivityIndicatorView()
         spin.sizeToFit()
         spin.style = .large
         spin.backgroundColor = .eternalBlack
@@ -70,9 +72,28 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        bindViewModel()
         overrideUserInterfaceStyle = .dark
     }
     // MARK: - Helpers
+    
+    func bindViewModel(){
+        viewModel.errorPresentView = { error in
+            print("DEBUG: error with message - \(error.localizedDescription)")
+            let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.loadingSpinner.stopAnimating()
+            self.loginButton.isEnabled = true
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.authSuccess = {
+            self.loadingSpinner.stopAnimating()
+            self.loginButton.isEnabled = true
+            self.delegate?.authenticationComplete()
+        }
+    }
+    
     func configureUI() {
         view.backgroundColor = .midnights
         view.addSubview(emailContainerView)
@@ -120,19 +141,6 @@ class LoginViewController: UIViewController {
         guard let password = passwordTextField.text else { return  }
         loadingSpinner.startAnimating()
         loginButton.isEnabled = false
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-            if let error = error {
-                print("DEBUG: error with message - \(error.localizedDescription)")
-                let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
-                self.loadingSpinner.stopAnimating()
-                self.loginButton.isEnabled = true
-                self.present(alert, animated: true,completion: nil)
-                return
-            }
-            self.loadingSpinner.stopAnimating()
-            self.loginButton.isEnabled = true
-            self.delegate?.authenticationComplete()
-        }
+        viewModel.signIn(withEmail: email, password: password)
     }
 }

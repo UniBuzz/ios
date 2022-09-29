@@ -13,6 +13,7 @@ class RegistrationViewController: UIViewController {
     
     // MARK: - Properties
     weak var delegate: AuthenticationDelegate?
+    private let viewModel: RegistrationViewModel = RegistrationViewModel()
     
     private lazy var emailContainerView: UIView = {
         let view = InputThemes().inputContainerView(textfield: emailTextField, title: "University Email")
@@ -45,7 +46,7 @@ class RegistrationViewController: UIViewController {
         return tf
     }()
     
-    private let registButton: UIButton = {
+    private lazy var registButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Create Account", for: .normal)
         button.setTitleColor(.eternalBlack, for: .normal)
@@ -58,7 +59,7 @@ class RegistrationViewController: UIViewController {
         return button
     }()
     
-    private let haveAccountButton: UIButton = {
+    private lazy var haveAccountButton: UIButton = {
         let button = InputThemes().attributtedButton("Already have an account? ", "Log in")
         button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
         return button
@@ -77,6 +78,7 @@ class RegistrationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        bindViewModel()
         overrideUserInterfaceStyle = .dark
     }
     
@@ -88,6 +90,25 @@ class RegistrationViewController: UIViewController {
         navigationItem.hidesBackButton = false
     }
     // MARK: - Helpers
+    
+    func bindViewModel(){
+        viewModel.errorRegisterView = { error in
+            print("DEBUG: Error with error value -> \(error)")
+            let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.loadingSpinner.stopAnimating()
+            self.registButton.isEnabled = true
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.successRegisterView = {
+            self.loadingSpinner.stopAnimating()
+            self.registButton.isEnabled = true
+            self.delegate?.authenticationComplete()
+        }
+    }
+    
+    
     func configureUI() {
         view.backgroundColor = .midnights
         view.addSubview(emailContainerView)
@@ -141,38 +162,9 @@ class RegistrationViewController: UIViewController {
         
         loadingSpinner.startAnimating()
         registButton.isEnabled = false
-        Auth.auth().createUser(withEmail: email, password: password) { (result, error) in
-            if let error {
-                print("DEBUG: Error with error value -> \(error)")
-                let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
-                self.loadingSpinner.stopAnimating()
-                self.registButton.isEnabled = true
-                self.present(alert, animated: true,completion: nil)
-                return
-            }
-            
-            guard let uid = result?.user.uid else {return}
-            
-            let data = ["email" : email, "pseudoname" : pseudo, "uid" : uid] as [String : Any]
-            Firestore.firestore().collection("users").document(uid).setData(data) { error in
-                print("DEBUG: Did create user")
-                
-                if let error {
-                    print("DEBUG: Firestore error with error value -> \(error.localizedDescription)")
-                    let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
-                    self.loadingSpinner.stopAnimating()
-                    self.registButton.isEnabled = true
-                    self.present(alert, animated: true,completion: nil)
-                    return
-                }
-                self.loadingSpinner.stopAnimating()
-                self.registButton.isEnabled = true
-                self.delegate?.authenticationComplete()
-            }
-            
-        }
+        
+        viewModel.registerUser(withEmail: email, pseudo: pseudo, password: password)
+        
     }
 
 }

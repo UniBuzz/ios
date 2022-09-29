@@ -2,12 +2,13 @@
 //  Service.swift
 //  UniBuzz
 //
-//  Created by Kevin ahmad on 24/09/22.
+//  Created by Muhammad Farhan Almasyhur on 28/09/22.
 //
 
 import Firebase
 
-struct Service {
+
+class Service {
     static func fetchUsers(completion: @escaping([User])-> Void) {
         COLLECTION_USERS.getDocuments { snapshot, error in
             guard var users = snapshot?.documents.map({ User(dictionary: $0.data())}) else {return}
@@ -84,4 +85,3 @@ struct Service {
         }
     }
 }
-
