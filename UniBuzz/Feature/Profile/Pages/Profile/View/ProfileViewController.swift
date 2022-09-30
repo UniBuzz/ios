@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import SnapKit
 
 protocol ProfileControllerDelegate: class {
     func handleLogout()
@@ -17,25 +18,21 @@ class ProfileViewController: UIViewController {
     //MARK: - Properties
     weak var delegate: ProfileControllerDelegate?
     
-    lazy var titleText: UILabel = {
-        var label: UILabel = UILabel()
-        label.text = "Profile"
-        label.textColor = .heavenlyWhite
-        return label
-    }()
-    
-    lazy var emailText: UILabel = {
-        var label: UILabel = UILabel()
-        label.text = "username"
-        label.textColor = .heavenlyWhite
-        return label
-    }()
-    
     lazy var usernameText: UILabel = {
         var label: UILabel = UILabel()
-        label.text = "username"
-        label.textColor = .heavenlyWhite
+        label.text = "Pseudoname"
+        label.textColor = .creamyYellow
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
+    }()
+    
+    let profileImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.clipsToBounds = true
+        iv.backgroundColor = .lightGray
+        iv.layer.cornerRadius = 80 / 2
+        return iv
     }()
     
     private let logoutButton: UIButton = {
@@ -55,27 +52,27 @@ class ProfileViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .midnights
         configureUI()
+        configureNavigationItems()
     }
     
     //MARK: - Functions
     func configureUI() {
-        self.view.addSubview(titleText)
-        self.view.addSubview(emailText)
+        self.view.addSubview(profileImageView)
         self.view.addSubview(usernameText)
         self.view.addSubview(logoutButton)
+        self.navigationController?.navigationBar.tintColor = .midnights
+        self.navigationController?.navigationBar.barTintColor = .midnights
+        self.navigationController?.navigationBar.backgroundColor = .midnights
         
-        titleText.snp.makeConstraints { make in
-            make.center.equalTo(self.view)
-        }
-        
-        emailText.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(titleText.snp.bottom).offset(20)
+        profileImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(80)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(30    )
         }
         
         usernameText.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(emailText.snp.bottom).offset(20)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(profileImageView.snp.bottom).offset(20)
         }
         
         logoutButton.snp.makeConstraints { make in
@@ -87,10 +84,21 @@ class ProfileViewController: UIViewController {
             let uid = Auth.auth().currentUser?.uid
             Service.fetchUser(withUid: uid ?? "", completion: { data in
                 usernameText.text = data.pseudoname
-                emailText.text = data.email
-                
             })
         }
+    }
+    
+    func configureNavigationItems(){
+                
+        let title = UILabel()
+        title.frame = .init(x: 0, y: 0, width: view.frame.width, height: 50)
+        title.text = "Profile"
+        title.font = UIFont.boldSystemFont(ofSize: 25)
+        title.textAlignment = .left
+        title.textColor = .heavenlyWhite
+        self.navigationController?.navigationBar.backgroundColor = .midnights
+        self.navigationItem.titleView = title
+        self.navigationController?.navigationBar.barTintColor = .midnights
     }
     
     @objc func handleLogout() {
