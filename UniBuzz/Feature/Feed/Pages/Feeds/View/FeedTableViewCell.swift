@@ -22,7 +22,6 @@ class FeedTableViewCell: UITableViewCell {
     let actionContainerColor = UIColor.rgb(red: 83, green: 83, blue: 83)
     var userUID = ""
     var isUpvoted = false
-    weak var viewModel: FeedCellViewModel?
     
     var feed: FeedModel? {
         didSet {
@@ -30,11 +29,9 @@ class FeedTableViewCell: UITableViewCell {
             userName.text = feed.userName
             content.text = feed.content
             commentCount.setTitle(String(feed.commentCount), for: .normal)
-            viewModel?.getUpvoteCount(feedID: feed.feedID, completion: { upvotesCount in
-                self.feed?.upvoteCount = upvotesCount.count
-                self.upVoteCount.setTitle(String(upvotesCount.count), for: .normal)
-            })
-            configureCell()
+            upVoteCount.setTitle(String(feed.upvoteCount), for: .normal)
+            isUpvoted = feed.isUpvoted
+            self.configureCell()
         }
     }
     
@@ -142,16 +139,16 @@ class FeedTableViewCell: UITableViewCell {
     @objc func upVotePressed() {
         
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
-                
+        print(isUpvoted)
         if isUpvoted {
             feed?.upvoteCount -= 1
-            isUpvoted = false
+            feed?.isUpvoted = false
             upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
             upVoteCount.tintColor = .heavenlyWhite
             upVoteCountContainer.backgroundColor = actionContainerColor
         } else {
             feed?.upvoteCount += 1
-            isUpvoted = true
+            feed?.isUpvoted = true
             upVoteCount.setTitleColor(.eternalBlack, for: .normal)
             upVoteCount.titleLabel?.textColor = .eternalBlack
             upVoteCount.tintColor = .eternalBlack

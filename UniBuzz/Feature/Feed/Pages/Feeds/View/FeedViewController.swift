@@ -15,8 +15,7 @@ class FeedViewController: UIViewController {
     //MARK: - Variables
     private var bag = DisposeBag()
     private var viewModel = FeedViewModel()
-    private var feedCellViewModel = FeedCellViewModel()
-    
+
     //MARK: - Properties
     lazy var feedTableView: UITableView = {
         let tableView = UITableView()
@@ -46,13 +45,12 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNavigationItems()
-        viewModel.fetchAllData()
+        viewModel.fetchData()
         bind()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("will disappear")
     }
     
     //MARK: - Selector Functions
@@ -63,7 +61,7 @@ class FeedViewController: UIViewController {
     }
     
     @objc func searchButtonPressed() {
-        viewModel.fetchAllData()
+        viewModel.fetchData()
     }
     
     @objc func notificationButtonPressed() {
@@ -81,7 +79,6 @@ class FeedViewController: UIViewController {
                 cell.upVoteCount.isEnabled = true
                 cell.sendMessageButton.isEnabled = true
             }
-            cell.viewModel = self.feedCellViewModel
             cell.feed = item
             cell.feedDelegate = self
         }.disposed(by: bag)
