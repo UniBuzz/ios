@@ -22,15 +22,18 @@ class FeedTableViewCell: UITableViewCell {
     let actionContainerColor = UIColor.rgb(red: 83, green: 83, blue: 83)
     var userUID = ""
     var isUpvoted = false
-
+    weak var viewModel: FeedCellViewModel?
+    
     var feed: FeedModel? {
         didSet {
             guard let feed = feed else { return }
             userName.text = feed.userName
             content.text = feed.content
-            upVoteCount.setTitle(String(feed.upvoteCount), for: .normal)
             commentCount.setTitle(String(feed.commentCount), for: .normal)
-            isUpvoted = feed.isUpvoted
+            viewModel?.getUpvoteCount(feedID: feed.feedID, completion: { upvotesCount in
+                self.feed?.upvoteCount = upvotesCount.count
+                self.upVoteCount.setTitle(String(upvotesCount.count), for: .normal)
+            })
             configureCell()
         }
     }

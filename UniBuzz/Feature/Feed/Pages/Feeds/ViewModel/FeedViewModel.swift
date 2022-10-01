@@ -17,8 +17,7 @@ class FeedViewModel {
 
     func fetchAllData() {
         guard let currentUserUID = Auth.auth().currentUser?.uid else { return }
-        feedsDataArray = []
-    
+        feedsDataArray = []    
         COLLECTION_FEEDS
             .order(by: "timestamp", descending: true)
             .getDocuments { querySnapshot, err in
@@ -33,18 +32,6 @@ class FeedViewModel {
                 self.feedsData.accept(self.feedsDataArray)
             }
         }
-    
-    func getUpvoteCount(feedID: String, completion: @escaping([String]) -> Void) {
-        var userIDs: [String] = [String]()
-        COLLECTION_FEEDS_UPVOTES.document(feedID).getDocument { document, err in
-            if let document = document, document.exists {
-                userIDs = document.data()!["userIDs"] as! [String]
-                completion(userIDs)
-            } else {
-                completion([])
-            }
-        }
-    }
     
     func updateForTheLatestData() {
         COLLECTION_FEEDS.order(by: "timestamp", descending: true).limit(to: 1)

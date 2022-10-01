@@ -15,6 +15,7 @@ class FeedViewController: UIViewController {
     //MARK: - Variables
     private var bag = DisposeBag()
     private var viewModel = FeedViewModel()
+    private var feedCellViewModel = FeedCellViewModel()
     
     //MARK: - Properties
     lazy var feedTableView: UITableView = {
@@ -51,6 +52,7 @@ class FeedViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        print("will disappear")
     }
     
     //MARK: - Selector Functions
@@ -79,6 +81,7 @@ class FeedViewController: UIViewController {
                 cell.upVoteCount.isEnabled = true
                 cell.sendMessageButton.isEnabled = true
             }
+            cell.viewModel = self.feedCellViewModel
             cell.feed = item
             cell.feedDelegate = self
         }.disposed(by: bag)
