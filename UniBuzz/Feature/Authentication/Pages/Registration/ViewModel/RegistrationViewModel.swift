@@ -13,13 +13,15 @@ class RegistrationViewModel {
     var errorRegisterView: ((Error) -> Void)?
     var successRegisterView: (() -> Void)?
     var service: AuthService
+    var dataService: DataService = DataService()
+    var universityList: [University] = []
+    var updateUniversityView: (() -> Void)?
     
     init(service: AuthService = AuthService()) {
         self.service = service
     }
     
     func registerUser(withEmail email: String, pseudo: String, password: String){
-        
         service.registerUser(withEmail: email, pseudo: pseudo, password: password) { result in
             switch result {
             case .success(_):
@@ -31,4 +33,32 @@ class RegistrationViewModel {
         }
        
     }
+    
+    func getUniversityList() {
+        service.getUniversity { result in
+            switch result {
+            case .success(let querySnapshot):
+                for document in querySnapshot.documents{
+                    let university = University(dictionary: document.data())
+                    self.universityList.append(university)                    
+                }
+                self.updateUniversityView?()
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
+    
+    func getUniversityImage(link: String, completion: @escaping (Data) -> Void) {
+        dataService.getUniversityImage(imageLink: link) { result in
+            switch result {
+            case .success(let data):
+                completion(data)
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
+    
+    
 }

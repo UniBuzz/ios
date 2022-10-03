@@ -22,16 +22,6 @@ class LoginViewModel {
     }    
     
     func signIn(withEmail email: String, password: String){
-//        Auth.auth().signIn(withEmail: email, password: password) { result, error in
-//            if let error = error {
-//                self.errorPresentView?(error)
-//            }
-//            if let result = result {
-//                self.authSuccess?()
-//            }
-//
-//        }
-        
         authService.signIn(email: email, password: password) { result in
             switch result {
             case .success(_):

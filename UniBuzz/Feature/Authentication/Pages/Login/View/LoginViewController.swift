@@ -131,8 +131,8 @@ class LoginViewController: UIViewController {
     }
 
     @objc func handleShowSignUp() {
-        let controller = RegistrationViewController()
-        controller.delegate = delegate
+        let controller = MainRegistrationViewController()
+//        controller.delegate = delegate
         navigationController?.pushViewController(controller, animated: true)
     }
     

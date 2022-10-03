@@ -10,17 +10,31 @@ import Firebase
 class AuthService {
     
     public static let shared = AuthService()
+    private let firebaseAuth = Auth.auth()
+    private let db = Firestore.firestore()
     
-    
+    func getUniversity(completion: @escaping (Result<QuerySnapshot,Error>) -> Void) {
+        let ref = db.collection("university-list")
+        ref.getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            
+            if let querySnapshot = querySnapshot {
+                completion(.success(querySnapshot))
+            }
+            
+        }
+    }
+        
     func signIn(email: String, password: String, completion: @escaping (Result<AuthDataResult,Error>) -> Void){
         
-        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+        firebaseAuth.signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 completion(.failure(error))
             }
             if let result = result {
                 let userFirebase = result
-                print(userFirebase)
                 completion(.success(userFirebase))
             }
         }
@@ -29,7 +43,7 @@ class AuthService {
     
     
     func registerUser(withEmail email: String, pseudo: String, password: String, completion: @escaping ((Result<[String:Any],Error>) -> Void)){
-        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+        firebaseAuth.createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 completion(.failure(error))
             }

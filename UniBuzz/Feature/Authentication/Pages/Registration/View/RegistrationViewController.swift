@@ -21,7 +21,7 @@ class RegistrationViewController: UIViewController {
     }()
     
     private let emailTextField: UITextField = {
-        let tf = InputThemes().textField(withPlaceholder: "email@ui.ac.id")
+        let tf = InputThemes().textField(withPlaceholder: "insert your email")
         return tf
     }()
     
@@ -31,7 +31,7 @@ class RegistrationViewController: UIViewController {
     }()
     
     private let passwordTextField: UITextField = {
-        let tf = InputThemes().textField(withPlaceholder: "Password")
+        let tf = InputThemes().textField(withPlaceholder: "insert password")
         tf.isSecureTextEntry = true
         return tf
     }()
@@ -42,27 +42,27 @@ class RegistrationViewController: UIViewController {
     }()
     
     private let pseudoTextField: UITextField = {
-        let tf = InputThemes().textField(withPlaceholder: "Maba_ezz_123")
+        let tf = InputThemes().textField(withPlaceholder: "insert pseudoname")
         return tf
     }()
     
     private lazy var registButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Create Account", for: .normal)
-        button.setTitleColor(.eternalBlack, for: .normal)
-        button.backgroundColor = .creamyYellow
-        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        button.layer.cornerRadius = 25
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-//        button.isEnabled = false
+        let button = ButtonThemes(buttonTitle: "Create Account")
         button.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         return button
     }()
     
-    private lazy var haveAccountButton: UIButton = {
-        let button = InputThemes().attributtedButton("Already have an account? ", "Log in")
-        button.addTarget(self, action: #selector(handleShowLogin), for: .touchUpInside)
-        return button
+    private lazy var pageControl: UIView = {
+        let control = PageControlView(page: 2)
+        return control
+    }()
+    
+    private lazy var tellUs: UILabel = {
+        let label = UILabel()
+        label.text = "Tell us about yourself"
+        label.textColor = .heavenlyWhite
+        label.font = .systemFont(ofSize: 24, weight: .bold)
+        return label
     }()
     
     private let loadingSpinner: UIActivityIndicatorView = {
@@ -82,13 +82,7 @@ class RegistrationViewController: UIViewController {
         overrideUserInterfaceStyle = .dark
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationItem.hidesBackButton = true
-    }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        navigationItem.hidesBackButton = false
-    }
     // MARK: - Helpers
     
     func bindViewModel(){
@@ -115,11 +109,23 @@ class RegistrationViewController: UIViewController {
         view.addSubview(passwordContainerView)
         view.addSubview(pseudoContainerView)
         view.addSubview(registButton)
-        view.addSubview(haveAccountButton)
         view.addSubview(loadingSpinner)
         
+        view.addSubview(pageControl)
+        pageControl.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(30)
+            make.leading.trailing.equalToSuperview().inset(20)
+            make.height.equalTo(50)
+        }
+        
+        view.addSubview(tellUs)
+        tellUs.snp.makeConstraints { make in
+            make.top.equalTo(pageControl.snp.bottom).offset(40)
+            make.leading.trailing.equalToSuperview().inset(30)
+        }
+        
         emailContainerView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(200)
+            make.top.equalTo(tellUs.snp.bottom).offset(40)
             make.left.right.equalToSuperview()
         }
         
@@ -135,14 +141,8 @@ class RegistrationViewController: UIViewController {
         
         registButton.snp.makeConstraints { make in
             make.top.equalTo(pseudoContainerView.snp.bottom).offset(30)
-            make.left.equalToSuperview().offset(30)
-            make.right.equalToSuperview().offset(-30)
-        }
-        
-        haveAccountButton.snp.makeConstraints { make in
-            make.top.equalTo(registButton.snp.bottom).offset(10)
-            make.left.equalToSuperview().offset(30)
-            make.right.equalToSuperview().offset(-30)
+            make.leading.trailing.equalToSuperview().inset(30)
+            make.height.equalTo(50)
         }
         
         loadingSpinner.snp.makeConstraints { make in
