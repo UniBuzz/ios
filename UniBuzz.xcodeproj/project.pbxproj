@@ -61,6 +61,7 @@
 		D4ECFB3C28E55FE90064EDAC /* ChooseUniversityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */; };
 		D4ECFB3E28E5900E0064EDAC /* UniversityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */; };
 		D4ECFB4028E6C6F00064EDAC /* ChooseUniversityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */; };
+		D4ECFB4028E6C6F00064EDAC /* MainRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -111,6 +112,7 @@
 		D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUniversityView.swift; sourceTree = "<group>"; };
 		D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityViewCell.swift; sourceTree = "<group>"; };
 		D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUniversityViewController.swift; sourceTree = "<group>"; };
+		D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRegistrationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -356,6 +358,11 @@
 				D4C5E58E28ED37170012DBFB /* InputData */,
 				D4C5E58D28ED33960012DBFB /* ChooseUniversity */,
 				D4C5E58C28ED33890012DBFB /* PageControl */,
+				D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */,
+				CBE06C4828DD723A0059CCFF /* RegistrationViewController.swift */,
+				D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */,
+				D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */,
+				D4ECE5A428EAF44100E24223 /* PageControlView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -703,6 +710,7 @@
 				D4ECFB3E28E5900E0064EDAC /* UniversityViewCell.swift in Sources */,
 				D47FD29628E498E400FD4960 /* PostFeedViewModel.swift in Sources */,
 				D4ECFB4028E6C6F00064EDAC /* ChooseUniversityViewController.swift in Sources */,
+				D4ECFB4028E6C6F00064EDAC /* MainRegistrationViewController.swift in Sources */,
 				D4ECE59528EA884F00E24223 /* DataService.swift in Sources */,
 				D47FD29728E498E400FD4960 /* PostFeedViewController.swift in Sources */,
 				D47FD29828E498E400FD4960 /* TabBarViewController.swift in Sources */,
