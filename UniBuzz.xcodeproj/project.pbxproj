@@ -11,6 +11,8 @@
 		C42BB94928DA2A1400006F71 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* FeedModel.swift */; };
 		C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94828DA2A1400006F71 /* FeedViewModel.swift */; };
 		C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */; };
+		C433EBF228ECA10000EF6C6A /* CommentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433EBF128ECA10000EF6C6A /* CommentsViewModel.swift */; };
+		C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433EBF328ECA12600EF6C6A /* CommentsViewController.swift */; };
 		C44DAF0328DD5B200061A8BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44DAF0228DD5B200061A8BE /* GoogleService-Info.plist */; };
 		C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */; };
 		C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */; };
@@ -90,6 +92,8 @@
 		C42BB94728DA2A1400006F71 /* FeedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
 		C42BB94828DA2A1400006F71 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		C433EBF128ECA10000EF6C6A /* CommentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewModel.swift; sourceTree = "<group>"; };
+		C433EBF328ECA12600EF6C6A /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		C44DAF0228DD5B200061A8BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
 		C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewModel.swift; sourceTree = "<group>"; };
@@ -184,6 +188,31 @@
 				C42BB94728DA2A1400006F71 /* FeedModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C433EBEE28ECA0E000EF6C6A /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				C433EBF028ECA0F100EF6C6A /* View */,
+				C433EBEF28ECA0EA00EF6C6A /* ViewModel */,
+			);
+			path = Comments;
+			sourceTree = "<group>";
+		};
+		C433EBEF28ECA0EA00EF6C6A /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				C433EBF128ECA10000EF6C6A /* CommentsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		C433EBF028ECA0F100EF6C6A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C433EBF328ECA12600EF6C6A /* CommentsViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		C4EA0AB528E1D91800A013AF /* API */ = {
@@ -282,6 +311,7 @@
 		CB83311828D8BE6600F6ED1B /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				C433EBEE28ECA0E000EF6C6A /* Comments */,
 				CB83311A28D8BEA200F6ED1B /* Feeds */,
 				C4EA0ABB28E1DFA000A013AF /* PostFeed */,
 			);
@@ -837,7 +867,9 @@
 				C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */,
 				CB83312E28D8D2E800F6ED1B /* ConversationCell.swift in Sources */,
 				CB83311C28D8BEC400F6ED1B /* FeedViewController.swift in Sources */,
+				C433EBF228ECA10000EF6C6A /* CommentsViewModel.swift in Sources */,
 				CB83311628D8B42A00F6ED1B /* ConversationViewController.swift in Sources */,
+				C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */,
 				C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */,
 				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
 				CBE06C4928DD723A0059CCFF /* RegistrationViewController.swift in Sources */,

@@ -137,7 +137,6 @@ class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Selectors
     @objc func upVotePressed() {
-        
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
         print(isUpvoted)
         if isUpvoted {
