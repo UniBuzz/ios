@@ -13,9 +13,9 @@ class UniversityViewCell: UICollectionViewCell {
     
     var viewModel: RegistrationViewModel?
     
-    private var universityImage: UIImageView = {
+    var universityImage: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "house")
+        imageView.image = UIImage()
         imageView.contentMode = .scaleToFill
         return imageView
     }()
@@ -29,6 +29,12 @@ class UniversityViewCell: UICollectionViewCell {
         label.textAlignment = .center
         return label
     }()
+    
+    override var isSelected: Bool {
+        didSet{
+            selectedCell()
+        }
+    }
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -48,6 +54,9 @@ class UniversityViewCell: UICollectionViewCell {
             make.centerX.equalToSuperview()
             make.width.height.equalTo(100)
         }
+        
+        universityImage.layer.masksToBounds = true
+        universityImage.layer.cornerRadius = 50
         
         
         contentView.addSubview(universityName)
@@ -70,6 +79,15 @@ class UniversityViewCell: UICollectionViewCell {
     func addUniversity(){
         universityName.text = "Add your university"
         universityImage.image = UIImage(named: "addUniversity")
+    }
+    
+    func selectedCell(){
+        if isSelected {
+            universityImage.layer.borderWidth = 1.5
+            universityImage.layer.borderColor = UIColor.white.cgColor
+        } else {
+            universityImage.layer.borderWidth = 0
+        }
     }
     
     

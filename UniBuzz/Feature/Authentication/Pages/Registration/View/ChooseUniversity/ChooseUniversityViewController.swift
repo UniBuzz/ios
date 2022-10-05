@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 
 
-class MainRegistrationViewController: UIViewController {
+class ChooseUniversityViewController: UIViewController {
     
     
     //MARK: - Properties

@@ -22,6 +22,10 @@ class ChooseUniversityView: UIView {
     
     var viewModel: RegistrationViewModel = RegistrationViewModel()
     
+    var previousSelected : IndexPath?
+    var currentSelected : Int?
+    var universitySelected: University?
+    
     override init(frame: CGRect) {
         super.init(frame: .zero)
         addSubview(collectionView)
@@ -52,7 +56,9 @@ class ChooseUniversityView: UIView {
     
 }
 
-extension ChooseUniversityView: UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension ChooseUniversityView: UICollectionViewDelegate,UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return viewModel.universityList.count + 1
     }
@@ -72,6 +78,16 @@ extension ChooseUniversityView: UICollectionViewDelegate,UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: 100, height: 120)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        currentSelected = indexPath.row
+        if currentSelected == viewModel.universityList.count {
+            print("DEBUG: ")
+            return
+        }
+        previousSelected = indexPath
+        universitySelected = viewModel.universityList[currentSelected ?? 0]
     }
     
     
