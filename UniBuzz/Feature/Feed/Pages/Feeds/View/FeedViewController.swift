@@ -139,6 +139,15 @@ class FeedViewController: UIViewController {
 }
 
 extension FeedViewController: FeedCellDelegate {
+    
+    func didTapComment(feedID: String, destination: destination) {
+        if destination == .openCommentPage {
+            let commentsVC = CommentsViewController()
+            commentsVC.feedID = feedID
+            self.navigationController?.pushViewController(commentsVC, animated: true)
+        }
+    }
+    
     func didTapUpVote(model: UpvoteModel) {
         viewModel.upVoteContent(model: model)
     }

@@ -8,6 +8,11 @@
 import Foundation
 import RxSwift
 
+enum destination {
+    case openCommentPage
+    case loadComment
+}
+
 struct FeedModel {
     var userName: String
     var content: String
@@ -17,6 +22,7 @@ struct FeedModel {
     var feedID: String
     var timestamp: Int
     var isUpvoted = false
+    var forPage: destination = .openCommentPage
     var userIDs: [String]
     
     init(dictionary: [String:Any], feedID: String) {

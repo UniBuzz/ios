@@ -28,6 +28,7 @@ class FeedViewModel {
                 querySnapshot.documents.forEach { document in
                     var feedModel = FeedModel(dictionary: document.data(), feedID: document.documentID)
                     if upvotedFeeds.contains(document.documentID) { feedModel.isUpvoted = true }
+                    feedModel.forPage = .openCommentPage
                     self.feedsDataArray.append(feedModel)
                 }
                 self.feedsData.accept(self.feedsDataArray)

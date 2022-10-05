@@ -32,6 +32,7 @@ class CommentsViewController: UIViewController {
         view.backgroundColor = .midnights
         view.addSubview(feedContent)
         view.addSubview(tableView)
+        configureUI()
     }
     
     func configureUI() {
