@@ -63,7 +63,7 @@ class TabBarViewController: UITabBarController {
     
     // MARK: - API
     func authenticateUser() {
-        if Auth.auth().currentUser?.uid == nil {
+        if Auth.auth().currentUser?.uid == nil || Auth.auth().currentUser?.isEmailVerified == false {
             presentLoginScreen()
         }else {
             print("DEBUG: the current user id is \(Auth.auth().currentUser?.uid ?? "")")

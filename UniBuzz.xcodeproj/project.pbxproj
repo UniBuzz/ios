@@ -51,6 +51,7 @@
 		D4BB0E6828D8746000E28C3D /* FirebaseFunctions in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6728D8746000E28C3D /* FirebaseFunctions */; };
 		D4BB0E6A28D8746000E28C3D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6928D8746000E28C3D /* FirebaseStorage */; };
 		D4BB0E6D28D8751200E28C3D /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6C28D8751200E28C3D /* SnapKit */; };
+		D4C5E59128ED37860012DBFB /* EmailVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C5E59028ED37860012DBFB /* EmailVerificationViewController.swift */; };
 		D4D4894728E496D20012D67E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44DAF0228DD5B200061A8BE /* GoogleService-Info.plist */; };
 		D4ECE59328EA87B400E24223 /* University.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECE59228EA87B400E24223 /* University.swift */; };
 		D4ECE59528EA884F00E24223 /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECE59428EA884F00E24223 /* DataService.swift */; };
@@ -59,7 +60,7 @@
 		D4ECFB3A28E4A8BC0064EDAC /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3928E4A8BC0064EDAC /* RegistrationViewModel.swift */; };
 		D4ECFB3C28E55FE90064EDAC /* ChooseUniversityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */; };
 		D4ECFB3E28E5900E0064EDAC /* UniversityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */; };
-		D4ECFB4028E6C6F00064EDAC /* MainRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */; };
+		D4ECFB4028E6C6F00064EDAC /* ChooseUniversityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -99,6 +100,7 @@
 		D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D4BB0E2F28D86F7A00E28C3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4BB0E3128D86F7A00E28C3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D4C5E59028ED37860012DBFB /* EmailVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationViewController.swift; sourceTree = "<group>"; };
 		D4D4894128E42D020012D67E /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		D4D4894328E43AF40012D67E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		D4ECE59228EA87B400E24223 /* University.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = University.swift; sourceTree = "<group>"; };
@@ -108,7 +110,7 @@
 		D4ECFB3928E4A8BC0064EDAC /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUniversityView.swift; sourceTree = "<group>"; };
 		D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityViewCell.swift; sourceTree = "<group>"; };
-		D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRegistrationViewController.swift; sourceTree = "<group>"; };
+		D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUniversityViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -350,11 +352,10 @@
 		CBE06C4728DD722C0059CCFF /* View */ = {
 			isa = PBXGroup;
 			children = (
-				D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */,
-				CBE06C4828DD723A0059CCFF /* RegistrationViewController.swift */,
-				D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */,
-				D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */,
-				D4ECE5A428EAF44100E24223 /* PageControlView.swift */,
+				D4C5E58F28ED376D0012DBFB /* EmailVerification */,
+				D4C5E58E28ED37170012DBFB /* InputData */,
+				D4C5E58D28ED33960012DBFB /* ChooseUniversity */,
+				D4C5E58C28ED33890012DBFB /* PageControl */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -525,6 +526,40 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		D4C5E58C28ED33890012DBFB /* PageControl */ = {
+			isa = PBXGroup;
+			children = (
+				D4ECE5A428EAF44100E24223 /* PageControlView.swift */,
+			);
+			path = PageControl;
+			sourceTree = "<group>";
+		};
+		D4C5E58D28ED33960012DBFB /* ChooseUniversity */ = {
+			isa = PBXGroup;
+			children = (
+				D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */,
+				D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */,
+				D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */,
+			);
+			path = ChooseUniversity;
+			sourceTree = "<group>";
+		};
+		D4C5E58E28ED37170012DBFB /* InputData */ = {
+			isa = PBXGroup;
+			children = (
+				CBE06C4828DD723A0059CCFF /* RegistrationViewController.swift */,
+			);
+			path = InputData;
+			sourceTree = "<group>";
+		};
+		D4C5E58F28ED376D0012DBFB /* EmailVerification */ = {
+			isa = PBXGroup;
+			children = (
+				D4C5E59028ED37860012DBFB /* EmailVerificationViewController.swift */,
+			);
+			path = EmailVerification;
+			sourceTree = "<group>";
+		};
 		D4D4893F28E42CAE0012D67E /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +678,7 @@
 				D4ECFB3A28E4A8BC0064EDAC /* RegistrationViewModel.swift in Sources */,
 				D47FD28128E498E400FD4960 /* ProfileViewController.swift in Sources */,
 				D47FD28328E498E400FD4960 /* Constant.swift in Sources */,
+				D4C5E59128ED37860012DBFB /* EmailVerificationViewController.swift in Sources */,
 				D47FD28428E498E400FD4960 /* User.swift in Sources */,
 				D4ECE59328EA87B400E24223 /* University.swift in Sources */,
 				D47FD28528E498E400FD4960 /* LoginViewModel.swift in Sources */,
@@ -666,7 +702,7 @@
 				D47FD29528E498E400FD4960 /* FeedViewController.swift in Sources */,
 				D4ECFB3E28E5900E0064EDAC /* UniversityViewCell.swift in Sources */,
 				D47FD29628E498E400FD4960 /* PostFeedViewModel.swift in Sources */,
-				D4ECFB4028E6C6F00064EDAC /* MainRegistrationViewController.swift in Sources */,
+				D4ECFB4028E6C6F00064EDAC /* ChooseUniversityViewController.swift in Sources */,
 				D4ECE59528EA884F00E24223 /* DataService.swift in Sources */,
 				D47FD29728E498E400FD4960 /* PostFeedViewController.swift in Sources */,
 				D47FD29828E498E400FD4960 /* TabBarViewController.swift in Sources */,

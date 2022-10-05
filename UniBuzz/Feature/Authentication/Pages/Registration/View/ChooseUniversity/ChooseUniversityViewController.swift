@@ -69,7 +69,7 @@ class ChooseUniversityViewController: UIViewController {
         
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(20)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)
             make.leading.trailing.equalToSuperview().inset(20)
             make.height.equalTo(50)
         }
@@ -90,7 +90,7 @@ class ChooseUniversityViewController: UIViewController {
 
         view.addSubview(chooseUniButton)
         chooseUniButton.snp.makeConstraints { make in
-            make.top.equalTo(universityView.snp.bottom).offset(20)
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).inset(140)
             make.width.equalTo(320)
             make.height.equalTo(50)
             make.centerX.equalToSuperview()

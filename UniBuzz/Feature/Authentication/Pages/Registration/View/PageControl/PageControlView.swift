@@ -56,7 +56,7 @@ extension PageControlView: UICollectionViewDelegate, UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         if indexPath.row % 2 == 0 {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CirclePageControl.identifier, for: indexPath) as! CirclePageControl
-            cell.configureCircle(visited: pageIndex == page || pageIndex < page, page: pageIndex)
+            cell.configureCircle(visited: pageIndex <= page, page: pageIndex)
             pageIndex += 1
             return cell
         } else {
