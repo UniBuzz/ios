@@ -83,7 +83,10 @@ class FeedViewController: UIViewController {
             cell.feedDelegate = self
         }.disposed(by: bag)
         feedTableView.rx.modelSelected(FeedModel.self).subscribe { feed in
-            print(feed)
+            guard let feedElement = feed.element else { return }
+            let commentsVC = CommentsViewController()
+            commentsVC.feedID = feedElement.feedID
+            self.navigationController?.pushViewController(commentsVC, animated: true)
         }.disposed(by: bag)
     }
     

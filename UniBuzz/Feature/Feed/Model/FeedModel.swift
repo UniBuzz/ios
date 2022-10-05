@@ -36,6 +36,3 @@ struct UpvoteModel {
     var currenUserID: String
 }
 
-struct CommentModel {
-    
-}
