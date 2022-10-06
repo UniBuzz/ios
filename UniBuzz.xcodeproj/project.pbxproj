@@ -17,7 +17,7 @@
 		CB564B6E28EBE9C800D868FB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4028DCE7E40059CCFF /* LoginViewController.swift */; };
 		CB564B6F28EBE9C800D868FB /* University.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECE59228EA87B400E24223 /* University.swift */; };
 		CB564B7028EBE9C800D868FB /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3928E4A8BC0064EDAC /* RegistrationViewModel.swift */; };
-		CB564B7128EBE9C800D868FB /* MainRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */; };
+		CB564B7128EBE9C800D868FB /* ChooseUniversityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */; };
 		CB564B7228EBE9C800D868FB /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4828DD723A0059CCFF /* RegistrationViewController.swift */; };
 		CB564B7328EBE9C800D868FB /* ChooseUniversityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */; };
 		CB564B7428EBE9C800D868FB /* UniversityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */; };
@@ -77,7 +77,6 @@
 		D4ECFB3C28E55FE90064EDAC /* ChooseUniversityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */; };
 		D4ECFB3E28E5900E0064EDAC /* UniversityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */; };
 		D4ECFB4028E6C6F00064EDAC /* ChooseUniversityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */; };
-		D4ECFB4028E6C6F00064EDAC /* MainRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -130,12 +129,11 @@
 		D4ECE59228EA87B400E24223 /* University.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = University.swift; sourceTree = "<group>"; };
 		D4ECE59428EA884F00E24223 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		D4ECE59628EAC66300E24223 /* ButtonThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonThemes.swift; sourceTree = "<group>"; };
-		D4ECE5A428EAF44100E24223 /* PageControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageControlView.swift; sourceTree = "<group>"; };
+		D4ECE5A428EAF44100E24223 /* PageControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PageControlView.swift; path = UniBuzz/Feature/Authentication/Pages/Registration/View/PageControl/PageControlView.swift; sourceTree = SOURCE_ROOT; };
 		D4ECFB3928E4A8BC0064EDAC /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
-		D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUniversityView.swift; sourceTree = "<group>"; };
+		D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChooseUniversityView.swift; path = UniBuzz/Feature/Authentication/Pages/Registration/View/ChooseUniversity/ChooseUniversityView.swift; sourceTree = SOURCE_ROOT; };
 		D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityViewCell.swift; sourceTree = "<group>"; };
-		D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseUniversityViewController.swift; sourceTree = "<group>"; };
-		D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRegistrationViewController.swift; sourceTree = "<group>"; };
+		D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChooseUniversityViewController.swift; path = UniBuzz/Feature/Authentication/Pages/Registration/View/ChooseUniversity/ChooseUniversityViewController.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -436,11 +434,6 @@
 				D4C5E58E28ED37170012DBFB /* InputData */,
 				D4C5E58D28ED33960012DBFB /* ChooseUniversity */,
 				D4C5E58C28ED33890012DBFB /* PageControl */,
-				D4ECFB3F28E6C6F00064EDAC /* MainRegistrationViewController.swift */,
-				CBE06C4828DD723A0059CCFF /* RegistrationViewController.swift */,
-				D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */,
-				D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */,
-				D4ECE5A428EAF44100E24223 /* PageControlView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -759,81 +752,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D47FD28028E498E400FD4960 /* MissionViewController.swift in Sources */,
 				D4ECFB3A28E4A8BC0064EDAC /* RegistrationViewModel.swift in Sources */,
-				D47FD28128E498E400FD4960 /* ProfileViewController.swift in Sources */,
-				D47FD28328E498E400FD4960 /* Constant.swift in Sources */,
 				D4C5E59128ED37860012DBFB /* EmailVerificationViewController.swift in Sources */,
-				D47FD28428E498E400FD4960 /* User.swift in Sources */,
 				D4ECE59328EA87B400E24223 /* University.swift in Sources */,
-				D47FD28528E498E400FD4960 /* LoginViewModel.swift in Sources */,
-				D47FD28628E498E400FD4960 /* LoginViewController.swift in Sources */,
-				D47FD28728E498E400FD4960 /* RegistrationViewController.swift in Sources */,
 				D4ECFB3C28E55FE90064EDAC /* ChooseUniversityView.swift in Sources */,
-				D47FD28828E498E400FD4960 /* Message.swift in Sources */,
-				D47FD28928E498E400FD4960 /* Conversation.swift in Sources */,
-				D47FD28A28E498E400FD4960 /* ChatCollectionViewController.swift in Sources */,
-				D47FD28B28E498E400FD4960 /* CustomInputAccessoryView.swift in Sources */,
-				D47FD28C28E498E400FD4960 /* MessageCell.swift in Sources */,
-				D47FD28D28E498E400FD4960 /* ChatViewModel.swift in Sources */,
-				D47FD28E28E498E400FD4960 /* MessageViewModel.swift in Sources */,
-				D47FD28F28E498E400FD4960 /* ConversationViewController.swift in Sources */,
-				D47FD29028E498E400FD4960 /* ConversationCell.swift in Sources */,
-				D47FD29128E498E400FD4960 /* ConversationViewModel.swift in Sources */,
-				D47FD29228E498E400FD4960 /* FeedModel.swift in Sources */,
-				D47FD29328E498E400FD4960 /* FeedViewModel.swift in Sources */,
-				D47FD29428E498E400FD4960 /* FeedTableViewCell.swift in Sources */,
 				D4ECE5A528EAF44100E24223 /* PageControlView.swift in Sources */,
-				D47FD29528E498E400FD4960 /* FeedViewController.swift in Sources */,
 				D4ECFB3E28E5900E0064EDAC /* UniversityViewCell.swift in Sources */,
-				D47FD29628E498E400FD4960 /* PostFeedViewModel.swift in Sources */,
 				D4ECFB4028E6C6F00064EDAC /* ChooseUniversityViewController.swift in Sources */,
-				D4ECFB4028E6C6F00064EDAC /* MainRegistrationViewController.swift in Sources */,
+				D4ECFB4028E6C6F00064EDAC /* ChooseUniversityViewController.swift in Sources */,
 				D4ECE59528EA884F00E24223 /* DataService.swift in Sources */,
-				D47FD29728E498E400FD4960 /* PostFeedViewController.swift in Sources */,
-				D47FD29828E498E400FD4960 /* TabBarViewController.swift in Sources */,
-				D47FD29928E498E400FD4960 /* AuthService.swift in Sources */,
-				D47FD29A28E498E400FD4960 /* Service.swift in Sources */,
-				D47FD29B28E498E400FD4960 /* ColorExtension.swift in Sources */,
-				D47FD29C28E498E400FD4960 /* NavBarExtension.swift in Sources */,
-				D47FD29D28E498E400FD4960 /* InputThemes.swift in Sources */,
-				D47FD29E28E498E400FD4960 /* LoadingExtension.swift in Sources */,
-				D47FD29F28E498E400FD4960 /* AppDelegate.swift in Sources */,
-				D47FD2A028E498E400FD4960 /* SceneDelegate.swift in Sources */,
-				D47FD2A128E498E400FD4960 /* ViewController.swift in Sources */,
 				D4ECE59728EAC66300E24223 /* ButtonThemes.swift in Sources */,
-				CB83313228D8DD0800F6ED1B /* ChatCollectionViewController.swift in Sources */,
-				CBE06C4C28DE203C0059CCFF /* Service.swift in Sources */,
-				CBE0414D28DAFCA20098395E /* MessageCell.swift in Sources */,
-				CBE06C5028DE20C30059CCFF /* User.swift in Sources */,
-				CB83312828D8C04100F6ED1B /* MissionViewController.swift in Sources */,
-				CB83312228D8BFCF00F6ED1B /* ProfileViewController.swift in Sources */,
-				CBE06C5428DF118C0059CCFF /* LoadingExtension.swift in Sources */,
-				CBE06C4128DCE7E40059CCFF /* LoginViewController.swift in Sources */,
-				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,
-				CB83312B28D8CD4B00F6ED1B /* Conversation.swift in Sources */,
-				CBE06C4628DD5D360059CCFF /* InputThemes.swift in Sources */,
-				CBE0415128DB6F1E0098395E /* ColorExtension.swift in Sources */,
-				CBE06C4428DD51D90059CCFF /* LoginViewModel.swift in Sources */,
-				CBE06C4E28DE206E0059CCFF /* Constant.swift in Sources */,
-				C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */,
-				C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */,
-				CB83312E28D8D2E800F6ED1B /* ConversationCell.swift in Sources */,
-				CB83311C28D8BEC400F6ED1B /* FeedViewController.swift in Sources */,
-				CB83311628D8B42A00F6ED1B /* ConversationViewController.swift in Sources */,
-				C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */,
-				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
-				CBE06C4928DD723A0059CCFF /* RegistrationViewController.swift in Sources */,
-				CBE06C5828E037470059CCFF /* MessageViewModel.swift in Sources */,
-				CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */,
-				C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */,
-				D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */,
-				C42BB94928DA2A1400006F71 /* FeedModel.swift in Sources */,
-				CBE0414228DA0D550098395E /* ConversationViewModel.swift in Sources */,
-				CBE0414028D972C90098395E /* CustomInputAccessoryView.swift in Sources */,
-				CBE0415328DB86650098395E /* NavBarExtension.swift in Sources */,
-				CBE0414B28DA391E0098395E /* ChatViewModel.swift in Sources */,
-				CBE0414928DA388B0098395E /* Message.swift in Sources */,
+				CBE06C4C28DE203C0059CCFF /* (null) in Sources */,
 				CB564B6928EBE9C800D868FB /* MissionViewController.swift in Sources */,
 				CB564B6A28EBE9C800D868FB /* ProfileViewController.swift in Sources */,
 				CB564B6B28EBE9C800D868FB /* Constant.swift in Sources */,
@@ -842,7 +771,7 @@
 				CB564B6E28EBE9C800D868FB /* LoginViewController.swift in Sources */,
 				CB564B6F28EBE9C800D868FB /* University.swift in Sources */,
 				CB564B7028EBE9C800D868FB /* RegistrationViewModel.swift in Sources */,
-				CB564B7128EBE9C800D868FB /* MainRegistrationViewController.swift in Sources */,
+				CB564B7128EBE9C800D868FB /* ChooseUniversityViewController.swift in Sources */,
 				CB564B7228EBE9C800D868FB /* RegistrationViewController.swift in Sources */,
 				CB564B7328EBE9C800D868FB /* ChooseUniversityView.swift in Sources */,
 				CB564B9F28EEAAF000D868FB /* LogoutViewCell.swift in Sources */,
