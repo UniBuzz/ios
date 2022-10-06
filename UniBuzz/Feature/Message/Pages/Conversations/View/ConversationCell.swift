@@ -11,7 +11,7 @@ import SnapKit
 class ConversationCell: UITableViewCell {
     
     // MARK: - Properties
-    private var viewModel = ConversationViewModel()
+//    private var viewModel = ConversationViewModel()
     var conversation: Conversation? {
         didSet {configure()}
     }
@@ -107,7 +107,7 @@ class ConversationCell: UITableViewCell {
         }
         
         stackStamp.snp.makeConstraints { make in
-            make.width.equalTo(30)
+            make.width.greaterThanOrEqualTo(50)
             make.right.equalToSuperview().offset(-20)
             make.centerY.equalToSuperview()
         }
@@ -120,12 +120,15 @@ class ConversationCell: UITableViewCell {
     }
     
     func configure() {
-        if let data = conversation {
-            usernameLabel.text = data.user.pseudoname
-            messageLabel.text = data.message.text
-//            timeStamp.text = data.timeStamp
-//            notificationStamp.text = String(data.notification)
-            circle.isHidden = viewModel.isNotificationEmpty(data)
+        guard let conversation = conversation else {
+            return
         }
+        let viewmodel = ConversationViewModel(conversation: conversation)
+        usernameLabel.text = conversation.user.pseudoname
+        messageLabel.text = conversation.message.text
+        timeStamp.text = viewmodel.timestamp
+//            notificationStamp.text = String(data.notification)
+        circle.isHidden = viewmodel.isNotificationEmpty(conversation)
+
     }
 }
