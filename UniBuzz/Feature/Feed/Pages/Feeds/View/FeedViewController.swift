@@ -85,7 +85,7 @@ class FeedViewController: UIViewController {
         feedTableView.rx.modelSelected(FeedModel.self).subscribe { feed in
             guard let feedElement = feed.element else { return }
             let commentsVC = CommentsViewController()
-            commentsVC.feedID = feedElement.feedID
+            commentsVC.feed = feedElement
             self.navigationController?.pushViewController(commentsVC, animated: true)
         }.disposed(by: bag)
     }
@@ -140,10 +140,10 @@ class FeedViewController: UIViewController {
 
 extension FeedViewController: FeedCellDelegate {
     
-    func didTapComment(feedID: String, destination: destination) {
+    func didTapComment(feed: FeedModel, destination: destination) {
         if destination == .openCommentPage {
             let commentsVC = CommentsViewController()
-            commentsVC.feedID = feedID
+            commentsVC.feed = feed
             self.navigationController?.pushViewController(commentsVC, animated: true)
         }
     }

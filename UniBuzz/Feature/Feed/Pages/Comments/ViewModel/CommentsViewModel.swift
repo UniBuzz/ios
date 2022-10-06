@@ -20,7 +20,7 @@ class CommentsViewModel {
     let commentsCollectionKey = "comments"
     
     func loadComments(from feed: FeedModel) {
-        var commentsArray = [FeedModel]()
+        var commentsArray = [feed]
         COLLECTION_FEEDS.document(feed.feedID).collection(commentsCollectionKey).getDocuments { querySnapshot, err in
             guard let querySnapshot = querySnapshot else { return }
             querySnapshot.documents.forEach { document in
