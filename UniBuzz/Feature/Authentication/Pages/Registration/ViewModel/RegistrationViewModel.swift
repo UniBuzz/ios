@@ -23,12 +23,6 @@ class RegistrationViewModel {
         }
     }
     
-    var userRegistered: User? {
-        didSet{
-            enableButton?()
-        }
-    }
-    
     init(service: AuthService = AuthService()) {
         self.service = service
     }

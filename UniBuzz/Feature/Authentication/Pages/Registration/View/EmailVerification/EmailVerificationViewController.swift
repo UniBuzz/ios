@@ -34,7 +34,7 @@ class EmailVerificationViewController: UIViewController {
     
     private let emailAccount: UILabel = {
         let label = UILabel()
-        label.text = "test@gmail.com"
+        label.text = ""
         label.textColor = .heavenlyWhite
         label.font = .systemFont(ofSize: 16, weight: .regular)
         return label
@@ -57,6 +57,9 @@ class EmailVerificationViewController: UIViewController {
         return button
     }()
     
+    let viewModel: RegistrationViewModel
+    let email: String
+    
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -65,12 +68,23 @@ class EmailVerificationViewController: UIViewController {
         
     }
     
+    init(viewModel: RegistrationViewModel = RegistrationViewModel(), email: String){
+        self.viewModel = viewModel
+        self.email = email
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     
     //MARK: - Helper
     func configureUI(){
         view.backgroundColor = .midnights
         navigationItem.hidesBackButton = true
+        emailAccount.text = email
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)

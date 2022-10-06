@@ -115,7 +115,7 @@ class RegistrationViewController: UIViewController {
             self.loadingSpinner.stopAnimating()
             self.registButton.isEnabled = true
             self.viewModel.sendVerificationEmail()
-            self.navigationController?.pushViewController(EmailVerificationViewController(), animated: true)
+            self.navigationController?.pushViewController(EmailVerificationViewController(viewModel: self.viewModel, email: self.emailTextField.text ?? ""), animated: true)
         }
         
         viewModel.enableButton = {
