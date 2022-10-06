@@ -16,6 +16,7 @@ class RegistrationViewModel {
     var dataService: DataService = DataService()
     var universityList: [University] = []
     var updateUniversityView: (() -> Void)?
+    var universitySelected: University?
     
     init(service: AuthService = AuthService()) {
         self.service = service
@@ -57,6 +58,12 @@ class RegistrationViewModel {
             case .failure(let failure):
                 print(failure)
             }
+        }
+    }
+    
+    func sendVerificationEmail() {
+        service.sendVerificationEmail { error in
+            print("DEBUG EMAIL VERIFICATION: \(error)")
         }
     }
     

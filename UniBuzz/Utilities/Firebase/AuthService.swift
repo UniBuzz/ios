@@ -69,4 +69,13 @@ class AuthService {
         
     }
     
+    func sendVerificationEmail(completion: @escaping (Error) -> Void){
+        if firebaseAuth.currentUser?.uid != nil && firebaseAuth.currentUser?.isEmailVerified == false {            firebaseAuth.currentUser?.sendEmailVerification(completion: { error in
+                if let error = error {
+                    completion(error)
+                }
+            })
+        }
+    }
+    
 }

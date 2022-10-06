@@ -20,11 +20,14 @@ class ChooseUniversityView: UIView {
         return cv
     }()
     
-    var viewModel: RegistrationViewModel = RegistrationViewModel()
+    var viewModel: RegistrationViewModel? {
+        didSet{
+            bindViewModel()
+        }
+    }
     
     var previousSelected : IndexPath?
     var currentSelected : Int?
-    var universitySelected: University?
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -43,11 +46,10 @@ class ChooseUniversityView: UIView {
     func setUpCollectionView(){
         collectionView.dataSource = self
         collectionView.delegate = self
-        bindViewModel()
-        
     }
     
     func bindViewModel(){
+        guard let viewModel = viewModel else { return }
         viewModel.getUniversityList()
         viewModel.updateUniversityView = {
             self.collectionView.reloadData()
@@ -60,18 +62,18 @@ extension ChooseUniversityView: UICollectionViewDelegate,UICollectionViewDataSou
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.universityList.count + 1
+        return (viewModel?.universityList.count ?? 0) + 1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: UniversityViewCell.identifier, for: indexPath) as! UniversityViewCell
-        if indexPath.row == viewModel.universityList.count {
+        if indexPath.row == viewModel?.universityList.count {
             cell.addUniversity()
             return cell
         } else {
-            let university = viewModel.universityList[indexPath.row]
+            let university = viewModel?.universityList[indexPath.row]
             cell.viewModel = viewModel
-            cell.configureData(university: university)
+            cell.configureData(university: university!)
             return cell
         }
     }
@@ -82,12 +84,12 @@ extension ChooseUniversityView: UICollectionViewDelegate,UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         currentSelected = indexPath.row
-        if currentSelected == viewModel.universityList.count {
+        if currentSelected == viewModel?.universityList.count {
             print("DEBUG: ")
             return
         }
         previousSelected = indexPath
-        universitySelected = viewModel.universityList[currentSelected ?? 0]
+        viewModel?.universitySelected = viewModel?.universityList[currentSelected ?? 0]
     }
     
     

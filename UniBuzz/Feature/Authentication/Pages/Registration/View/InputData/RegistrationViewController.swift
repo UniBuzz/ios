@@ -98,7 +98,8 @@ class RegistrationViewController: UIViewController {
         viewModel.successRegisterView = {
             self.loadingSpinner.stopAnimating()
             self.registButton.isEnabled = true
-            self.delegate?.authenticationComplete()
+            self.viewModel.sendVerificationEmail()
+            self.navigationController?.pushViewController(EmailVerificationViewController(), animated: true)
         }
     }
     

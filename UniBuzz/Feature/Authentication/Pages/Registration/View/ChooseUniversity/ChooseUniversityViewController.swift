@@ -48,9 +48,11 @@ class ChooseUniversityViewController: UIViewController {
     
     //MARK: - Lifecycle
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        injectViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,13 +105,24 @@ class ChooseUniversityViewController: UIViewController {
         }
         
     }
+    
+    func injectViewModel(){
+        universityView.viewModel = viewModel
+    }
 
     
     //MARK: - Selector
     
     @objc func nextPage(){
         let vc = RegistrationViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        if viewModel.universitySelected != nil {
+            self.navigationController?.pushViewController(vc, animated: true)
+        } else {
+            let alert = UIAlertController(title: "Choose your University", message: "Please choose your University", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.present(alert, animated: true,completion: nil)
+        }
+        
     }
     
     @objc func handleBackLogin(){
