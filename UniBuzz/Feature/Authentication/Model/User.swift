@@ -17,4 +17,10 @@ struct User {
         self.pseudoname = dictionary["pseudoname"] as? String ?? ""
         self.email = dictionary["email"] as? String ?? ""
     }
+    
+//    init(uid: String, pseudoname: String, email: String){
+//        self.uid = uid
+//        self.pseudoname = pseudoname
+//        self.email = email
+//    }
 }
