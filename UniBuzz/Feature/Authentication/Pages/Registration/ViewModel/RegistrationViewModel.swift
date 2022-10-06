@@ -12,6 +12,7 @@ class RegistrationViewModel {
     
     var errorRegisterView: ((Error) -> Void)?
     var successRegisterView: (() -> Void)?
+    var errorEmailNotValid: (() -> Void)?
     var service: AuthService
     var dataService: DataService = DataService()
     var universityList: [University] = []
@@ -28,6 +29,12 @@ class RegistrationViewModel {
     }
     
     func registerUser(withEmail email: String, pseudo: String, password: String){
+        guard let universitySelected = universitySelected else { return }
+        if !email.contains(universitySelected.domain) {
+            self.errorEmailNotValid?()
+            return
+        }
+        
         service.registerUser(withEmail: email, pseudo: pseudo, password: password) { result in
             switch result {
             case .success(_):
