@@ -80,7 +80,6 @@ class ChatCollectionViewController: UICollectionViewController {
     func configureUI() {
         navigationItem.largeTitleDisplayMode = .never
         collectionView.backgroundColor = .midnights
-        configureNavigationBar()
         collectionView.register(MessageCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.alwaysBounceVertical = true
         collectionView.keyboardDismissMode = .interactive
@@ -90,11 +89,6 @@ class ChatCollectionViewController: UICollectionViewController {
             make.center.equalToSuperview()
         }
     }
-    
-    func configureNavigationBar() {
-    
-    }
-    
     // MARK: - fetch message API
 
     func fectMessages() {

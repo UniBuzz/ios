@@ -6,3 +6,18 @@
 //
 
 import Foundation
+
+struct SettingsViewModel {
+    
+    func numberOfItems() -> Int{
+        return SettingsItem().itemsTitle.count
+    }
+    
+    func titleItem(_ row: Int) -> String{
+        return SettingsItem().itemsTitle[row]
+    }
+    
+    func descriptionItem(_ row: Int) -> String{
+        return SettingsItem().itemsDescription[row]
+    }
+}

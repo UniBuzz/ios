@@ -9,21 +9,18 @@ import UIKit
 
 class HoneyViewController: UIViewController {
 
+    //MARK: - Properties
+
+    //MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        configureUI()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    //MARK: - Functions
+    func configureUI() {
+        view.backgroundColor = .midnights
+        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: "Drops of Honey", preferredLargeTitle: false)
     }
-    */
-
 }
