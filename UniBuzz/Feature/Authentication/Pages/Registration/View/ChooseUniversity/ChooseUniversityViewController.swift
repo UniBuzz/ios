@@ -24,6 +24,9 @@ class ChooseUniversityViewController: UIViewController {
     }()
     private lazy var chooseUniButton: UIButton = {
         let button = ButtonThemes(buttonTitle: "Tell us about yourself")
+        button.backgroundColor = .storm
+        button.isEnabled = false
+        button.setTitleColor(.heavenlyWhite, for: .normal)
         button.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
         return button
     }()
@@ -52,15 +55,12 @@ class ChooseUniversityViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        bindViewModel()
         injectViewModel()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         navigationItem.hidesBackButton = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationItem.hidesBackButton = false
     }
     
     //MARK: - Helper
@@ -109,12 +109,20 @@ class ChooseUniversityViewController: UIViewController {
     func injectViewModel(){
         universityView.viewModel = viewModel
     }
+    
+    func bindViewModel(){
+        viewModel.enableButton = {
+            self.chooseUniButton.backgroundColor = .creamyYellow
+            self.chooseUniButton.isEnabled = true
+            self.chooseUniButton.setTitleColor(.eternalBlack, for: .normal)
+        }
+    }
 
     
     //MARK: - Selector
     
     @objc func nextPage(){
-        let vc = RegistrationViewController()
+        let vc = RegistrationViewController(viewModel: viewModel)
         if viewModel.universitySelected != nil {
             self.navigationController?.pushViewController(vc, animated: true)
         } else {

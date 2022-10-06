@@ -70,6 +70,7 @@ class EmailVerificationViewController: UIViewController {
     //MARK: - Helper
     func configureUI(){
         view.backgroundColor = .midnights
+        navigationItem.hidesBackButton = true
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(50)

@@ -13,15 +13,16 @@ class RegistrationViewController: UIViewController {
     
     // MARK: - Properties
     weak var delegate: AuthenticationDelegate?
-    private let viewModel: RegistrationViewModel = RegistrationViewModel()
+    private let viewModel: RegistrationViewModel
     
     private lazy var emailContainerView: UIView = {
         let view = InputThemes().inputContainerView(textfield: emailTextField, title: "University Email")
         return view
     }()
     
-    private let emailTextField: UITextField = {
+    private lazy var emailTextField: UITextField = {
         let tf = InputThemes().textField(withPlaceholder: "insert your email")
+        tf.addTarget(self, action: #selector(handleTextChange), for: .editingDidEnd)
         return tf
     }()
     
@@ -30,9 +31,10 @@ class RegistrationViewController: UIViewController {
         return view
     }()
     
-    private let passwordTextField: UITextField = {
+    private lazy var passwordTextField: UITextField = {
         let tf = InputThemes().textField(withPlaceholder: "insert password")
         tf.isSecureTextEntry = true
+        tf.addTarget(self, action: #selector(handleTextChange), for: .editingDidEnd)
         return tf
     }()
     
@@ -41,14 +43,18 @@ class RegistrationViewController: UIViewController {
         return view
     }()
     
-    private let pseudoTextField: UITextField = {
+    private lazy var pseudoTextField: UITextField = {
         let tf = InputThemes().textField(withPlaceholder: "insert pseudoname")
+        tf.addTarget(self, action: #selector(handleTextChange), for: .editingDidEnd)
         return tf
     }()
     
     private lazy var registButton: UIButton = {
         let button = ButtonThemes(buttonTitle: "Create Account")
         button.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
+        button.backgroundColor = .storm
+        button.isEnabled = false
+        button.setTitleColor(.heavenlyWhite, for: .normal)
         return button
     }()
     
@@ -75,6 +81,16 @@ class RegistrationViewController: UIViewController {
     }()
 
     // MARK: - Lifecycle
+    init(viewModel: RegistrationViewModel = RegistrationViewModel()){
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -101,11 +117,22 @@ class RegistrationViewController: UIViewController {
             self.viewModel.sendVerificationEmail()
             self.navigationController?.pushViewController(EmailVerificationViewController(), animated: true)
         }
+        
+        viewModel.enableButton = {
+            self.registButton.backgroundColor = .creamyYellow
+            self.registButton.isEnabled = true
+            self.registButton.setTitleColor(.eternalBlack, for: .normal)
+        }
     }
     
     
     func configureUI() {
         view.backgroundColor = .midnights
+        let backButton = UIBarButtonItem()
+        backButton.title = "Sign Up"
+        backButton.tintColor = .heavenlyWhite
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        
         view.addSubview(emailContainerView)
         view.addSubview(passwordContainerView)
         view.addSubview(pseudoContainerView)
@@ -165,6 +192,15 @@ class RegistrationViewController: UIViewController {
         registButton.isEnabled = false
         
         viewModel.registerUser(withEmail: email, pseudo: pseudo, password: password)
+        
+    }
+    
+    @objc func handleTextChange(){
+        if emailTextField.hasText && passwordTextField.hasText && passwordTextField.hasText {
+            registButton.backgroundColor = .creamyYellow
+            registButton.isEnabled = true
+            registButton.setTitleColor(.eternalBlack, for: .normal)
+        }
         
     }
 

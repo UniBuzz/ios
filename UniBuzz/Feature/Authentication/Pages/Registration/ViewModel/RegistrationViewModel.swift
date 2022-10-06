@@ -16,7 +16,18 @@ class RegistrationViewModel {
     var dataService: DataService = DataService()
     var universityList: [University] = []
     var updateUniversityView: (() -> Void)?
-    var universitySelected: University?
+    var enableButton: (() -> Void)?
+    var universitySelected: University? {
+        didSet {
+            enableButton?()
+        }
+    }
+    
+    var userRegistered: User? {
+        didSet{
+            enableButton?()
+        }
+    }
     
     init(service: AuthService = AuthService()) {
         self.service = service
