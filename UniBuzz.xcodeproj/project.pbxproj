@@ -13,7 +13,6 @@
 		C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */; };
 		C433EBF228ECA10000EF6C6A /* CommentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433EBF128ECA10000EF6C6A /* CommentsViewModel.swift */; };
 		C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433EBF328ECA12600EF6C6A /* CommentsViewController.swift */; };
-		C44DAF0328DD5B200061A8BE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C44DAF0228DD5B200061A8BE /* GoogleService-Info.plist */; };
 		C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */; };
 		C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */; };
 		CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
@@ -86,6 +85,7 @@
 		D4ECFB3C28E55FE90064EDAC /* ChooseUniversityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */; };
 		D4ECFB3E28E5900E0064EDAC /* UniversityViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */; };
 		D4ECFB4028E6C6F00064EDAC /* ChooseUniversityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */; };
+		D4F7CF9028F05099004C33EB /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F7CF8F28F05099004C33EB /* UIViewExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -145,6 +145,7 @@
 		D4ECFB3B28E55FE90064EDAC /* ChooseUniversityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChooseUniversityView.swift; path = UniBuzz/Feature/Authentication/Pages/Registration/View/ChooseUniversity/ChooseUniversityView.swift; sourceTree = SOURCE_ROOT; };
 		D4ECFB3D28E5900E0064EDAC /* UniversityViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversityViewCell.swift; sourceTree = "<group>"; };
 		D4ECFB3F28E6C6F00064EDAC /* ChooseUniversityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChooseUniversityViewController.swift; path = UniBuzz/Feature/Authentication/Pages/Registration/View/ChooseUniversity/ChooseUniversityViewController.swift; sourceTree = SOURCE_ROOT; };
+		D4F7CF8F28F05099004C33EB /* UIViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -534,6 +535,7 @@
 		D4BB0E5428D8716500E28C3D /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				D4F7CF8F28F05099004C33EB /* UIViewExtension.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -849,40 +851,16 @@
 				CB564B9128EBE9C800D868FB /* ViewController.swift in Sources */,
 				CBE06C4C28DE203C0059CCFF /* (null) in Sources */,
 				CB564B9B28EDA58800D868FB /* SettingsItem.swift in Sources */,
-				CB83313228D8DD0800F6ED1B /* ChatCollectionViewController.swift in Sources */,
-				CBE06C4C28DE203C0059CCFF /* Service.swift in Sources */,
-				CBE0414D28DAFCA20098395E /* MessageCell.swift in Sources */,
-				CBE06C5028DE20C30059CCFF /* User.swift in Sources */,
-				CB83312828D8C04100F6ED1B /* MissionViewController.swift in Sources */,
-				CB83312228D8BFCF00F6ED1B /* ProfileViewController.swift in Sources */,
-				CBE06C5428DF118C0059CCFF /* LoadingExtension.swift in Sources */,
-				CBE06C4128DCE7E40059CCFF /* LoginViewController.swift in Sources */,
+				D4F7CF9028F05099004C33EB /* UIViewExtension.swift in Sources */,
+				CBE06C4C28DE203C0059CCFF /* (null) in Sources */,
 				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,
-				CB83312B28D8CD4B00F6ED1B /* Conversation.swift in Sources */,
-				CBE06C4628DD5D360059CCFF /* InputThemes.swift in Sources */,
-				CBE0415128DB6F1E0098395E /* ColorExtension.swift in Sources */,
-				CBE06C4428DD51D90059CCFF /* LoginViewModel.swift in Sources */,
-				CBE06C4E28DE206E0059CCFF /* Constant.swift in Sources */,
 				C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */,
 				C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */,
-				CB83312E28D8D2E800F6ED1B /* ConversationCell.swift in Sources */,
-				CB83311C28D8BEC400F6ED1B /* FeedViewController.swift in Sources */,
 				C433EBF228ECA10000EF6C6A /* CommentsViewModel.swift in Sources */,
-				CB83311628D8B42A00F6ED1B /* ConversationViewController.swift in Sources */,
 				C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */,
 				C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */,
-				D4BB0E2428D86F7900E28C3D /* AppDelegate.swift in Sources */,
-				CBE06C4928DD723A0059CCFF /* RegistrationViewController.swift in Sources */,
-				CBE06C5828E037470059CCFF /* MessageViewModel.swift in Sources */,
-				CB83311428D8AFB500F6ED1B /* ViewController.swift in Sources */,
 				C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */,
-				D4BB0E2628D86F7900E28C3D /* SceneDelegate.swift in Sources */,
 				C42BB94928DA2A1400006F71 /* FeedModel.swift in Sources */,
-				CBE0414228DA0D550098395E /* ConversationViewModel.swift in Sources */,
-				CBE0414028D972C90098395E /* CustomInputAccessoryView.swift in Sources */,
-				CBE0415328DB86650098395E /* NavBarExtension.swift in Sources */,
-				CBE0414B28DA391E0098395E /* ChatViewModel.swift in Sources */,
-				CBE0414928DA388B0098395E /* Message.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

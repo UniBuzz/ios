@@ -85,7 +85,14 @@ extension ChooseUniversityView: UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         currentSelected = indexPath.row
         if currentSelected == viewModel?.universityList.count {
-            print("DEBUG: ")
+            if let url = URL(string: "https://www.unibuzz.app/"), UIApplication.shared.canOpenURL(url) {
+               if #available(iOS 10.0, *) {
+                  UIApplication.shared.open(url, options: [:], completionHandler: nil)
+               } else {
+                  UIApplication.shared.openURL(url)
+               }
+                viewModel?.universitySelected = nil
+            }
             return
         }
         previousSelected = indexPath
