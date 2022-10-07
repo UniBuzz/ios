@@ -65,6 +65,8 @@
 		CB564B9F28EEAAF000D868FB /* LogoutViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564B9E28EEAAF000D868FB /* LogoutViewCell.swift */; };
 		CB564BA128EED7AC00D868FB /* DropsOfHoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BA028EED7AB00D868FB /* DropsOfHoneyView.swift */; };
 		CB564BA528EEE24C00D868FB /* HoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BA428EEE24C00D868FB /* HoneyViewController.swift */; };
+		CB564BAE28F092E000D868FB /* ChangePseudonameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BAD28F092E000D868FB /* ChangePseudonameView.swift */; };
+		CB564BB228F0932C00D868FB /* ChangePseudonameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB128F0932C00D868FB /* ChangePseudonameViewController.swift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		CBE06C4C28DE203C0059CCFF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */; };
@@ -105,6 +107,8 @@
 		CB564B9E28EEAAF000D868FB /* LogoutViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutViewCell.swift; sourceTree = "<group>"; };
 		CB564BA028EED7AB00D868FB /* DropsOfHoneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropsOfHoneyView.swift; sourceTree = "<group>"; };
 		CB564BA428EEE24C00D868FB /* HoneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoneyViewController.swift; sourceTree = "<group>"; };
+		CB564BAD28F092E000D868FB /* ChangePseudonameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePseudonameView.swift; sourceTree = "<group>"; };
+		CB564BB128F0932C00D868FB /* ChangePseudonameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePseudonameViewController.swift; sourceTree = "<group>"; };
 		CB83311528D8B42A00F6ED1B /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		CB83312128D8BFCF00F6ED1B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -300,6 +304,22 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		CB564BAF28F0930600D868FB /* ChangePseudoname */ = {
+			isa = PBXGroup;
+			children = (
+				CB564BB028F0931800D868FB /* View */,
+			);
+			path = ChangePseudoname;
+			sourceTree = "<group>";
+		};
+		CB564BB028F0931800D868FB /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CB564BB128F0932C00D868FB /* ChangePseudonameViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		CB83311728D8B44400F6ED1B /* Conversations */ = {
 			isa = PBXGroup;
 			children = (
@@ -347,6 +367,7 @@
 		CB83311E28D8BF9C00F6ED1B /* Pages */ = {
 			isa = PBXGroup;
 			children = (
+				CB564BAF28F0930600D868FB /* ChangePseudoname */,
 				CB564BA228EEE21300D868FB /* Honey */,
 				CB564B9228ED9E4600D868FB /* Settings */,
 				CB83311F28D8BFA800F6ED1B /* Profile */,
@@ -367,6 +388,7 @@
 			children = (
 				CB83312128D8BFCF00F6ED1B /* ProfileViewController.swift */,
 				CB564BA028EED7AB00D868FB /* DropsOfHoneyView.swift */,
+				CB564BAD28F092E000D868FB /* ChangePseudonameView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -804,6 +826,7 @@
 				CBE06C4C28DE203C0059CCFF /* (null) in Sources */,
 				CB564B6928EBE9C800D868FB /* MissionViewController.swift in Sources */,
 				CB564B6A28EBE9C800D868FB /* ProfileViewController.swift in Sources */,
+				CB564BB228F0932C00D868FB /* ChangePseudonameViewController.swift in Sources */,
 				CB564B6B28EBE9C800D868FB /* Constant.swift in Sources */,
 				CB564B6C28EBE9C800D868FB /* User.swift in Sources */,
 				CB564B6D28EBE9C800D868FB /* LoginViewModel.swift in Sources */,
@@ -839,6 +862,7 @@
 				CB564B8628EBE9C800D868FB /* TabBarViewController.swift in Sources */,
 				CB564B8728EBE9C800D868FB /* AuthService.swift in Sources */,
 				CB564B8828EBE9C800D868FB /* Service.swift in Sources */,
+				CB564BAE28F092E000D868FB /* ChangePseudonameView.swift in Sources */,
 				CB564B8928EBE9C800D868FB /* DataService.swift in Sources */,
 				CB564B9528ED9E6500D868FB /* SettingsViewController.swift in Sources */,
 				CB564B8A28EBE9C800D868FB /* ColorExtension.swift in Sources */,

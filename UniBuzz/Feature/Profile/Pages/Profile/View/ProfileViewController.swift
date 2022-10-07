@@ -36,6 +36,7 @@ class ProfileViewController: UIViewController {
     }()
     
     let dropsOfHoney = DropsOfHoneyView()
+    let changePseudo = ChangePseudonameView()
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -50,6 +51,7 @@ class ProfileViewController: UIViewController {
         self.view.addSubview(profileImageView)
         self.view.addSubview(usernameText)
         self.view.addSubview(dropsOfHoney)
+        self.view.addSubview(changePseudo)
 
         self.navigationController?.navigationBar.tintColor = .midnights
         self.navigationController?.navigationBar.barTintColor = .midnights
@@ -74,6 +76,14 @@ class ProfileViewController: UIViewController {
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(62)
         }
+        
+        changePseudo.snp.makeConstraints { make in
+            make.top.equalTo(dropsOfHoney.snp.bottom).offset(30)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(113)
+        }
+        changePseudo.changeButton.addTarget(self, action: #selector(changeButtonTapped), for: .touchUpInside)
         
         DispatchQueue.main.async { [self] in
             let uid = Auth.auth().currentUser?.uid
@@ -109,6 +119,11 @@ class ProfileViewController: UIViewController {
     @objc func honeyButtonPressed(sender: UITapGestureRecognizer) {
         let honey = HoneyViewController()
         navigationController?.pushViewController(honey, animated: true)
+    }
+    
+    @objc func changeButtonTapped() {
+        let changePseudo = ChangePseudonameViewController()
+        navigationController?.pushViewController(changePseudo, animated: true)
     }
 }
 
