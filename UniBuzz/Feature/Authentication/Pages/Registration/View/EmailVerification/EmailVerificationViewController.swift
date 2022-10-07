@@ -42,9 +42,10 @@ class EmailVerificationViewController: UIViewController {
     
     private lazy var resendVerification: UIButton = {
         let button = ButtonThemes(buttonTitle: "Resend")
-//        button.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
+        button.addTarget(self, action: #selector(resendEmail), for: .touchUpInside)
         button.isEnabled = false
         button.backgroundColor = .stoneGrey
+        button.setTitleColor(.heavenlyWhite, for: .normal)
         return button
     }()
     
@@ -65,7 +66,7 @@ class EmailVerificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
+        runTimer()
     }
     
     init(viewModel: RegistrationViewModel = RegistrationViewModel(), email: String){
@@ -124,10 +125,23 @@ class EmailVerificationViewController: UIViewController {
         
     }
     
+    
+    func runTimer(){
+        let _ = Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
+            self.resendVerification.backgroundColor = .creamyYellow
+            self.resendVerification.isEnabled = true
+            self.resendVerification.setTitleColor(.eternalBlack, for: .normal)
+        }
+    }
+    
     //MARK: - Selector
     
     @objc func handleBackLogin(){
         self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    @objc func resendEmail(){
+        self.viewModel.sendVerificationEmail()
     }
     
     

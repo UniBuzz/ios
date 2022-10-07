@@ -50,7 +50,7 @@ class AuthService {
             if let result = result {
                 
                 let uid = result.user.uid
-                let data = ["email" : email, "pseudoname" : pseudo, "uid" : uid] as [String : Any]
+                let data = ["email" : email, "pseudoname" : pseudo, "uid" : uid, "upvotedFeeds": []] as [String : Any]
                 
                 self.saveUserToCollection(uid: uid, data: data) { err in
                     completion(.failure(err))
