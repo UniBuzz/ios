@@ -6,26 +6,33 @@
 //
 
 import UIKit
+import Firebase
 
-protocol FeedCellDelegate {
+protocol FeedCellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
+    func didTapUpVote(model: UpvoteModel)
+    func didTapComment(feed: FeedModel, destination: destination)
 }
 
 class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Variables
-    var feedDelegate: FeedCellDelegate!
+    weak var feedDelegate: FeedCellDelegate?
     
     static var cellIdentifier = "FeedCell"
     let actionContainerColor = UIColor.rgb(red: 83, green: 83, blue: 83)
-
+    var userUID = ""
+    var isUpvoted = false
+    
     var feed: FeedModel? {
         didSet {
-            guard let feed = feed else {return}
+            guard let feed = feed else { return }
             userName.text = feed.userName
             content.text = feed.content
-            upVoteCount.setTitle(String(feed.upvoteCount), for: .normal)
             commentCount.setTitle(String(feed.commentCount), for: .normal)
+            upVoteCount.setTitle(String(feed.upvoteCount), for: .normal)
+            isUpvoted = feed.isUpvoted
+            self.configureCell()
         }
     }
     
@@ -116,13 +123,13 @@ class FeedTableViewCell: UITableViewCell {
         let stack = UIStackView()
         stack.axis = .horizontal
         stack.spacing = 10
+        stack.distribution = .fillProportionally
         return stack
     }()
         
     //MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureCell()
     }
     
     required init?(coder: NSCoder) {
@@ -131,18 +138,36 @@ class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Selectors
     @objc func upVotePressed() {
-        // need to keep track to only one upvote acceptable
-        feed?.upvoteCount += 1
+        guard let currentUserID = Auth.auth().currentUser?.uid else { return }
+        print(isUpvoted)
+        if isUpvoted {
+            feed?.upvoteCount -= 1
+            feed?.isUpvoted = false
+            upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
+            upVoteCount.tintColor = .heavenlyWhite
+            upVoteCountContainer.backgroundColor = actionContainerColor
+        } else {
+            feed?.upvoteCount += 1
+            feed?.isUpvoted = true
+            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
+            upVoteCount.titleLabel?.textColor = .eternalBlack
+            upVoteCount.tintColor = .eternalBlack
+            upVoteCountContainer.backgroundColor = .creamyYellow
+        }
+        feedDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: feed?.feedID ?? "", currenUserID: currentUserID))
     }
     
     @objc func commentCountPressed() {
-        print("Go To Comment Page with content of \(feed?.content)")
+        guard let feed = feed else { return }
+        print("Go To Comment Page with content of \(feed.content)")
+        feedDelegate?.didTapComment(feed: feed, destination: feed.forPage)
     }
+    
     
     @objc func sendMessagePressed() {
         print("send message to this id: \(feed?.uid)")
         if let feed {
-            feedDelegate.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
+            feedDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
         }
     }
     
@@ -228,6 +253,13 @@ class FeedTableViewCell: UITableViewCell {
             make.bottom.equalTo(sendMessageButtonContainer).offset(-2)
         }
         
+        if isUpvoted {
+            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
+            upVoteCount.titleLabel?.textColor = .eternalBlack
+            upVoteCount.tintColor = .eternalBlack
+            upVoteCountContainer.backgroundColor = .creamyYellow
+        }
+                
     }
 
 }

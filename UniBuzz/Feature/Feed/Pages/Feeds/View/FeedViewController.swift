@@ -8,13 +8,14 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import Firebase
 
 class FeedViewController: UIViewController {
     
     //MARK: - Variables
     private var bag = DisposeBag()
     private var viewModel = FeedViewModel()
-    
+
     //MARK: - Properties
     lazy var feedTableView: UITableView = {
         let tableView = UITableView()
@@ -44,14 +45,8 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNavigationItems()
-        fetchData()
-        viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
-            cell.feed = item
-            cell.feedDelegate = self
-        }.disposed(by: bag)
-        feedTableView.rx.modelSelected(FeedModel.self).subscribe { feed in
-            print(feed)
-        }.disposed(by: bag)
+        viewModel.fetchData()
+        bind()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -61,11 +56,12 @@ class FeedViewController: UIViewController {
     //MARK: - Selector Functions
     @objc func addFeedButtonPressed() {
         let createFeedVC = PostFeedViewController()
+        createFeedVC.delegate = self
         self.navigationController?.pushViewController(createFeedVC, animated: true)
     }
     
     @objc func searchButtonPressed() {
-        
+        viewModel.fetchData()
     }
     
     @objc func notificationButtonPressed() {
@@ -73,8 +69,25 @@ class FeedViewController: UIViewController {
     }
     
     //MARK: - Functions
-    func fetchData() {
-        viewModel.fetchFeed()
+    func bind() {
+        viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
+            guard let uid = Auth.auth().currentUser?.uid else { return }
+            if uid == item.uid {
+                cell.upVoteCount.isEnabled = false
+                cell.sendMessageButton.isEnabled = false
+            } else {
+                cell.upVoteCount.isEnabled = true
+                cell.sendMessageButton.isEnabled = true
+            }
+            cell.feed = item
+            cell.feedDelegate = self
+        }.disposed(by: bag)
+        feedTableView.rx.modelSelected(FeedModel.self).subscribe { feed in
+            guard let feedElement = feed.element else { return }
+            let commentsVC = CommentsViewController()
+            commentsVC.feed = feedElement
+            self.navigationController?.pushViewController(commentsVC, animated: true)
+        }.disposed(by: bag)
     }
     
     func configureUI() {
@@ -126,10 +139,29 @@ class FeedViewController: UIViewController {
 }
 
 extension FeedViewController: FeedCellDelegate {
+    
+    func didTapComment(feed: FeedModel, destination: destination) {
+        if destination == .openCommentPage {
+            let commentsVC = CommentsViewController()
+            commentsVC.feed = feed
+            self.navigationController?.pushViewController(commentsVC, animated: true)
+        }
+    }
+    
+    func didTapUpVote(model: UpvoteModel) {
+        viewModel.upVoteContent(model: model)
+    }
+    
     func didTapMessage(uid: String, pseudoname: String) {
         print(pseudoname)
         let controller = ChatCollectionViewController(user: User(dictionary: ["uid": uid, "pseudoname": pseudoname]))
         controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
+    }
+}
+
+extension FeedViewController: PostFeedDelegate {
+    func updateFeeds() {
+        viewModel.updateForTheLatestData()
     }
 }

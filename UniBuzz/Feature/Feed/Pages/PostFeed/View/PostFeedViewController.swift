@@ -7,10 +7,15 @@
 
 import UIKit
 
+protocol PostFeedDelegate: AnyObject {
+    func updateFeeds()
+}
+
 class PostFeedViewController: UIViewController {
 
     //MARK: - Variables
     let viewModel = PostFeedViewModel()
+    weak var delegate: PostFeedDelegate?
     
     //MARK: - Properties
     lazy var cancelButton: UIButton = {
@@ -100,12 +105,12 @@ class PostFeedViewController: UIViewController {
     
     @objc func cancelButtonPressed() {
         self.navigationController?.popViewController(animated: true)
- 
     }
     
     @objc func postButtonPresseds() {
         viewModel.uploadFeed(content: textField.text ?? "")
-        print("post pressed")
+        delegate?.updateFeeds()
+        self.navigationController?.popViewController(animated: true)
     }
     
     //MARK: - Functions

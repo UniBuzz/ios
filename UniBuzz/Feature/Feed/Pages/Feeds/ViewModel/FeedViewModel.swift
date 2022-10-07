@@ -8,35 +8,93 @@
 import Foundation
 import RxSwift
 import RxRelay
+import Firebase
 
 class FeedViewModel {
     
     var feedsData = BehaviorRelay(value: [FeedModel]())
-    
-    func fetchFeed() {
-        var feedsDataArray = [FeedModel]()
-        COLLECTION_FEEDS.order(by: "timestamp", descending: true).getDocuments { querySnapshot, err in
-            querySnapshot?.documents.forEach({ document in
-                feedsDataArray.append(FeedModel(dictionary: document.data()))
-            })
-            self.feedsData.accept(feedsDataArray)
-        }
+    var feedsDataArray = [FeedModel]()
 
-    }
-    
-    func refreshFeed() {
+    func fetchData() {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        
+        feedsDataArray = [FeedModel]()
+        COLLECTION_USERS.document(uid).getDocument { documentSnapshot, err in
+            guard let data = documentSnapshot?.data() else { return }
+            guard let upvotedFeeds = data["upvotedFeeds"] as? [String] else { return }
+            
+            COLLECTION_FEEDS.order(by: "timestamp", descending: true).getDocuments { querySnapshot, err in
+                guard let querySnapshot = querySnapshot else { return }
+                querySnapshot.documents.forEach { document in
+                    var feedModel = FeedModel(dictionary: document.data(), feedID: document.documentID)
+                    if upvotedFeeds.contains(document.documentID) { feedModel.isUpvoted = true }
+                    feedModel.forPage = .openCommentPage
+                    self.feedsDataArray.append(feedModel)
+                }
+                self.feedsData.accept(self.feedsDataArray)
+            }
+        }
         
     }
     
-    func upVoteContent() {
+    func updateForTheLatestData() {
+        COLLECTION_FEEDS.order(by: "timestamp", descending: true).limit(to: 1)
+            .getDocuments { querySnapshot, err in
+                if let err = err {
+                    print(err)
+                    return
+                }
+                querySnapshot?.documentChanges.forEach({ change in
+                    switch change.type {
+                    case .added:
+                        self.fetchData()
+                        print("added \(change.document.data())")
+                    case .modified:
+                        print("modified")
+                    case .removed:
+                        print("removed")
+                    }
+                })
+            }
+    }
+    
+    func pullToRefreshFeed() {
         
     }
     
-    func loadComments() {
+    func upVoteContent(model: UpvoteModel) {
+        print("Upvoting ...")
+        COLLECTION_FEEDS.document(model.feedToVoteID).getDocument { document, err in
+            if let document = document, document.exists {
+                print("DEBUG: Doc is exist")
+                guard let data = document.data() else { return }
+                guard var userIDs = data["userIDs"] as? [String] else { return }
+                if !userIDs.contains(model.currenUserID) {
+                    userIDs.append(model.currenUserID)
+                } else {
+                    userIDs.removeAll { $0 == model.currenUserID }
+                }
+                COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": userIDs, "upvoteCount": userIDs.count])
+            } else {
+                print("DEBUG: Doc is not exist, setting document")
+                COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": [model.currenUserID], "upvoteCount": 1])
+            }
+        }
         
+        COLLECTION_USERS.document(model.currenUserID).getDocument { document, err in
+            guard let document = document else { return }
+            guard let data = document.data() else { return }
+            guard var upvotedFeeds = data["upvotedFeeds"] as? [String] else { return }
+            if !upvotedFeeds.contains(model.feedToVoteID) {
+                upvotedFeeds.append(model.feedToVoteID)
+            } else {
+                upvotedFeeds.removeAll { $0 == model.feedToVoteID }
+            }
+            COLLECTION_USERS.document(model.currenUserID).updateData(["upvotedFeeds": upvotedFeeds])
+        }
     }
     
-    func sendMessageToSender() {
+    func getCommentsCount() {
         
     }
     
@@ -46,23 +104,3 @@ class FeedViewModel {
     
 }
 
-extension FeedViewModel {
-//    func fetchDummyData() {
-//        let data = [
-//            FeedModel(userName: "Mabahoki123",
-//                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-//                             upvoteCount: 13,
-//                             commentCount: 8),
-//            FeedModel(userName: "Mabahoki123",
-//                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-//                             upvoteCount: 13,
-//                             commentCount: 8),
-//            FeedModel(userName: "Mabahoki123",
-//                             content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor",
-//                             upvoteCount: 13,
-//                             commentCount: 8)
-//            ]
-//
-//        feedsData.accept(data)
-//    }
-}
