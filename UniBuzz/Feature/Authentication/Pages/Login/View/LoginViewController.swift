@@ -92,6 +92,17 @@ class LoginViewController: UIViewController {
             self.loginButton.isEnabled = true
             self.delegate?.authenticationComplete()
         }
+        
+        viewModel.notVerified = {
+            let alert = UIAlertController(title: "Email not Verified", message: "Please, verify your email", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            alert.addAction(UIAlertAction(title: "Resend verification", style: .default, handler: { _ in
+                self.viewModel.resendVerificationEmail()
+            }))
+            self.loadingSpinner.stopAnimating()
+            self.loginButton.isEnabled = true
+            self.present(alert, animated: true,completion: nil)
+        }
     }
     
     func configureUI() {
