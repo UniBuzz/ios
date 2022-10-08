@@ -13,7 +13,7 @@ import RxDataSources
 
 class CommentsViewController: UIViewController {
     
-    var feed: Buzz?
+    var feed: Buzz
     var viewModel = CommentsViewModel()
     var bag = DisposeBag()
     
@@ -33,7 +33,7 @@ class CommentsViewController: UIViewController {
     
     lazy var infoLabelAboveTextField: UILabel = {
         let infoLabelAboveTextField = UILabel()
-        infoLabelAboveTextField.text = "Replying to MabaHoki123"
+        infoLabelAboveTextField.text = "Replying to \(feed.userName)"
         infoLabelAboveTextField.textColor = .cloudSky
         infoLabelAboveTextField.font = .systemFont(ofSize: 13)
         return infoLabelAboveTextField
@@ -65,8 +65,16 @@ class CommentsViewController: UIViewController {
         return footer
     }()
     
+    init(feed: Buzz) {
+        self.feed = feed
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
-        guard let feed = feed else { return }
         super.viewDidLoad()
         view.backgroundColor = .midnights
         configureUI()
@@ -85,17 +93,30 @@ class CommentsViewController: UIViewController {
     }
         
     @objc func postComment() {
-        print("posted")
+        guard let commentText = commentTextField.text else { return }
+        if commentText != "" {
+            viewModel.replyComments(from: .anotherComment(anotherCommentID: "O58pDrQ5WDORNSCVrTrs"), commentContent: commentText, feedID: feed.feedID)
+        }
     }
     
     func bind() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         viewModel.comments.bind(to: tableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) { index, item, cell in
-            if index == 0 {
-                cell.seperatorForFeedsAndComments = UIView(frame: .zero)
+            let seperator = UIView(frame: .zero )
+            seperator.backgroundColor = .heavenlyWhite
+            if index != 0 {
+                seperator.layer.opacity = 0.2
             }
+            cell.parentFeed = self.feed.feedID
+            cell.seperatorForFeedsAndComments = seperator
             cell.userUID = uid
             cell.feed = item
+        }.disposed(by: bag)
+        
+        tableView.rx.modelSelected(Buzz.self).subscribe { buzz in
+            guard let element = buzz.element else { return }
+            self.infoLabelAboveTextField.text = "Replying to \(element.userName)"
+            self.commentTextField.becomeFirstResponder()
         }.disposed(by: bag)
     }
     

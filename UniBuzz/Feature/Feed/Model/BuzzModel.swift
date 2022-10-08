@@ -28,6 +28,7 @@ struct Buzz {
     var forPage: Destination = .openCommentPage
     var buzzType: BuzzType
     var userIDs: [String]
+    var repliedFrom: String
     
     init(dictionary: [String:Any], feedID: String) {
         self.userName = dictionary["userName"] as? String ?? ""
@@ -38,8 +39,9 @@ struct Buzz {
         self.uid = dictionary["uid"] as? String ?? ""
         self.timestamp = dictionary["timestamp"] as? Int ?? 0
         self.feedID = feedID
-        var rawValueBuzzType = dictionary["buzzType"] as? String ?? ""
+        let rawValueBuzzType = dictionary["buzzType"] as? String ?? ""
         self.buzzType = BuzzType(rawValue: rawValueBuzzType) ?? .feed
+        self.repliedFrom = dictionary["repliedFrom"] as? String ?? ""
     }
 }
 
