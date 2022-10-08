@@ -23,6 +23,7 @@ class PostFeedViewModel {
                           "content": content,
                           "upvoteCount": 0,
                           "commentCount": 0,
+                          "buzzType": BuzzType.feed.rawValue,
                           "userIDs": [String]()] as [String : Any]
 
             COLLECTION_FEEDS.addDocument(data: values)
