@@ -72,13 +72,7 @@ class FeedViewController: UIViewController {
     func bind() {
         viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
             guard let uid = Auth.auth().currentUser?.uid else { return }
-            if uid == item.uid {
-                cell.upVoteCount.isEnabled = false
-                cell.sendMessageButton.isEnabled = false
-            } else {
-                cell.upVoteCount.isEnabled = true
-                cell.sendMessageButton.isEnabled = true
-            }
+            cell.userUID = uid
             cell.feed = item
             cell.feedDelegate = self
         }.disposed(by: bag)

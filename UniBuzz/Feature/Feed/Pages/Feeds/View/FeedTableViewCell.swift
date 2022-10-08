@@ -126,6 +126,8 @@ class FeedTableViewCell: UITableViewCell {
         stack.distribution = .fillProportionally
         return stack
     }()
+    
+    var seperatorForFeedsAndComments: UIView?
         
     //MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -134,6 +136,11 @@ class FeedTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
     }
     
     //MARK: - Selectors
@@ -178,6 +185,29 @@ class FeedTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    func checkUpvoteButton() {
+        guard let feed = feed else { return }
+        
+        if userUID == feed.uid {
+            upVoteCount.isEnabled = false
+            sendMessageButton.isEnabled = false
+        } else {
+            upVoteCount.isEnabled = true
+            sendMessageButton.isEnabled = true
+        }
+        
+        if isUpvoted {
+            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
+            upVoteCount.titleLabel?.textColor = .eternalBlack
+            upVoteCount.tintColor = .eternalBlack
+            upVoteCountContainer.backgroundColor = .creamyYellow
+        } else {
+            upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
+            upVoteCount.tintColor = .heavenlyWhite
+            upVoteCountContainer.backgroundColor = actionContainerColor
+        }
+    }
+    
     func configureCell() {
         self.contentView.backgroundColor = .midnights
         self.contentView.addSubview(container)
@@ -186,22 +216,36 @@ class FeedTableViewCell: UITableViewCell {
         self.container.addSubview(optionButton)
         self.container.addSubview(sendMessageButton)
         self.container.addSubview(sendAndCommentHStack)
-        self.container.addSubview(sendMessageButtonContainer)
-        self.container.addSubview(upVoteCountContainer)
-        self.container.addSubview(commentCountContainer)
-        
-        sendMessageButtonContainer.addSubview(sendMessageButton)
-        upVoteCountContainer.addSubview(upVoteCount)
-        commentCountContainer.addSubview(commentCount)
-        
-        sendAndCommentHStack.addArrangedSubview(upVoteCountContainer)
-        sendAndCommentHStack.addArrangedSubview(commentCountContainer)
+        self.container.addSubview(commentCount)
+        self.container.addSubview(upVoteCount)
 
-        container.snp.makeConstraints { make in
-            make.left.equalTo(contentView.snp.left).offset(32)
-            make.top.equalTo(contentView.snp.top).offset(32)
-            make.right.equalTo(contentView.snp.right).offset(-32)
-            make.bottom.equalTo(contentView.snp.bottom)
+        checkUpvoteButton()
+        
+        if let seperator = seperatorForFeedsAndComments {
+            seperator.backgroundColor = .heavenlyWhite
+            print("seperator available")
+            contentView.addSubview(seperator)
+            
+            container.snp.makeConstraints { make in
+                make.left.equalTo(contentView.snp.left).offset(32)
+                make.top.equalTo(contentView.snp.top).offset(32)
+                make.right.equalTo(contentView.snp.right).offset(-32)
+            }
+            
+            seperator.snp.makeConstraints({ make in
+                make.left.equalTo(contentView.snp.left)
+                make.right.equalTo(contentView.snp.right)
+                make.top.equalTo(container.snp.bottom).offset(20)
+                make.bottom.equalTo(contentView.snp.bottom)
+                make.height.equalTo(1)
+            })
+        } else {
+            container.snp.makeConstraints { make in
+                make.left.equalTo(contentView.snp.left).offset(32)
+                make.top.equalTo(contentView.snp.top).offset(32)
+                make.right.equalTo(contentView.snp.right).offset(-32)
+                make.bottom.equalTo(contentView.snp.bottom)
+            }
         }
         
         userName.snp.makeConstraints { make in
@@ -225,46 +269,65 @@ class FeedTableViewCell: UITableViewCell {
             make.top.equalTo(content.snp.bottom).offset(20)
             make.bottom.equalTo(container.snp.bottom).offset(-16)
         }
+    
+        switch feed?.buzzType {
+        case .feed:
+            self.container.addSubview(sendMessageButtonContainer)
+            self.container.addSubview(upVoteCountContainer)
+            self.container.addSubview(commentCountContainer)
+            
+            sendAndCommentHStack.addArrangedSubview(upVoteCountContainer)
+            sendAndCommentHStack.addArrangedSubview(commentCountContainer)
+            
+            sendMessageButtonContainer.addSubview(sendMessageButton)
+            upVoteCountContainer.addSubview(upVoteCount)
+            commentCountContainer.addSubview(commentCount)
+            
+            upVoteCount.snp.makeConstraints { make in
+                make.top.equalTo(upVoteCountContainer.snp.top).offset(2)
+                make.left.equalTo(upVoteCountContainer.snp.left).offset(8)
+                make.bottom.equalTo(upVoteCountContainer.snp.bottom).offset(-2)
+                make.right.equalTo(upVoteCountContainer.snp.right).offset(-8)
+            }
+            
+            commentCount.snp.makeConstraints { make in
+                make.top.equalTo(commentCountContainer.snp.top).offset(2)
+                make.left.equalTo(commentCountContainer.snp.left).offset(8)
+                make.bottom.equalTo(commentCountContainer.snp.bottom).offset(-2)
+                make.right.equalTo(commentCountContainer.snp.right).offset(-8)
+            }
+            
+            sendMessageButton.snp.makeConstraints { make in
+                make.top.equalTo(sendMessageButtonContainer).offset(2)
+                make.left.equalTo(sendMessageButtonContainer).offset(8)
+                make.right.equalTo(sendMessageButtonContainer).offset(-8)
+                make.bottom.equalTo(sendMessageButtonContainer).offset(-2)
+            }
         
-        upVoteCount.snp.makeConstraints { make in
-            make.top.equalTo(upVoteCountContainer.snp.top).offset(2)
-            make.left.equalTo(upVoteCountContainer.snp.left).offset(8)
-            make.bottom.equalTo(upVoteCountContainer.snp.bottom).offset(-2)
-            make.right.equalTo(upVoteCountContainer.snp.right).offset(-8)
-        }
-        
-        commentCount.snp.makeConstraints { make in
-            make.top.equalTo(commentCountContainer.snp.top).offset(2)
-            make.left.equalTo(commentCountContainer.snp.left).offset(8)
-            make.bottom.equalTo(commentCountContainer.snp.bottom).offset(-2)
-            make.right.equalTo(commentCountContainer.snp.right).offset(-8)
-        }
-        
-        sendMessageButtonContainer.snp.makeConstraints { make in
-            make.top.equalTo(sendAndCommentHStack.snp.top)
-            make.bottom.equalTo(sendAndCommentHStack.snp.bottom)
-            make.right.equalTo(container.snp.right).offset(-20)
-        }
-        
-        sendMessageButton.snp.makeConstraints { make in
-            make.top.equalTo(sendMessageButtonContainer).offset(2)
-            make.left.equalTo(sendMessageButtonContainer).offset(8)
-            make.right.equalTo(sendMessageButtonContainer).offset(-8)
-            make.bottom.equalTo(sendMessageButtonContainer).offset(-2)
-        }
-        
-        if isUpvoted {
-            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
-            upVoteCount.titleLabel?.textColor = .eternalBlack
-            upVoteCount.tintColor = .eternalBlack
-            upVoteCountContainer.backgroundColor = .creamyYellow
-        } else {
-            upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
-            upVoteCount.tintColor = .heavenlyWhite
-            upVoteCountContainer.backgroundColor = actionContainerColor
-        }
+            sendMessageButtonContainer.snp.makeConstraints { make in
+                make.top.equalTo(sendAndCommentHStack.snp.top)
+                make.bottom.equalTo(sendAndCommentHStack.snp.bottom)
+                make.right.equalTo(optionButton.snp.right)
+            }
+            
+        case .comment:
+            sendAndCommentHStack.addArrangedSubview(upVoteCount)
+            sendAndCommentHStack.addArrangedSubview(commentCount)
+            container.backgroundColor = .clear
+            sendAndCommentHStack.spacing = 20
 
-                
+            sendMessageButton.snp.makeConstraints { make in
+                make.top.equalTo(sendAndCommentHStack.snp.top)
+                make.bottom.equalTo(sendAndCommentHStack.snp.bottom)
+                make.right.equalTo(optionButton.snp.right)
+            }
+            
+        case .none:
+            print("none")
+        }
+        
     }
 
 }
+
+
