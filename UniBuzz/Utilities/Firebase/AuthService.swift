@@ -78,4 +78,19 @@ class AuthService {
         }
     }
     
+    func checkEmailVerified() -> Bool {
+        guard let verified = firebaseAuth.currentUser?.isEmailVerified else { return false }
+        return verified
+    }
+    
+    func logOut() {
+        if firebaseAuth.currentUser?.uid != nil{
+            do {
+                try firebaseAuth.signOut()
+            } catch {
+                print("Error for logout")
+            }
+        }
+    }
+    
 }

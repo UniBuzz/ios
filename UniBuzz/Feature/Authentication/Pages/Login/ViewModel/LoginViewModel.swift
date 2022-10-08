@@ -15,6 +15,7 @@ class LoginViewModel {
     
     var errorPresentView: ((Error) -> Void)?
     var authSuccess: (() -> Void)?
+    var notVerified: (() -> Void)?
     
     init(user: User? = nil, authService: AuthService = AuthService()) {
         self.user = user
@@ -25,12 +26,22 @@ class LoginViewModel {
         authService.signIn(email: email, password: password) { result in
             switch result {
             case .success(_):
-                self.authSuccess?()
+                if self.authService.checkEmailVerified() {
+                    self.authSuccess?()
+                } else {
+                    self.notVerified?()
+                    self.authService.logOut()
+                }
             case .failure(let error):
                 self.errorPresentView?(error)
             }
         }
     }
     
+    func resendVerificationEmail() {
+        authService.sendVerificationEmail { error in
+            print("DEBUG EMAIL VERIFICATION: \(error)")
+        }
+    }
     
 }
