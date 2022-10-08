@@ -25,15 +25,8 @@ class ProfileViewController: UIViewController {
         label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
-    
-    let profileImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
-        iv.backgroundColor = .lightGray
-        iv.layer.cornerRadius = 80 / 2
-        return iv
-    }()
+
+    let avatarImageView = AvatarGenerator(pseudoname: "", background: 0)
     
     let dropsOfHoney = DropsOfHoneyView()
     let changePseudo = ChangePseudonameView()
@@ -48,7 +41,7 @@ class ProfileViewController: UIViewController {
     
     //MARK: - Functions
     func configureUI() {
-        self.view.addSubview(profileImageView)
+        self.view.addSubview(avatarImageView)
         self.view.addSubview(usernameText)
         self.view.addSubview(dropsOfHoney)
         self.view.addSubview(changePseudo)
@@ -57,7 +50,9 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = .midnights
         self.navigationController?.navigationBar.backgroundColor = .midnights
         
-        profileImageView.snp.makeConstraints { make in
+        avatarImageView.layer.cornerRadius = 80/2
+        avatarImageView.nameLabel.font = UIFont.boldSystemFont(ofSize: 22)
+        avatarImageView.snp.makeConstraints { make in
             make.width.height.equalTo(80)
             make.centerX.equalTo(self.view)
             make.top.equalTo(view.safeAreaLayoutGuide).offset(30    )
@@ -65,7 +60,7 @@ class ProfileViewController: UIViewController {
         
         usernameText.snp.makeConstraints { make in
             make.centerX.equalTo(self.view)
-            make.top.equalTo(profileImageView.snp.bottom).offset(20)
+            make.top.equalTo(avatarImageView.snp.bottom).offset(20)
         }
         
         let honeyTapGesture = UITapGestureRecognizer(target: self, action: #selector(honeyButtonPressed))
@@ -88,7 +83,8 @@ class ProfileViewController: UIViewController {
         DispatchQueue.main.async { [self] in
             let uid = Auth.auth().currentUser?.uid
             Service.fetchUser(withUid: uid ?? "", completion: { data in
-                usernameText.text = data.pseudoname
+                self.usernameText.text = data.pseudoname
+                self.avatarImageView.pseudoname = data.pseudoname
             })
         }
     }
