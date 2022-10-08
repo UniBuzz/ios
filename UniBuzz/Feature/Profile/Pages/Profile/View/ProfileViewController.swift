@@ -123,6 +123,7 @@ class ProfileViewController: UIViewController {
     
     @objc func changeButtonTapped() {
         let changePseudo = ChangePseudonameViewController()
+        changePseudo.userPseudonameText.text = usernameText.text
         navigationController?.pushViewController(changePseudo, animated: true)
     }
 }
