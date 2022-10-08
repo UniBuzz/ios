@@ -15,6 +15,7 @@
 		C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433EBF328ECA12600EF6C6A /* CommentsViewController.swift */; };
 		C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */; };
 		C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */; };
+		CB0D504A28F1DAF0006C615D /* AvatarGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0D504928F1DAF0006C615D /* AvatarGenerator.swift */; };
 		CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CB564B6928EBE9C800D868FB /* MissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312728D8C04100F6ED1B /* MissionViewController.swift */; };
@@ -102,6 +103,7 @@
 		C44DAF0228DD5B200061A8BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
 		C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewModel.swift; sourceTree = "<group>"; };
+		CB0D504928F1DAF0006C615D /* AvatarGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGenerator.swift; sourceTree = "<group>"; };
 		CB3236F128D880A00098AF14 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		CB564B9428ED9E6500D868FB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CB564B9728EDA4F100D868FB /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 				CBE06C4528DD5D360059CCFF /* InputThemes.swift */,
 				CBE06C5328DF118C0059CCFF /* LoadingExtension.swift */,
 				D4ECE59628EAC66300E24223 /* ButtonThemes.swift */,
+				CB0D504928F1DAF0006C615D /* AvatarGenerator.swift */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -836,6 +839,7 @@
 				CB564B6928EBE9C800D868FB /* MissionViewController.swift in Sources */,
 				CB564B6A28EBE9C800D868FB /* ProfileViewController.swift in Sources */,
 				CB564BB228F0932C00D868FB /* ChangePseudonameViewController.swift in Sources */,
+				CB0D504A28F1DAF0006C615D /* AvatarGenerator.swift in Sources */,
 				CB564B6B28EBE9C800D868FB /* Constant.swift in Sources */,
 				CB564B6C28EBE9C800D868FB /* User.swift in Sources */,
 				CB564B6D28EBE9C800D868FB /* LoginViewModel.swift in Sources */,
@@ -1035,7 +1039,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F3D69PH55A;
+				DEVELOPMENT_TEAM = 2CYTFH24FS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniBuzz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1062,7 +1066,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = F3D69PH55A;
+				DEVELOPMENT_TEAM = 2CYTFH24FS;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniBuzz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

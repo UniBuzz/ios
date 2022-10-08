@@ -54,6 +54,13 @@ class ConversationCell: UITableViewCell {
         return iv
     }()
     
+    let avatarImageView: AvatarGenerator = {
+        let iv = AvatarGenerator(pseudoname: "", background: 0)
+        iv.nameLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        iv.layer.cornerRadius = 50/2
+        return iv
+    }()
+        
     let circle: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -85,12 +92,11 @@ class ConversationCell: UITableViewCell {
         stackStamp.spacing = 4
         stackStamp.alignment = .trailing
 
-        addSubview(profileImageView)
+        addSubview(avatarImageView)
         addSubview(stackStamp)
         addSubview(stackMessage)
         
-        profileImageView.layer.cornerRadius = 50/2
-        profileImageView.snp.makeConstraints { make in
+        avatarImageView.snp.makeConstraints { make in
             make.left.equalToSuperview().offset(16)
             make.width.height.equalTo(50)
             make.centerY.equalToSuperview()
@@ -113,7 +119,7 @@ class ConversationCell: UITableViewCell {
         }
         
         stackMessage.snp.makeConstraints { make in
-            make.left.equalTo(profileImageView.snp.right).offset(12)
+            make.left.equalTo(avatarImageView.snp.right).offset(12)
             make.right.equalTo(stackStamp.snp.left).offset(-5)
             make.centerY.equalToSuperview()
         }
@@ -127,6 +133,7 @@ class ConversationCell: UITableViewCell {
         usernameLabel.text = conversation.user.pseudoname
         messageLabel.text = conversation.message.text
         timeStamp.text = viewmodel.timestamp
+        self.avatarImageView.pseudoname = conversation.user.pseudoname
 //            notificationStamp.text = String(data.notification)
         circle.isHidden = viewmodel.isNotificationEmpty(conversation)
 
