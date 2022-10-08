@@ -13,7 +13,7 @@ import RxDataSources
 
 class CommentsViewController: UIViewController {
     
-    var feed: FeedModel?
+    var feed: Buzz?
     var viewModel = CommentsViewModel()
     var bag = DisposeBag()
     
