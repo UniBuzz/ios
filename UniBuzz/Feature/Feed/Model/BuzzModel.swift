@@ -1,5 +1,5 @@
 //
-//  FeedModel.swift
+//  Buzz.swift
 //  UniBuzz
 //
 //  Created by Hada Melino Muhammad on 20/09/22.
@@ -8,12 +8,15 @@
 import Foundation
 import RxSwift
 
-enum destination {
-    case openCommentPage
-    case loadComment
+enum Destination {
+    case openCommentPage,loadComment
 }
 
-struct FeedModel {
+enum BuzzType {
+    case comment, feed
+}
+
+struct Buzz {
     var userName: String
     var content: String
     var upvoteCount: Int
@@ -22,7 +25,8 @@ struct FeedModel {
     var feedID: String
     var timestamp: Int
     var isUpvoted = false
-    var forPage: destination = .openCommentPage
+    var forPage: Destination = .openCommentPage
+    var buzzType: BuzzType = .feed
     var userIDs: [String]
     
     init(dictionary: [String:Any], feedID: String) {

@@ -12,13 +12,13 @@ import Firebase
 
 class FeedViewModel {
     
-    var feedsData = BehaviorRelay(value: [FeedModel]())
-    var feedsDataArray = [FeedModel]()
+    var feedsData = BehaviorRelay(value: [Buzz]())
+    var feedsDataArray = [Buzz]()
 
     func fetchData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        feedsDataArray = [FeedModel]()
+        feedsDataArray = [Buzz]()
         COLLECTION_USERS.document(uid).getDocument { documentSnapshot, err in
             guard let data = documentSnapshot?.data() else { return }
             guard let upvotedFeeds = data["upvotedFeeds"] as? [String] else { return }
@@ -26,10 +26,10 @@ class FeedViewModel {
             COLLECTION_FEEDS.order(by: "timestamp", descending: true).getDocuments { querySnapshot, err in
                 guard let querySnapshot = querySnapshot else { return }
                 querySnapshot.documents.forEach { document in
-                    var feedModel = FeedModel(dictionary: document.data(), feedID: document.documentID)
-                    if upvotedFeeds.contains(document.documentID) { feedModel.isUpvoted = true }
-                    feedModel.forPage = .openCommentPage
-                    self.feedsDataArray.append(feedModel)
+                    var Buzz = Buzz(dictionary: document.data(), feedID: document.documentID)
+                    if upvotedFeeds.contains(document.documentID) { Buzz.isUpvoted = true }
+                    Buzz.forPage = .openCommentPage
+                    self.feedsDataArray.append(Buzz)
                 }
                 self.feedsData.accept(self.feedsDataArray)
             }

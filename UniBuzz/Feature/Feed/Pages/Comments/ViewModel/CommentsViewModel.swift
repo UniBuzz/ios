@@ -16,15 +16,15 @@ enum CommentFrom {
 }
 class CommentsViewModel {
     
-    var comments = BehaviorRelay(value: [FeedModel]())
+    var comments = BehaviorRelay(value: [Buzz]())
     let commentsCollectionKey = "comments"
     
-    func loadComments(from feed: FeedModel) {
+    func loadComments(from feed: Buzz) {
         var commentsArray = [feed]
         COLLECTION_FEEDS.document(feed.feedID).collection(commentsCollectionKey).getDocuments { querySnapshot, err in
             guard let querySnapshot = querySnapshot else { return }
             querySnapshot.documents.forEach { document in
-                commentsArray.append(FeedModel(dictionary: document.data(), feedID: document.documentID))
+                commentsArray.append(Buzz(dictionary: document.data(), feedID: document.documentID))
             }
             self.comments.accept(commentsArray)
         }

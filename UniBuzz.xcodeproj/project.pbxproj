@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
-		C42BB94928DA2A1400006F71 /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* FeedModel.swift */; };
+		C42BB94928DA2A1400006F71 /* BuzzModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* BuzzModel.swift */; };
 		C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94828DA2A1400006F71 /* FeedViewModel.swift */; };
 		C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */; };
 		C433EBF228ECA10000EF6C6A /* CommentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433EBF128ECA10000EF6C6A /* CommentsViewModel.swift */; };
@@ -40,7 +40,7 @@
 		CB564B7D28EBE9C800D868FB /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83311528D8B42A00F6ED1B /* ConversationViewController.swift */; };
 		CB564B7E28EBE9C800D868FB /* ConversationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312D28D8D2E800F6ED1B /* ConversationCell.swift */; };
 		CB564B7F28EBE9C800D868FB /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414128DA0D550098395E /* ConversationViewModel.swift */; };
-		CB564B8028EBE9C800D868FB /* FeedModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* FeedModel.swift */; };
+		CB564B8028EBE9C800D868FB /* BuzzModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* BuzzModel.swift */; };
 		CB564B8128EBE9C800D868FB /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94828DA2A1400006F71 /* FeedViewModel.swift */; };
 		CB564B8228EBE9C800D868FB /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */; };
 		CB564B8328EBE9C800D868FB /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */; };
@@ -91,7 +91,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C42BB94728DA2A1400006F71 /* FeedModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedModel.swift; sourceTree = "<group>"; };
+		C42BB94728DA2A1400006F71 /* BuzzModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuzzModel.swift; sourceTree = "<group>"; };
 		C42BB94828DA2A1400006F71 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		C433EBF128ECA10000EF6C6A /* CommentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewModel.swift; sourceTree = "<group>"; };
@@ -190,7 +190,7 @@
 		C42BB94C28DA2A2A00006F71 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C42BB94728DA2A1400006F71 /* FeedModel.swift */,
+				C42BB94728DA2A1400006F71 /* BuzzModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -852,7 +852,7 @@
 				CB564BA528EEE24C00D868FB /* HoneyViewController.swift in Sources */,
 				CB564B7E28EBE9C800D868FB /* ConversationCell.swift in Sources */,
 				CB564B7F28EBE9C800D868FB /* ConversationViewModel.swift in Sources */,
-				CB564B8028EBE9C800D868FB /* FeedModel.swift in Sources */,
+				CB564B8028EBE9C800D868FB /* BuzzModel.swift in Sources */,
 				CB564B8128EBE9C800D868FB /* FeedViewModel.swift in Sources */,
 				CB564BA128EED7AC00D868FB /* DropsOfHoneyView.swift in Sources */,
 				CB564B8228EBE9C800D868FB /* FeedTableViewCell.swift in Sources */,
@@ -884,7 +884,7 @@
 				C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */,
 				C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */,
 				C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */,
-				C42BB94928DA2A1400006F71 /* FeedModel.swift in Sources */,
+				C42BB94928DA2A1400006F71 /* BuzzModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
