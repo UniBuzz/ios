@@ -56,7 +56,7 @@ class ChangePseudonameView: UIView {
     
     //MARK: - Functions
     func configureUI() {
-        self.backgroundColor = .midnights
+        self.backgroundColor = .stoneGrey
         self.layer.borderColor = UIColor.creamyYellow.cgColor
         self.layer.borderWidth = 1
         self.layer.cornerRadius = 20

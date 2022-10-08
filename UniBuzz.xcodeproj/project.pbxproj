@@ -67,6 +67,9 @@
 		CB564BA528EEE24C00D868FB /* HoneyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BA428EEE24C00D868FB /* HoneyViewController.swift */; };
 		CB564BAE28F092E000D868FB /* ChangePseudonameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BAD28F092E000D868FB /* ChangePseudonameView.swift */; };
 		CB564BB228F0932C00D868FB /* ChangePseudonameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB128F0932C00D868FB /* ChangePseudonameViewController.swift */; };
+		CB564BB428F1275A00D868FB /* EarnMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB328F1275A00D868FB /* EarnMoneyView.swift */; };
+		CB564BB628F1541C00D868FB /* HoneyItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB528F1541C00D868FB /* HoneyItemView.swift */; };
+		CB564BB828F1937000D868FB /* UseHoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB728F1937000D868FB /* UseHoneyView.swift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		CBE06C4C28DE203C0059CCFF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */; };
@@ -109,6 +112,9 @@
 		CB564BA428EEE24C00D868FB /* HoneyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoneyViewController.swift; sourceTree = "<group>"; };
 		CB564BAD28F092E000D868FB /* ChangePseudonameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePseudonameView.swift; sourceTree = "<group>"; };
 		CB564BB128F0932C00D868FB /* ChangePseudonameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePseudonameViewController.swift; sourceTree = "<group>"; };
+		CB564BB328F1275A00D868FB /* EarnMoneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarnMoneyView.swift; sourceTree = "<group>"; };
+		CB564BB528F1541C00D868FB /* HoneyItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoneyItemView.swift; sourceTree = "<group>"; };
+		CB564BB728F1937000D868FB /* UseHoneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseHoneyView.swift; sourceTree = "<group>"; };
 		CB83311528D8B42A00F6ED1B /* ConversationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewController.swift; sourceTree = "<group>"; };
 		CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		CB83312128D8BFCF00F6ED1B /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -300,6 +306,9 @@
 			isa = PBXGroup;
 			children = (
 				CB564BA428EEE24C00D868FB /* HoneyViewController.swift */,
+				CB564BB328F1275A00D868FB /* EarnMoneyView.swift */,
+				CB564BB528F1541C00D868FB /* HoneyItemView.swift */,
+				CB564BB728F1937000D868FB /* UseHoneyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -831,10 +840,12 @@
 				CB564B6C28EBE9C800D868FB /* User.swift in Sources */,
 				CB564B6D28EBE9C800D868FB /* LoginViewModel.swift in Sources */,
 				CB564B6E28EBE9C800D868FB /* LoginViewController.swift in Sources */,
+				CB564BB428F1275A00D868FB /* EarnMoneyView.swift in Sources */,
 				CB564B6F28EBE9C800D868FB /* University.swift in Sources */,
 				CB564B7028EBE9C800D868FB /* RegistrationViewModel.swift in Sources */,
 				CB564B7128EBE9C800D868FB /* ChooseUniversityViewController.swift in Sources */,
 				CB564B7228EBE9C800D868FB /* RegistrationViewController.swift in Sources */,
+				CB564BB828F1937000D868FB /* UseHoneyView.swift in Sources */,
 				CB564B7328EBE9C800D868FB /* ChooseUniversityView.swift in Sources */,
 				CB564B9F28EEAAF000D868FB /* LogoutViewCell.swift in Sources */,
 				CB564B7428EBE9C800D868FB /* UniversityViewCell.swift in Sources */,
@@ -851,6 +862,7 @@
 				CB564B7D28EBE9C800D868FB /* ConversationViewController.swift in Sources */,
 				CB564BA528EEE24C00D868FB /* HoneyViewController.swift in Sources */,
 				CB564B7E28EBE9C800D868FB /* ConversationCell.swift in Sources */,
+				CB564BB628F1541C00D868FB /* HoneyItemView.swift in Sources */,
 				CB564B7F28EBE9C800D868FB /* ConversationViewModel.swift in Sources */,
 				CB564B8028EBE9C800D868FB /* BuzzModel.swift in Sources */,
 				CB564B8128EBE9C800D868FB /* FeedViewModel.swift in Sources */,
