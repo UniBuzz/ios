@@ -8,11 +8,11 @@
 import Foundation
 import RxSwift
 
-enum Destination {
+enum Destination: String {
     case openCommentPage,loadComment
 }
 
-enum BuzzType {
+enum BuzzType: String {
     case comment, feed
 }
 
