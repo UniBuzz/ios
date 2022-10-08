@@ -42,6 +42,7 @@ class CommentsViewModel {
                       "upvoteCount": 0,
                       "commentCount": 0,
                       "userIDs": [String](),
+                      "buzzType": BuzzType.comment.rawValue,
                       "repliedFrom": ""] as [String : Any]
         
         userRef.getDocument { document, err in

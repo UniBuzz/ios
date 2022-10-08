@@ -258,7 +258,12 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCount.titleLabel?.textColor = .eternalBlack
             upVoteCount.tintColor = .eternalBlack
             upVoteCountContainer.backgroundColor = .creamyYellow
+        } else {
+            upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
+            upVoteCount.tintColor = .heavenlyWhite
+            upVoteCountContainer.backgroundColor = actionContainerColor
         }
+
                 
     }
 
