@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Firebase
 import SnapKit
 
 protocol ProfileControllerDelegate: AnyObject {
@@ -17,6 +16,7 @@ class ProfileViewController: UIViewController {
 
     //MARK: - Properties
     weak var delegate: ProfileControllerDelegate?
+    let viewModel = ProfileViewModel()
     
     lazy var usernameText: UILabel = {
         var label: UILabel = UILabel()
@@ -80,13 +80,12 @@ class ProfileViewController: UIViewController {
         }
         changePseudo.changeButton.addTarget(self, action: #selector(changeButtonTapped), for: .touchUpInside)
         
-        DispatchQueue.main.async { [self] in
-            let uid = Auth.auth().currentUser?.uid
-            Service.fetchUser(withUid: uid ?? "", completion: { data in
-                self.usernameText.text = data.pseudoname
-                self.avatarImageView.pseudoname = data.pseudoname
-            })
+        viewModel.fetchCurrentUser { user in
+            self.usernameText.text = user.pseudoname
+            self.avatarImageView.pseudoname = user.pseudoname
+            self.avatarImageView.randomInt = user.randomInt
         }
+        
     }
     
     func configureNavigationItems(){

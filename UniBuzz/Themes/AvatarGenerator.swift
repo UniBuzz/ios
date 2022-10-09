@@ -12,6 +12,7 @@ class AvatarGenerator: UIView {
     
     //MARK: - Properties
     var bgColors = [
+        UIColor.rgb(red: 255, green: 143, blue: 210),
         UIColor.rgb(red: 255, green: 143, blue: 143),
         UIColor.rgb(red: 255, green: 193, blue: 143),
         UIColor.rgb(red: 255, green: 234, blue: 143),
@@ -21,7 +22,6 @@ class AvatarGenerator: UIView {
         UIColor.rgb(red: 143, green: 201, blue: 255),
         UIColor.rgb(red: 152, green: 143, blue: 255),
         UIColor.rgb(red: 218, green: 143, blue: 255),
-        UIColor.rgb(red: 255, green: 143, blue: 210)
     ]
     
     var pseudoname: String? {
@@ -41,6 +41,12 @@ class AvatarGenerator: UIView {
         label.font = UIFont.boldSystemFont(ofSize: 16)
         return label
     }()
+    
+    var randomInt: Int = 0 {
+        didSet {
+            self.backgroundColor = bgColors[randomInt%10]
+        }
+    }
 
     //MARK: - Lifecycle
 
@@ -48,7 +54,7 @@ class AvatarGenerator: UIView {
         super.init(frame: .zero)
         configureUI()
         self.pseudoname = pseudoname
-        self.backgroundColor = bgColors[background%10]
+        self.randomInt = background
     }
     
     required init?(coder: NSCoder) {

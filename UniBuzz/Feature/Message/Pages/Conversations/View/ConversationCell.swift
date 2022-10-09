@@ -134,6 +134,7 @@ class ConversationCell: UITableViewCell {
         messageLabel.text = conversation.message.text
         timeStamp.text = viewmodel.timestamp
         self.avatarImageView.pseudoname = conversation.user.pseudoname
+        self.avatarImageView.randomInt = conversation.user.randomInt
 //            notificationStamp.text = String(data.notification)
         circle.isHidden = viewmodel.isNotificationEmpty(conversation)
 
