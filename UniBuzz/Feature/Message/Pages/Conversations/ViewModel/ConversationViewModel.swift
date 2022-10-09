@@ -37,4 +37,16 @@ struct ConversationViewModel {
         self.conversation = conversation
     }
     
+    func pseudonameString() -> String {
+        return conversation.user.pseudoname
+    }
+    
+    func randomInt() -> Int {
+        return conversation.user.randomInt
+    }
+    
+    func messageString() -> String {
+        return conversation.message.text
+    }
+    
 }
