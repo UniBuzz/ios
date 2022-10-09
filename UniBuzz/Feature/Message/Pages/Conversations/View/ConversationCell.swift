@@ -126,14 +126,15 @@ class ConversationCell: UITableViewCell {
     }
     
     func configure() {
-        guard let conversation = conversation else {
+        guard let conversation else {
             return
         }
         let viewmodel = ConversationViewModel(conversation: conversation)
-        usernameLabel.text = conversation.user.pseudoname
-        messageLabel.text = conversation.message.text
-        timeStamp.text = viewmodel.timestamp
-        self.avatarImageView.pseudoname = conversation.user.pseudoname
+        self.usernameLabel.text = viewmodel.pseudonameString()
+        self.messageLabel.text = viewmodel.messageString()
+        self.timeStamp.text = viewmodel.timestamp
+        self.avatarImageView.pseudoname = viewmodel.pseudonameString()
+        self.avatarImageView.randomInt = viewmodel.randomInt()
 //            notificationStamp.text = String(data.notification)
         circle.isHidden = viewmodel.isNotificationEmpty(conversation)
 

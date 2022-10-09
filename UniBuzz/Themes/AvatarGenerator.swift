@@ -11,6 +11,19 @@ import SnapKit
 class AvatarGenerator: UIView {
     
     //MARK: - Properties
+    var bgColors = [
+        UIColor.rgb(red: 255, green: 143, blue: 210),
+        UIColor.rgb(red: 255, green: 143, blue: 143),
+        UIColor.rgb(red: 255, green: 193, blue: 143),
+        UIColor.rgb(red: 255, green: 234, blue: 143),
+        UIColor.rgb(red: 221, green: 255, blue: 143),
+        UIColor.rgb(red: 143, green: 255, blue: 154),
+        UIColor.rgb(red: 143, green: 255, blue: 253),
+        UIColor.rgb(red: 143, green: 201, blue: 255),
+        UIColor.rgb(red: 152, green: 143, blue: 255),
+        UIColor.rgb(red: 218, green: 143, blue: 255),
+    ]
+    
     var pseudoname: String? {
         didSet {
             if let pseudoname {
@@ -18,7 +31,6 @@ class AvatarGenerator: UIView {
                     nameLabel.text = String(Array(pseudoname)[0...1]).uppercased()
                 }
             }
-            
         }
     }
     
@@ -29,6 +41,12 @@ class AvatarGenerator: UIView {
         label.font = UIFont.boldSystemFont(ofSize: 16)
         return label
     }()
+    
+    var randomInt: Int = 0 {
+        didSet {
+            self.backgroundColor = bgColors[randomInt%10]
+        }
+    }
 
     //MARK: - Lifecycle
 
@@ -36,6 +54,7 @@ class AvatarGenerator: UIView {
         super.init(frame: .zero)
         configureUI()
         self.pseudoname = pseudoname
+        self.randomInt = background
     }
     
     required init?(coder: NSCoder) {
@@ -43,7 +62,6 @@ class AvatarGenerator: UIView {
     }
     //MARK: - Functions
     func configureUI() {
-        self.backgroundColor = .cyan
         
         self.addSubview(nameLabel)
         

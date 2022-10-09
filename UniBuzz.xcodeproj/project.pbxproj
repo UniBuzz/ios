@@ -71,6 +71,7 @@
 		CB564BB428F1275A00D868FB /* EarnMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB328F1275A00D868FB /* EarnMoneyView.swift */; };
 		CB564BB628F1541C00D868FB /* HoneyItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB528F1541C00D868FB /* HoneyItemView.swift */; };
 		CB564BB828F1937000D868FB /* UseHoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB728F1937000D868FB /* UseHoneyView.swift */; };
+		CBD010A228F27A110018791D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010A128F27A110018791D /* ProfileViewModel.swift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		CBE06C4C28DE203C0059CCFF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */; };
@@ -124,6 +125,7 @@
 		CB83312A28D8CD4B00F6ED1B /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		CB83312D28D8D2E800F6ED1B /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		CB83313128D8DD0700F6ED1B /* ChatCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCollectionViewController.swift; sourceTree = "<group>"; };
+		CBD010A128F27A110018791D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputAccessoryView.swift; sourceTree = "<group>"; };
 		CBE0414128DA0D550098395E /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		CBE0414828DA388B0098395E /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 		CB83311F28D8BFA800F6ED1B /* Profile */ = {
 			isa = PBXGroup;
 			children = (
+				CBD010A028F27A020018791D /* ViewModel */,
 				CB83312028D8BFB600F6ED1B /* View */,
 			);
 			path = Profile;
@@ -462,6 +465,14 @@
 				CBE0414C28DAFCA20098395E /* MessageCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		CBD010A028F27A020018791D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CBD010A128F27A110018791D /* ProfileViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		CBE0413E28D948CC0098395E /* View */ = {
@@ -887,6 +898,7 @@
 				CB564B8D28EBE9C800D868FB /* LoadingExtension.swift in Sources */,
 				CB564B8E28EBE9C800D868FB /* ButtonThemes.swift in Sources */,
 				CB564B8F28EBE9C800D868FB /* AppDelegate.swift in Sources */,
+				CBD010A228F27A110018791D /* ProfileViewModel.swift in Sources */,
 				CB564B9028EBE9C800D868FB /* SceneDelegate.swift in Sources */,
 				CB564B9128EBE9C800D868FB /* ViewController.swift in Sources */,
 				CBE06C4C28DE203C0059CCFF /* (null) in Sources */,
