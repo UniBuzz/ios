@@ -13,8 +13,7 @@ import RxDataSources
 
 class CommentsViewController: UIViewController {
     
-    var feed: Buzz?
-    var viewModel = CommentsViewModel()
+    var commentsViewModel: CommentsViewModel
     var bag = DisposeBag()
     
     lazy var tableView: UITableView = {
@@ -33,7 +32,7 @@ class CommentsViewController: UIViewController {
     
     lazy var infoLabelAboveTextField: UILabel = {
         let infoLabelAboveTextField = UILabel()
-        infoLabelAboveTextField.text = "Replying to MabaHoki123"
+        infoLabelAboveTextField.text = "Replying to \(commentsViewModel.feedBuzzTapped.userName)"
         infoLabelAboveTextField.textColor = .cloudSky
         infoLabelAboveTextField.font = .systemFont(ofSize: 13)
         return infoLabelAboveTextField
@@ -65,13 +64,23 @@ class CommentsViewController: UIViewController {
         return footer
     }()
     
+    init(commentsViewModel: CommentsViewModel) {
+        self.commentsViewModel = commentsViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
-        guard let feed = feed else { return }
         super.viewDidLoad()
         view.backgroundColor = .midnights
         configureUI()
-        viewModel.loadComments(from: feed)
-        bind()
+        tableView.delegate = self
+        tableView.dataSource = self
+        commentsViewModel.delegate = self
+        commentsViewModel.loadComments()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -85,18 +94,11 @@ class CommentsViewController: UIViewController {
     }
         
     @objc func postComment() {
-        print("posted")
-    }
-    
-    func bind() {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        viewModel.comments.bind(to: tableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) { index, item, cell in
-            if index == 0 {
-                cell.seperatorForFeedsAndComments = UIView(frame: .zero)
-            }
-            cell.userUID = uid
-            cell.feed = item
-        }.disposed(by: bag)
+        guard let commentText = commentTextField.text else { return }
+        if commentText != "" {
+            commentsViewModel.replyComments(from: .anotherComment(anotherCommentID: "BO6nAE34eMmeVFAkIj6r"), commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.feedID)
+            commentTextField.text = ""
+        }
     }
     
     func configureUI() {
@@ -166,6 +168,41 @@ class CommentsViewController: UIViewController {
         textFieldContainer.layer.cornerRadius = 20
     }
 
+}
+
+extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, ViewModelDelegate {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return commentsViewModel.comments.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let uid = Auth.auth().currentUser?.uid else { return UITableViewCell() }
+        let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.cellIdentifier, for: indexPath) as! FeedTableViewCell
+        
+        let seperator = UIView(frame: .zero )
+        seperator.backgroundColor = .heavenlyWhite
+        let tappedFeed = commentsViewModel.comments[indexPath.row]
+        
+        if indexPath.row != 0 {
+            seperator.layer.opacity = 0.2
+        }
+        cell.parentFeed = commentsViewModel.feedBuzzTapped.feedID
+        cell.seperatorForFeedsAndComments = seperator
+        cell.userUID = uid
+        cell.cellViewModel = self.commentsViewModel.getDataForFeedCell(feed: tappedFeed)
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let buzz = commentsViewModel.comments[indexPath.row]
+        self.infoLabelAboveTextField.text = "Replying to \(buzz.userName)"
+        self.commentTextField.becomeFirstResponder()
+    }
+    
+    func reloadTableView() {
+        tableView.reloadData()
+    }
+    
 }
 
 

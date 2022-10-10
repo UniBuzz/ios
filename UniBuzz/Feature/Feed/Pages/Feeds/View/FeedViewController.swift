@@ -6,14 +6,11 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
 import Firebase
 
 class FeedViewController: UIViewController {
     
     //MARK: - Variables
-    private var bag = DisposeBag()
     private var viewModel = FeedViewModel()
 
     //MARK: - Properties
@@ -46,7 +43,9 @@ class FeedViewController: UIViewController {
         configureUI()
         configureNavigationItems()
         viewModel.fetchData()
-        bind()
+        feedTableView.delegate = self
+        feedTableView.dataSource = self
+        viewModel.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,20 +68,6 @@ class FeedViewController: UIViewController {
     }
     
     //MARK: - Functions
-    func bind() {
-        viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
-            guard let uid = Auth.auth().currentUser?.uid else { return }
-            cell.userUID = uid
-            cell.feed = item
-            cell.feedDelegate = self
-        }.disposed(by: bag)
-        feedTableView.rx.modelSelected(Buzz.self).subscribe { feed in
-            guard let feedElement = feed.element else { return }
-            let commentsVC = CommentsViewController()
-            commentsVC.feed = feedElement
-            self.navigationController?.pushViewController(commentsVC, animated: true)
-        }.disposed(by: bag)
-    }
     
     func configureUI() {
         view.backgroundColor = .midnights
@@ -132,12 +117,14 @@ class FeedViewController: UIViewController {
     }
 }
 
+    //MARK: - Extension
+
 extension FeedViewController: FeedCellDelegate {
     
-    func didTapComment(feed: Buzz, Destination: Destination) {
-        if Destination == .openCommentPage {
-            let commentsVC = CommentsViewController()
-            commentsVC.feed = feed
+    func didTapComment(feed: Buzz, destination: Destination) {
+        if destination == .openCommentPage {
+            let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
+            let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
             self.navigationController?.pushViewController(commentsVC, animated: true)
         }
     }
@@ -159,3 +146,36 @@ extension FeedViewController: PostFeedDelegate {
         viewModel.updateForTheLatestData()
     }
 }
+
+extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.feedsData.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let uid = Auth.auth().currentUser?.uid else { return UITableViewCell()}
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.cellIdentifier, for: indexPath) as! FeedTableViewCell
+        let item = viewModel.feedsData
+        cell.userUID = uid
+        cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row])
+        cell.feedDelegate = self
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let feed =  viewModel.feedsData[indexPath.row]
+        let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
+        let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
+        self.navigationController?.pushViewController(commentsVC, animated: true)
+    }
+}
+
+extension FeedViewController: ViewModelDelegate {
+    func reloadTableView() {
+        feedTableView.reloadData()
+    }
+}
+
+
+
