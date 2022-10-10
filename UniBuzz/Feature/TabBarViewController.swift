@@ -86,21 +86,22 @@ class TabBarViewController: UITabBarController {
         }
         authenticateUser()
     }
-    
 
 }
 
 extension TabBarViewController: AuthenticationDelegate {
     func authenticationComplete() {
         configureUI()
-//        fetchConversations()
         dismiss(animated: true, completion: nil)
-        print("dismiss")
     }
 }
 
 extension TabBarViewController: ProfileControllerDelegate {
     func handleLogout() {
+        logout()
+    }
+    
+    func handleDeleteAccount() {
         logout()
     }
 }

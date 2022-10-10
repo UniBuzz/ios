@@ -75,6 +75,7 @@
 		CBD010A228F27A110018791D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010A128F27A110018791D /* ProfileViewModel.swift */; };
 		CBD010AE28F3DF340018791D /* ConversationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010AD28F3DF340018791D /* ConversationCellViewModel.swift */; };
 		CBD010B228F431580018791D /* DeleteUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010B128F431580018791D /* DeleteUserViewController.swift */; };
+		CBD010B528F466440018791D /* DeleteUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010B428F466440018791D /* DeleteUserViewModel.swift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		CBE06C4C28DE203C0059CCFF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */; };
@@ -132,6 +133,7 @@
 		CBD010A128F27A110018791D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CBD010AD28F3DF340018791D /* ConversationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCellViewModel.swift; sourceTree = "<group>"; };
 		CBD010B128F431580018791D /* DeleteUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserViewController.swift; sourceTree = "<group>"; };
+		CBD010B428F466440018791D /* DeleteUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserViewModel.swift; sourceTree = "<group>"; };
 		CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputAccessoryView.swift; sourceTree = "<group>"; };
 		CBE0414128DA0D550098395E /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		CBE0414828DA388B0098395E /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -487,6 +489,7 @@
 		CBD010AF28F431170018791D /* DeleteUser */ = {
 			isa = PBXGroup;
 			children = (
+				CBD010B328F466350018791D /* ViewModel */,
 				CBD010B028F431270018791D /* View */,
 			);
 			path = DeleteUser;
@@ -498,6 +501,14 @@
 				CBD010B128F431580018791D /* DeleteUserViewController.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		CBD010B328F466350018791D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CBD010B428F466440018791D /* DeleteUserViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		CBE0413E28D948CC0098395E /* View */ = {
@@ -896,6 +907,7 @@
 				CB564B7828EBE9C800D868FB /* ChatCollectionViewController.swift in Sources */,
 				CB564B7928EBE9C800D868FB /* CustomInputAccessoryView.swift in Sources */,
 				CB564B7A28EBE9C800D868FB /* MessageCell.swift in Sources */,
+				CBD010B528F466440018791D /* DeleteUserViewModel.swift in Sources */,
 				CB564B7B28EBE9C800D868FB /* ChatViewModel.swift in Sources */,
 				CB564B9828EDA4F100D868FB /* SettingsViewModel.swift in Sources */,
 				CB564B9D28EDA72200D868FB /* SettingsItemViewCell.swift in Sources */,

@@ -10,6 +10,7 @@ import SnapKit
 
 protocol ProfileControllerDelegate: AnyObject {
     func handleLogout()
+    func handleDeleteAccount()
 }
 
 class ProfileViewController: UIViewController {
@@ -129,4 +130,10 @@ extension ProfileViewController: SettingsProfileDelegate {
     func handleLogout() {
         delegate?.handleLogout()
     }
+    
+    func handleDeleteAccount() {
+        delegate?.handleDeleteAccount()
+    }
 }
+
+
