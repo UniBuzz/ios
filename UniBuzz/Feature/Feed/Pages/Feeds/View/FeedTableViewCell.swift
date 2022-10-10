@@ -346,6 +346,7 @@ class FeedTableViewCell: UITableViewCell {
                 make.bottom.equalTo(verticalStack.snp.bottom)
                 make.right.equalTo(optionButton.snp.right)
             }
+            print("feed replied from: \(feed.repliedFrom), parent feed: \(parentFeed)")
             
             if feed.repliedFrom != parentFeed {
                 containerLeftAnchor.constant = 52

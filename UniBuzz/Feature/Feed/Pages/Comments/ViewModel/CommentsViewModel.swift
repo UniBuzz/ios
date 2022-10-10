@@ -7,8 +7,6 @@
 
 import Foundation
 import Firebase
-import RxSwift
-import RxRelay
 
 enum CommentFrom {
     case feed
@@ -16,17 +14,27 @@ enum CommentFrom {
 }
 class CommentsViewModel {
     
-    var comments = BehaviorRelay(value: [Buzz]())
+    weak var delegate: ViewModelDelegate?
+    var feedBuzzTapped: Buzz
+    var comments = [Buzz]()
     let commentsCollectionKey = "comments"
     
-    func loadComments(from feed: Buzz) {
-        var commentsArray = [feed]
-        COLLECTION_FEEDS.document(feed.feedID).collection(commentsCollectionKey).getDocuments { querySnapshot, err in
+    init(feedBuzzTapped: Buzz){
+        self.feedBuzzTapped = feedBuzzTapped
+    }
+    
+    func getUser() {
+        
+    }
+    
+    func loadComments() {
+        comments = [feedBuzzTapped]
+        COLLECTION_FEEDS.document(feedBuzzTapped.feedID).collection(commentsCollectionKey).getDocuments { querySnapshot, err in
             guard let querySnapshot = querySnapshot else { return }
             querySnapshot.documents.forEach { document in
-                commentsArray.append(Buzz(dictionary: document.data(), feedID: document.documentID))
+                self.comments.append(Buzz(dictionary: document.data(), feedID: document.documentID))
             }
-            self.comments.accept(commentsArray)
+            self.delegate?.reloadTableView()
         }
     }
     
@@ -38,29 +46,38 @@ class CommentsViewModel {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         var user = User(dictionary: [:])
         let userRef = COLLECTION_USERS.document(uid)
-        
-        var values = ["userName": user.pseudoname,
-                      "uid": uid,
-                      "timestamp": Int(Date().timeIntervalSince1970),
-                      "content": commentContent,
-                      "upvoteCount": 0,
-                      "commentCount": 0,
-                      "userIDs": [String](),
-                      "buzzType": BuzzType.comment.rawValue,
-                      "repliedFrom": ""] as [String : Any]
-        
+ 
         userRef.getDocument { document, err in
             if let document = document, document.exists {
                 user = User(dictionary: document.data() ?? [:])
             }
             
+            var values = ["userName": user.pseudoname,
+                          "uid": uid,
+                          "timestamp": Int(Date().timeIntervalSince1970),
+                          "content": commentContent,
+                          "upvoteCount": 0,
+                          "commentCount": 0,
+                          "userIDs": [String](),
+                          "buzzType": BuzzType.comment.rawValue,
+                          "repliedFrom": ""] as [String : Any]
+            
             switch from {
             case .feed:
+                print(feedID)
                 values["repliedFrom"] = feedID
-                COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).addDocument(data: values)
+                COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).addDocument(data: values) { error in
+                    if let error = error {
+                        print(error)
+                    } else { self.loadComments() }
+                }
             case .anotherComment(let anotherCommentID):
                 values["repliedFrom"] = anotherCommentID
-                COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).document(anotherCommentID).collection(self.commentsCollectionKey).addDocument(data: values)
+                COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).document(anotherCommentID).collection(self.commentsCollectionKey).addDocument(data: values)  { error in
+                    if let error = error {
+                        print(error)
+                    } else { self.loadComments() }
+                }
             }
         }
     }

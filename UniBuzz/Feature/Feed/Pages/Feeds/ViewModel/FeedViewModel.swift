@@ -10,15 +10,19 @@ import RxSwift
 import RxRelay
 import Firebase
 
+protocol ViewModelDelegate: AnyObject {
+    func reloadTableView()
+}
+
 class FeedViewModel {
     
-    var feedsData = BehaviorRelay(value: [Buzz]())
-    var feedsDataArray = [Buzz]()
+    var feedsData = [Buzz]()
+    weak var delegate: ViewModelDelegate?
 
     func fetchData() {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         
-        feedsDataArray = [Buzz]()
+        feedsData = [Buzz]()
         COLLECTION_USERS.document(uid).getDocument { documentSnapshot, err in
             guard let data = documentSnapshot?.data() else { return }
             guard let upvotedFeeds = data["upvotedFeeds"] as? [String] else { return }
@@ -26,12 +30,13 @@ class FeedViewModel {
             COLLECTION_FEEDS.order(by: "timestamp", descending: true).getDocuments { querySnapshot, err in
                 guard let querySnapshot = querySnapshot else { return }
                 querySnapshot.documents.forEach { document in
-                    var Buzz = Buzz(dictionary: document.data(), feedID: document.documentID)
-                    if upvotedFeeds.contains(document.documentID) { Buzz.isUpvoted = true }
-                    Buzz.forPage = .openCommentPage
-                    self.feedsDataArray.append(Buzz)
+                    var buzz = Buzz(dictionary: document.data(), feedID: document.documentID)
+                    if upvotedFeeds.contains(document.documentID) { buzz.isUpvoted = true }
+                    buzz.forPage = .openCommentPage
+                    self.feedsData.append(buzz)
                 }
-                self.feedsData.accept(self.feedsDataArray)
+                // reload table view here
+                self.delegate?.reloadTableView()
             }
         }
     }
@@ -51,7 +56,6 @@ class FeedViewModel {
                     switch change.type {
                     case .added:
                         self.fetchData()
-                        print("added \(change.document.data())")
                     case .modified:
                         print("modified")
                     case .removed:
