@@ -30,6 +30,10 @@ class CommentsViewModel {
         }
     }
     
+    func getDataForFeedCell(feed: Buzz) -> FeedCellViewModel {
+        return FeedCellViewModel(feed: feed)
+    }
+    
     func replyComments(from: CommentFrom, commentContent: String, feedID: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         var user = User(dictionary: [:])

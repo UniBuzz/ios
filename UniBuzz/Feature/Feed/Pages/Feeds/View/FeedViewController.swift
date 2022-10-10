@@ -73,7 +73,7 @@ class FeedViewController: UIViewController {
         viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
             guard let uid = Auth.auth().currentUser?.uid else { return }
             cell.userUID = uid
-            cell.feed = item
+            cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item)
             cell.feedDelegate = self
         }.disposed(by: bag)
         feedTableView.rx.modelSelected(Buzz.self).subscribe { feed in

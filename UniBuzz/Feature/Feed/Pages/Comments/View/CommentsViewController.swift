@@ -110,7 +110,7 @@ class CommentsViewController: UIViewController {
             cell.parentFeed = self.feed.feedID
             cell.seperatorForFeedsAndComments = seperator
             cell.userUID = uid
-            cell.feed = item
+            cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item)
         }.disposed(by: bag)
         
         tableView.rx.modelSelected(Buzz.self).subscribe { buzz in

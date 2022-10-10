@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E0F380628F4139200FDE867 /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		C42BB94928DA2A1400006F71 /* BuzzModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* BuzzModel.swift */; };
 		C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94828DA2A1400006F71 /* FeedViewModel.swift */; };
@@ -95,6 +96,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
 		C42BB94728DA2A1400006F71 /* BuzzModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuzzModel.swift; sourceTree = "<group>"; };
 		C42BB94828DA2A1400006F71 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 			isa = PBXGroup;
 			children = (
 				C42BB94828DA2A1400006F71 /* FeedViewModel.swift */,
+				5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -827,6 +830,7 @@
 			files = (
 				D4ECFB3A28E4A8BC0064EDAC /* RegistrationViewModel.swift in Sources */,
 				D4C5E59128ED37860012DBFB /* EmailVerificationViewController.swift in Sources */,
+				5E0F380628F4139200FDE867 /* FeedCellViewModel.swift in Sources */,
 				D4ECE59328EA87B400E24223 /* University.swift in Sources */,
 				D4ECFB3C28E55FE90064EDAC /* ChooseUniversityView.swift in Sources */,
 				D4ECE5A528EAF44100E24223 /* PageControlView.swift in Sources */,

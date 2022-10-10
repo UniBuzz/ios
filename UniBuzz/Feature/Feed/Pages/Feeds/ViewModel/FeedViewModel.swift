@@ -34,7 +34,10 @@ class FeedViewModel {
                 self.feedsData.accept(self.feedsDataArray)
             }
         }
-        
+    }
+    
+    func getDataForFeedCell(feed: Buzz) -> FeedCellViewModel {
+        return FeedCellViewModel(feed: feed)
     }
     
     func updateForTheLatestData() {

@@ -25,14 +25,14 @@ class FeedTableViewCell: UITableViewCell {
     var parentFeed = ""
     var isUpvoted = false
     
-    var feed: Buzz? {
+    var cellViewModel: FeedCellViewModel? {
         didSet {
-            guard let feed = feed else { return }
-            userName.text = feed.userName
-            content.text = feed.content
-            commentCount.setTitle("  \(feed.commentCount)", for: .normal)
-            upVoteCount.setTitle(" \(feed.upvoteCount)", for: .normal)
-            isUpvoted = feed.isUpvoted
+            guard let cellViewModel = cellViewModel else { return }
+            userName.text = cellViewModel.feed.userName
+            content.text = cellViewModel.feed.content
+            commentCount.setTitle("  \(cellViewModel.feed.commentCount)", for: .normal)
+            upVoteCount.setTitle(" \(cellViewModel.feed.upvoteCount)", for: .normal)
+            isUpvoted = cellViewModel.feed.isUpvoted
             self.configureCell()
         }
     }
@@ -168,33 +168,32 @@ class FeedTableViewCell: UITableViewCell {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
         print(isUpvoted)
         if isUpvoted {
-            feed?.upvoteCount -= 1
-            feed?.isUpvoted = false
+            cellViewModel?.feed.upvoteCount -= 1
+            cellViewModel?.feed.isUpvoted = false
             upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
             upVoteCount.tintColor = .heavenlyWhite
             upVoteCountContainer.backgroundColor = actionContainerColor
         } else {
-            feed?.upvoteCount += 1
-            feed?.isUpvoted = true
+            cellViewModel?.feed.upvoteCount += 1
+            cellViewModel?.feed.isUpvoted = true
             upVoteCount.setTitleColor(.eternalBlack, for: .normal)
             upVoteCount.titleLabel?.textColor = .eternalBlack
             upVoteCount.tintColor = .eternalBlack
             upVoteCountContainer.backgroundColor = .creamyYellow
         }
-        feedDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: feed?.feedID ?? "", currenUserID: currentUserID))
+        feedDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID))
     }
     
     @objc func commentCountPressed() {
-        guard let feed = feed else { return }
+        guard let feed = cellViewModel?.feed else { return }
         print("Go To Comment Page with content of \(feed.content)")
         feedDelegate?.didTapComment(feed: feed, Destination: feed.forPage)
     }
     
     @objc func sendMessagePressed() {
-        print("send message to this id: \(feed?.uid)")
-        if let feed {
-            feedDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
-        }
+        guard let feed = cellViewModel?.feed else { return }
+        print("send message to this id: \(feed.uid)")
+        feedDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
     }
     
     //MARK: - Functions
@@ -205,7 +204,7 @@ class FeedTableViewCell: UITableViewCell {
     
     func checkUpvoteButton() {
         // Refactor with rx later
-        guard let feed = feed else { return }
+        guard let feed = cellViewModel?.feed else { return }
         if userUID == feed.uid {
             upVoteCount.isEnabled = false
             sendMessageButton.isEnabled = false
@@ -296,7 +295,7 @@ class FeedTableViewCell: UITableViewCell {
     }
     
     func checkBuzzType() {
-        guard let feed = feed else { return }
+        guard let feed = cellViewModel?.feed else { return }
         switch feed.buzzType {
         case .feed:
             self.container.addSubview(sendMessageButtonContainer)
@@ -361,7 +360,7 @@ class FeedTableViewCell: UITableViewCell {
     
     func addShowMoreOrLessButton() {
         // if there is a comment display it
-        if feed?.commentCount != 0 {
+        if cellViewModel?.feed.commentCount != 0 {
             
         }
     }
