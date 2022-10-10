@@ -76,6 +76,7 @@
 		CBD010AE28F3DF340018791D /* ConversationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010AD28F3DF340018791D /* ConversationCellViewModel.swift */; };
 		CBD010B228F431580018791D /* DeleteUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010B128F431580018791D /* DeleteUserViewController.swift */; };
 		CBD010B528F466440018791D /* DeleteUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010B428F466440018791D /* DeleteUserViewModel.swift */; };
+		CBD010BB28F476940018791D /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010BA28F476940018791D /* WebViewController.swift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		CBE06C4C28DE203C0059CCFF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */; };
@@ -134,6 +135,7 @@
 		CBD010AD28F3DF340018791D /* ConversationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCellViewModel.swift; sourceTree = "<group>"; };
 		CBD010B128F431580018791D /* DeleteUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserViewController.swift; sourceTree = "<group>"; };
 		CBD010B428F466440018791D /* DeleteUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserViewModel.swift; sourceTree = "<group>"; };
+		CBD010BA28F476940018791D /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomInputAccessoryView.swift; sourceTree = "<group>"; };
 		CBE0414128DA0D550098395E /* ConversationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationViewModel.swift; sourceTree = "<group>"; };
 		CBE0414828DA388B0098395E /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
@@ -629,6 +631,7 @@
 				CBE06C5328DF118C0059CCFF /* LoadingExtension.swift */,
 				D4ECE59628EAC66300E24223 /* ButtonThemes.swift */,
 				CB0D504928F1DAF0006C615D /* AvatarGenerator.swift */,
+				CBD010BA28F476940018791D /* WebViewController.swift */,
 			);
 			path = Themes;
 			sourceTree = "<group>";
@@ -900,6 +903,7 @@
 				CB564BB828F1937000D868FB /* UseHoneyView.swift in Sources */,
 				CB564B7328EBE9C800D868FB /* ChooseUniversityView.swift in Sources */,
 				CB564B9F28EEAAF000D868FB /* LogoutViewCell.swift in Sources */,
+				CBD010BB28F476940018791D /* WebViewController.swift in Sources */,
 				CB564B7428EBE9C800D868FB /* UniversityViewCell.swift in Sources */,
 				CB564B7528EBE9C800D868FB /* PageControlView.swift in Sources */,
 				CB564B7628EBE9C800D868FB /* Message.swift in Sources */,
