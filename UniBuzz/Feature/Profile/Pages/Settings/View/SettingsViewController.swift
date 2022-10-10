@@ -81,7 +81,7 @@ extension SettingsViewController: UITableViewDelegate{
             deletePage.delegate = self
             navigationController?.pushViewController(deletePage, animated: true)
         }else {
-            let webPage = WebViewView()
+            var webPage = WebViewController()
             webPage.link = "https://www.unibuzz.app"
             navigationController?.pushViewController(webPage, animated: true)
         }

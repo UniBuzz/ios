@@ -1,14 +1,15 @@
 //
-//  WebViewView.swift
+//  WebViewController.swift
 //  UniBuzz
 //
 //  Created by Kevin ahmad on 10/10/22.
 //
 
+
 import UIKit
 import WebKit
 
-class WebViewView: UIViewController, WKNavigationDelegate {
+class WebViewController: UIViewController, WKNavigationDelegate {
 
     //MARK: - Properties
     var webView: WKWebView!
@@ -27,7 +28,7 @@ class WebViewView: UIViewController, WKNavigationDelegate {
     }
     //MARK: - Lifecycle
     func configureUI() {
-        let url = URL(string: link)!
+        guard let url = URL(string: link) else {return}
         webView.load(URLRequest(url: url))
         webView.allowsBackForwardNavigationGestures = true
     }
