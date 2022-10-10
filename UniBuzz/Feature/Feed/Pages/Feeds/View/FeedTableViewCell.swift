@@ -11,7 +11,7 @@ import Firebase
 protocol FeedCellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
     func didTapUpVote(model: UpvoteModel)
-    func didTapComment(feed: Buzz, Destination: Destination)
+    func didTapComment(feed: Buzz, destination: Destination)
 }
 
 class FeedTableViewCell: UITableViewCell {
@@ -187,7 +187,7 @@ class FeedTableViewCell: UITableViewCell {
     @objc func commentCountPressed() {
         guard let feed = cellViewModel?.feed else { return }
         print("Go To Comment Page with content of \(feed.content)")
-        feedDelegate?.didTapComment(feed: feed, Destination: feed.forPage)
+        feedDelegate?.didTapComment(feed: feed, destination: feed.forPage)
     }
     
     @objc func sendMessagePressed() {

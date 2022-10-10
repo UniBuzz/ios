@@ -133,8 +133,8 @@ class FeedViewController: UIViewController {
 
 extension FeedViewController: FeedCellDelegate {
     
-    func didTapComment(feed: Buzz, Destination: Destination) {
-        if Destination == .openCommentPage {
+    func didTapComment(feed: Buzz, destination: Destination) {
+        if destination == .openCommentPage {
             let commentsVC = CommentsViewController(feed: feed)
             self.navigationController?.pushViewController(commentsVC, animated: true)
         }
