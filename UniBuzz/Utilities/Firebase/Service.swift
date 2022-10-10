@@ -53,7 +53,7 @@ class Service {
     static func fetchMessages(forUser user: User, completion: @escaping([Message]) -> Void) {
         var messages = [Message]()
 
-        guard let currentUid = Auth.auth().currentUser?.uid else { return  }
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
 
         let query = COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timestamp")
 

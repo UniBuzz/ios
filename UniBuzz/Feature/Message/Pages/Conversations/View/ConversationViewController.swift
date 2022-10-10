@@ -7,12 +7,11 @@
 
 import UIKit
 import SnapKit
-import RxSwift
-import RxDataSources
 
 class ConversationViewController: UIViewController {
     
     //MARK: - Properties
+    var viewmodel = ConversationViewModel()
     fileprivate let reuseIdentifier = "ConversationCell"
     private let tableView = UITableView()
     private var conversations = [Conversation]()
@@ -44,6 +43,7 @@ class ConversationViewController: UIViewController {
     
     func showChatController(forUser user: User) {
         let controller = ChatCollectionViewController(user: user)
+        controller.conversationViewmodel = viewmodel
         controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
     }

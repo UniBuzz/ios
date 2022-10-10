@@ -9,6 +9,7 @@ import UIKit
 
 protocol SettingsProfileDelegate: AnyObject {
     func handleLogout()
+    func handleDeleteAccount()
 }
 
 class SettingsViewController: UIViewController {
@@ -75,8 +76,20 @@ extension SettingsViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == viewModel.numberOfItems() {
             handleLogout()
+        }else if indexPath.row == 4 {
+            let deletePage = DeleteUserViewController()
+            deletePage.delegate = self
+            navigationController?.pushViewController(deletePage, animated: true)
         }
 
     }
     
+}
+
+// MARK: - Extensions
+
+extension SettingsViewController: DeleteAccountProfileDelegate{
+    func handleDeleteAccount() {
+        delegate?.handleDeleteAccount()
+    }
 }

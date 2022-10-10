@@ -14,6 +14,8 @@ private let reuseIdentifier = "MessageCell"
 class ChatCollectionViewController: UICollectionViewController {
     
     // MARK: - properties
+    weak var conversationViewmodel: ConversationViewModel?
+    
     private lazy var CustomInputView: CustomInputAccessoryView = {
         let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 67))
         iv.delegate = self
@@ -93,12 +95,18 @@ class ChatCollectionViewController: UICollectionViewController {
 
     func fectMessages() {
         loadingSpinner.startAnimating()
-        Service.fetchMessages(forUser: user) { messages in
-            self.messages = messages
+//        Service.fetchMessages(forUser: user) { messages in
+//            self.messages = messages
+//            self.collectionView.reloadData()
+//            self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
+//            self.loadingSpinner.stopAnimating()
+//        }
+        conversationViewmodel?.fectMessagesForUser(user: user, completion: { messages in
+            self.messages = messages ?? [Message]()
             self.collectionView.reloadData()
             self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
             self.loadingSpinner.stopAnimating()
-        }
+        })
     }
 }
 

@@ -129,7 +129,7 @@ class ConversationCell: UITableViewCell {
         guard let conversation else {
             return
         }
-        let viewmodel = ConversationViewModel(conversation: conversation)
+        let viewmodel = ConversationCellViewModel(conversation: conversation)
         self.usernameLabel.text = viewmodel.pseudonameString()
         self.messageLabel.text = viewmodel.messageString()
         self.timeStamp.text = viewmodel.timestamp
