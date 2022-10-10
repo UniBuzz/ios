@@ -13,7 +13,7 @@ enum Destination: String {
 }
 
 enum BuzzType: String {
-    case comment, feed
+    case comment, feed, childComment
 }
 
 struct Buzz {

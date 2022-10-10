@@ -12,6 +12,7 @@ import Firebase
 
 protocol ViewModelDelegate: AnyObject {
     func reloadTableView()
+    func stopRefresh()
 }
 
 class FeedViewModel {
@@ -35,8 +36,10 @@ class FeedViewModel {
                     buzz.forPage = .openCommentPage
                     self.feedsData.append(buzz)
                 }
-                // reload table view here
-                self.delegate?.reloadTableView()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+                    self?.delegate?.stopRefresh()
+                    self?.delegate?.reloadTableView()
+                }
             }
         }
     }
@@ -66,7 +69,7 @@ class FeedViewModel {
     }
     
     func pullToRefreshFeed() {
-        
+
     }
     
     func upVoteContent(model: UpvoteModel) {

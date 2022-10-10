@@ -37,6 +37,8 @@ class FeedViewController: UIViewController {
         return button
     }()
     
+    let refreshControl = UIRefreshControl()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,6 +97,10 @@ class FeedViewController: UIViewController {
             make.right.equalToSuperview().offset(-5)
             make.bottom.equalToSuperview().offset(-5)
         }
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        feedTableView.addSubview(refreshControl)
     }
     
     func configureNavigationItems(){
@@ -114,6 +120,10 @@ class FeedViewController: UIViewController {
         self.navigationController?.navigationBar.backgroundColor = .midnights
         self.navigationItem.titleView = title
         self.navigationController?.navigationBar.barTintColor = .midnights
+    }
+    
+    @objc func refresh() {
+        viewModel.fetchData()
     }
 }
 
@@ -172,6 +182,10 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension FeedViewController: ViewModelDelegate {
+    func stopRefresh() {
+        refreshControl.endRefreshing()
+    }
+    
     func reloadTableView() {
         feedTableView.reloadData()
     }
