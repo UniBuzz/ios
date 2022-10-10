@@ -75,6 +75,9 @@ extension SettingsViewController: UITableViewDelegate{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == viewModel.numberOfItems() {
             handleLogout()
+        }else if indexPath.row == 4 {
+            let deletePage = DeleteUserViewController()
+            navigationController?.pushViewController(deletePage, animated: true)
         }
 
     }

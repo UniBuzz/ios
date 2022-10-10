@@ -6,47 +6,42 @@
 //
 
 import Foundation
+import Firebase
 
-struct ConversationViewModel {
+class ConversationViewModel {
     
-    private let conversation: Conversation
+    var messagesForId = [String:[Message]]()
     
-    func isNotificationEmpty(_ conversation: Conversation) -> Bool {
-        return true
-    }
     
-    var timestamp: String {
-        let date = conversation.message.timestamp.dateValue()
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "d"
-        let stampDate = Int(dateFormatter.string(from: date))
-        let todayDate = Int(dateFormatter.string(from: Date()))!
-        if  stampDate == todayDate {
-            dateFormatter.dateFormat = "HH:mm"
-            return dateFormatter.string(from: date)
-        }else if stampDate == (todayDate) - 1 {
-            return "yesterday"
-        }else {
-            dateFormatter.dateFormat = "MM/dd/yy"
-            return dateFormatter.string(from: date)
-        }
+    func fectMessagesForUser(user: User, completion: @escaping([Message]?) -> Void) {
         
-    }
-    
-    init(conversation: Conversation){
-        self.conversation = conversation
-    }
-    
-    func pseudonameString() -> String {
-        return conversation.user.pseudoname
-    }
-    
-    func randomInt() -> Int {
-        return conversation.user.randomInt
-    }
-    
-    func messageString() -> String {
-        return conversation.message.text
+        if self.messagesForId[user.uid] == nil {
+            self.messagesForId[user.uid] = [Message]()
+        }
+         
+        guard let currentUid = Auth.auth().currentUser?.uid else { return  }
+        let query = COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timestamp")
+        query.addSnapshotListener { snapshot, error in
+            snapshot?.documentChanges.forEach({ change in
+                print("DEBUG CHANGE HERE")
+                print("DEBUG CHANGE TYPE: \(change.type)")
+                print("DEBUG CHANGE DATA: \(change.document.data())")
+
+                if change.type == .added {
+                    let dictionary = change.document.data()
+                    self.messagesForId[user.uid]!.append(Message(dictionary: dictionary))
+                }
+            })
+            completion(self.messagesForId[user.uid])
+        }
+//
+//
+//
+//
+//        Service.fetchMessages(forUser: user) { messages in
+//            self.messagesForId[user.uid] = messages
+//            completion(self.messagesForId[user.uid])
+//        }
     }
     
 }
