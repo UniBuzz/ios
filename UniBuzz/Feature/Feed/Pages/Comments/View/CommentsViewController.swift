@@ -65,6 +65,7 @@ class CommentsViewController: UIViewController {
     
     init(commentsViewModel: CommentsViewModel) {
         self.commentsViewModel = commentsViewModel
+        self.replyingTo = commentsViewModel.feedBuzzTapped
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -237,7 +238,6 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
     func didTapShowComments(from commentID: String, at index: IndexPath) {
         commentsViewModel.showChildComment(from: commentID, at: index)
     }
-
     func didTapHideComments(from commentID: String, at index: IndexPath) {
         commentsViewModel.hideChildComment(from: commentID, at: index)
     }

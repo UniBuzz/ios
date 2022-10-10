@@ -21,6 +21,7 @@ class CommentsViewModel {
     var feedBuzzTapped: Buzz
     var parentFeed: Buzz
     var comments = [Buzz]()
+    private var childCommentsCounter: [String: Int] = [:]
     let commentsCollectionKey = "comments"
     
     init(feedBuzzTapped: Buzz){
@@ -118,6 +119,7 @@ class CommentsViewModel {
                     }
                 }
             }
+            self.delegate?.reloadTableView()
         }
     }
     

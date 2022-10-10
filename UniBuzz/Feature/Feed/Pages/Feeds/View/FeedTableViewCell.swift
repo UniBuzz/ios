@@ -19,6 +19,11 @@ protocol CommentCellDelegate: CellDelegate {
     func didTapHideComments(from commentID: String, at index: IndexPath)
 }
 
+protocol CommentCellDelegate: FeedCellDelegate {
+    func didTapShowComments(from commentID: String, at index: IndexPath)
+    func didTapHideComments(from commentID: String, at index: IndexPath)
+}
+
 class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Variables
