@@ -24,23 +24,24 @@ class TabBarViewController: UITabBarController {
         self.tabBar.tintColor = UIColor.heavenlyWhite
         configureViewControllers()
         overrideUserInterfaceStyle = .dark
+        self.tabBar.selectedImageTintColor = .creamyYellow
     }
     
     func navigationController(image: UIImage?, selectedImage: UIImage?, title: String, rootViewController: UIViewController) ->
         UINavigationController{
             let nav = UINavigationController(rootViewController: rootViewController)
             nav.tabBarItem.image = image
+            nav.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.creamyYellow], for: .selected)
             nav.tabBarItem.selectedImage = selectedImage
             nav.tabBarItem.title = title
             nav.tabBarController?.tabBar.isTranslucent = false
-            nav.navigationBar.barTintColor = .heavenlyWhite
             nav.navigationBar.backgroundColor = .eternalBlack
             return nav
         }
     
     func configureViewControllers() {
         let feeds = FeedViewController()
-        let nav1 = navigationController(image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"),title: "Feeds", rootViewController: feeds)
+        let nav1 = navigationController(image: UIImage(systemName: "circle.hexagongrid.fill"), selectedImage: UIImage(systemName: "circle.hexagongrid.fill")?.withTintColor(.creamyYellow),title: "Hive", rootViewController: feeds)
         let mission = MissionViewController()
         let nav2 = navigationController(image: UIImage(systemName: "list.bullet.rectangle.portrait"),selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"),title: "Mission", rootViewController: mission)
         let conversation = ConversationViewController()

@@ -14,14 +14,14 @@ class SettingsItemViewCell: UITableViewCell {
     let tittleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 18)
-        label.tintColor = .heavenlyWhite
+        label.textColor = .heavenlyWhite
         return label
     }()
     
     let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-        label.tintColor = .cloudSky
+        label.textColor = .cloudSky
         label.numberOfLines = 3
         return label
     }()
