@@ -10,25 +10,36 @@ import Firebase
 
 class RegistrationViewModel {
     
-    var errorRegisterView: ((Error) -> Void)?
-    var successRegisterView: (() -> Void)?
-    var errorEmailNotValid: (() -> Void)?
+    //Properties
     var service: AuthService
     var dataService: DataService = DataService()
     var universityList: [University] = []
-    var updateUniversityView: (() -> Void)?
-    var enableButton: (() -> Void)?
     var universitySelected: University? {
         didSet {
             enableButton?()
         }
     }
     
+    //For Updating View Properties
+    var updateUniversityView: (() -> Void)?
+    var enableButton: (() -> Void)?
+    var errorRegisterView: ((Error) -> Void)?
+    var successRegisterView: (() -> Void)?
+    var errorEmailNotValid: (() -> Void)?
+    var pseudonameNotPassed: (() -> Void)?
+    var pseudonameExists: (() -> Void)?
+    
+    
     init(service: AuthService = AuthService()) {
         self.service = service
     }
     
     func registerUser(withEmail email: String, pseudo: String, password: String){
+        
+        if !checkPseudoNameCount(pseudo: pseudo){
+            return
+        }
+        
         guard let universitySelected = universitySelected else { return }
         if !email.contains(universitySelected.domain) {
             self.errorEmailNotValid?()
@@ -40,11 +51,22 @@ class RegistrationViewModel {
             case .success(_):
                 self.successRegisterView?()
             case .failure(let failure):
-                print(failure)
-                self.errorRegisterView?(failure)
+                if failure as? AuthError == AuthError.pseudonameExists {
+                    self.pseudonameExists?()
+                } else {
+                    self.errorRegisterView?(failure)
+                }
             }
         }
        
+    }
+    
+    func checkPseudoNameCount(pseudo: String) -> Bool{
+        if pseudo.count < 2 || pseudo.count > 20 {
+            pseudonameNotPassed?()
+            return false
+        }
+        return true
     }
     
     func getUniversityList() {
@@ -78,8 +100,6 @@ class RegistrationViewModel {
             print("DEBUG EMAIL VERIFICATION: \(error)")
         }
     }
-    
-    
     
     
 }

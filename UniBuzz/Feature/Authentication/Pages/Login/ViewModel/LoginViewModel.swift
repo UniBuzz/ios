@@ -30,7 +30,6 @@ class LoginViewModel {
                     self.authSuccess?()
                 } else {
                     self.notVerified?()
-                    self.authService.logOut()
                 }
             case .failure(let error):
                 self.errorPresentView?(error)
@@ -42,6 +41,7 @@ class LoginViewModel {
         authService.sendVerificationEmail { error in
             print("DEBUG EMAIL VERIFICATION: \(error)")
         }
+        authService.logOut()
     }
     
 }
