@@ -128,7 +128,20 @@ class RegistrationViewController: UIViewController {
             let alert = UIAlertController(title: "Email not valid", message: "Please input your university email", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
             self.loadingSpinner.stopAnimating()
-            self.registButton.isEnabled = true
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.pseudonameNotPassed = {
+            let alert = UIAlertController(title: "Pseudoname not valid", message: "Total character for pseudoname are between 2 and 20", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.loadingSpinner.stopAnimating()
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.pseudonameExists = {
+            let alert = UIAlertController(title: "Pseudoname exists", message: "Pseudoname that you input already exists!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.loadingSpinner.stopAnimating()
             self.present(alert, animated: true,completion: nil)
         }
     }
