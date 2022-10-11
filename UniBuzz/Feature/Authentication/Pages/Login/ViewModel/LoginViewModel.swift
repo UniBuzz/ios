@@ -39,7 +39,7 @@ class LoginViewModel {
     
     func resendVerificationEmail() {
         authService.sendVerificationEmail { error in
-            print("DEBUG EMAIL VERIFICATION: \(error)")
+            self.errorPresentView?(error)
         }
         authService.logOut()
     }

@@ -59,6 +59,15 @@ class LoginViewController: UIViewController {
         return button
     }()
     
+    private lazy var forgotPasswordButton: UIButton = {
+        let button = UIButton(type: .system)
+        let attributtedTitle = NSMutableAttributedString(string: "Forgot your password?", attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white])
+        button.setAttributedTitle(attributtedTitle, for: .normal)
+        button.contentHorizontalAlignment = .right
+        button.addTarget(self, action: #selector(forgotPassword), for: .touchUpInside)
+        return button
+    }()
+    
     private let loadingSpinner: UIActivityIndicatorView = {
         let spin = UIActivityIndicatorView()
         spin.sizeToFit()
@@ -107,40 +116,54 @@ class LoginViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .midnights
-        view.addSubview(emailContainerView)
-        view.addSubview(passwordContainerView)
-        view.addSubview(loginButton)
-        view.addSubview(dontHaveAccountButton)
-        view.addSubview(loadingSpinner)
         
+        let backButton = UIBarButtonItem()
+        backButton.title = "Login"
+        backButton.tintColor = .heavenlyWhite
+        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
+        self.hideKeyboardWhenTappedAround()
+        
+        view.addSubview(emailContainerView)
         emailContainerView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(200)
             make.left.right.equalToSuperview()
         }
         
+        
+        view.addSubview(passwordContainerView)
         passwordContainerView.snp.makeConstraints { make in
             make.top.equalTo(emailContainerView.snp.bottom).offset(30)
             make.left.right.equalToSuperview()
         }
         
+        view.addSubview(forgotPasswordButton)
+        forgotPasswordButton.snp.makeConstraints { make in
+            make.top.equalTo(passwordContainerView.snp.bottom).offset(10)
+            make.leading.trailing.equalToSuperview().inset(30)
+        }
+        
+        view.addSubview(loginButton)
         loginButton.snp.makeConstraints { make in
-            make.top.equalTo(passwordContainerView.snp.bottom).offset(30)
+            make.top.equalTo(forgotPasswordButton.snp.bottom).offset(30)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
         
+        view.addSubview(dontHaveAccountButton)
         dontHaveAccountButton.snp.makeConstraints { make in
             make.top.equalTo(loginButton.snp.bottom).offset(10)
             make.left.equalToSuperview().offset(30)
             make.right.equalToSuperview().offset(-30)
         }
         
+        view.addSubview(loadingSpinner)
         loadingSpinner.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.height.width.equalTo(100)
         }
     }
-
+    
+    //MARK: - Selector
     @objc func handleShowSignUp() {
         let controller = ChooseUniversityViewController()
 //        controller.delegate = delegate
@@ -153,5 +176,10 @@ class LoginViewController: UIViewController {
         loadingSpinner.startAnimating()
         loginButton.isEnabled = false
         viewModel.signIn(withEmail: email, password: password)
+    }
+    
+    @objc func forgotPassword() {
+        let controller = ForgotPasswordViewController()
+        navigationController?.pushViewController(controller, animated: true)
     }
 }
