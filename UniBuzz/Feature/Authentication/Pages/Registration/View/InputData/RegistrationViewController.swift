@@ -154,6 +154,7 @@ class RegistrationViewController: UIViewController {
         backButton.tintColor = .heavenlyWhite
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         self.hideKeyboardWhenTappedAround()
+        
         view.addSubview(emailContainerView)
         view.addSubview(passwordContainerView)
         view.addSubview(pseudoContainerView)
