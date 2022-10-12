@@ -10,13 +10,8 @@ import Firebase
 
 protocol CellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
-    func didTapUpVote(model: UpvoteModel, index: IndexPath)
+    func didTapUpVote(model: UpvoteModel)
     func didTapComment(feed: Buzz)
-}
-
-protocol CommentCellDelegate: CellDelegate {
-    func didTapShowComments(from commentID: String, at index: IndexPath)
-    func didTapHideComments(from commentID: String, at index: IndexPath)
 }
 
 protocol CommentCellDelegate: FeedCellDelegate {
@@ -57,6 +52,7 @@ class FeedTableViewCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .stoneGrey
         view.layer.cornerRadius = 15
+//        view.backgroundColor = .warningRed
         return view
     }()
     
@@ -222,6 +218,7 @@ class FeedTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
+        print(indexPath?.row)
     }
     
     func checkUpvoteButton() {
@@ -246,6 +243,7 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCountContainer.backgroundColor = actionContainerColor
         }
     }
+    
     
     func configureCell() {
         self.contentView.backgroundColor = .midnights

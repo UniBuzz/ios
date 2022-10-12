@@ -21,7 +21,6 @@ class CommentsViewModel {
     var feedBuzzTapped: Buzz
     var parentFeed: Buzz
     var comments = [Buzz]()
-    private var childCommentsCounter: [String: Int] = [:]
     let commentsCollectionKey = "comments"
     
     init(feedBuzzTapped: Buzz){
@@ -137,6 +136,7 @@ class CommentsViewModel {
     func incrementCommentCountForChildComment(childCommentID: String) {
         COLLECTION_FEEDS.document(feedBuzzTapped.repliedFrom).collection(self.commentsCollectionKey).document(childCommentID).getDocument { doc, err in
             guard let doc = doc else { return }
+            print(doc.data())
             guard let data = doc.data() else { return }
             let commentCount = data["commentCount"] as? Int ?? 0
             COLLECTION_FEEDS.document(self.feedBuzzTapped.repliedFrom).collection(self.commentsCollectionKey).document(childCommentID).setData(["commentCount": commentCount + 1], merge: true)
@@ -185,5 +185,12 @@ class CommentsViewModel {
         currentChildCount += 1
         childCommentsCounter[childComment.repliedFrom] = currentChildCount
     }
+    
+    func toggleParentChildBool(parent: Buzz) -> Buzz {
+        var parentCopy = parent
+        parentCopy.isChildCommentShown.toggle()
+        return parentCopy
+    }
+    
     
 }
