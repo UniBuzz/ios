@@ -13,15 +13,15 @@ class ConversationViewController: UIViewController {
     //MARK: - Properties
     var viewmodel = ConversationViewModel()
     fileprivate let reuseIdentifier = "ConversationCell"
-    private let tableView = UITableView()
-    private var conversations = [Conversation]()
-    private var conversationsDictionary = [String: Conversation]()
+    let tableView = UITableView()
+    var conversations = [Conversation]()
+    var conversationsDictionary = [String: Conversation]()
+    var totalNotifications: Int = 0
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        fetchConversations()
     }
     
     override func viewWillAppear(_ animated:Bool) {
@@ -46,17 +46,6 @@ class ConversationViewController: UIViewController {
         controller.conversationViewmodel = viewmodel
         controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
-    }
-    
-    func fetchConversations() {
-        Service.fetchConversations { conversations in
-            conversations.forEach { conversation in
-                let message = conversation.message
-                self.conversationsDictionary[message.chatPartnerId] = conversation
-            }
-            self.conversations = Array(self.conversationsDictionary.values)
-            self.tableView.reloadData()
-        }
     }
 }
 

@@ -135,8 +135,13 @@ class ConversationCell: UITableViewCell {
         self.timeStamp.text = viewmodel.timestamp
         self.avatarImageView.pseudoname = viewmodel.pseudonameString()
         self.avatarImageView.randomInt = viewmodel.randomInt()
-//            notificationStamp.text = String(data.notification)
-        circle.isHidden = viewmodel.isNotificationEmpty(conversation)
+        notificationStamp.text = String(conversation.unreadMessages)
+        if conversation.unreadMessages > 0 {
+            circle.isHidden = false
+        }else {
+            circle.isHidden = true
+        }
+        
 
     }
 }

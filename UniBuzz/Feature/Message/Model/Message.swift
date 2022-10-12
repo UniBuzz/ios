@@ -13,6 +13,7 @@ struct Message {
     let fromId: String
     var timestamp: Timestamp!
     var user: User?
+    var unreadMessages: [String]
     
     let isFromCurrentUser: Bool
     
@@ -25,6 +26,7 @@ struct Message {
         self.toId = dictionary["toId"] as? String ?? ""
         self.fromId = dictionary["fromId"] as? String ?? ""
         self.timestamp = dictionary["timestamp"] as? Timestamp ?? Timestamp(date: Date())
+        self.unreadMessages = dictionary["unreadMessages"] as? [String] ?? []
         
         self.isFromCurrentUser = fromId == Auth.auth().currentUser?.uid
     }

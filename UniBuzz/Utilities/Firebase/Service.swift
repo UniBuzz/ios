@@ -32,7 +32,7 @@ class Service {
         var conversations = [Conversation]()
         guard let uid = Auth.auth().currentUser?.uid else { return  }
 
-        let query = COLLECTION_MESSAGES.document(uid).collection("recent-messages").order(by: "timestamp")
+        let query = COLLECTION_MESSAGES.document(uid).collection("recent-messages").order(by: "timestamp", descending: false)
 
         query.addSnapshotListener { snapshot, error in
             snapshot?.documentChanges.forEach({ change in
@@ -40,15 +40,14 @@ class Service {
                 let message = Message(dictionary: dictionary)
 
                 self.fetchUser(withUid: message.chatPartnerId) { user in
-                    let conversation = Conversation(user: user, message: message)
+                    let conversation = Conversation(user: user, message: message, unreadMessages: message.unreadMessages.count)
                     conversations.append(conversation)
+                    
                     completion(conversations)
                 }
             })
         }
     }
-    
-    
     
     static func fetchMessages(forUser user: User, completion: @escaping([Message]) -> Void) {
         var messages = [Message]()
@@ -75,13 +74,31 @@ class Service {
                     "fromId": currentUid,
                     "toId": user.uid,
                     "timestamp": Timestamp(date:Date())] as [String : Any]
-
+        COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).getDocument(source: .server) { snapshot, error in
+            guard let dictionary = snapshot?.data() else {return}
+            var dataNotif = DataNotification(dictionary: dictionary)
+            print("DEBUG DATA NOTIF: \(dataNotif)")
+            if dataNotif.unreadMessages.isEmpty {
+                dataNotif.unreadMessages = [message]
+            }else {
+                dataNotif.unreadMessages.append(message)
+            }
+            let newData = ["unreadMessages": dataNotif.unreadMessages] as [String : Any]
+            print("DEBUG NEW DATA: \(newData)")
+            COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(newData, merge: true)
+            print("DEBUG NEW DATA POST: \(newData)")
+        }
         COLLECTION_MESSAGES.document(currentUid).collection(user.uid).addDocument(data: data) { _ in
             COLLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: completion)
-
             COLLECTION_MESSAGES.document(currentUid).collection("recent-messages").document(user.uid).setData(data)
-
-            COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(data)
+            COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(data,merge: true)
         }
+    }
+    
+    static func notifyReadMessage(to user: User) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return  }
+
+        let data = ["unreadMessages": []] as [String : Any]
+        COLLECTION_MESSAGES.document(currentUid).collection("recent-messages").document(user.uid).setData(data, merge: true)
     }
 }
