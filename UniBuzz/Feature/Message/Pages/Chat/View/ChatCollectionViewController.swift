@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Firebase
 import SnapKit
 
 private let reuseIdentifier = "MessageCell"
@@ -47,9 +46,14 @@ class ChatCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         loadingSpinner.startAnimating()
+        readMessage()
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         configureUI()
         fectMessages()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        readMessage()
     }
     
     override var inputAccessoryView: UIView? {
@@ -85,28 +89,26 @@ class ChatCollectionViewController: UICollectionViewController {
         collectionView.register(MessageCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.alwaysBounceVertical = true
         collectionView.keyboardDismissMode = .interactive
-        
         view.addSubview(loadingSpinner)
         loadingSpinner.snp.makeConstraints { make in
             make.center.equalToSuperview()
         }
     }
     // MARK: - fetch message API
+    
+    func readMessage() {
+        Service.notifyReadMessage(to: user)
+    }
 
     func fectMessages() {
-        loadingSpinner.startAnimating()
-//        Service.fetchMessages(forUser: user) { messages in
-//            self.messages = messages
-//            self.collectionView.reloadData()
-//            self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
-//            self.loadingSpinner.stopAnimating()
-//        }
-        conversationViewmodel?.fectMessagesForUser(user: user, completion: { messages in
-            self.messages = messages ?? [Message]()
+        self.loadingSpinner.startAnimating()
+        Service.fetchMessages(forUser: user) { messages in
+            self.messages = messages
             self.collectionView.reloadData()
             self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
             self.loadingSpinner.stopAnimating()
-        })
+        }
+        self.loadingSpinner.stopAnimating()
     }
 }
 
@@ -120,7 +122,6 @@ extension ChatCollectionViewController: CustomInputAccessoryViewDelegate {
             if let error {
                 print("DEBUG: Error sending message with error \(error.localizedDescription)")
             }
-            print(message)
             self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
         }
     }

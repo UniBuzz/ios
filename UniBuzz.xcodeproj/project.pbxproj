@@ -72,6 +72,7 @@
 		CB564BB428F1275A00D868FB /* EarnMoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB328F1275A00D868FB /* EarnMoneyView.swift */; };
 		CB564BB628F1541C00D868FB /* HoneyItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB528F1541C00D868FB /* HoneyItemView.swift */; };
 		CB564BB828F1937000D868FB /* UseHoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB564BB728F1937000D868FB /* UseHoneyView.swift */; };
+		CBB97FFE28F65A900001B10B /* DataNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB97FFD28F65A900001B10B /* DataNotification.swift */; };
 		CBD010A228F27A110018791D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010A128F27A110018791D /* ProfileViewModel.swift */; };
 		CBD010AE28F3DF340018791D /* ConversationCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010AD28F3DF340018791D /* ConversationCellViewModel.swift */; };
 		CBD010B228F431580018791D /* DeleteUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010B128F431580018791D /* DeleteUserViewController.swift */; };
@@ -134,6 +135,7 @@
 		CB83312A28D8CD4B00F6ED1B /* Conversation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
 		CB83312D28D8D2E800F6ED1B /* ConversationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCell.swift; sourceTree = "<group>"; };
 		CB83313128D8DD0700F6ED1B /* ChatCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatCollectionViewController.swift; sourceTree = "<group>"; };
+		CBB97FFD28F65A900001B10B /* DataNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataNotification.swift; sourceTree = "<group>"; };
 		CBD010A128F27A110018791D /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		CBD010AD28F3DF340018791D /* ConversationCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationCellViewModel.swift; sourceTree = "<group>"; };
 		CBD010B128F431580018791D /* DeleteUserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserViewController.swift; sourceTree = "<group>"; };
@@ -695,6 +697,7 @@
 			children = (
 				CBE0414828DA388B0098395E /* Message.swift */,
 				CB83312A28D8CD4B00F6ED1B /* Conversation.swift */,
+				CBB97FFD28F65A900001B10B /* DataNotification.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -940,6 +943,7 @@
 				CB564B8428EBE9C800D868FB /* PostFeedViewModel.swift in Sources */,
 				CB564B8528EBE9C800D868FB /* PostFeedViewController.swift in Sources */,
 				CB564B8628EBE9C800D868FB /* TabBarViewController.swift in Sources */,
+				CBB97FFE28F65A900001B10B /* DataNotification.swift in Sources */,
 				CB564B8728EBE9C800D868FB /* AuthService.swift in Sources */,
 				CB564B8828EBE9C800D868FB /* Service.swift in Sources */,
 				CB564BAE28F092E000D868FB /* ChangePseudonameView.swift in Sources */,

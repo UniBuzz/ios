@@ -11,29 +11,30 @@ import SnapKit
 class ConversationCell: UITableViewCell {
     
     // MARK: - Properties
-//    private var viewModel = ConversationViewModel()
-    var conversation: Conversation? {
-        didSet {configure()}
+    var viewmodel: ConversationCellViewModel? {
+        didSet {
+            configure()
+        }
     }
     
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
-        label.tintColor = .heavenlyWhite
+        label.textColor = .heavenlyWhite
         return label
     }()
     
     let messageLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
-        label.tintColor = .cloudSky
+        label.textColor = .cloudSky
         return label
     }()
     
     let timeStamp: UILabel = { 
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 10)
-        label.tintColor = .cloudSky
+        label.textColor = .cloudSky
         return label
     }()
     
@@ -123,20 +124,17 @@ class ConversationCell: UITableViewCell {
             make.right.equalTo(stackStamp.snp.left).offset(-5)
             make.centerY.equalToSuperview()
         }
+        
+        
     }
     
     func configure() {
-        guard let conversation else {
-            return
-        }
-        let viewmodel = ConversationCellViewModel(conversation: conversation)
-        self.usernameLabel.text = viewmodel.pseudonameString()
-        self.messageLabel.text = viewmodel.messageString()
-        self.timeStamp.text = viewmodel.timestamp
-        self.avatarImageView.pseudoname = viewmodel.pseudonameString()
-        self.avatarImageView.randomInt = viewmodel.randomInt()
-//            notificationStamp.text = String(data.notification)
-        circle.isHidden = viewmodel.isNotificationEmpty(conversation)
-
+        self.usernameLabel.text = viewmodel?.pseudonameString()
+        self.messageLabel.text = viewmodel?.messageString()
+        self.timeStamp.text = viewmodel?.timestamp
+        self.avatarImageView.pseudoname = viewmodel?.pseudonameString()
+        self.avatarImageView.randomInt = viewmodel?.randomInt() ?? 0
+        notificationStamp.text = viewmodel?.unreadMessagesString()
+        circle.isHidden = viewmodel?.hiddenStatus() ?? true
     }
 }

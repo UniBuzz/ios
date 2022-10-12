@@ -10,5 +10,5 @@ import Firebase
 struct Conversation {
     let user: User
     let message: Message
-//    var notification: Int
+    var unreadMessages: Int = 0
 }

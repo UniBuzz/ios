@@ -13,15 +13,15 @@ class ConversationViewController: UIViewController {
     //MARK: - Properties
     var viewmodel = ConversationViewModel()
     fileprivate let reuseIdentifier = "ConversationCell"
-    private let tableView = UITableView()
-    private var conversations = [Conversation]()
-    private var conversationsDictionary = [String: Conversation]()
+    let tableView = UITableView()
+//    var conversations = [Conversation]()
+//    var conversationsDictionary = [String: Conversation]()
+    var totalNotifications: Int = 0
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        fetchConversations()
     }
     
     override func viewWillAppear(_ animated:Bool) {
@@ -47,28 +47,18 @@ class ConversationViewController: UIViewController {
         controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
     }
-    
-    func fetchConversations() {
-        Service.fetchConversations { conversations in
-            conversations.forEach { conversation in
-                let message = conversation.message
-                self.conversationsDictionary[message.chatPartnerId] = conversation
-            }
-            self.conversations = Array(self.conversationsDictionary.values)
-            self.tableView.reloadData()
-        }
-    }
 }
 
 //MARK: - UITableViewDataSource
 extension ConversationViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return conversations.count
+        return viewmodel.conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
-        cell.conversation = conversations[indexPath.row]
+        
+        cell.viewmodel = ConversationCellViewModel(conversation: viewmodel.conversations[indexPath.row])
         return cell
     }
 }
@@ -77,9 +67,8 @@ extension ConversationViewController: UITableViewDataSource{
 extension ConversationViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let user = conversations[indexPath.row].user
+        let user = viewmodel.conversations[indexPath.row].user
         showChatController(forUser: user)
-
     }
     
 }
