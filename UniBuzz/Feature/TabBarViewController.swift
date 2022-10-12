@@ -56,11 +56,11 @@ class TabBarViewController: UITabBarController {
         Service.fetchConversations { conversations in
             conversations.forEach { conversation in
                 let message = conversation.message
-                self.conversationVC.conversationsDictionary[message.chatPartnerId] = conversation
+                self.conversationVC.viewmodel.conversationsDictionary[message.chatPartnerId] = conversation
             }
-            self.conversationVC.conversations = Array(self.conversationVC.conversationsDictionary.values)
+            self.conversationVC.viewmodel.conversations = Array(self.conversationVC.viewmodel.conversationsDictionary.values)
             self.conversationVC.totalNotifications = 0
-            for conversation in self.conversationVC.conversations {
+            for conversation in self.conversationVC.viewmodel.conversations {
                 self.conversationVC.totalNotifications += conversation.unreadMessages
             }
             self.conversationVC.navigationController?.tabBarItem.badgeValue = self.conversationVC.viewmodel.isThereANotification(self.conversationVC.totalNotifications)

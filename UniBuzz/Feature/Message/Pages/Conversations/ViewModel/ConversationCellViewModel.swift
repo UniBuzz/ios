@@ -49,5 +49,17 @@ class ConversationCellViewModel {
         return conversation.message.text
     }
     
+    func unreadMessagesString() -> String {
+        return String(conversation.unreadMessages)
+    }
+    
+    func hiddenStatus() -> Bool {
+        if conversation.unreadMessages > 0 {
+            return false
+        }else {
+            return true
+        }
+    }
+    
 }
 

@@ -11,9 +11,10 @@ import SnapKit
 class ConversationCell: UITableViewCell {
     
     // MARK: - Properties
-//    private var viewModel = ConversationViewModel()
-    var conversation: Conversation? {
-        didSet {configure()}
+    var viewmodel: ConversationCellViewModel? {
+        didSet {
+            configure()
+        }
     }
     
     let usernameLabel: UILabel = {
@@ -123,25 +124,17 @@ class ConversationCell: UITableViewCell {
             make.right.equalTo(stackStamp.snp.left).offset(-5)
             make.centerY.equalToSuperview()
         }
+        
+        
     }
     
     func configure() {
-        guard let conversation else {
-            return
-        }
-        let viewmodel = ConversationCellViewModel(conversation: conversation)
-        self.usernameLabel.text = viewmodel.pseudonameString()
-        self.messageLabel.text = viewmodel.messageString()
-        self.timeStamp.text = viewmodel.timestamp
-        self.avatarImageView.pseudoname = viewmodel.pseudonameString()
-        self.avatarImageView.randomInt = viewmodel.randomInt()
-        notificationStamp.text = String(conversation.unreadMessages)
-        if conversation.unreadMessages > 0 {
-            circle.isHidden = false
-        }else {
-            circle.isHidden = true
-        }
-        
-
+        self.usernameLabel.text = viewmodel?.pseudonameString()
+        self.messageLabel.text = viewmodel?.messageString()
+        self.timeStamp.text = viewmodel?.timestamp
+        self.avatarImageView.pseudoname = viewmodel?.pseudonameString()
+        self.avatarImageView.randomInt = viewmodel?.randomInt() ?? 0
+        notificationStamp.text = viewmodel?.unreadMessagesString()
+        circle.isHidden = viewmodel?.hiddenStatus() ?? true
     }
 }

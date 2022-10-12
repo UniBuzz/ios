@@ -11,8 +11,8 @@ import Firebase
 class ConversationViewModel {
     
     var messagesForId = [String:[Message]]()
-    
-    
+    var conversations = [Conversation]()
+    var conversationsDictionary = [String: Conversation]()
     func fectMessagesForUser(user: User, completion: @escaping([Message]?) -> Void) {
         
         if self.messagesForId[user.uid] == nil {
