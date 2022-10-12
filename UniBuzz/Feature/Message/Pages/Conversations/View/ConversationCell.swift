@@ -19,21 +19,21 @@ class ConversationCell: UITableViewCell {
     let usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
-        label.tintColor = .heavenlyWhite
+        label.textColor = .heavenlyWhite
         return label
     }()
     
     let messageLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
-        label.tintColor = .cloudSky
+        label.textColor = .cloudSky
         return label
     }()
     
     let timeStamp: UILabel = { 
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 10)
-        label.tintColor = .cloudSky
+        label.textColor = .cloudSky
         return label
     }()
     
