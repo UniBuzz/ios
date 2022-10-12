@@ -11,7 +11,7 @@ import Firebase
 protocol FeedCellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
     func didTapUpVote(model: UpvoteModel)
-    func didTapComment(feed: Buzz, destination: Destination)
+    func didTapComment(feed: Buzz)
 }
 
 protocol CommentCellDelegate: FeedCellDelegate {
@@ -29,8 +29,8 @@ class FeedTableViewCell: UITableViewCell {
     var userUID = ""
     var parentFeed = ""
     var isUpvoted = false
-    var commentsIsShown = false
     var indexPath: IndexPath?
+    var isCommentShown = false
     
     var cellViewModel: FeedCellViewModel? {
         didSet {
@@ -40,6 +40,8 @@ class FeedTableViewCell: UITableViewCell {
             commentCount.setTitle("  \(cellViewModel.feed.commentCount)", for: .normal)
             upVoteCount.setTitle(" \(cellViewModel.feed.upvoteCount)", for: .normal)
             isUpvoted = cellViewModel.feed.isUpvoted
+            indexPath = cellViewModel.indexPath
+            isCommentShown = cellViewModel.feed.isChildCommentShown
             self.configureCell()
         }
     }
@@ -49,7 +51,21 @@ class FeedTableViewCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .stoneGrey
         view.layer.cornerRadius = 15
+//        view.backgroundColor = .warningRed
         return view
+    }()
+    
+    lazy var mainStack: UIStackView = {
+        let mainStack = UIStackView()
+        mainStack.axis = .vertical
+        mainStack.spacing = 20
+        return mainStack
+    }()
+    
+    lazy var containerStack: UIStackView = {
+        let containerStack = UIStackView()
+        containerStack.axis = .vertical
+        return containerStack
     }()
     
     lazy var userName: UILabel = {
@@ -136,7 +152,7 @@ class FeedTableViewCell: UITableViewCell {
     
     lazy var showOrHideCommentsButton: UIButton = {
         let showOrHideCommentsButton = UIButton(frame: .zero)
-        showOrHideCommentsButton.setTitle("See more", for: .normal)
+        showOrHideCommentsButton.setTitle("-", for: .normal)
         showOrHideCommentsButton.titleLabel?.font = .systemFont(ofSize: 16)
         showOrHideCommentsButton.tintColor = .heavenlyWhite
         showOrHideCommentsButton.contentHorizontalAlignment = .left
@@ -144,12 +160,9 @@ class FeedTableViewCell: UITableViewCell {
         return showOrHideCommentsButton
     }()
     
-    lazy var verticalStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 5
-        return stack
-    }()
+    let hstack1 = UIStackView()
+    let hstack2 = UIStackView()
+    let miniStack2 = UIStackView()
     
     var seperatorForFeedsAndComments: UIView?
     var containerLeftAnchor = NSLayoutConstraint()
@@ -192,13 +205,13 @@ class FeedTableViewCell: UITableViewCell {
     
     @objc func commentCountPressed() {
         guard let feed = cellViewModel?.feed else { return }
-        print("Go To Comment Page with content of \(feed.content)")
-        feedDelegate?.didTapComment(feed: feed, destination: feed.forPage)
+//        print("Go To Comment Page with content of \(feed.content)")
+        feedDelegate?.didTapComment(feed: feed)
     }
     
     @objc func sendMessagePressed() {
         guard let feed = cellViewModel?.feed else { return }
-        print("send message to this id: \(feed.uid)")
+//        print("send message to this id: \(feed.uid)")
         feedDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
     }
     
@@ -206,6 +219,7 @@ class FeedTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
+        print(indexPath?.row)
     }
     
     func checkUpvoteButton() {
@@ -230,80 +244,78 @@ class FeedTableViewCell: UITableViewCell {
         }
     }
     
+    
     func configureCell() {
         self.contentView.backgroundColor = .midnights
-        self.contentView.addSubview(container)
-        self.container.addSubview(userName)
-        self.container.addSubview(content)
-        self.container.addSubview(optionButton)
-        self.container.addSubview(verticalStack)
-        self.container.addSubview(sendMessageButtonContainer)
-        self.container.addSubview(upVoteCountContainer)
-        self.container.addSubview(commentCountContainer)
-        sendMessageButtonContainer.addSubview(sendMessageButton)
+        self.contentView.addSubview(containerStack)
+        
+        containerStack.snp.makeConstraints { make in
+            make.top.equalTo(self.contentView.snp.top).offset(16)
+            make.left.equalTo(self.contentView.snp.left).offset(36)
+            make.right.equalTo(self.contentView.snp.right).offset(-36)
+            make.bottom.equalTo(self.contentView.snp.bottom).offset(-16)
+        }
+        
+        containerStack.addArrangedSubview(container)
+        container.addSubview(mainStack)
+        
+        mainStack.snp.makeConstraints { make in
+            make.top.equalTo(self.container.snp.top).offset(20)
+            make.left.equalTo(self.container.snp.left).offset(20)
+            make.right.equalTo(self.container.snp.right).offset(-20)
+            make.bottom.equalTo(self.container.snp.bottom).offset(-20)
+        }
+        
         upVoteCountContainer.addSubview(upVoteCount)
-        commentCountContainer.addSubview(commentCount)
-        sendAndCommentHStack.addArrangedSubview(upVoteCountContainer)
-        sendAndCommentHStack.addArrangedSubview(commentCountContainer)
-        verticalStack.addArrangedSubview(sendAndCommentHStack)
-        
-        userName.snp.makeConstraints { make in
-            make.left.equalTo(container.snp.left).offset(15)
-            make.top.equalTo(container.snp.top).offset(13)
-            make.right.equalTo(optionButton.snp.left).offset(10)
-        }
-        
-        optionButton.snp.makeConstraints { make in
-            make.right.equalTo(container.snp.right).offset(-10)
-            make.top.equalTo(userName.snp.top)
-        }
-        
-        content.snp.makeConstraints { make in
-            make.top.equalTo(userName.snp.bottom).offset(15)
-            make.left.equalTo(userName.snp.left)
-            make.right.equalTo(container.snp.right).offset(-50)
-        }
-
-        verticalStack.snp.makeConstraints { make in
-            make.left.equalTo(userName.snp.left)
-            make.top.equalTo(content.snp.bottom).offset(20)
-            make.bottom.equalTo(container.snp.bottom).offset(-16)
-        }
-
         upVoteCount.snp.makeConstraints { make in
-            make.top.equalTo(upVoteCountContainer.snp.top)
-            make.left.equalTo(upVoteCountContainer.snp.left)
-            make.bottom.equalTo(upVoteCountContainer.snp.bottom)
-            make.right.equalTo(upVoteCountContainer.snp.right)
+            make.top.equalTo(upVoteCountContainer).offset(4)
+            make.left.equalTo(upVoteCountContainer).offset(8)
+            make.right.equalTo(upVoteCountContainer).offset(-8)
+            make.bottom.equalTo(upVoteCountContainer).offset(-4)
         }
         
+        commentCountContainer.addSubview(commentCount)
         commentCount.snp.makeConstraints { make in
-            make.top.equalTo(commentCountContainer.snp.top)
-            make.left.equalTo(commentCountContainer.snp.left)
-            make.bottom.equalTo(commentCountContainer.snp.bottom)
-            make.right.equalTo(commentCountContainer.snp.right)
+            make.top.equalTo(commentCountContainer).offset(4)
+            make.left.equalTo(commentCountContainer).offset(8)
+            make.right.equalTo(commentCountContainer).offset(-8)
+            make.bottom.equalTo(commentCountContainer).offset(-4)
         }
         
+        sendMessageButtonContainer.addSubview(sendMessageButton)
         sendMessageButton.snp.makeConstraints { make in
-            make.top.equalTo(sendMessageButtonContainer)
-            make.left.equalTo(sendMessageButtonContainer)
-            make.right.equalTo(sendMessageButtonContainer)
-            make.bottom.equalTo(sendMessageButtonContainer)
+            make.top.equalTo(sendMessageButtonContainer).offset(4)
+            make.left.equalTo(sendMessageButtonContainer).offset(8)
+            make.right.equalTo(sendMessageButtonContainer).offset(-8)
+            make.bottom.equalTo(sendMessageButtonContainer).offset(-4)
         }
-    
-        sendMessageButtonContainer.snp.makeConstraints { make in
-            make.top.equalTo(verticalStack.snp.top)
-            make.bottom.equalTo(verticalStack.snp.bottom)
-            make.right.equalTo(optionButton.snp.right)
-        }
+
         
-        addSeperator()
+        hstack1.axis = .horizontal
+        hstack1.addArrangedSubview(userName)
+        hstack1.addArrangedSubview(optionButton)
+        
+        miniStack2.axis = .horizontal
+        miniStack2.addArrangedSubview(upVoteCountContainer)
+        miniStack2.addArrangedSubview(commentCountContainer)
+        miniStack2.spacing = 20
+        
+        hstack2.axis = .horizontal
+        hstack2.addArrangedSubview(miniStack2)
+        hstack2.addArrangedSubview(sendMessageButtonContainer)
+        hstack2.distribution = .equalSpacing
+        
+        mainStack.addArrangedSubview(hstack1)
+        mainStack.addArrangedSubview(content)
+        mainStack.addArrangedSubview(hstack2)
+        
+//        addSeperator()
         checkUpvoteButton()
         checkBuzzType()
     }
     
     func addSeperator() {
-        containerLeftAnchor = NSLayoutConstraint(item: container, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: 32)
+        containerLeftAnchor = NSLayoutConstraint(item: containerStack, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: 32)
         containerLeftAnchor.isActive = true
         
         if let seperator = seperatorForFeedsAndComments {
@@ -333,33 +345,59 @@ class FeedTableViewCell: UITableViewCell {
     func checkBuzzType() {
         guard let feed = cellViewModel?.feed else { return }
         
-        if feed.buzzType != .feed {
+        if feed.isChildCommentShown {
+            showOrHideCommentsButton.setTitle("See less", for: .normal)
+        } else {
+            showOrHideCommentsButton.setTitle("See more", for: .normal)
+        }
+        
+        switch feed.buzzType {
+        case .feed:
+            container.backgroundColor = .stoneGrey
+            sendMessageButtonContainer.backgroundColor = actionContainerColor
+            commentCountContainer.backgroundColor = actionContainerColor
+            upVoteCountContainer.backgroundColor = actionContainerColor
+            commentCountContainer.isHidden = false
+            mainStack.removeArrangedSubview(showOrHideCommentsButton)
+            showOrHideCommentsButton.removeFromSuperview()
+        case .comment:
             container.backgroundColor = .clear
             sendMessageButtonContainer.backgroundColor = .clear
             commentCountContainer.backgroundColor = .clear
             upVoteCountContainer.backgroundColor = .clear
-            sendAndCommentHStack.spacing = 30
-            addShowMoreOrLessButton()
-            if feed.buzzType == .childComment {
-                containerLeftAnchor.constant = 60
-                commentCount.isHidden = true
+            commentCountContainer.isHidden = false
+            if cellViewModel?.feed.commentCount != 0 {
+                mainStack.addArrangedSubview(showOrHideCommentsButton)
+            } else {
+                mainStack.removeArrangedSubview(showOrHideCommentsButton)
+                showOrHideCommentsButton.removeFromSuperview()
             }
+        case .childComment:
+            container.backgroundColor = .clear
+            sendMessageButtonContainer.backgroundColor = .clear
+            commentCountContainer.backgroundColor = .clear
+            upVoteCountContainer.backgroundColor = .clear
+            commentCountContainer.isHidden = true
+            mainStack.removeArrangedSubview(showOrHideCommentsButton)
+            showOrHideCommentsButton.removeFromSuperview()
         }
     }
     
     func addShowMoreOrLessButton() {
         // if there is a comment display it
         if cellViewModel?.feed.commentCount != 0 {
-            verticalStack.addArrangedSubview(showOrHideCommentsButton)
+            mainStack.addArrangedSubview(showOrHideCommentsButton)
+        } else {
+            mainStack.removeArrangedSubview(showOrHideCommentsButton)
+            showOrHideCommentsButton.removeFromSuperview()
         }
     }
     
     @objc func showOrHideComments() {
         guard let cellViewModel = cellViewModel else { return }
         guard let indexPath = indexPath else { return }
-        print(indexPath.row)
-        commentsIsShown.toggle()
-        if commentsIsShown {
+        isCommentShown.toggle()
+        if isCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
             commentDelegate?.didTapShowComments(from: cellViewModel.feed.feedID, at: indexPath)
         } else {

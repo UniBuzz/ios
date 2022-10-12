@@ -14,7 +14,6 @@ import RxDataSources
 class CommentsViewController: UIViewController {
     
     var commentsViewModel: CommentsViewModel
-    var replyingTo: Buzz
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -66,7 +65,6 @@ class CommentsViewController: UIViewController {
     
     init(commentsViewModel: CommentsViewModel) {
         self.commentsViewModel = commentsViewModel
-        self.replyingTo = commentsViewModel.feedBuzzTapped
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -97,7 +95,14 @@ class CommentsViewController: UIViewController {
     @objc func postComment() {
         guard let commentText = commentTextField.text else { return }
         if commentText != "" {
-            commentsViewModel.replyComments(from: .anotherComment(anotherCommentID: replyingTo.feedID), commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.feedID)
+            switch commentsViewModel.feedBuzzTapped.buzzType {
+            case .feed:
+                commentsViewModel.replyComments(from: .feed, commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.feedID)
+            case .comment:
+                commentsViewModel.replyComments(from: .anotherComment(anotherCommentID: commentsViewModel.feedBuzzTapped.feedID), commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.repliedFrom)
+            case .childComment:
+                return
+            }
             commentTextField.text = ""
         }
     }
@@ -171,13 +176,12 @@ class CommentsViewController: UIViewController {
 
 }
 
-extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CommentsViewModelDelegate, CommentCellDelegate {
+extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CommentCellDelegate, ViewModelDelegate {
     
     func stopRefresh() {
-        print("end")
+        print("")
     }
     
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return commentsViewModel.comments.count
     }
@@ -198,7 +202,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
         cell.parentFeed = commentsViewModel.feedBuzzTapped.feedID
         cell.seperatorForFeedsAndComments = seperator
         cell.userUID = uid
-        cell.cellViewModel = self.commentsViewModel.getDataForFeedCell(feed: item)
+        cell.cellViewModel = self.commentsViewModel.getDataForFeedCell(feed: item, indexPath: indexPath)
         return cell
     }
     
@@ -206,48 +210,29 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
         let buzz = commentsViewModel.comments[indexPath.row]
         self.infoLabelAboveTextField.text = "Replying to \(buzz.userName)"
         self.commentTextField.becomeFirstResponder()
-        self.replyingTo = buzz
-        print("replying to: \(replyingTo.content)")
+        commentsViewModel.feedBuzzTapped = buzz
+        print("replying to: \(commentsViewModel.feedBuzzTapped.content)")
     }
     
     func reloadTableView() {
         tableView.reloadData()
     }
     
-    func insertRowsTableView(at: IndexPath, range: Int) {
-        let rowIndex = at.row
-        let totalRows = commentsViewModel.comments.count
-        let indexPaths = (rowIndex+1...rowIndex+range).map { return IndexPath(row: $0, section: 0)}
-        let theRestOfIndexPaths = (rowIndex+range...totalRows).map { return IndexPath(row: $0, section: 0)}
-        print(theRestOfIndexPaths)
-        tableView.beginUpdates()
-        tableView.insertRows(at: indexPaths, with: .bottom)
-//        tableView.reloadRows(at: theRestOfIndexPaths, with: .automatic)
-        tableView.endUpdates()
-    }
-    
-    func removeRowsTableView(at: IndexPath, range: Int) {
-        let rowIndex = at.row
-        let totalRows = commentsViewModel.comments.count
-        let indexPaths = (rowIndex+1...rowIndex+range).map { return IndexPath(row: $0, section: 0)}
-        let theRestOfIndexPaths = (rowIndex+range+1...totalRows).map { return IndexPath(row: $0, section: 0)}
-        print(theRestOfIndexPaths)
-        tableView.beginUpdates()
-        tableView.deleteRows(at: indexPaths, with: .top)
-//        tableView.reloadRows(at: theRestOfIndexPaths, with: .automatic)
-        tableView.endUpdates()
-    }
-
     func didTapMessage(uid: String, pseudoname: String) {
-        
+        let controller = ChatCollectionViewController(user: User(dictionary: ["uid": uid, "pseudoname": pseudoname]))
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     func didTapUpVote(model: UpvoteModel) {
-        
+        print("upvote tapped from comment page")
     }
     
-    func didTapComment(feed: Buzz, destination: Destination) {
-        
+    func didTapComment(feed: Buzz) {
+        self.infoLabelAboveTextField.text = "Replying to \(feed.userName)"
+        self.commentTextField.becomeFirstResponder()
+        print("comment tapped from \(feed.content)")
+        commentsViewModel.feedBuzzTapped = feed
     }
     
     func didTapShowComments(from commentID: String, at index: IndexPath) {

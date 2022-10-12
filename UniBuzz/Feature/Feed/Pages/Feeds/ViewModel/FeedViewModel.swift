@@ -33,19 +33,18 @@ class FeedViewModel {
                 querySnapshot.documents.forEach { document in
                     var buzz = Buzz(dictionary: document.data(), feedID: document.documentID)
                     if upvotedFeeds.contains(document.documentID) { buzz.isUpvoted = true }
-                    buzz.forPage = .openCommentPage
                     self.feedsData.append(buzz)
                 }
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
                     self?.delegate?.stopRefresh()
-                    self?.delegate?.reloadTableView()
                 }
+                self.delegate?.reloadTableView()
             }
         }
     }
     
-    func getDataForFeedCell(feed: Buzz) -> FeedCellViewModel {
-        return FeedCellViewModel(feed: feed)
+    func getDataForFeedCell(feed: Buzz, indexPath: IndexPath) -> FeedCellViewModel {
+        return FeedCellViewModel(feed: feed, indexPath: indexPath)
     }
     
     func updateForTheLatestData() {

@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		5E0F380628F4139200FDE867 /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */; };
+		5ED5331F28F6BE82009BDB0D /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		C42BB94928DA2A1400006F71 /* BuzzModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* BuzzModel.swift */; };
 		C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94828DA2A1400006F71 /* FeedViewModel.swift */; };
-		C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */; };
+		C42BB94E28DB649500006F71 /* FeedTableViewCell1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell1.swift */; };
 		C433EBF228ECA10000EF6C6A /* CommentsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433EBF128ECA10000EF6C6A /* CommentsViewModel.swift */; };
 		C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C433EBF328ECA12600EF6C6A /* CommentsViewController.swift */; };
 		C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */; };
@@ -44,7 +45,7 @@
 		CB564B7F28EBE9C800D868FB /* ConversationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0414128DA0D550098395E /* ConversationViewModel.swift */; };
 		CB564B8028EBE9C800D868FB /* BuzzModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* BuzzModel.swift */; };
 		CB564B8128EBE9C800D868FB /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94828DA2A1400006F71 /* FeedViewModel.swift */; };
-		CB564B8228EBE9C800D868FB /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */; };
+		CB564B8228EBE9C800D868FB /* FeedTableViewCell1.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94D28DB649400006F71 /* FeedTableViewCell1.swift */; };
 		CB564B8328EBE9C800D868FB /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */; };
 		CB564B8428EBE9C800D868FB /* PostFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */; };
 		CB564B8528EBE9C800D868FB /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */; };
@@ -106,9 +107,10 @@
 
 /* Begin PBXFileReference section */
 		5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
+		5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		C42BB94728DA2A1400006F71 /* BuzzModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuzzModel.swift; sourceTree = "<group>"; };
 		C42BB94828DA2A1400006F71 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
-		C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		C42BB94D28DB649400006F71 /* FeedTableViewCell1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell1.swift; sourceTree = "<group>"; };
 		C433EBF128ECA10000EF6C6A /* CommentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewModel.swift; sourceTree = "<group>"; };
 		C433EBF328ECA12600EF6C6A /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		C44DAF0228DD5B200061A8BE /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -524,8 +526,9 @@
 		CBE0413E28D948CC0098395E /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C42BB94D28DB649400006F71 /* FeedTableViewCell.swift */,
+				C42BB94D28DB649400006F71 /* FeedTableViewCell1.swift */,
 				CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */,
+				5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -919,6 +922,7 @@
 				CB564B7428EBE9C800D868FB /* UniversityViewCell.swift in Sources */,
 				CB564B7528EBE9C800D868FB /* PageControlView.swift in Sources */,
 				CB564B7628EBE9C800D868FB /* Message.swift in Sources */,
+				5ED5331F28F6BE82009BDB0D /* FeedTableViewCell.swift in Sources */,
 				CB564B7728EBE9C800D868FB /* Conversation.swift in Sources */,
 				D471F8FB28F5A80900972EB6 /* ForgotPasswordViewController.swift in Sources */,
 				CB564B7828EBE9C800D868FB /* ChatCollectionViewController.swift in Sources */,
@@ -938,7 +942,7 @@
 				CB564B8028EBE9C800D868FB /* BuzzModel.swift in Sources */,
 				CB564B8128EBE9C800D868FB /* FeedViewModel.swift in Sources */,
 				CB564BA128EED7AC00D868FB /* DropsOfHoneyView.swift in Sources */,
-				CB564B8228EBE9C800D868FB /* FeedTableViewCell.swift in Sources */,
+				CB564B8228EBE9C800D868FB /* FeedTableViewCell1.swift in Sources */,
 				CB564B8328EBE9C800D868FB /* FeedViewController.swift in Sources */,
 				CB564B8428EBE9C800D868FB /* PostFeedViewModel.swift in Sources */,
 				CB564B8528EBE9C800D868FB /* PostFeedViewController.swift in Sources */,

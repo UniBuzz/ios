@@ -9,4 +9,5 @@ import Foundation
 
 struct FeedCellViewModel {
     var feed: Buzz
+    var indexPath: IndexPath
 }

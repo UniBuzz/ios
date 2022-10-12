@@ -131,12 +131,10 @@ class FeedViewController: UIViewController {
 
 extension FeedViewController: FeedCellDelegate {
     
-    func didTapComment(feed: Buzz, destination: Destination) {
-        if destination == .openCommentPage {
-            let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
-            let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
-            self.navigationController?.pushViewController(commentsVC, animated: true)
-        }
+    func didTapComment(feed: Buzz) {
+        let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
+        let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
+        self.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
     func didTapUpVote(model: UpvoteModel) {
@@ -168,7 +166,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.cellIdentifier, for: indexPath) as! FeedTableViewCell
         let item = viewModel.feedsData
         cell.userUID = uid
-        cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row])
+        cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row], indexPath: indexPath)
         cell.feedDelegate = self
         return cell
     }

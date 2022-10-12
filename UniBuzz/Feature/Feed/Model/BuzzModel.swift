@@ -8,10 +8,6 @@
 import Foundation
 import RxSwift
 
-enum Destination: String {
-    case openCommentPage,loadComment
-}
-
 enum BuzzType: String {
     case comment, feed, childComment
 }
@@ -25,7 +21,7 @@ struct Buzz {
     var feedID: String
     var timestamp: Int
     var isUpvoted = false
-    var forPage: Destination = .openCommentPage
+    var isChildCommentShown = false
     var buzzType: BuzzType
     var userIDs: [String]
     var repliedFrom: String
