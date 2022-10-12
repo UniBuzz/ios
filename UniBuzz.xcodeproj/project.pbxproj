@@ -80,6 +80,8 @@
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		CBE06C4C28DE203C0059CCFF /* (null) in Sources */ = {isa = PBXBuildFile; };
 		D471F8FB28F5A80900972EB6 /* ForgotPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471F8FA28F5A80900972EB6 /* ForgotPasswordViewController.swift */; };
+		D471F8FD28F5B9AF00972EB6 /* LoginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471F8FC28F5B9AF00972EB6 /* LoginService.swift */; };
+		D471F8FF28F5C3A900972EB6 /* ForgotPasswordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D471F8FE28F5C3A900972EB6 /* ForgotPasswordViewModel.swift */; };
 		D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */; };
 		D4BB0E3028D86F7A00E28C3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2E28D86F7A00E28C3D /* LaunchScreen.storyboard */; };
 		D4BB0E6228D8746000E28C3D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6128D8746000E28C3D /* FirebaseAuth */; };
@@ -153,6 +155,8 @@
 		CBE06C5328DF118C0059CCFF /* LoadingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingExtension.swift; sourceTree = "<group>"; };
 		CBE06C5728E037470059CCFF /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
 		D471F8FA28F5A80900972EB6 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
+		D471F8FC28F5B9AF00972EB6 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
+		D471F8FE28F5C3A900972EB6 /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
 		D4BB0E2028D86F7900E28C3D /* UniBuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -546,6 +550,7 @@
 			isa = PBXGroup;
 			children = (
 				CBE06C4328DD51D90059CCFF /* LoginViewModel.swift */,
+				D471F8FE28F5C3A900972EB6 /* ForgotPasswordViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -770,6 +775,7 @@
 				D4D4894128E42D020012D67E /* AuthService.swift */,
 				D4D4894328E43AF40012D67E /* Service.swift */,
 				D4ECE59428EA884F00E24223 /* DataService.swift */,
+				D471F8FC28F5B9AF00972EB6 /* LoginService.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -924,6 +930,7 @@
 				CB564BA528EEE24C00D868FB /* HoneyViewController.swift in Sources */,
 				CB564B7E28EBE9C800D868FB /* ConversationCell.swift in Sources */,
 				CB564BB628F1541C00D868FB /* HoneyItemView.swift in Sources */,
+				D471F8FF28F5C3A900972EB6 /* ForgotPasswordViewModel.swift in Sources */,
 				CB564B7F28EBE9C800D868FB /* ConversationViewModel.swift in Sources */,
 				CB564B8028EBE9C800D868FB /* BuzzModel.swift in Sources */,
 				CB564B8128EBE9C800D868FB /* FeedViewModel.swift in Sources */,
@@ -954,6 +961,7 @@
 				CBE06C4C28DE203C0059CCFF /* (null) in Sources */,
 				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,
 				C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */,
+				D471F8FD28F5B9AF00972EB6 /* LoginService.swift in Sources */,
 				C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */,
 				C433EBF228ECA10000EF6C6A /* CommentsViewModel.swift in Sources */,
 				C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */,

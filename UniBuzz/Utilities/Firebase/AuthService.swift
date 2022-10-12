@@ -30,20 +30,6 @@ class AuthService {
             
         }
     }
-        
-    func signIn(email: String, password: String, completion: @escaping (Result<AuthDataResult,Error>) -> Void){
-        
-        firebaseAuth.signIn(withEmail: email, password: password) { result, error in
-            if let error = error {
-                completion(.failure(error))
-            }
-            if let result = result {
-                let userFirebase = result
-                completion(.success(userFirebase))
-            }
-        }
-        
-    }
     
     
     func registerUser(withEmail email: String, pseudo: String, password: String, completion: @escaping ((Result<[String:Any],Error>) -> Void)){
@@ -91,21 +77,6 @@ class AuthService {
                     completion(error)
                 }
             })
-        }
-    }
-    
-    func checkEmailVerified() -> Bool {
-        guard let verified = firebaseAuth.currentUser?.isEmailVerified else { return false }
-        return verified
-    }
-    
-    func logOut() {
-        if firebaseAuth.currentUser?.uid != nil{
-            do {
-                try firebaseAuth.signOut()
-            } catch {
-                print("Error for logout")
-            }
         }
     }
     

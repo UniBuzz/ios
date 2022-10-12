@@ -11,22 +11,22 @@ import Firebase
 class LoginViewModel {
     
     var user: User?
-    var authService: AuthService
+    var service: LoginService
     
     var errorPresentView: ((Error) -> Void)?
     var authSuccess: (() -> Void)?
     var notVerified: (() -> Void)?
     
-    init(user: User? = nil, authService: AuthService = AuthService()) {
+    init(user: User? = nil, loginService: LoginService = LoginService()) {
         self.user = user
-        self.authService = authService
+        self.service = loginService
     }    
     
     func signIn(withEmail email: String, password: String){
-        authService.signIn(email: email, password: password) { result in
+        service.signIn(email: email, password: password) { result in
             switch result {
             case .success(_):
-                if self.authService.checkEmailVerified() {
+                if self.service.checkEmailVerified() {
                     self.authSuccess?()
                 } else {
                     self.notVerified?()
@@ -38,10 +38,12 @@ class LoginViewModel {
     }
     
     func resendVerificationEmail() {
-        authService.sendVerificationEmail { error in
+        service.sendVerificationEmail { error in
             self.errorPresentView?(error)
         }
-        authService.logOut()
+        service.logOut()
     }
+    
+    
     
 }

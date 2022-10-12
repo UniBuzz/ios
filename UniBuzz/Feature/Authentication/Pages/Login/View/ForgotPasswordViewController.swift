@@ -50,12 +50,22 @@ class ForgotPasswordViewController: UIViewController {
         return button
     }()
     
+    private let loadingSpinner: UIActivityIndicatorView = {
+        let spin = UIActivityIndicatorView()
+        spin.sizeToFit()
+        spin.style = .large
+        spin.backgroundColor = .eternalBlack
+        spin.color = .heavenlyWhite
+        return spin
+    }()
+    
+    private let viewModel: ForgotPasswordViewModel = ForgotPasswordViewModel()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
+        bindViewModel()
     }
     
     //MARK: - Helper
@@ -88,13 +98,38 @@ class ForgotPasswordViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(32)
         }
         
+        view.addSubview(loadingSpinner)
+        loadingSpinner.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.height.width.equalTo(100)
+        }
         
+        
+    }
+    
+    func bindViewModel(){
+        viewModel.errorPresentView = { error in
+            print("DEBUG: error with message - \(error.localizedDescription)")
+            self.loadingSpinner.stopAnimating()
+            let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.forgotPasswordSuccess = {
+            self.loadingSpinner.stopAnimating()
+            let alert = UIAlertController(title: "Please check your email", message: "Forgot password link has been sent to your email address", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.present(alert, animated: true,completion: nil)
+        }
     }
     
     //MARK: - Selector
     
     @objc func handleSubmit(){
-        
+        guard let email = emailTextField.text else { return }
+        loadingSpinner.startAnimating()
+        viewModel.forgotPassword(email: email)
     }
     
     
