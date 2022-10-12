@@ -20,13 +20,32 @@ class LoginViewController: UIViewController {
     
     private let viewModel = LoginViewModel()
     
+    private let headingLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Hello Again!"
+        label.textColor = .creamyYellow
+        label.font = .systemFont(ofSize: 25, weight: .bold)
+        label.textAlignment = .center
+        return label
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Welcome back you've\nbeen missed!"
+        label.textColor = .heavenlyWhite
+        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        return label
+    }()
+    
     private lazy var emailContainerView: UIView = {
         let view = InputThemes().inputContainerView(textfield: emailTextField, title: "University Email")
         return view
     }()
     
     private let emailTextField: UITextField = {
-        let tf = InputThemes().textField(withPlaceholder: "email@ui.ac.id")
+        let tf = InputThemes().textField(withPlaceholder: "insert your email")
         return tf
     }()
     
@@ -36,7 +55,7 @@ class LoginViewController: UIViewController {
     }()
     
     private let passwordTextField: UITextField = {
-        let tf = InputThemes().textField(withPlaceholder: "Password")
+        let tf = InputThemes().textField(withPlaceholder: "insert password")
         tf.isSecureTextEntry = true
         return tf
     }()
@@ -123,9 +142,21 @@ class LoginViewController: UIViewController {
         self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
         self.hideKeyboardWhenTappedAround()
         
+        view.addSubview(headingLabel)
+        headingLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(60)
+            make.leading.trailing.equalToSuperview().inset(32)
+        }
+        
+        view.addSubview(descriptionLabel)
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(headingLabel.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview().inset(32)
+        }
+        
         view.addSubview(emailContainerView)
         emailContainerView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(200)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(50)
             make.left.right.equalToSuperview()
         }
         
