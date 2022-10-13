@@ -12,12 +12,11 @@ protocol CellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
     func didTapUpVote(model: UpvoteModel, index: IndexPath)
     func didTapComment(feed: Buzz)
-    
 }
 
-extension CellDelegate {
-    func didTapShowComments(from commentID: String, at index: IndexPath) { }
-    func didTapHideComments(from commentID: String, at index: IndexPath) { }
+protocol CommentCellDelegate: CellDelegate {
+    func didTapShowComments(from commentID: String, at index: IndexPath)
+    func didTapHideComments(from commentID: String, at index: IndexPath)
 }
 
 class FeedTableViewCell: UITableViewCell {
@@ -324,7 +323,6 @@ class FeedTableViewCell: UITableViewCell {
     
     func checkShowOrHideComments() {
         guard let feed = cellViewModel?.feed else { return }
-        seperator.backgroundColor = .heavenlyWhite
         
         if feed.isChildCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)

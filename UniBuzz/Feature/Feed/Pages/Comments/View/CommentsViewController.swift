@@ -174,7 +174,7 @@ class CommentsViewController: UIViewController {
 
 }
 
-extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CellDelegate, ViewModelDelegate {
+extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CommentCellDelegate, ViewModelDelegate {
     
     func stopRefresh() {
         print("")
