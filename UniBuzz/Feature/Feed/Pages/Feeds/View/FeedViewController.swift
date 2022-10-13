@@ -37,6 +37,8 @@ class FeedViewController: UIViewController {
         return button
     }()
     
+    let refreshControl = UIRefreshControl()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,6 +97,10 @@ class FeedViewController: UIViewController {
             make.right.equalToSuperview().offset(-5)
             make.bottom.equalToSuperview().offset(-5)
         }
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        feedTableView.addSubview(refreshControl)
     }
     
     func configureNavigationItems(){
@@ -115,22 +121,24 @@ class FeedViewController: UIViewController {
         self.navigationItem.titleView = title
         self.navigationController?.navigationBar.barTintColor = .midnights
     }
+    
+    @objc func refresh() {
+        viewModel.fetchData()
+    }
 }
 
     //MARK: - Extension
 
-extension FeedViewController: FeedCellDelegate {
+extension FeedViewController: CellDelegate {
     
-    func didTapComment(feed: Buzz, destination: Destination) {
-        if destination == .openCommentPage {
-            let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
-            let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
-            self.navigationController?.pushViewController(commentsVC, animated: true)
-        }
+    func didTapComment(feed: Buzz) {
+        let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
+        let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
+        self.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
-    func didTapUpVote(model: UpvoteModel) {
-        viewModel.upVoteContent(model: model)
+    func didTapUpVote(model: UpvoteModel, index: IndexPath) {
+        viewModel.upVoteContent(model: model, index: index)
     }
     
     func didTapMessage(uid: String, pseudoname: String) {
@@ -158,8 +166,8 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.cellIdentifier, for: indexPath) as! FeedTableViewCell
         let item = viewModel.feedsData
         cell.userUID = uid
-        cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row])
-        cell.feedDelegate = self
+        cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row], indexPath: indexPath)
+        cell.cellDelegate = self
         return cell
     }
     
@@ -172,6 +180,10 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension FeedViewController: ViewModelDelegate {
+    func stopRefresh() {
+        refreshControl.endRefreshing()
+    }
+    
     func reloadTableView() {
         feedTableView.reloadData()
     }

@@ -14,7 +14,6 @@ import RxDataSources
 class CommentsViewController: UIViewController {
     
     var commentsViewModel: CommentsViewModel
-    var bag = DisposeBag()
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -96,14 +95,20 @@ class CommentsViewController: UIViewController {
     @objc func postComment() {
         guard let commentText = commentTextField.text else { return }
         if commentText != "" {
-            commentsViewModel.replyComments(from: .anotherComment(anotherCommentID: "BO6nAE34eMmeVFAkIj6r"), commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.feedID)
+            switch commentsViewModel.feedBuzzTapped.buzzType {
+            case .feed:
+                commentsViewModel.replyComments(from: .feed, commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.feedID)
+            case .comment:
+                commentsViewModel.replyComments(from: .anotherComment(anotherCommentID: commentsViewModel.feedBuzzTapped.feedID), commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.repliedFrom)
+            case .childComment:
+                return
+            }
             commentTextField.text = ""
         }
     }
     
     func configureUI() {
         let textFieldAndSendButtonHeight: CGFloat = 35
-        
         view.addSubview(tableView)
         view.addSubview(footer)
         footer.addSubview(textFieldContainer)
@@ -163,14 +168,18 @@ class CommentsViewController: UIViewController {
             make.right.equalTo(sendButtonContainer)
             make.bottom.equalTo(sendButtonContainer)
         }
-        
         sendButtonContainer.layer.cornerRadius = textFieldAndSendButtonHeight / 2
         textFieldContainer.layer.cornerRadius = 20
     }
 
 }
 
-extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, ViewModelDelegate {
+extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CommentCellDelegate, ViewModelDelegate {
+    
+    func stopRefresh() {
+        print("")
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return commentsViewModel.comments.count
     }
@@ -181,15 +190,17 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Vi
         
         let seperator = UIView(frame: .zero )
         seperator.backgroundColor = .heavenlyWhite
-        let tappedFeed = commentsViewModel.comments[indexPath.row]
-        
         if indexPath.row != 0 {
             seperator.layer.opacity = 0.2
         }
+                        
+        let item = commentsViewModel.comments[indexPath.row]
+        cell.commentCellDelegate = self
+        cell.indexPath = indexPath
         cell.parentFeed = commentsViewModel.feedBuzzTapped.feedID
-        cell.seperatorForFeedsAndComments = seperator
         cell.userUID = uid
-        cell.cellViewModel = self.commentsViewModel.getDataForFeedCell(feed: tappedFeed)
+        cell.addSeperator = true
+        cell.cellViewModel = self.commentsViewModel.getDataForFeedCell(feed: item, indexPath: indexPath)
         return cell
     }
     
@@ -197,11 +208,40 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Vi
         let buzz = commentsViewModel.comments[indexPath.row]
         self.infoLabelAboveTextField.text = "Replying to \(buzz.userName)"
         self.commentTextField.becomeFirstResponder()
+        commentsViewModel.feedBuzzTapped = buzz
+        print("replying to: \(commentsViewModel.feedBuzzTapped.content)")
     }
     
     func reloadTableView() {
         tableView.reloadData()
     }
+    
+    func didTapMessage(uid: String, pseudoname: String) {
+        let controller = ChatCollectionViewController(user: User(dictionary: ["uid": uid, "pseudoname": pseudoname]))
+        controller.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(controller, animated: true)
+    }
+    
+    func didTapUpVote(model: UpvoteModel, index: IndexPath) {
+        print("upvote tapped from comment page")
+        commentsViewModel.upVoteContent(model: model)
+    }
+    
+    func didTapComment(feed: Buzz) {
+        self.infoLabelAboveTextField.text = "Replying to \(feed.userName)"
+        self.commentTextField.becomeFirstResponder()
+        print("comment tapped from \(feed.content)")
+        commentsViewModel.feedBuzzTapped = feed
+    }
+    
+    func didTapShowComments(from commentID: String, at index: IndexPath) {
+        commentsViewModel.showChildComment(from: commentID, at: index)
+    }
+
+    func didTapHideComments(from commentID: String, at index: IndexPath) {
+        commentsViewModel.hideChildComment(from: commentID, at: index)
+    }
+
     
 }
 

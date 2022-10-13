@@ -12,6 +12,7 @@ import Firebase
 
 protocol ViewModelDelegate: AnyObject {
     func reloadTableView()
+    func stopRefresh()
 }
 
 class FeedViewModel {
@@ -32,17 +33,18 @@ class FeedViewModel {
                 querySnapshot.documents.forEach { document in
                     var buzz = Buzz(dictionary: document.data(), feedID: document.documentID)
                     if upvotedFeeds.contains(document.documentID) { buzz.isUpvoted = true }
-                    buzz.forPage = .openCommentPage
                     self.feedsData.append(buzz)
                 }
-                // reload table view here
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+                    self?.delegate?.stopRefresh()
+                }
                 self.delegate?.reloadTableView()
             }
         }
     }
     
-    func getDataForFeedCell(feed: Buzz) -> FeedCellViewModel {
-        return FeedCellViewModel(feed: feed)
+    func getDataForFeedCell(feed: Buzz, indexPath: IndexPath) -> FeedCellViewModel {
+        return FeedCellViewModel(feed: feed, indexPath: indexPath)
     }
     
     func updateForTheLatestData() {
@@ -65,11 +67,8 @@ class FeedViewModel {
             }
     }
     
-    func pullToRefreshFeed() {
-        
-    }
-    
-    func upVoteContent(model: UpvoteModel) {
+    func upVoteContent(model: UpvoteModel, index: IndexPath) {
+        var buzzCopy = feedsData[index.row]
         print("Upvoting ...")
         COLLECTION_FEEDS.document(model.feedToVoteID).getDocument { document, err in
             if let document = document, document.exists {
@@ -78,8 +77,10 @@ class FeedViewModel {
                 guard var userIDs = data["userIDs"] as? [String] else { return }
                 if !userIDs.contains(model.currenUserID) {
                     userIDs.append(model.currenUserID)
+                    buzzCopy.isUpvoted = true
                 } else {
                     userIDs.removeAll { $0 == model.currenUserID }
+                    buzzCopy.isUpvoted = false
                 }
                 COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": userIDs, "upvoteCount": userIDs.count])
             } else {
@@ -94,15 +95,13 @@ class FeedViewModel {
             guard var upvotedFeeds = data["upvotedFeeds"] as? [String] else { return }
             if !upvotedFeeds.contains(model.feedToVoteID) {
                 upvotedFeeds.append(model.feedToVoteID)
+                buzzCopy.isUpvoted = true
             } else {
                 upvotedFeeds.removeAll { $0 == model.feedToVoteID }
+                buzzCopy.isUpvoted = false
             }
             COLLECTION_USERS.document(model.currenUserID).updateData(["upvotedFeeds": upvotedFeeds])
         }
-    }
-    
-    func getCommentsCount() {
-        
     }
     
     func feedOption() {
