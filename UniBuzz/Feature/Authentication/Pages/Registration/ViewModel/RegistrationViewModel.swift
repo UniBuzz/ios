@@ -40,6 +40,11 @@ class RegistrationViewModel {
             return
         }
         
+        if pseudo.contains(" ") {
+            pseudonameNotPassed?()
+            return
+        }
+        
         guard let universitySelected = universitySelected else { return }
         if !email.contains(universitySelected.domain) {
             self.errorEmailNotValid?()

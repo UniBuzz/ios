@@ -132,7 +132,7 @@ class RegistrationViewController: UIViewController {
         }
         
         viewModel.pseudonameNotPassed = {
-            let alert = UIAlertController(title: "Pseudoname not valid", message: "Total character for pseudoname are between 2 and 20", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Pseudoname not valid", message: "Total character for pseudoname are between 2 and 20 and not contains spaces", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
             self.loadingSpinner.stopAnimating()
             self.present(alert, animated: true,completion: nil)
