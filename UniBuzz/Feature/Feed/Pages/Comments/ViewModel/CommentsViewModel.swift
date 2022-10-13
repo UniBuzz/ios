@@ -28,7 +28,7 @@ class CommentsViewModel {
     
     func loadComments() {
         comments = [feedBuzzTapped]
-        COLLECTION_FEEDS.document(feedBuzzTapped.feedID).collection(commentsCollectionKey).getDocuments { querySnapshot, err in
+        COLLECTION_FEEDS.document(feedBuzzTapped.feedID).collection(commentsCollectionKey).order(by: "timestamp").getDocuments { querySnapshot, err in
             guard let querySnapshot = querySnapshot else { return }
             querySnapshot.documents.forEach { document in
                 var comment = Buzz(dictionary: document.data(), feedID: document.documentID)
@@ -40,6 +40,38 @@ class CommentsViewModel {
     
     func getDataForFeedCell(feed: Buzz, indexPath: IndexPath) -> FeedCellViewModel {
         return FeedCellViewModel(feed: feed, indexPath: indexPath)
+    }
+    
+    func upVoteContent(model: UpvoteModel) {
+        print("Upvoting ...")
+        COLLECTION_FEEDS.document(model.feedToVoteID).getDocument { document, err in
+            if let document = document, document.exists {
+                print("DEBUG: Doc is exist")
+                guard let data = document.data() else { return }
+                guard var userIDs = data["userIDs"] as? [String] else { return }
+                if !userIDs.contains(model.currenUserID) {
+                    userIDs.append(model.currenUserID)
+                } else {
+                    userIDs.removeAll { $0 == model.currenUserID }
+                }
+                COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": userIDs, "upvoteCount": userIDs.count])
+            } else {
+                print("DEBUG: Doc is not exist, setting document")
+                COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": [model.currenUserID], "upvoteCount": 1])
+            }
+        }
+        
+        COLLECTION_USERS.document(model.currenUserID).getDocument { document, err in
+            guard let document = document else { return }
+            guard let data = document.data() else { return }
+            guard var upvotedFeeds = data["upvotedFeeds"] as? [String] else { return }
+            if !upvotedFeeds.contains(model.feedToVoteID) {
+                upvotedFeeds.append(model.feedToVoteID)
+            } else {
+                upvotedFeeds.removeAll { $0 == model.feedToVoteID }
+            }
+            COLLECTION_USERS.document(model.currenUserID).updateData(["upvotedFeeds": upvotedFeeds])
+        }
     }
     
     func replyComments(from: CommentFrom, commentContent: String, feedID: String) {
@@ -102,7 +134,6 @@ class CommentsViewModel {
     func incrementCommentCountForChildComment(childCommentID: String) {
         COLLECTION_FEEDS.document(feedBuzzTapped.repliedFrom).collection(self.commentsCollectionKey).document(childCommentID).getDocument { doc, err in
             guard let doc = doc else { return }
-            print(doc.data())
             guard let data = doc.data() else { return }
             let commentCount = data["commentCount"] as? Int ?? 0
             print(commentCount)

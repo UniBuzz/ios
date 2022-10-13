@@ -8,29 +8,30 @@
 import UIKit
 import Firebase
 
-protocol FeedCellDelegate: AnyObject {
+protocol CellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
-    func didTapUpVote(model: UpvoteModel)
+    func didTapUpVote(model: UpvoteModel, index: IndexPath)
     func didTapComment(feed: Buzz)
+    
 }
 
-protocol CommentCellDelegate: FeedCellDelegate {
-    func didTapShowComments(from commentID: String, at index: IndexPath)
-    func didTapHideComments(from commentID: String, at index: IndexPath)
+extension CellDelegate {
+    func didTapShowComments(from commentID: String, at index: IndexPath) { }
+    func didTapHideComments(from commentID: String, at index: IndexPath) { }
 }
 
 class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Variables
-    weak var feedDelegate: FeedCellDelegate?
-    weak var commentDelegate: CommentCellDelegate?
-    static var cellIdentifier = "FeedCell"
-    let actionContainerColor = UIColor.rgb(red: 83, green: 83, blue: 83)
-    var userUID = ""
-    var parentFeed = ""
-    var isUpvoted = false
+    weak var cellDelegate: CellDelegate?
+    static var cellIdentifier: String = "FeedCell"
+    let actionContainerColor:UIColor = .rgb(red: 83, green: 83, blue: 83)
+    var userUID: String = ""
+    var parentFeed: String = ""
+    var isUpvoted: Bool = false
+    var isCommentShown: Bool = false
     var indexPath: IndexPath?
-    var isCommentShown = false
+    var addSeperator: Bool = false
     
     var cellViewModel: FeedCellViewModel? {
         didSet {
@@ -51,7 +52,6 @@ class FeedTableViewCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .stoneGrey
         view.layer.cornerRadius = 15
-//        view.backgroundColor = .warningRed
         return view
     }()
     
@@ -121,8 +121,7 @@ class FeedTableViewCell: UITableViewCell {
     
     lazy var optionButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .bold)),
-                        for: .normal)
+        button.setImage(UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .bold)), for: .normal)
         button.tintColor = .heavenlyWhite
         return button
     }()
@@ -163,29 +162,29 @@ class FeedTableViewCell: UITableViewCell {
     let hstack1 = UIStackView()
     let hstack2 = UIStackView()
     let miniStack2 = UIStackView()
-    
-    var seperatorForFeedsAndComments: UIView?
-    var containerLeftAnchor = NSLayoutConstraint()
-    var seperatorBottomAnchor = NSLayoutConstraint()
-        
+    var containerWithSpacer = UIStackView()
+    let spacer1 = UIView.spacer(size: 36, for: .horizontal)
+    let spacer2 = UIView.spacer(size: 36, for: .horizontal)
+    let spacer3 = UIView.spacer(size: 16, for: .vertical)
+    let spacer4 = UIView.spacer(size: 16, for: .vertical)
+    let spacer5 = UIView.spacer(size: 20, for: .horizontal)
+    let seperator = UIView()
+
     //MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureCell()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        
-    }
-    
     //MARK: - Selectors
     @objc func upVotePressed() {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
-        print(isUpvoted)
+        guard let indexPath = indexPath else { return }
+
         if isUpvoted {
             cellViewModel?.feed.upvoteCount -= 1
             cellViewModel?.feed.isUpvoted = false
@@ -196,30 +195,28 @@ class FeedTableViewCell: UITableViewCell {
             cellViewModel?.feed.upvoteCount += 1
             cellViewModel?.feed.isUpvoted = true
             upVoteCount.setTitleColor(.eternalBlack, for: .normal)
-            upVoteCount.titleLabel?.textColor = .eternalBlack
             upVoteCount.tintColor = .eternalBlack
             upVoteCountContainer.backgroundColor = .creamyYellow
         }
-        feedDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID))
+        cellDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID), index: indexPath)
     }
     
     @objc func commentCountPressed() {
         guard let feed = cellViewModel?.feed else { return }
 //        print("Go To Comment Page with content of \(feed.content)")
-        feedDelegate?.didTapComment(feed: feed)
+        cellDelegate?.didTapComment(feed: feed)
     }
     
     @objc func sendMessagePressed() {
         guard let feed = cellViewModel?.feed else { return }
 //        print("send message to this id: \(feed.uid)")
-        feedDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
+        cellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
     }
     
     //MARK: - Functions
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
-        print(indexPath?.row)
     }
     
     func checkUpvoteButton() {
@@ -239,31 +236,42 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCountContainer.backgroundColor = .creamyYellow
         } else {
             upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
+            upVoteCount.titleLabel?.textColor = .heavenlyWhite
             upVoteCount.tintColor = .heavenlyWhite
             upVoteCountContainer.backgroundColor = actionContainerColor
         }
     }
     
-    
     func configureCell() {
         self.contentView.backgroundColor = .midnights
         self.contentView.addSubview(containerStack)
-        
+
         containerStack.snp.makeConstraints { make in
-            make.top.equalTo(self.contentView.snp.top).offset(16)
-            make.left.equalTo(self.contentView.snp.left).offset(36)
-            make.right.equalTo(self.contentView.snp.right).offset(-36)
-            make.bottom.equalTo(self.contentView.snp.bottom).offset(-16)
+            make.top.equalTo(self.contentView.snp.top)
+            make.left.equalTo(self.contentView.snp.left)
+            make.right.equalTo(self.contentView.snp.right)
+            make.bottom.equalTo(self.contentView.snp.bottom)
         }
+
+        containerWithSpacer = UIStackView(arrangedSubviews: [
+            spacer1,
+            container,
+            spacer2
+        ])
         
-        containerStack.addArrangedSubview(container)
+        containerWithSpacer.axis = .horizontal
+        containerWithSpacer.distribution = .fill
+        
+        containerStack.addArrangedSubview(spacer3)
+        containerStack.addArrangedSubview(containerWithSpacer)
+        containerStack.addArrangedSubview(spacer4)
         container.addSubview(mainStack)
-        
+
         mainStack.snp.makeConstraints { make in
-            make.top.equalTo(self.container.snp.top).offset(20)
+            make.top.equalTo(self.container.snp.top).offset(10)
             make.left.equalTo(self.container.snp.left).offset(20)
             make.right.equalTo(self.container.snp.right).offset(-20)
-            make.bottom.equalTo(self.container.snp.bottom).offset(-20)
+            make.bottom.equalTo(self.container.snp.bottom).offset(-10)
         }
         
         upVoteCountContainer.addSubview(upVoteCount)
@@ -290,7 +298,6 @@ class FeedTableViewCell: UITableViewCell {
             make.bottom.equalTo(sendMessageButtonContainer).offset(-4)
         }
 
-        
         hstack1.axis = .horizontal
         hstack1.addArrangedSubview(userName)
         hstack1.addArrangedSubview(optionButton)
@@ -309,46 +316,25 @@ class FeedTableViewCell: UITableViewCell {
         mainStack.addArrangedSubview(content)
         mainStack.addArrangedSubview(hstack2)
         
-//        addSeperator()
         checkUpvoteButton()
         checkBuzzType()
     }
     
-    func addSeperator() {
-        containerLeftAnchor = NSLayoutConstraint(item: containerStack, attribute: .left, relatedBy: .equal, toItem: contentView, attribute: .left, multiplier: 1, constant: 32)
-        containerLeftAnchor.isActive = true
-        
-        if let seperator = seperatorForFeedsAndComments {
-            contentView.addSubview(seperator)
-            
-            container.snp.makeConstraints { make in
-                make.top.equalTo(contentView.snp.top).offset(16)
-                make.right.equalTo(contentView.snp.right).offset(-32)
-            }
-            
-            seperator.snp.makeConstraints({ make in
-                make.left.equalTo(contentView.snp.left)
-                make.right.equalTo(contentView.snp.right)
-                make.top.equalTo(container.snp.bottom).offset(16)
-                make.bottom.equalTo(contentView.snp.bottom)
-                make.height.equalTo(1)
-            })
-        } else {
-            container.snp.makeConstraints { make in
-                make.top.equalTo(contentView.snp.top).offset(32)
-                make.right.equalTo(contentView.snp.right).offset(-32)
-                make.bottom.equalTo(contentView.snp.bottom)
-            }
-        }
-    }
-    
     func checkBuzzType() {
         guard let feed = cellViewModel?.feed else { return }
+        seperator.backgroundColor = .heavenlyWhite
         
         if feed.isChildCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
         } else {
             showOrHideCommentsButton.setTitle("See more", for: .normal)
+        }
+        
+        if addSeperator {
+            containerStack.addArrangedSubview(seperator)
+        } else {
+            containerStack.removeArrangedSubview(seperator)
+            seperator.removeFromSuperview()
         }
         
         switch feed.buzzType {
@@ -360,12 +346,14 @@ class FeedTableViewCell: UITableViewCell {
             commentCountContainer.isHidden = false
             mainStack.removeArrangedSubview(showOrHideCommentsButton)
             showOrHideCommentsButton.removeFromSuperview()
+            seperator.heightAnchor.constraint(equalToConstant: 3).isActive = true
         case .comment:
             container.backgroundColor = .clear
             sendMessageButtonContainer.backgroundColor = .clear
             commentCountContainer.backgroundColor = .clear
             upVoteCountContainer.backgroundColor = .clear
             commentCountContainer.isHidden = false
+            seperator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
             if cellViewModel?.feed.commentCount != 0 {
                 mainStack.addArrangedSubview(showOrHideCommentsButton)
             } else {
@@ -380,11 +368,12 @@ class FeedTableViewCell: UITableViewCell {
             commentCountContainer.isHidden = true
             mainStack.removeArrangedSubview(showOrHideCommentsButton)
             showOrHideCommentsButton.removeFromSuperview()
+            containerWithSpacer.insertArrangedSubview(spacer5, at: 0)
+            seperator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
         }
     }
     
     func addShowMoreOrLessButton() {
-        // if there is a comment display it
         if cellViewModel?.feed.commentCount != 0 {
             mainStack.addArrangedSubview(showOrHideCommentsButton)
         } else {
@@ -399,12 +388,27 @@ class FeedTableViewCell: UITableViewCell {
         isCommentShown.toggle()
         if isCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
-            commentDelegate?.didTapShowComments(from: cellViewModel.feed.feedID, at: indexPath)
+            cellDelegate?.didTapShowComments(from: cellViewModel.feed.feedID, at: indexPath)
         } else {
             showOrHideCommentsButton.setTitle("See more", for: .normal)
-            commentDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)
+            cellDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)
         }
     }
 }
 
+extension UIView {
+
+    static func spacer(size: CGFloat = 10, for layout: NSLayoutConstraint.Axis = .horizontal) -> UIView {
+        let spacer = UIView()
+        
+        if layout == .horizontal {
+            spacer.widthAnchor.constraint(equalToConstant: size).isActive = true
+        } else {
+            spacer.heightAnchor.constraint(equalToConstant: size).isActive = true
+        }
+        
+        return spacer
+    }
+
+}
 

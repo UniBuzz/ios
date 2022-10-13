@@ -129,7 +129,7 @@ class FeedViewController: UIViewController {
 
     //MARK: - Extension
 
-extension FeedViewController: FeedCellDelegate {
+extension FeedViewController: CellDelegate {
     
     func didTapComment(feed: Buzz) {
         let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
@@ -137,8 +137,8 @@ extension FeedViewController: FeedCellDelegate {
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
-    func didTapUpVote(model: UpvoteModel) {
-        viewModel.upVoteContent(model: model)
+    func didTapUpVote(model: UpvoteModel, index: IndexPath) {
+        viewModel.upVoteContent(model: model, index: index)
     }
     
     func didTapMessage(uid: String, pseudoname: String) {
@@ -167,7 +167,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let item = viewModel.feedsData
         cell.userUID = uid
         cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row], indexPath: indexPath)
-        cell.feedDelegate = self
+        cell.cellDelegate = self
         return cell
     }
     

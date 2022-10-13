@@ -67,11 +67,8 @@ class FeedViewModel {
             }
     }
     
-    func pullToRefreshFeed() {
-
-    }
-    
-    func upVoteContent(model: UpvoteModel) {
+    func upVoteContent(model: UpvoteModel, index: IndexPath) {
+        var buzzCopy = feedsData[index.row]
         print("Upvoting ...")
         COLLECTION_FEEDS.document(model.feedToVoteID).getDocument { document, err in
             if let document = document, document.exists {
@@ -80,8 +77,10 @@ class FeedViewModel {
                 guard var userIDs = data["userIDs"] as? [String] else { return }
                 if !userIDs.contains(model.currenUserID) {
                     userIDs.append(model.currenUserID)
+                    buzzCopy.isUpvoted = true
                 } else {
                     userIDs.removeAll { $0 == model.currenUserID }
+                    buzzCopy.isUpvoted = false
                 }
                 COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": userIDs, "upvoteCount": userIDs.count])
             } else {
@@ -96,15 +95,13 @@ class FeedViewModel {
             guard var upvotedFeeds = data["upvotedFeeds"] as? [String] else { return }
             if !upvotedFeeds.contains(model.feedToVoteID) {
                 upvotedFeeds.append(model.feedToVoteID)
+                buzzCopy.isUpvoted = true
             } else {
                 upvotedFeeds.removeAll { $0 == model.feedToVoteID }
+                buzzCopy.isUpvoted = false
             }
             COLLECTION_USERS.document(model.currenUserID).updateData(["upvotedFeeds": upvotedFeeds])
         }
-    }
-    
-    func getCommentsCount() {
-        
     }
     
     func feedOption() {

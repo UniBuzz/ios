@@ -176,7 +176,7 @@ class CommentsViewController: UIViewController {
 
 }
 
-extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CommentCellDelegate, ViewModelDelegate {
+extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CellDelegate, ViewModelDelegate {
     
     func stopRefresh() {
         print("")
@@ -197,11 +197,11 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
         }
                         
         let item = commentsViewModel.comments[indexPath.row]
-        cell.commentDelegate = self
+        cell.cellDelegate = self
         cell.indexPath = indexPath
         cell.parentFeed = commentsViewModel.feedBuzzTapped.feedID
-        cell.seperatorForFeedsAndComments = seperator
         cell.userUID = uid
+        cell.addSeperator = true
         cell.cellViewModel = self.commentsViewModel.getDataForFeedCell(feed: item, indexPath: indexPath)
         return cell
     }
@@ -224,8 +224,9 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    func didTapUpVote(model: UpvoteModel) {
+    func didTapUpVote(model: UpvoteModel, index: IndexPath) {
         print("upvote tapped from comment page")
+        commentsViewModel.upVoteContent(model: model)
     }
     
     func didTapComment(feed: Buzz) {
