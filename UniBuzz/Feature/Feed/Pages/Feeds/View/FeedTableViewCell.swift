@@ -12,18 +12,18 @@ protocol CellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
     func didTapUpVote(model: UpvoteModel, index: IndexPath)
     func didTapComment(feed: Buzz)
-    
 }
 
-extension CellDelegate {
-    func didTapShowComments(from commentID: String, at index: IndexPath) { }
-    func didTapHideComments(from commentID: String, at index: IndexPath) { }
+protocol CommentCellDelegate: CellDelegate {
+    func didTapShowComments(from commentID: String, at index: IndexPath)
+    func didTapHideComments(from commentID: String, at index: IndexPath)
 }
 
 class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Variables
     weak var cellDelegate: CellDelegate?
+    weak var commentCellDelegate: CommentCellDelegate?
     static var cellIdentifier: String = "FeedCell"
     let actionContainerColor:UIColor = .rgb(red: 83, green: 83, blue: 83)
     var userUID: String = ""
@@ -316,19 +316,24 @@ class FeedTableViewCell: UITableViewCell {
         mainStack.addArrangedSubview(content)
         mainStack.addArrangedSubview(hstack2)
         
+        checkShowOrHideComments()
         checkUpvoteButton()
         checkBuzzType()
     }
     
-    func checkBuzzType() {
+    func checkShowOrHideComments() {
         guard let feed = cellViewModel?.feed else { return }
-        seperator.backgroundColor = .heavenlyWhite
         
         if feed.isChildCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
         } else {
             showOrHideCommentsButton.setTitle("See more", for: .normal)
         }
+    }
+    
+    func checkBuzzType() {
+        guard let feed = cellViewModel?.feed else { return }
+        seperator.backgroundColor = .heavenlyWhite
         
         if addSeperator {
             containerStack.addArrangedSubview(seperator)
@@ -388,10 +393,10 @@ class FeedTableViewCell: UITableViewCell {
         isCommentShown.toggle()
         if isCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
-            cellDelegate?.didTapShowComments(from: cellViewModel.feed.feedID, at: indexPath)
+            commentCellDelegate?.didTapShowComments(from: cellViewModel.feed.feedID, at: indexPath)
         } else {
             showOrHideCommentsButton.setTitle("See more", for: .normal)
-            cellDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)
+            commentCellDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)
         }
     }
 }

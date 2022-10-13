@@ -109,7 +109,6 @@ class CommentsViewController: UIViewController {
     
     func configureUI() {
         let textFieldAndSendButtonHeight: CGFloat = 35
-        
         view.addSubview(tableView)
         view.addSubview(footer)
         footer.addSubview(textFieldContainer)
@@ -169,14 +168,13 @@ class CommentsViewController: UIViewController {
             make.right.equalTo(sendButtonContainer)
             make.bottom.equalTo(sendButtonContainer)
         }
-        
         sendButtonContainer.layer.cornerRadius = textFieldAndSendButtonHeight / 2
         textFieldContainer.layer.cornerRadius = 20
     }
 
 }
 
-extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CellDelegate, ViewModelDelegate {
+extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CommentCellDelegate, ViewModelDelegate {
     
     func stopRefresh() {
         print("")
@@ -197,7 +195,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Ce
         }
                         
         let item = commentsViewModel.comments[indexPath.row]
-        cell.cellDelegate = self
+        cell.commentCellDelegate = self
         cell.indexPath = indexPath
         cell.parentFeed = commentsViewModel.feedBuzzTapped.feedID
         cell.userUID = uid
@@ -239,7 +237,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Ce
     func didTapShowComments(from commentID: String, at index: IndexPath) {
         commentsViewModel.showChildComment(from: commentID, at: index)
     }
-    
+
     func didTapHideComments(from commentID: String, at index: IndexPath) {
         commentsViewModel.hideChildComment(from: commentID, at: index)
     }
