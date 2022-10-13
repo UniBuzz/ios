@@ -10,13 +10,14 @@ import Firebase
 
 protocol CellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
-    func didTapUpVote(model: UpvoteModel)
+    func didTapUpVote(model: UpvoteModel, index: IndexPath)
     func didTapComment(feed: Buzz)
+    
 }
 
-protocol CommentCellDelegate: FeedCellDelegate {
-    func didTapShowComments(from commentID: String, at index: IndexPath)
-    func didTapHideComments(from commentID: String, at index: IndexPath)
+extension CellDelegate {
+    func didTapShowComments(from commentID: String, at index: IndexPath) { }
+    func didTapHideComments(from commentID: String, at index: IndexPath) { }
 }
 
 class FeedTableViewCell: UITableViewCell {
@@ -52,7 +53,6 @@ class FeedTableViewCell: UITableViewCell {
         let view = UIView()
         view.backgroundColor = .stoneGrey
         view.layer.cornerRadius = 15
-//        view.backgroundColor = .warningRed
         return view
     }()
     
@@ -218,7 +218,6 @@ class FeedTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
-        print(indexPath?.row)
     }
     
     func checkUpvoteButton() {
@@ -243,7 +242,6 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCountContainer.backgroundColor = actionContainerColor
         }
     }
-    
     
     func configureCell() {
         self.contentView.backgroundColor = .midnights
@@ -326,6 +324,7 @@ class FeedTableViewCell: UITableViewCell {
     
     func checkShowOrHideComments() {
         guard let feed = cellViewModel?.feed else { return }
+        seperator.backgroundColor = .heavenlyWhite
         
         if feed.isChildCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
@@ -337,6 +336,13 @@ class FeedTableViewCell: UITableViewCell {
     func checkBuzzType() {
         guard let feed = cellViewModel?.feed else { return }
         seperator.backgroundColor = .heavenlyWhite
+        
+        if addSeperator {
+            containerStack.addArrangedSubview(seperator)
+        } else {
+            containerStack.removeArrangedSubview(seperator)
+            seperator.removeFromSuperview()
+        }
         
         if addSeperator {
             containerStack.addArrangedSubview(seperator)
