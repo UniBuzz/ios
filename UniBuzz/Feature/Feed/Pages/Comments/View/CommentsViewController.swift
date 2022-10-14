@@ -14,6 +14,7 @@ import RxDataSources
 class CommentsViewController: UIViewController {
     
     var commentsViewModel: CommentsViewModel
+//    var customInputAccessory
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -79,7 +80,7 @@ class CommentsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         commentsViewModel.delegate = self
-        commentsViewModel.loadComments()
+        commentsViewModel.loadComments()      
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -209,7 +210,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
         self.infoLabelAboveTextField.text = "Replying to \(buzz.userName)"
         self.commentTextField.becomeFirstResponder()
         commentsViewModel.feedBuzzTapped = buzz
-        print("replying to: \(commentsViewModel.feedBuzzTapped.content)")
+        commentsViewModel.indexTapped = indexPath.row
     }
     
     func reloadTableView() {
@@ -227,10 +228,14 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
         commentsViewModel.upVoteContent(model: model)
     }
     
-    func didTapComment(feed: Buzz) {
+    func didTapComment(feed: Buzz, index: IndexPath) {
         self.infoLabelAboveTextField.text = "Replying to \(feed.userName)"
         self.commentTextField.becomeFirstResponder()
+        if !feed.isChildCommentShown {
+            commentsViewModel.showChildComment(from: feed.feedID, at: index)
+        }
         print("comment tapped from \(feed.content)")
+        commentsViewModel.indexTapped = index.row
         commentsViewModel.feedBuzzTapped = feed
     }
     

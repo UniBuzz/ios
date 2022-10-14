@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5E0F380628F4139200FDE867 /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */; };
+		5EA92B8028F82C9900D82B1D /* FeedAndCommentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5EA92B7F28F82C9900D82B1D /* FeedAndCommentViewModel.swift */; };
 		5ED5331F28F6BE82009BDB0D /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		C42BB94928DA2A1400006F71 /* BuzzModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* BuzzModel.swift */; };
@@ -105,6 +106,7 @@
 
 /* Begin PBXFileReference section */
 		5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
+		5EA92B7F28F82C9900D82B1D /* FeedAndCommentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedAndCommentViewModel.swift; sourceTree = "<group>"; };
 		5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		C42BB94728DA2A1400006F71 /* BuzzModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuzzModel.swift; sourceTree = "<group>"; };
 		C42BB94828DA2A1400006F71 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
@@ -366,6 +368,7 @@
 				C433EBEE28ECA0E000EF6C6A /* Comments */,
 				CB83311A28D8BEA200F6ED1B /* Feeds */,
 				C4EA0ABB28E1DFA000A013AF /* PostFeed */,
+				5EA92B7F28F82C9900D82B1D /* FeedAndCommentViewModel.swift */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -886,6 +889,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EA92B8028F82C9900D82B1D /* FeedAndCommentViewModel.swift in Sources */,
 				D4ECFB3A28E4A8BC0064EDAC /* RegistrationViewModel.swift in Sources */,
 				D4C5E59128ED37860012DBFB /* EmailVerificationViewController.swift in Sources */,
 				5E0F380628F4139200FDE867 /* FeedCellViewModel.swift in Sources */,
@@ -968,7 +972,6 @@
 				C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */,
 				C433EBF228ECA10000EF6C6A /* CommentsViewModel.swift in Sources */,
 				C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */,
-				C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */,
 				CBD010B228F431580018791D /* DeleteUserViewController.swift in Sources */,
 				C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */,
 				C42BB94928DA2A1400006F71 /* BuzzModel.swift in Sources */,
