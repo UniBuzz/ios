@@ -48,6 +48,7 @@ class FeedViewController: UIViewController {
         feedTableView.delegate = self
         feedTableView.dataSource = self
         viewModel.delegate = self
+        hideKeyboardWhenTappedAround()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -100,7 +101,7 @@ class FeedViewController: UIViewController {
         
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
-        feedTableView.addSubview(refreshControl)
+        feedTableView.refreshControl = refreshControl
     }
     
     func configureNavigationItems(){
@@ -131,7 +132,7 @@ class FeedViewController: UIViewController {
 
 extension FeedViewController: CellDelegate {
     
-    func didTapComment(feed: Buzz) {
+    func didTapComment(feed: Buzz, index: IndexPath) {
         let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
         let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
         self.navigationController?.pushViewController(commentsVC, animated: true)

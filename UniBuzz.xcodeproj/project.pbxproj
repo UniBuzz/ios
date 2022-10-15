@@ -968,7 +968,6 @@
 				C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */,
 				C433EBF228ECA10000EF6C6A /* CommentsViewModel.swift in Sources */,
 				C433EBF428ECA12600EF6C6A /* CommentsViewController.swift in Sources */,
-				C42BB94E28DB649500006F71 /* FeedTableViewCell.swift in Sources */,
 				CBD010B228F431580018791D /* DeleteUserViewController.swift in Sources */,
 				C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */,
 				C42BB94928DA2A1400006F71 /* BuzzModel.swift in Sources */,

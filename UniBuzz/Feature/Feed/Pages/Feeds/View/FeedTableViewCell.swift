@@ -11,7 +11,7 @@ import Firebase
 protocol CellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
     func didTapUpVote(model: UpvoteModel, index: IndexPath)
-    func didTapComment(feed: Buzz)
+    func didTapComment(feed: Buzz, index: IndexPath)
 }
 
 protocol CommentCellDelegate: CellDelegate {
@@ -58,7 +58,7 @@ class FeedTableViewCell: UITableViewCell {
     lazy var mainStack: UIStackView = {
         let mainStack = UIStackView()
         mainStack.axis = .vertical
-        mainStack.spacing = 20
+        mainStack.spacing = 10
         return mainStack
     }()
     
@@ -87,7 +87,6 @@ class FeedTableViewCell: UITableViewCell {
     
     lazy var upVoteCountContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = actionContainerColor
         view.layer.cornerRadius = 10
         return view
     }()
@@ -97,8 +96,6 @@ class FeedTableViewCell: UITableViewCell {
         button.setImage(UIImage(systemName: "chevron.up", withConfiguration: UIImage.SymbolConfiguration(pointSize: 16, weight: .bold)), for: .normal)
         button.addTarget(self, action: #selector(upVotePressed), for: .touchUpInside)
         button.setTitle("10", for: .normal)
-        button.titleLabel?.textColor = .heavenlyWhite
-        button.tintColor = .heavenlyWhite
         return button
     }()
     
@@ -169,22 +166,53 @@ class FeedTableViewCell: UITableViewCell {
     let spacer4 = UIView.spacer(size: 16, for: .vertical)
     let spacer5 = UIView.spacer(size: 20, for: .horizontal)
     let seperator = UIView()
+    let gradient = CAGradientLayer()
+    let shape = CAShapeLayer()
+    let gradientBorder1 = UIColor(red: 255/255, green: 243/255, blue: 143/255, alpha: 0.3)
+    let gradientBorder2 = UIColor(red: 255/255, green: 243/255, blue: 143/255, alpha: 0.05)
+
 
     //MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureCell()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSublayers(of layer: CALayer) {
+        super.layoutSublayers(of: layer)
+        guard let feed = cellViewModel?.feed else { return }
+        
+        if feed.buzzType == .feed {
+            gradient.frame =  CGRect(origin: CGPoint.zero, size: self.container.bounds.size)
+            gradient.colors = [gradientBorder1.cgColor, gradientBorder2.cgColor]
+            gradient.startPoint = CGPoint(x: 0, y: 1)
+            gradient.endPoint = CGPoint(x: 1, y: 1)
+            
+            shape.lineWidth = 1.5
+            shape.path = UIBezierPath(roundedRect: container.bounds, cornerRadius: container.layer.cornerRadius).cgPath
+            shape.strokeColor = UIColor.black.cgColor
+            shape.fillColor = UIColor.clear.cgColor
+            gradient.mask = shape
+            self.container.layer.addSublayer(gradient)
+        } else {
+            self.gradient.removeFromSuperlayer()
+        }
+        
+        container.layer.shadowColor = UIColor.black.cgColor
+        container.layer.shadowOpacity = 0.3
+        container.layer.shadowOffset = .init(width: 0, height: 4)
+        container.layer.shadowRadius = 10
+            
+    }
+    
+    
     //MARK: - Selectors
     @objc func upVotePressed() {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
         guard let indexPath = indexPath else { return }
-
         if isUpvoted {
             cellViewModel?.feed.upvoteCount -= 1
             cellViewModel?.feed.isUpvoted = false
@@ -199,12 +227,15 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCountContainer.backgroundColor = .creamyYellow
         }
         cellDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID), index: indexPath)
+        commentCellDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID), index: indexPath)
     }
     
     @objc func commentCountPressed() {
         guard let feed = cellViewModel?.feed else { return }
 //        print("Go To Comment Page with content of \(feed.content)")
-        cellDelegate?.didTapComment(feed: feed)
+        guard let indexPath = indexPath else { return }
+        cellDelegate?.didTapComment(feed: feed, index: indexPath)
+        commentCellDelegate?.didTapComment(feed: feed, index: indexPath)
     }
     
     @objc func sendMessagePressed() {
@@ -218,34 +249,11 @@ class FeedTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
-    
-    func checkUpvoteButton() {
-        guard let feed = cellViewModel?.feed else { return }
-        if userUID == feed.uid {
-            upVoteCount.isEnabled = false
-            sendMessageButton.isEnabled = false
-        } else {
-            upVoteCount.isEnabled = true
-            sendMessageButton.isEnabled = true
-        }
-        
-        if isUpvoted {
-            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
-            upVoteCount.titleLabel?.textColor = .eternalBlack
-            upVoteCount.tintColor = .eternalBlack
-            upVoteCountContainer.backgroundColor = .creamyYellow
-        } else {
-            upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
-            upVoteCount.titleLabel?.textColor = .heavenlyWhite
-            upVoteCount.tintColor = .heavenlyWhite
-            upVoteCountContainer.backgroundColor = actionContainerColor
-        }
-    }
-    
+
     func configureCell() {
         self.contentView.backgroundColor = .midnights
         self.contentView.addSubview(containerStack)
-
+        
         containerStack.snp.makeConstraints { make in
             make.top.equalTo(self.contentView.snp.top)
             make.left.equalTo(self.contentView.snp.left)
@@ -271,7 +279,7 @@ class FeedTableViewCell: UITableViewCell {
             make.top.equalTo(self.container.snp.top).offset(10)
             make.left.equalTo(self.container.snp.left).offset(20)
             make.right.equalTo(self.container.snp.right).offset(-20)
-            make.bottom.equalTo(self.container.snp.bottom).offset(-10)
+            make.bottom.equalTo(self.container.snp.bottom).offset(-15)
         }
         
         upVoteCountContainer.addSubview(upVoteCount)
@@ -301,16 +309,17 @@ class FeedTableViewCell: UITableViewCell {
         hstack1.axis = .horizontal
         hstack1.addArrangedSubview(userName)
         hstack1.addArrangedSubview(optionButton)
+        hstack1.distribution = .equalSpacing
         
         miniStack2.axis = .horizontal
         miniStack2.addArrangedSubview(upVoteCountContainer)
         miniStack2.addArrangedSubview(commentCountContainer)
-        miniStack2.spacing = 20
+        miniStack2.spacing = 10
         
         hstack2.axis = .horizontal
         hstack2.addArrangedSubview(miniStack2)
         hstack2.addArrangedSubview(sendMessageButtonContainer)
-        hstack2.distribution = .equalSpacing
+        hstack2.distribution = .equalCentering
         
         mainStack.addArrangedSubview(hstack1)
         mainStack.addArrangedSubview(content)
@@ -320,6 +329,29 @@ class FeedTableViewCell: UITableViewCell {
         checkUpvoteButton()
         checkBuzzType()
     }
+    
+    func checkUpvoteButton() {
+        guard let feed = cellViewModel?.feed else { return }
+        if userUID == feed.uid {
+            upVoteCount.isEnabled = false
+            sendMessageButton.isEnabled = false
+        } else {
+            upVoteCount.isEnabled = true
+            sendMessageButton.isEnabled = true
+        }
+
+        if feed.isUpvoted {
+            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
+            upVoteCount.titleLabel?.textColor = .eternalBlack
+            upVoteCount.tintColor = .eternalBlack
+            upVoteCountContainer.backgroundColor = .creamyYellow
+        } else {
+            upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
+            upVoteCount.tintColor = .heavenlyWhite
+            upVoteCountContainer.backgroundColor = actionContainerColor
+        }
+    }
+    
     
     func checkShowOrHideComments() {
         guard let feed = cellViewModel?.feed else { return }
@@ -342,12 +374,18 @@ class FeedTableViewCell: UITableViewCell {
             seperator.removeFromSuperview()
         }
         
+        if addSeperator {
+            containerStack.addArrangedSubview(seperator)
+        } else {
+            containerStack.removeArrangedSubview(seperator)
+            seperator.removeFromSuperview()
+        }
+        
         switch feed.buzzType {
         case .feed:
             container.backgroundColor = .stoneGrey
             sendMessageButtonContainer.backgroundColor = actionContainerColor
             commentCountContainer.backgroundColor = actionContainerColor
-            upVoteCountContainer.backgroundColor = actionContainerColor
             commentCountContainer.isHidden = false
             mainStack.removeArrangedSubview(showOrHideCommentsButton)
             showOrHideCommentsButton.removeFromSuperview()
@@ -399,6 +437,7 @@ class FeedTableViewCell: UITableViewCell {
             commentCellDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)
         }
     }
+    
 }
 
 extension UIView {
@@ -411,8 +450,26 @@ extension UIView {
         } else {
             spacer.heightAnchor.constraint(equalToConstant: size).isActive = true
         }
-        
         return spacer
+    }
+    
+    func addGradient(with layer: CAGradientLayer, gradientFrame: CGRect? = nil, colorSet: [UIColor],
+                     locations: [Double], startEndPoints: (CGPoint, CGPoint)? = nil) {
+        layer.frame = gradientFrame ?? self.bounds
+        layer.frame.origin = .zero
+
+        let layerColorSet = colorSet.map { $0.cgColor }
+        let layerLocations = locations.map { $0 as NSNumber }
+
+        layer.colors = layerColorSet
+        layer.locations = layerLocations
+
+        if let startEndPoints = startEndPoints {
+            layer.startPoint = startEndPoints.0
+            layer.endPoint = startEndPoints.1
+        }
+
+        self.layer.insertSublayer(layer, above: self.layer)
     }
 
 }

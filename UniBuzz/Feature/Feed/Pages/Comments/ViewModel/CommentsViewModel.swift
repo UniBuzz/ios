@@ -19,6 +19,7 @@ class CommentsViewModel {
     private var childCommentsCounter: [String: Int] = [:]
     
     var feedBuzzTapped: Buzz
+    var indexTapped: Int = 0
     var parentFeed: Buzz
     var comments = [Buzz]()
     let commentsCollectionKey = "comments"
@@ -33,7 +34,8 @@ class CommentsViewModel {
         COLLECTION_FEEDS.document(parentFeed.feedID).collection(commentsCollectionKey).order(by: "timestamp").getDocuments { querySnapshot, err in
             guard let querySnapshot = querySnapshot else { return }
             querySnapshot.documents.forEach { document in
-                var comment = Buzz(dictionary: document.data(), feedID: document.documentID)
+                let comment = Buzz(dictionary: document.data(), feedID: document.documentID)
+                self.childCommentsCounter[comment.feedID] = comment.commentCount
                 self.comments.append(comment)
             }
             self.delegate?.reloadTableView()
@@ -94,18 +96,17 @@ class CommentsViewModel {
                           "userIDs": [String](),
                           "buzzType": "",
                           "repliedFrom": ""] as [String : Any]
-                        
+            self.incrementCommentCountLocal()
             switch from {
             case .feed:
+                let ref = COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).document()
+                let id = ref.documentID
                 values["buzzType"] = BuzzType.comment.rawValue
                 values["repliedFrom"] = feedID
-                COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).addDocument(data: values) { error in
-                    if let error = error {
-                        print(error)
-                    } else {
-                        self.incrementCommentCountForParent(parentID: self.feedBuzzTapped.feedID)
-                    }
-                }
+                ref.setData(values)
+                self.childCommentsCounter[id] = 0
+                self.incrementCommentCountForParentFirebase(parentID: self.feedBuzzTapped.feedID)
+                self.comments.append(Buzz(dictionary: values, feedID: id))
             case .anotherComment(let anotherCommentID):
                 values["buzzType"] = BuzzType.childComment.rawValue
                 values["repliedFrom"] = anotherCommentID
@@ -113,40 +114,62 @@ class CommentsViewModel {
                     if let error = error {
                         print(error)
                     } else {
-                        self.incrementCommentCountForParent(parentID: self.feedBuzzTapped.repliedFrom)
-                        self.incrementCommentCountForChildComment(childCommentID: anotherCommentID)
+                        self.incrementCommentCountForParentFirebase(parentID: self.feedBuzzTapped.repliedFrom)
+                        self.incrementCommentCountForChildCommentFirebase(childCommentID: anotherCommentID)
+                        if !self.comments[self.indexTapped].isChildCommentShown {
+                            self.showChildComment(from: anotherCommentID, at: IndexPath(row: self.indexTapped, section: 0))
+                        } else {
+                            self.appendChildComment(childComment: Buzz(dictionary: values, feedID: self.parentFeed.feedID))
+                        }
                     }
                 }
             }
         }
     }
     
-    func incrementCommentCountForParent(parentID: String) {
+    func incrementCommentCountForParentFirebase(parentID: String) {
         COLLECTION_FEEDS.document(parentID).getDocument { doc, err in
             guard let doc = doc else { return }
             guard let data = doc.data() else { return }
             let commentCount = data["commentCount"] as? Int ?? 0
             COLLECTION_FEEDS.document(parentID).setData(["commentCount": commentCount + 1], merge: true)
-            self.loadComments()
             self.delegate?.reloadTableView()
         }
     }
     
-    func incrementCommentCountForChildComment(childCommentID: String) {
+    func incrementCommentCountForChildCommentFirebase(childCommentID: String) {
         COLLECTION_FEEDS.document(feedBuzzTapped.repliedFrom).collection(self.commentsCollectionKey).document(childCommentID).getDocument { doc, err in
             guard let doc = doc else { return }
             guard let data = doc.data() else { return }
             let commentCount = data["commentCount"] as? Int ?? 0
             COLLECTION_FEEDS.document(self.feedBuzzTapped.repliedFrom).collection(self.commentsCollectionKey).document(childCommentID).setData(["commentCount": commentCount + 1], merge: true)
+            self.delegate?.reloadTableView()
         }
+    }
+    
+    func incrementCommentCountLocal(){
+        // for parent
+        var updatedParentBuzz = comments[0]
+        comments.remove(at: 0)
+        updatedParentBuzz.commentCount += 1
+        comments.insert(updatedParentBuzz, at: 0)
+        // for child
+        if indexTapped != 0 {
+            var updatedBuzz = comments[indexTapped]
+            comments.remove(at: indexTapped)
+            updatedBuzz.commentCount += 1
+            comments.insert(updatedBuzz, at: indexTapped)
+        }
+        
     }
     
     func showChildComment(from commentID: String, at index: IndexPath) {
         var childComments = [Buzz]()
-        let toggledParent = toggleParentChildBool(parent: comments[index.row])
+        var updatedBuzz = comments[index.row]
+        updatedBuzz.isChildCommentShown = true
         comments.remove(at: index.row)
-        comments.insert(toggledParent, at: index.row)
-        COLLECTION_FEEDS.document(feedBuzzTapped.feedID).collection(self.commentsCollectionKey).document(commentID).collection(self.commentsCollectionKey).order(by: "timestamp").getDocuments { querySnapshot, error in
+        comments.insert(updatedBuzz, at: index.row)
+        COLLECTION_FEEDS.document(parentFeed.feedID).collection(self.commentsCollectionKey).document(commentID).collection(self.commentsCollectionKey).order(by: "timestamp").getDocuments { querySnapshot, error in
             guard let querySnapshot = querySnapshot else { return }
             querySnapshot.documents.forEach { docSnapshot in
                 var child = Buzz(dictionary: docSnapshot.data(), feedID: docSnapshot.documentID)
@@ -161,14 +184,32 @@ class CommentsViewModel {
     
     func hideChildComment(from commentID: String, at index: IndexPath) {
         guard let range = childCommentsCounter[commentID] else { return }
-        
-        let toggledParent = toggleParentChildBool(parent: comments[index.row])
+        var updatedBuzz = comments[index.row]
+        updatedBuzz.isChildCommentShown = false
         comments.remove(at: index.row)
-        comments.insert(toggledParent, at: index.row)
+        comments.insert(updatedBuzz, at: index.row)
         
         self.comments.removeSubrange(index.row+1...index.row+range)
         print("removing: \(index.row+1...index.row+range)")
         self.delegate?.reloadTableView()
+    }
+    
+    func appendChildComment(childComment: Buzz) {
+        guard var currentChildCount = childCommentsCounter[childComment.repliedFrom] else { return }
+        var updatedBuzz = comments[indexTapped]
+        let indexToInsert = indexTapped + currentChildCount + 1
+        updatedBuzz.isChildCommentShown = true
+        comments.remove(at: indexTapped)
+        comments.insert(updatedBuzz, at: indexTapped)
+        
+        if indexToInsert > comments.count {
+            comments.append(childComment)
+        } else {
+            comments.insert(childComment, at: indexToInsert)
+        }
+        self.delegate?.reloadTableView()
+        currentChildCount += 1
+        childCommentsCounter[childComment.repliedFrom] = currentChildCount
     }
     
     func toggleParentChildBool(parent: Buzz) -> Buzz {
@@ -177,11 +218,5 @@ class CommentsViewModel {
         return parentCopy
     }
     
-    func appendChildComment(at index: Int, with numOfChildren: Int, childComment: Buzz) {
-        comments.insert(childComment, at: index + numOfChildren + 1)
-        guard var currentChildCount = childCommentsCounter[childComment.repliedFrom] else { return }
-        currentChildCount += 1
-        childCommentsCounter[childComment.repliedFrom] = currentChildCount
-    }
     
 }
