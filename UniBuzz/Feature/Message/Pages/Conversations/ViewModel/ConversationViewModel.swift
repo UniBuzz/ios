@@ -19,7 +19,7 @@ class ConversationViewModel {
             self.messagesForId[user.uid] = [Message]()
         }
         guard let currentUid = Auth.auth().currentUser?.uid else { return  }
-        let query = COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timestamp")
+        let query = ServiceConstant.COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timestamp")
         query.addSnapshotListener { snapshot, error in
             snapshot?.documentChanges.forEach({ change in
                 if change.type == .added {

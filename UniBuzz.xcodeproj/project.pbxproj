@@ -21,7 +21,7 @@
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CB564B6928EBE9C800D868FB /* MissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312728D8C04100F6ED1B /* MissionViewController.swift */; };
 		CB564B6A28EBE9C800D868FB /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312128D8BFCF00F6ED1B /* ProfileViewController.swift */; };
-		CB564B6B28EBE9C800D868FB /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4D28DE206E0059CCFF /* Constant.swift */; };
+		CB564B6B28EBE9C800D868FB /* ServiceConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4D28DE206E0059CCFF /* ServiceConstant.swift */; };
 		CB564B6C28EBE9C800D868FB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4F28DE20C30059CCFF /* User.swift */; };
 		CB564B6D28EBE9C800D868FB /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4328DD51D90059CCFF /* LoginViewModel.swift */; };
 		CB564B6E28EBE9C800D868FB /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE06C4028DCE7E40059CCFF /* LoginViewController.swift */; };
@@ -151,7 +151,7 @@
 		CBE06C4328DD51D90059CCFF /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		CBE06C4528DD5D360059CCFF /* InputThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputThemes.swift; sourceTree = "<group>"; };
 		CBE06C4828DD723A0059CCFF /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
-		CBE06C4D28DE206E0059CCFF /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		CBE06C4D28DE206E0059CCFF /* ServiceConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceConstant.swift; sourceTree = "<group>"; };
 		CBE06C4F28DE20C30059CCFF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CBE06C5328DF118C0059CCFF /* LoadingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingExtension.swift; sourceTree = "<group>"; };
 		CBE06C5728E037470059CCFF /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
@@ -570,7 +570,7 @@
 		CBE06C4A28DE20260059CCFF /* API */ = {
 			isa = PBXGroup;
 			children = (
-				CBE06C4D28DE206E0059CCFF /* Constant.swift */,
+				CBE06C4D28DE206E0059CCFF /* ServiceConstant.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -902,7 +902,7 @@
 				CB564B6A28EBE9C800D868FB /* ProfileViewController.swift in Sources */,
 				CB564BB228F0932C00D868FB /* ChangePseudonameViewController.swift in Sources */,
 				CB0D504A28F1DAF0006C615D /* AvatarGenerator.swift in Sources */,
-				CB564B6B28EBE9C800D868FB /* Constant.swift in Sources */,
+				CB564B6B28EBE9C800D868FB /* ServiceConstant.swift in Sources */,
 				CB564B6C28EBE9C800D868FB /* User.swift in Sources */,
 				CB564B6D28EBE9C800D868FB /* LoginViewModel.swift in Sources */,
 				CB564B6E28EBE9C800D868FB /* LoginViewController.swift in Sources */,

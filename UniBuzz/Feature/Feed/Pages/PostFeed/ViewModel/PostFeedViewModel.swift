@@ -11,7 +11,7 @@ class PostFeedViewModel {
     func uploadFeed(content: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         var user = User(dictionary: [:])
-        let userRef = COLLECTION_USERS.document(uid)
+        let userRef = ServiceConstant.COLLECTION_USERS.document(uid)
         userRef.getDocument { document, err in
             if let document = document, document.exists {
                 user = User(dictionary: document.data() ?? [:])
@@ -26,7 +26,7 @@ class PostFeedViewModel {
                           "buzzType": BuzzType.feed.rawValue,
                           "userIDs": [String]()] as [String : Any]
 
-            COLLECTION_FEEDS.addDocument(data: values)
+            ServiceConstant.COLLECTION_FEEDS.addDocument(data: values)
         }
     }
 }

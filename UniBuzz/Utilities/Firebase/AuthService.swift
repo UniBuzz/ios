@@ -34,7 +34,7 @@ class AuthService {
     
     func registerUser(withEmail email: String, pseudo: String, university: String, password: String, completion: @escaping ((Result<[String:Any],Error>) -> Void)){
         
-        checkPseudonameExist(pseudoname: pseudo) { result in
+        checkPseudonameExist(pseudoname: pseudo, university: university) { result in
             switch result {
             case .success(let exist):
                 if exist {
@@ -54,7 +54,10 @@ class AuthService {
                                         "upvotedFeeds": [],
                                         "randomInt": Int.random(in: 0...9)] as [String : Any]
                             
-                            self.saveUserToCollection(uid: uid, data: data) { err in
+                            self.saveUserToCollection(uid: uid, university:university, data: data) { err in
+                                completion(.failure(err))
+                            }
+                            self.saveUserUniversity(uid: uid, university: university) { err in
                                 completion(.failure(err))
                             }
                             completion(.success(data))
@@ -67,13 +70,22 @@ class AuthService {
         }
     }
     
-    private func saveUserToCollection(uid: String, data: [String:Any], completion: @escaping (Error) -> Void){
-        db.collection("users").document(uid).setData(data) { error in
+    private func saveUserToCollection(uid: String, university: String, data: [String:Any], completion: @escaping (Error) -> Void){
+        
+        db.collection("university").document(university).collection("users").document(uid).setData(data) { error in
             if let error = error {
                 completion(error)
             }
         }
         
+    }
+    
+    private func saveUserUniversity(uid: String, university: String, completion: @escaping (Error) -> Void) {
+        db.collection("users-uni").document(uid).setData(["university": university]) { error in
+            if let error = error {
+                completion(error)
+            }
+        }
     }
     
     func sendVerificationEmail(completion: @escaping (Error) -> Void){
@@ -85,8 +97,9 @@ class AuthService {
         }
     }
     
-    func checkPseudonameExist(pseudoname: String, completion: @escaping (Result<Bool,Error>) -> Void) {
-        let docRef = db.collection("users").whereField("pseudoname", isEqualTo: pseudoname).limit(to: 1)
+    func checkPseudonameExist(pseudoname: String, university: String, completion: @escaping (Result<Bool,Error>) -> Void) {
+        
+        let docRef = db.collection("university").document(university).collection("users").whereField("pseudoname", isEqualTo: pseudoname).limit(to: 1)
         
         docRef.getDocuments { querySnapshot, error in
             if let error = error {
