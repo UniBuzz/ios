@@ -51,7 +51,7 @@ class RegistrationViewModel {
             return
         }
         
-        service.registerUser(withEmail: email, pseudo: pseudo, password: password) { result in
+        service.registerUser(withEmail: email, pseudo: pseudo, university: universitySelected.shortname, password: password) { result in
             switch result {
             case .success(_):
                 self.successRegisterView?()
