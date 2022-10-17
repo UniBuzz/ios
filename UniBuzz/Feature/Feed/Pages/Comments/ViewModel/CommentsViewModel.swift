@@ -31,7 +31,7 @@ class CommentsViewModel {
     
     func loadComments() {
         comments = [parentFeed]
-        COLLECTION_FEEDS.document(parentFeed.feedID).collection(commentsCollectionKey).order(by: "timestamp").getDocuments { querySnapshot, err in
+        ServiceConstant.COLLECTION_FEEDS.document(parentFeed.feedID).collection(commentsCollectionKey).order(by: "timestamp").getDocuments { querySnapshot, err in
             guard let querySnapshot = querySnapshot else { return }
             querySnapshot.documents.forEach { document in
                 let comment = Buzz(dictionary: document.data(), feedID: document.documentID)
@@ -48,7 +48,7 @@ class CommentsViewModel {
     
     func upVoteContent(model: UpvoteModel) {
         print("Upvoting ...")
-        COLLECTION_FEEDS.document(model.feedToVoteID).getDocument { document, err in
+        ServiceConstant.COLLECTION_FEEDS.document(model.feedToVoteID).getDocument { document, err in
             if let document = document, document.exists {
                 print("DEBUG: Doc is exist")
                 guard let data = document.data() else { return }
@@ -58,14 +58,14 @@ class CommentsViewModel {
                 } else {
                     userIDs.removeAll { $0 == model.currenUserID }
                 }
-                COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": userIDs, "upvoteCount": userIDs.count])
+                ServiceConstant.COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": userIDs, "upvoteCount": userIDs.count])
             } else {
                 print("DEBUG: Doc is not exist, setting document")
-                COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": [model.currenUserID], "upvoteCount": 1])
+                ServiceConstant.COLLECTION_FEEDS.document(model.feedToVoteID).updateData(["userIDs": [model.currenUserID], "upvoteCount": 1])
             }
         }
         
-        COLLECTION_USERS.document(model.currenUserID).getDocument { document, err in
+        ServiceConstant.COLLECTION_USERS.document(model.currenUserID).getDocument { document, err in
             guard let document = document else { return }
             guard let data = document.data() else { return }
             guard var upvotedFeeds = data["upvotedFeeds"] as? [String] else { return }
@@ -74,14 +74,14 @@ class CommentsViewModel {
             } else {
                 upvotedFeeds.removeAll { $0 == model.feedToVoteID }
             }
-            COLLECTION_USERS.document(model.currenUserID).updateData(["upvotedFeeds": upvotedFeeds])
+            ServiceConstant.COLLECTION_USERS.document(model.currenUserID).updateData(["upvotedFeeds": upvotedFeeds])
         }
     }
     
     func replyComments(from: CommentFrom, commentContent: String, feedID: String) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         var user = User(dictionary: [:])
-        let userRef = COLLECTION_USERS.document(uid)
+        let userRef = ServiceConstant.COLLECTION_USERS.document(uid)
  
         userRef.getDocument { document, err in
             if let document = document, document.exists {
@@ -99,7 +99,7 @@ class CommentsViewModel {
             self.incrementCommentCountLocal()
             switch from {
             case .feed:
-                let ref = COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).document()
+                let ref = ServiceConstant.COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).document()
                 let id = ref.documentID
                 values["buzzType"] = BuzzType.comment.rawValue
                 values["repliedFrom"] = feedID
@@ -110,7 +110,7 @@ class CommentsViewModel {
             case .anotherComment(let anotherCommentID):
                 values["buzzType"] = BuzzType.childComment.rawValue
                 values["repliedFrom"] = anotherCommentID
-                COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).document(anotherCommentID).collection(self.commentsCollectionKey).addDocument(data: values)  { error in
+                ServiceConstant.COLLECTION_FEEDS.document(feedID).collection(self.commentsCollectionKey).document(anotherCommentID).collection(self.commentsCollectionKey).addDocument(data: values)  { error in
                     if let error = error {
                         print(error)
                     } else {
@@ -128,21 +128,21 @@ class CommentsViewModel {
     }
     
     func incrementCommentCountForParentFirebase(parentID: String) {
-        COLLECTION_FEEDS.document(parentID).getDocument { doc, err in
+        ServiceConstant.COLLECTION_FEEDS.document(parentID).getDocument { doc, err in
             guard let doc = doc else { return }
             guard let data = doc.data() else { return }
             let commentCount = data["commentCount"] as? Int ?? 0
-            COLLECTION_FEEDS.document(parentID).setData(["commentCount": commentCount + 1], merge: true)
+            ServiceConstant.COLLECTION_FEEDS.document(parentID).setData(["commentCount": commentCount + 1], merge: true)
             self.delegate?.reloadTableView()
         }
     }
     
     func incrementCommentCountForChildCommentFirebase(childCommentID: String) {
-        COLLECTION_FEEDS.document(feedBuzzTapped.repliedFrom).collection(self.commentsCollectionKey).document(childCommentID).getDocument { doc, err in
+        ServiceConstant.COLLECTION_FEEDS.document(feedBuzzTapped.repliedFrom).collection(self.commentsCollectionKey).document(childCommentID).getDocument { doc, err in
             guard let doc = doc else { return }
             guard let data = doc.data() else { return }
             let commentCount = data["commentCount"] as? Int ?? 0
-            COLLECTION_FEEDS.document(self.feedBuzzTapped.repliedFrom).collection(self.commentsCollectionKey).document(childCommentID).setData(["commentCount": commentCount + 1], merge: true)
+            ServiceConstant.COLLECTION_FEEDS.document(self.feedBuzzTapped.repliedFrom).collection(self.commentsCollectionKey).document(childCommentID).setData(["commentCount": commentCount + 1], merge: true)
             self.delegate?.reloadTableView()
         }
     }
@@ -169,7 +169,7 @@ class CommentsViewModel {
         updatedBuzz.isChildCommentShown = true
         comments.remove(at: index.row)
         comments.insert(updatedBuzz, at: index.row)
-        COLLECTION_FEEDS.document(parentFeed.feedID).collection(self.commentsCollectionKey).document(commentID).collection(self.commentsCollectionKey).order(by: "timestamp").getDocuments { querySnapshot, error in
+        ServiceConstant.COLLECTION_FEEDS.document(parentFeed.feedID).collection(self.commentsCollectionKey).document(commentID).collection(self.commentsCollectionKey).order(by: "timestamp").getDocuments { querySnapshot, error in
             guard let querySnapshot = querySnapshot else { return }
             querySnapshot.documents.forEach { docSnapshot in
                 var child = Buzz(dictionary: docSnapshot.data(), feedID: docSnapshot.documentID)

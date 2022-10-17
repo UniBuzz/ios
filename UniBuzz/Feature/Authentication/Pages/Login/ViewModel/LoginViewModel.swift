@@ -25,8 +25,9 @@ class LoginViewModel {
     func signIn(withEmail email: String, password: String){
         service.signIn(email: email, password: password) { result in
             switch result {
-            case .success(_):
+            case .success(let user):
                 if self.service.checkEmailVerified() {
+                    ServiceConstant.universityName = user.university
                     self.authSuccess?()
                 } else {
                     self.notVerified?()

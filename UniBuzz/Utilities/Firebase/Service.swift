@@ -8,9 +8,9 @@
 import Firebase
 
 
-class Service {
+class Service { 
     static func fetchUsers(completion: @escaping([User])-> Void) {
-        COLLECTION_USERS.getDocuments { snapshot, error in
+        ServiceConstant.COLLECTION_USERS.getDocuments { snapshot, error in
             guard var users = snapshot?.documents.map({ User(dictionary: $0.data())}) else {return}
             
             if let i = users.firstIndex(where: {$0.uid == Auth.auth().currentUser?.uid}) {
@@ -21,7 +21,7 @@ class Service {
     }
     
     static func fetchUser(withUid uid: String, completion: @escaping (User)->Void) {
-        COLLECTION_USERS.document(uid).getDocument { snapshot, error in
+        ServiceConstant.COLLECTION_USERS.document(uid).getDocument { snapshot, error in
             guard let dictionary = snapshot?.data() else {return}
             let user = User(dictionary: dictionary)
             completion(user)
@@ -32,7 +32,7 @@ class Service {
         var conversations = [Conversation]()
         guard let uid = Auth.auth().currentUser?.uid else { return  }
 
-        let query = COLLECTION_MESSAGES.document(uid).collection("recent-messages").order(by: "timestamp", descending: false)
+        let query = ServiceConstant.COLLECTION_MESSAGES.document(uid).collection("recent-messages").order(by: "timestamp", descending: false)
 
         query.addSnapshotListener { snapshot, error in
             snapshot?.documentChanges.forEach({ change in
@@ -54,7 +54,7 @@ class Service {
 
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
 
-        let query = COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timestamp")
+        let query = ServiceConstant.COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timestamp")
 
         query.addSnapshotListener { snapshot, error in
             snapshot?.documentChanges.forEach({ change in
@@ -74,7 +74,7 @@ class Service {
                     "fromId": currentUid,
                     "toId": user.uid,
                     "timestamp": Timestamp(date:Date())] as [String : Any]
-        COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).getDocument(source: .server) { snapshot, error in
+        ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).getDocument(source: .server) { snapshot, error in
             guard let dictionary = snapshot?.data() else {return}
             var dataNotif = DataNotification(dictionary: dictionary)
             print("DEBUG DATA NOTIF: \(dataNotif)")
@@ -85,13 +85,13 @@ class Service {
             }
             let newData = ["unreadMessages": dataNotif.unreadMessages] as [String : Any]
             print("DEBUG NEW DATA: \(newData)")
-            COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(newData, merge: true)
+            ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(newData, merge: true)
             print("DEBUG NEW DATA POST: \(newData)")
         }
-        COLLECTION_MESSAGES.document(currentUid).collection(user.uid).addDocument(data: data) { _ in
-            COLLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: completion)
-            COLLECTION_MESSAGES.document(currentUid).collection("recent-messages").document(user.uid).setData(data)
-            COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(data,merge: true)
+        ServiceConstant.COLLECTION_MESSAGES.document(currentUid).collection(user.uid).addDocument(data: data) { _ in
+            ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: completion)
+            ServiceConstant.COLLECTION_MESSAGES.document(currentUid).collection("recent-messages").document(user.uid).setData(data)
+            ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(data,merge: true)
         }
     }
     
@@ -99,6 +99,6 @@ class Service {
         guard let currentUid = Auth.auth().currentUser?.uid else { return  }
 
         let data = ["unreadMessages": []] as [String : Any]
-        COLLECTION_MESSAGES.document(currentUid).collection("recent-messages").document(user.uid).setData(data, merge: true)
+        ServiceConstant.COLLECTION_MESSAGES.document(currentUid).collection("recent-messages").document(user.uid).setData(data, merge: true)
     }
 }
