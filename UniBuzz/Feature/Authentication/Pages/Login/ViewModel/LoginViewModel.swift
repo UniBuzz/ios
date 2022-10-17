@@ -28,6 +28,7 @@ class LoginViewModel {
             case .success(let user):
                 if self.service.checkEmailVerified() {
                     ServiceConstant.universityName = user.university
+                    UserDefaults.standard.set(user.university, forKey: "university")
                     self.authSuccess?()
                 } else {
                     self.notVerified?()
