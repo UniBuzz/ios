@@ -5,22 +5,39 @@
 //  Created by Kevin ahmad on 20/09/22.
 //
 
-import RxSwift
+import Foundation
+import Firebase
 
-struct ConversationViewModel {
+class ConversationViewModel {
     
-    //dummy chat item
-    var items = Observable<[Conversation]>.just([
-        Conversation(user: User(dictionary: ["uid": "yUeZmvI1k5VA8bmTXXhCtIEPD9o1", "pseudoname": "Udin_petot", "email": "Lol@gmail.id"]), message: Message(dictionary: ["text": "test", "toId": "notme", "fromId": "me"]))
-    ])
+    var messagesForId = [String:[Message]]()
+    var conversations = [Conversation]()
+    var conversationsDictionary = [String: Conversation]()
+    func fectMessagesForUser(user: User, completion: @escaping([Message]?) -> Void) {
+        
+        if self.messagesForId[user.uid] == nil {
+            self.messagesForId[user.uid] = [Message]()
+        }
+        guard let currentUid = Auth.auth().currentUser?.uid else { return  }
+        let query = ServiceConstant.COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timestamp")
+        query.addSnapshotListener { snapshot, error in
+            snapshot?.documentChanges.forEach({ change in
+                if change.type == .added {
+                    let dictionary = change.document.data()
+                    self.messagesForId[user.uid]!.append(Message(dictionary: dictionary))
+                }
+            })
+            completion(self.messagesForId[user.uid])
+        }
+    }
     
-    func isNotificationEmpty(_ conversation: Conversation) -> Bool {
-//        if conversation.notification == 0 {
-//            return true
-//        }else {
-//            return false
-//        }
-        return true
+    func isThereANotification(_ notification: Int?) -> String? {
+        guard let notification else {return nil}
+        if notification > 0 {
+            return String(notification)
+        } else {
+            return nil
+        }
     }
     
 }
