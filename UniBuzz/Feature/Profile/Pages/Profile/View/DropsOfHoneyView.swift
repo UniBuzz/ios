@@ -69,7 +69,7 @@ class DropsOfHoneyView: UIView {
             make.centerY.equalToSuperview()
         }
         
-        totalHoneyLabel.text = "70"
+        totalHoneyLabel.text = "0"
     }
     
 }

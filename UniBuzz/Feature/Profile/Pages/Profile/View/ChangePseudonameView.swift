@@ -86,7 +86,7 @@ class ChangePseudonameView: UIView {
             make.height.equalTo(33)
         }
         
-        currentHoneyLabel.text = "70"
+        currentHoneyLabel.text = "0"
     }
     
 }
