@@ -9,13 +9,15 @@ import UIKit
 import Firebase
 
 class TabBarViewController: UITabBarController {
-
+    // MARK: - properties
+    let conversationVC = ConversationViewController()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-//        logout()
         configureUI()
         authenticateUser()
+        fetchConversations()
     }
     
     // MARK: - Functions and Selectors
@@ -24,31 +26,46 @@ class TabBarViewController: UITabBarController {
         self.tabBar.tintColor = UIColor.heavenlyWhite
         configureViewControllers()
         overrideUserInterfaceStyle = .dark
+        self.tabBar.selectedImageTintColor = .creamyYellow
     }
     
-    func navigationController(image: UIImage?, selectedImage: UIImage?, title: String, rootViewController: UIViewController) ->
+    func navigationController(image: UIImage?, selectedImage: UIImage?, title: String, rootViewController: UIViewController ,badge: String?) ->
         UINavigationController{
             let nav = UINavigationController(rootViewController: rootViewController)
             nav.tabBarItem.image = image
+            nav.tabBarItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.creamyYellow], for: .selected)
             nav.tabBarItem.selectedImage = selectedImage
             nav.tabBarItem.title = title
+            nav.tabBarItem.badgeValue = badge
             nav.tabBarController?.tabBar.isTranslucent = false
-            nav.navigationBar.barTintColor = .heavenlyWhite
             nav.navigationBar.backgroundColor = .eternalBlack
             return nav
         }
     
     func configureViewControllers() {
         let feeds = FeedViewController()
-        let nav1 = navigationController(image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"),title: "Feeds", rootViewController: feeds)
-        let mission = MissionViewController()
-        let nav2 = navigationController(image: UIImage(systemName: "list.bullet.rectangle.portrait"),selectedImage: UIImage(systemName: "list.bullet.rectangle.portrait.fill"),title: "Mission", rootViewController: mission)
-        let conversation = ConversationViewController()
-        let nav3 = navigationController(image: UIImage(systemName: "envelope"),selectedImage: UIImage(systemName: "envelope.fill"), title: "Message", rootViewController: conversation)
+        let nav1 = navigationController(image: UIImage(systemName: "circle.hexagongrid.fill"), selectedImage: UIImage(systemName: "circle.hexagongrid.fill")?.withTintColor(.creamyYellow),title: "Hive", rootViewController: feeds, badge: nil)
+        let nav3 = navigationController(image: UIImage(systemName: "envelope"),selectedImage: UIImage(systemName: "envelope.fill"), title: "Message", rootViewController: conversationVC,badge: nil)
         let profile = ProfileViewController()
         profile.delegate = self
-        let nav4 = navigationController(image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"),title: "Profile", rootViewController: profile)
+        let nav4 = navigationController(image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"),title: "Profile", rootViewController: profile, badge: nil)
         viewControllers = [nav1,nav3,nav4]
+    }
+    
+    func fetchConversations() {
+        Service.fetchConversations { conversations in
+            conversations.forEach { conversation in
+                let message = conversation.message
+                self.conversationVC.viewmodel.conversationsDictionary[message.chatPartnerId] = conversation
+            }
+            self.conversationVC.viewmodel.conversations = Array(self.conversationVC.viewmodel.conversationsDictionary.values)
+            self.conversationVC.totalNotifications = 0
+            for conversation in self.conversationVC.viewmodel.conversations {
+                self.conversationVC.totalNotifications += conversation.unreadMessages
+            }
+            self.conversationVC.navigationController?.tabBarItem.badgeValue = self.conversationVC.viewmodel.isThereANotification(self.conversationVC.totalNotifications)
+            self.conversationVC.tableView.reloadData()
+        }
     }
     
     func presentLoginScreen() {
@@ -63,6 +80,14 @@ class TabBarViewController: UITabBarController {
     
     // MARK: - API
     func authenticateUser() {
+        do {
+            if Auth.auth().currentUser?.uid != nil && Auth.auth().currentUser?.isEmailVerified == false {
+                try Auth.auth().signOut()
+            }
+        } catch {
+            print("Error happened here")
+        }
+        
         if Auth.auth().currentUser?.uid == nil {
             presentLoginScreen()
         }else {
@@ -78,21 +103,22 @@ class TabBarViewController: UITabBarController {
         }
         authenticateUser()
     }
-    
 
 }
 
 extension TabBarViewController: AuthenticationDelegate {
     func authenticationComplete() {
         configureUI()
-//        fetchConversations()
         dismiss(animated: true, completion: nil)
-        print("dismiss")
     }
 }
 
 extension TabBarViewController: ProfileControllerDelegate {
     func handleLogout() {
+        logout()
+    }
+    
+    func handleDeleteAccount() {
         logout()
     }
 }

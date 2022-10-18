@@ -6,15 +6,13 @@
 //
 
 import UIKit
-import RxSwift
-import RxCocoa
+import Firebase
 
 class FeedViewController: UIViewController {
     
     //MARK: - Variables
-    private var bag = DisposeBag()
     private var viewModel = FeedViewModel()
-    
+
     //MARK: - Properties
     lazy var feedTableView: UITableView = {
         let tableView = UITableView()
@@ -39,19 +37,18 @@ class FeedViewController: UIViewController {
         return button
     }()
     
+    let refreshControl = UIRefreshControl()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureNavigationItems()
-        fetchData()
-        viewModel.feedsData.bind(to: feedTableView.rx.items(cellIdentifier: FeedTableViewCell.cellIdentifier, cellType: FeedTableViewCell.self)) {index, item, cell in
-            cell.feed = item
-            cell.feedDelegate = self
-        }.disposed(by: bag)
-        feedTableView.rx.modelSelected(FeedModel.self).subscribe { feed in
-            print(feed)
-        }.disposed(by: bag)
+        viewModel.fetchData()
+        feedTableView.delegate = self
+        feedTableView.dataSource = self
+        viewModel.delegate = self
+        hideKeyboardWhenTappedAround()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -61,11 +58,12 @@ class FeedViewController: UIViewController {
     //MARK: - Selector Functions
     @objc func addFeedButtonPressed() {
         let createFeedVC = PostFeedViewController()
+        createFeedVC.delegate = self
         self.navigationController?.pushViewController(createFeedVC, animated: true)
     }
     
     @objc func searchButtonPressed() {
-        
+        viewModel.fetchData()
     }
     
     @objc func notificationButtonPressed() {
@@ -73,9 +71,6 @@ class FeedViewController: UIViewController {
     }
     
     //MARK: - Functions
-    func fetchData() {
-        viewModel.fetchFeed()
-    }
     
     func configureUI() {
         view.backgroundColor = .midnights
@@ -103,6 +98,10 @@ class FeedViewController: UIViewController {
             make.right.equalToSuperview().offset(-5)
             make.bottom.equalToSuperview().offset(-5)
         }
+        
+        refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        feedTableView.refreshControl = refreshControl
     }
     
     func configureNavigationItems(){
@@ -123,9 +122,26 @@ class FeedViewController: UIViewController {
         self.navigationItem.titleView = title
         self.navigationController?.navigationBar.barTintColor = .midnights
     }
+    
+    @objc func refresh() {
+        viewModel.fetchData()
+    }
 }
 
-extension FeedViewController: FeedCellDelegate {
+    //MARK: - Extension
+
+extension FeedViewController: CellDelegate {
+    
+    func didTapComment(feed: Buzz, index: IndexPath) {
+        let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
+        let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
+        self.navigationController?.pushViewController(commentsVC, animated: true)
+    }
+    
+    func didTapUpVote(model: UpvoteModel, index: IndexPath) {
+        viewModel.upVoteContent(model: model, index: index)
+    }
+    
     func didTapMessage(uid: String, pseudoname: String) {
         print(pseudoname)
         let controller = ChatCollectionViewController(user: User(dictionary: ["uid": uid, "pseudoname": pseudoname]))
@@ -133,3 +149,46 @@ extension FeedViewController: FeedCellDelegate {
         navigationController?.pushViewController(controller, animated: true)
     }
 }
+
+extension FeedViewController: PostFeedDelegate {
+    func updateFeeds() {
+        viewModel.updateForTheLatestData()
+    }
+}
+
+extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.feedsData.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let uid = Auth.auth().currentUser?.uid else { return UITableViewCell()}
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.cellIdentifier, for: indexPath) as! FeedTableViewCell
+        let item = viewModel.feedsData
+        cell.userUID = uid
+        cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row], indexPath: indexPath)
+        cell.cellDelegate = self
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let feed =  viewModel.feedsData[indexPath.row]
+        let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
+        let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
+        self.navigationController?.pushViewController(commentsVC, animated: true)
+    }
+}
+
+extension FeedViewController: ViewModelDelegate {
+    func stopRefresh() {
+        refreshControl.endRefreshing()
+    }
+    
+    func reloadTableView() {
+        feedTableView.reloadData()
+    }
+}
+
+
+

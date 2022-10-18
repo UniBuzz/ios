@@ -6,13 +6,15 @@
 //
 
 import UIKit
-import Firebase
+import SnapKit
 
 private let reuseIdentifier = "MessageCell"
 
 class ChatCollectionViewController: UICollectionViewController {
     
     // MARK: - properties
+    weak var conversationViewmodel: ConversationViewModel?
+    
     private lazy var CustomInputView: CustomInputAccessoryView = {
         let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 67))
         iv.delegate = self
@@ -21,6 +23,14 @@ class ChatCollectionViewController: UICollectionViewController {
     
     fileprivate let user: User
     var messages = [Message]()
+    
+    private let loadingSpinner: UIActivityIndicatorView = {
+       let spin = UIActivityIndicatorView()
+        spin.sizeToFit()
+        spin.style = .large
+        spin.color = .heavenlyWhite
+        return spin
+    }()
     
     // MARK: - Lifecycle
     init(user: User){
@@ -35,9 +45,15 @@ class ChatCollectionViewController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadingSpinner.startAnimating()
+        readMessage()
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         configureUI()
         fectMessages()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        readMessage()
     }
     
     override var inputAccessoryView: UIView? {
@@ -70,24 +86,29 @@ class ChatCollectionViewController: UICollectionViewController {
     func configureUI() {
         navigationItem.largeTitleDisplayMode = .never
         collectionView.backgroundColor = .midnights
-        configureNavigationBar()
         collectionView.register(MessageCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         collectionView.alwaysBounceVertical = true
         collectionView.keyboardDismissMode = .interactive
+        view.addSubview(loadingSpinner)
+        loadingSpinner.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
-    
-    func configureNavigationBar() {
-    
-    }
-    
     // MARK: - fetch message API
+    
+    func readMessage() {
+        Service.notifyReadMessage(to: user)
+    }
 
     func fectMessages() {
+        self.loadingSpinner.startAnimating()
         Service.fetchMessages(forUser: user) { messages in
             self.messages = messages
             self.collectionView.reloadData()
             self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
+            self.loadingSpinner.stopAnimating()
         }
+        self.loadingSpinner.stopAnimating()
     }
 }
 
@@ -101,7 +122,6 @@ extension ChatCollectionViewController: CustomInputAccessoryViewDelegate {
             if let error {
                 print("DEBUG: Error sending message with error \(error.localizedDescription)")
             }
-            print(message)
             self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
         }
     }

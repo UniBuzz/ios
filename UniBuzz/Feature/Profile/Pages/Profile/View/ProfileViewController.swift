@@ -6,102 +6,134 @@
 //
 
 import UIKit
-import Firebase
+import SnapKit
 
-protocol ProfileControllerDelegate: class {
+protocol ProfileControllerDelegate: AnyObject {
     func handleLogout()
+    func handleDeleteAccount()
 }
 
 class ProfileViewController: UIViewController {
 
     //MARK: - Properties
     weak var delegate: ProfileControllerDelegate?
-    
-    lazy var titleText: UILabel = {
-        var label: UILabel = UILabel()
-        label.text = "Profile"
-        label.textColor = .heavenlyWhite
-        return label
-    }()
-    
-    lazy var emailText: UILabel = {
-        var label: UILabel = UILabel()
-        label.text = "username"
-        label.textColor = .heavenlyWhite
-        return label
-    }()
+    let viewModel = ProfileViewModel()
     
     lazy var usernameText: UILabel = {
         var label: UILabel = UILabel()
-        label.text = "username"
-        label.textColor = .heavenlyWhite
+        label.text = "Pseudoname"
+        label.textColor = .creamyYellow
+        label.font = UIFont.boldSystemFont(ofSize: 20)
         return label
     }()
+
+    let avatarImageView = AvatarGenerator(pseudoname: "", background: 0)
     
-    private let logoutButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Logout", for: .normal)
-        button.setTitleColor(.eternalBlack, for: .normal)
-        button.backgroundColor = .creamyYellow
-        button.heightAnchor.constraint(equalToConstant: 50).isActive = true
-        button.layer.cornerRadius = 25
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 20)
-        button.addTarget(self, action: #selector(handleLogout), for: .touchUpInside)
-        return button
-    }()
+    let dropsOfHoney = DropsOfHoneyView()
+    let changePseudo = ChangePseudonameView()
 
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .midnights
         configureUI()
+        configureNavigationItems()
     }
     
     //MARK: - Functions
     func configureUI() {
-        self.view.addSubview(titleText)
-        self.view.addSubview(emailText)
+        self.view.addSubview(avatarImageView)
         self.view.addSubview(usernameText)
-        self.view.addSubview(logoutButton)
+        self.view.addSubview(dropsOfHoney)
+        self.view.addSubview(changePseudo)
+
+        self.navigationController?.navigationBar.tintColor = .midnights
+        self.navigationController?.navigationBar.barTintColor = .midnights
+        self.navigationController?.navigationBar.backgroundColor = .midnights
         
-        titleText.snp.makeConstraints { make in
-            make.center.equalTo(self.view)
-        }
-        
-        emailText.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(titleText.snp.bottom).offset(20)
+        avatarImageView.layer.cornerRadius = 80/2
+        avatarImageView.nameLabel.font = UIFont.boldSystemFont(ofSize: 22)
+        avatarImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(80)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(30    )
         }
         
         usernameText.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(emailText.snp.bottom).offset(20)
+            make.centerX.equalTo(self.view)
+            make.top.equalTo(avatarImageView.snp.bottom).offset(20)
         }
         
-        logoutButton.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(usernameText.snp.bottom).offset(20)
+        let honeyTapGesture = UITapGestureRecognizer(target: self, action: #selector(honeyButtonPressed))
+        dropsOfHoney.addGestureRecognizer(honeyTapGesture)
+        dropsOfHoney.snp.makeConstraints { make in
+            make.top.equalTo(usernameText.snp.bottom).offset(30)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(62)
         }
         
-        DispatchQueue.main.async { [self] in
-            let uid = Auth.auth().currentUser?.uid
-            Service.fetchUser(withUid: uid ?? "", completion: { data in
-                usernameText.text = data.pseudoname
-                emailText.text = data.email
-                
-            })
+        changePseudo.snp.makeConstraints { make in
+            make.top.equalTo(dropsOfHoney.snp.bottom).offset(30)
+            make.leading.equalToSuperview().offset(20)
+            make.trailing.equalToSuperview().offset(-20)
+            make.height.equalTo(113)
         }
+        changePseudo.changeButton.addTarget(self, action: #selector(changeButtonTapped), for: .touchUpInside)
+        
+        viewModel.fetchCurrentUser { user in
+            self.usernameText.text = user.pseudoname
+            self.avatarImageView.pseudoname = user.pseudoname
+            self.avatarImageView.randomInt = user.randomInt
+        }
+        
     }
     
-    @objc func handleLogout() {
-        let alert = UIAlertController(title: nil, message: "Are you sure you want to logout?", preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { _ in
-            self.dismiss(animated: true) {
-                self.delegate?.handleLogout()
-            }
-        }))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        present(alert, animated: true,completion: nil)
+    func configureNavigationItems(){
+        let title = UILabel()
+        title.frame = .init(x: 0, y: 0, width: view.frame.width, height: 50)
+        title.text = "Profile"
+        title.font = UIFont.boldSystemFont(ofSize: 25)
+        title.textAlignment = .left
+        title.textColor = .heavenlyWhite
+        
+        let settingsButton = UIBarButtonItem(image: UIImage(systemName: "gearshape"), style: .plain, target: self, action: #selector(settingButtonPressed))
+        settingsButton.tintColor = .heavenlyWhite
+        navigationItem.rightBarButtonItem = settingsButton
+        
+        self.navigationController?.navigationBar.backgroundColor = .midnights
+        self.navigationItem.titleView = title
+        self.navigationController?.navigationBar.barTintColor = .midnights
     }
-
+    
+    @objc func settingButtonPressed() {
+        let settings = SettingsViewController()
+        settings.delegate = self
+        navigationController?.pushViewController(settings, animated: true)
+    }
+    
+    @objc func honeyButtonPressed(sender: UITapGestureRecognizer) {
+        let honey = HoneyViewController()
+        navigationController?.pushViewController(honey, animated: true)
+    }
+    
+    @objc func changeButtonTapped() {
+        let changePseudo = ChangePseudonameViewController()
+        changePseudo.userPseudonameText.text = usernameText.text
+        navigationController?.pushViewController(changePseudo, animated: true)
+    }
 }
+
+    //MARK: - Extensions
+
+extension ProfileViewController: SettingsProfileDelegate {
+    func handleLogout() {
+        delegate?.handleLogout()
+    }
+    
+    func handleDeleteAccount() {
+        delegate?.handleDeleteAccount()
+    }
+}
+
+
