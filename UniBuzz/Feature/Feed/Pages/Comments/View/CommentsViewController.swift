@@ -64,6 +64,9 @@ class CommentsViewController: UIViewController {
         return footer
     }()
     
+    var bottomConstraint = NSLayoutConstraint()
+    var originalConstant: CGFloat = 0
+    
     init(commentsViewModel: CommentsViewModel) {
         self.commentsViewModel = commentsViewModel
         super.init(nibName: nil, bundle: nil)
@@ -76,6 +79,10 @@ class CommentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .midnights
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:UIResponder.keyboardWillShowNotification, object: self.view.window)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name:UIResponder.keyboardWillHideNotification, object: self.view.window)
+        
         configureUI()
         tableView.delegate = self
         tableView.dataSource = self
@@ -132,9 +139,12 @@ class CommentsViewController: UIViewController {
         footer.snp.makeConstraints { make in
             make.left.equalTo(view)
             make.right.equalTo(view)
-            make.bottom.equalTo(view)
             make.height.equalTo(view.bounds.height * 0.14)
         }
+        
+        bottomConstraint = NSLayoutConstraint(item: footer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: originalConstant)
+        bottomConstraint.isActive = true
+        
         
         infoLabelAboveTextField.snp.makeConstraints { make in
             make.top.equalTo(footer).offset(4)
@@ -142,7 +152,7 @@ class CommentsViewController: UIViewController {
         }
         
         textFieldContainer.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(footer.snp.bottom).offset(-20)
             make.left.equalTo(footer).offset(12)
             make.top.equalTo(infoLabelAboveTextField.snp.bottom)
             make.right.equalTo(sendButtonContainer.snp.left).offset(-16)
@@ -175,7 +185,11 @@ class CommentsViewController: UIViewController {
 
 }
 
-extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CommentCellDelegate, ViewModelDelegate {
+extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CommentCellDelegate, CommentViewModelDelegate {
+    
+    func scrollTableView(to index: IndexPath) {
+        tableView.scrollToRow(at: index, at: .bottom, animated: true)
+    }
     
     func stopRefresh() {
         print("")
@@ -245,8 +259,23 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
     func didTapHideComments(from commentID: String, at index: IndexPath) {
         commentsViewModel.hideChildComment(from: commentID, at: index)
     }
-
-    
 }
 
+extension CommentsViewController {
+    @objc func keyboardWillShow(notification: NSNotification) {
+        print("keyboardWillShow")
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.bottomConstraint.constant = -keyboardSize.height - 5
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification){
+        print("keyboardWillHide")
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.bottomConstraint.constant = self.originalConstant
+            self.view.layoutIfNeeded()
+        }
+    }
+}
 

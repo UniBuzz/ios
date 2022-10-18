@@ -13,9 +13,13 @@ enum CommentFrom {
     case anotherComment(anotherCommentID: String)
 }
 
+protocol CommentViewModelDelegate: ViewModelDelegate {
+    func scrollTableView(to index: IndexPath)
+}
+
 class CommentsViewModel {
     
-    weak var delegate: ViewModelDelegate?
+    weak var delegate: CommentViewModelDelegate?
     private var childCommentsCounter: [String: Int] = [:]
     
     var feedBuzzTapped: Buzz
@@ -134,6 +138,7 @@ class CommentsViewModel {
             let commentCount = data["commentCount"] as? Int ?? 0
             ServiceConstant.COLLECTION_FEEDS.document(parentID).setData(["commentCount": commentCount + 1], merge: true)
             self.delegate?.reloadTableView()
+            self.delegate?.scrollTableView(to: IndexPath(row: self.comments.count-1, section: 0))
         }
     }
     
