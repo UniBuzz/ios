@@ -108,8 +108,10 @@ class PostFeedViewController: UIViewController {
     }
     
     @objc func postButtonPresseds() {
-        viewModel.uploadFeed(content: textField.text ?? "")
-        delegate?.updateFeeds()
+        Task.init {
+            await viewModel.uploadFeed(content: textField.text ?? "")
+            delegate?.updateFeeds()
+        }
         self.navigationController?.popViewController(animated: true)
     }
     

@@ -18,7 +18,7 @@ protocol ViewModelDelegate: AnyObject {
 class FeedViewModel {
     
     public var feedsData = [Buzz]()
-    private var service = FeedService()
+    private var service = FeedService.shared
     weak var delegate: ViewModelDelegate?
     
     internal func fetchData() {
@@ -69,7 +69,6 @@ class FeedViewModel {
             }
     }
 
-    
     func feedOption() {
         
     }
