@@ -10,7 +10,7 @@ import SnapKit
 
 class EarnMoneyView: UIView {
     // MARK: - Properties
-    var tittleLabel: UILabel = {
+    lazy var tittleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .heavenlyWhite
@@ -18,10 +18,10 @@ class EarnMoneyView: UIView {
         return label
     }()
     
-    var receivingComments = HoneyItemView(title: "Receiving Comments", honey: "20")
-    var commentsUpvote = HoneyItemView(title: "Comments getting upvoted", honey: "15")
-    var postUpvote = HoneyItemView(title: "Post getting upvoted", honey: "5")
-    var givingUpvote = HoneyItemView(title: "Giving upvotes", honey: "1")
+    lazy var receivingComments = HoneyItemView(title: "Receiving Comments", honey: "20")
+    lazy var commentsUpvote = HoneyItemView(title: "Comments getting upvoted", honey: "15")
+    lazy var postUpvote = HoneyItemView(title: "Post getting upvoted", honey: "5")
+    lazy var givingUpvote = HoneyItemView(title: "Giving upvotes", honey: "1")
 
     // MARK: - Lifecycle
     override init(frame: CGRect){

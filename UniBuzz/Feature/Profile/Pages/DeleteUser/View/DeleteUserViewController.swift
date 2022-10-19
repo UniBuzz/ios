@@ -17,8 +17,8 @@ class DeleteUserViewController: UIViewController {
 
     //MARK: - Properties
     weak var delegate: DeleteAccountProfileDelegate?
-    let viewmodel = DeleteUserViewModel()
-    var tittleLabel: UILabel = {
+    lazy var viewmodel = DeleteUserViewModel()
+    lazy var tittleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .heavenlyWhite
@@ -26,7 +26,7 @@ class DeleteUserViewController: UIViewController {
         return label
     }()
     
-    var descLabel: UILabel = {
+    lazy var descLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .cloudSky
@@ -34,14 +34,14 @@ class DeleteUserViewController: UIViewController {
         return label
     }()
     
-    var deleteButton: UIButton = {
+    lazy var deleteButton: UIButton = {
         let button = UIButton()
         button.setTitle("Delete Account", for: .normal)
         button.setTitleColor(UIColor.warningRed, for: .normal)
         button.addTarget(self, action: #selector(deleteClicked), for: .touchUpInside)
         return button
     }()
-    var textField = UITextField()
+    lazy var textField = UITextField()
 
     //MARK: - Lifecycle
 

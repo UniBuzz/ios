@@ -11,14 +11,14 @@ import SnapKit
 class HoneyItemView: UIView {
 
     //MARK: - Properties
-    let titleLabel: UILabel = {
+    lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .heavenlyWhite
         return label
     }()
     
-    let honeyLabel: UILabel = {
+    lazy var honeyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .creamyYellow

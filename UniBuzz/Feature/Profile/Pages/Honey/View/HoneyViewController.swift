@@ -11,7 +11,7 @@ import SnapKit
 class HoneyViewController: UIViewController {
 
     //MARK: - Properties
-    let descLabel: UILabel = {
+    lazy var descLabel: UILabel = {
         let label = UILabel()
         label.text = "Engage more with the community such as creating posts, upvoting, replying to comments, and getting your comments upvoted!"
         label.font = UIFont.systemFont(ofSize: 14)
@@ -20,8 +20,8 @@ class HoneyViewController: UIViewController {
         return label
     }()
     
-    let earnHoney = EarnMoneyView()
-    let useHoney = UseHoneyView()
+    lazy var earnHoney = EarnMoneyView()
+    lazy var useHoney = UseHoneyView()
 
     //MARK: - Lifecycle
 
