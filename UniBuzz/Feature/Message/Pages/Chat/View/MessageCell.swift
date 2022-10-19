@@ -17,8 +17,8 @@ class MessageCell: UICollectionViewCell {
         }
     }
     
-    weak var bubbleLeftAnchor: NSLayoutConstraint!
-    weak var bubbleRightAnchor: NSLayoutConstraint!
+    lazy var bubbleLeftAnchor = NSLayoutConstraint()
+    lazy var bubbleRightAnchor = NSLayoutConstraint()
     
     lazy var textView: UITextView = {
         let tv = UITextView()
