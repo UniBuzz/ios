@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		5E0F380628F4139200FDE867 /* FeedCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */; };
+		5E7B726628FFBE54003265A7 /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E7B726528FFBE54003265A7 /* FeedService.swift */; };
 		5ED5331F28F6BE82009BDB0D /* FeedTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		C42BB94928DA2A1400006F71 /* BuzzModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C42BB94728DA2A1400006F71 /* BuzzModel.swift */; };
@@ -105,6 +106,7 @@
 
 /* Begin PBXFileReference section */
 		5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
+		5E7B726528FFBE54003265A7 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		C42BB94728DA2A1400006F71 /* BuzzModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuzzModel.swift; sourceTree = "<group>"; };
 		C42BB94828DA2A1400006F71 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
@@ -778,6 +780,7 @@
 				D4D4894328E43AF40012D67E /* Service.swift */,
 				D4ECE59428EA884F00E24223 /* DataService.swift */,
 				D471F8FC28F5B9AF00972EB6 /* LoginService.swift */,
+				5E7B726528FFBE54003265A7 /* FeedService.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -955,6 +958,7 @@
 				CB564B8E28EBE9C800D868FB /* ButtonThemes.swift in Sources */,
 				CB564B8F28EBE9C800D868FB /* AppDelegate.swift in Sources */,
 				CBD010A228F27A110018791D /* ProfileViewModel.swift in Sources */,
+				5E7B726628FFBE54003265A7 /* FeedService.swift in Sources */,
 				CB564B9028EBE9C800D868FB /* SceneDelegate.swift in Sources */,
 				CB564B9128EBE9C800D868FB /* ViewController.swift in Sources */,
 				CBD010AE28F3DF340018791D /* ConversationCellViewModel.swift in Sources */,
