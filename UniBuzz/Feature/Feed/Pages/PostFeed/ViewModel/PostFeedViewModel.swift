@@ -7,27 +7,13 @@
 
 import Firebase
 
-class PostFeedViewModel {
-    func uploadFeed(content: String) {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        var user = User(dictionary: [:])
-        let userRef = ServiceConstant.COLLECTION_USERS.document(uid)
-        userRef.getDocument { document, err in
-            if let document = document, document.exists {
-                user = User(dictionary: document.data() ?? [:])
-            }
-            
-            let values = ["userName": user.pseudoname,
-                          "uid": uid,
-                          "timestamp": Int(Date().timeIntervalSince1970),
-                          "content": content,
-                          "upvoteCount": 0,
-                          "commentCount": 0,
-                          "buzzType": BuzzType.feed.rawValue,
-                          "userIDs": [String]()] as [String : Any]
 
-            ServiceConstant.COLLECTION_FEEDS.addDocument(data: values)
-        }
+class PostFeedViewModel {
+    
+    private let service = FeedService.shared
+
+    func uploadFeed(content: String) async {
+        await service.uploadFeed(content: content)
     }
 }
 

@@ -87,7 +87,9 @@ class CommentsViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         commentsViewModel.delegate = self
-        commentsViewModel.loadComments()      
+        Task.init {
+            await commentsViewModel.loadComments()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,13 +105,15 @@ class CommentsViewController: UIViewController {
     @objc func postComment() {
         guard let commentText = commentTextField.text else { return }
         if commentText != "" {
-            switch commentsViewModel.feedBuzzTapped.buzzType {
-            case .feed:
-                commentsViewModel.replyComments(from: .feed, commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.feedID)
-            case .comment:
-                commentsViewModel.replyComments(from: .anotherComment(anotherCommentID: commentsViewModel.feedBuzzTapped.feedID), commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.repliedFrom)
-            case .childComment:
-                return
+            Task.init {
+                switch commentsViewModel.feedBuzzTapped.buzzType {
+                case .feed:
+                    await commentsViewModel.replyComments(from: .feed, commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.feedID)
+                case .comment:
+                    await commentsViewModel.replyComments(from: .anotherComment(anotherCommentID: commentsViewModel.feedBuzzTapped.feedID), commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.repliedFrom)
+                case .childComment:
+                    return
+                }
             }
             commentTextField.text = ""
         }
@@ -239,7 +243,9 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
     
     func didTapUpVote(model: UpvoteModel, index: IndexPath) {
         print("upvote tapped from comment page")
-        commentsViewModel.upVoteContent(model: model)
+        Task.init {
+            await commentsViewModel.upvoteContent(model: model, index: index)
+        }
     }
     
     func didTapComment(feed: Buzz, index: IndexPath) {

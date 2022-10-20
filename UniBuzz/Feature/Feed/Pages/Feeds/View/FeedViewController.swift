@@ -152,7 +152,7 @@ extension FeedViewController: CellDelegate {
 
 extension FeedViewController: PostFeedDelegate {
     func updateFeeds() {
-        viewModel.updateForTheLatestData()
+        viewModel.fetchData()
     }
 }
 
