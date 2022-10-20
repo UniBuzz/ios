@@ -6,8 +6,11 @@
 //
 
 import Foundation
+import Firebase
 
-struct SettingsViewModel {
+class SettingsViewModel {
+    
+    var logOutView: (() -> Void)?
     
     func numberOfItems() -> Int{
         return SettingsItem().itemsTitle.count
@@ -20,4 +23,14 @@ struct SettingsViewModel {
     func descriptionItem(_ row: Int) -> String{
         return SettingsItem().itemsDescription[row]
     }
+    
+    func logOut() {
+        do {
+            try Auth.auth().signOut()
+            logOutView?()
+        } catch {
+            print("DEBUG: Error signin out..")
+        }
+    }
+    
 }
