@@ -11,16 +11,16 @@ import SnapKit
 class MessageCell: UICollectionViewCell {
     
     //MARK: - Properties
-    var message:Message? {
+    var message: Message? {
         didSet {
             configureText()
         }
     }
     
-    var bubbleLeftAnchor: NSLayoutConstraint!
-    var bubbleRightAnchor: NSLayoutConstraint!
+    lazy var bubbleLeftAnchor = NSLayoutConstraint()
+    lazy var bubbleRightAnchor = NSLayoutConstraint()
     
-    private let textView: UITextView = {
+    lazy var textView: UITextView = {
         let tv = UITextView()
         tv.backgroundColor = .clear
         tv.font = .systemFont(ofSize: 16)
@@ -30,7 +30,7 @@ class MessageCell: UICollectionViewCell {
         return tv
     }()
     
-    private let bubbleContainer: UIView = {
+    lazy var bubbleContainer: UIView = {
        let view = UIView()
         view.backgroundColor = .creamyYellow
         return view

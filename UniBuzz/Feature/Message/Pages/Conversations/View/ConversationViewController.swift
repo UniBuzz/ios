@@ -11,11 +11,9 @@ import SnapKit
 class ConversationViewController: UIViewController {
     
     //MARK: - Properties
-    var viewmodel = ConversationViewModel()
+    var viewModel = ConversationViewModel()
     fileprivate let reuseIdentifier = "ConversationCell"
     let tableView = UITableView()
-//    var conversations = [Conversation]()
-//    var conversationsDictionary = [String: Conversation]()
     var totalNotifications: Int = 0
     
     //MARK: - Lifecycle
@@ -43,7 +41,7 @@ class ConversationViewController: UIViewController {
     
     func showChatController(forUser user: User) {
         let controller = ChatCollectionViewController(user: user)
-        controller.conversationViewmodel = viewmodel
+        controller.conversationViewmodel = viewModel
         controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -52,13 +50,13 @@ class ConversationViewController: UIViewController {
 //MARK: - UITableViewDataSource
 extension ConversationViewController: UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return viewmodel.conversations.count
+        return viewModel.conversations.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
         
-        cell.viewmodel = ConversationCellViewModel(conversation: viewmodel.conversations[indexPath.row])
+        cell.viewModel = ConversationCellViewModel(conversation: viewModel.conversations[indexPath.row])
         return cell
     }
 }
@@ -67,7 +65,7 @@ extension ConversationViewController: UITableViewDataSource{
 extension ConversationViewController: UITableViewDelegate{
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let user = viewmodel.conversations[indexPath.row].user
+        let user = viewModel.conversations[indexPath.row].user
         showChatController(forUser: user)
     }
     

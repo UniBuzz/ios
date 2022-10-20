@@ -10,7 +10,7 @@ import SnapKit
 
 class UseHoneyView: UIView {
     // MARK: - Properties
-    var tittleLabel: UILabel = {
+    lazy var tittleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .heavenlyWhite
@@ -18,8 +18,8 @@ class UseHoneyView: UIView {
         return label
     }()
     
-    var changePseudo = HoneyItemView(title: "Change Pseudoname", honey: "200")
-    var createChannel = HoneyItemView(title: "Create Channel", honey: "Soon")
+    lazy var changePseudo = HoneyItemView(title: "Change Pseudoname", honey: "200")
+    lazy var createChannel = HoneyItemView(title: "Create Channel", honey: "Soon")
 
     // MARK: - Lifecycle
     override init(frame: CGRect){

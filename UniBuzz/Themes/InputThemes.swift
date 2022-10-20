@@ -11,8 +11,8 @@ class InputThemes {
     
     func inputContainerView(textfield: UITextField, title: String) -> UIView {
         
-        let view = UIView()
-        var inputLabel: UILabel = {
+        lazy var view = UIView()
+        lazy var inputLabel: UILabel = {
             let label = UILabel()
             label.text = title
             label.font = UIFont.boldSystemFont(ofSize: 16)
@@ -20,7 +20,7 @@ class InputThemes {
             return label
         }()
         
-        var backgroundBubble: UIView = {
+        lazy var backgroundBubble: UIView = {
             let bView = UIView()
             bView.backgroundColor = .stoneGrey
             bView.layer.cornerRadius = 6

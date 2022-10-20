@@ -11,34 +11,34 @@ import SnapKit
 class ConversationCell: UITableViewCell {
     
     // MARK: - Properties
-    var viewmodel: ConversationCellViewModel? {
+    weak var viewModel: ConversationCellViewModel? {
         didSet {
             configure()
         }
     }
     
-    let usernameLabel: UILabel = {
+    lazy var usernameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
         label.textColor = .heavenlyWhite
         return label
     }()
     
-    let messageLabel: UILabel = {
+    lazy var messageLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
         label.textColor = .cloudSky
         return label
     }()
     
-    let timeStamp: UILabel = { 
+    lazy var timeStamp: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 10)
         label.textColor = .cloudSky
         return label
     }()
     
-    let notificationStamp: UILabel = {
+    lazy var notificationStamp: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 10)
         label.layer.masksToBounds = true
@@ -47,7 +47,7 @@ class ConversationCell: UITableViewCell {
         return label
     }()
     
-    let profileImageView: UIImageView = {
+    lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
@@ -55,14 +55,14 @@ class ConversationCell: UITableViewCell {
         return iv
     }()
     
-    let avatarImageView: AvatarGenerator = {
+    lazy var avatarImageView: AvatarGenerator = {
         let iv = AvatarGenerator(pseudoname: "", background: 0)
         iv.nameLabel.font = UIFont.boldSystemFont(ofSize: 20)
         iv.layer.cornerRadius = 50/2
         return iv
     }()
         
-    let circle: UIImageView = {
+    lazy var circle: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
@@ -129,12 +129,12 @@ class ConversationCell: UITableViewCell {
     }
     
     func configure() {
-        self.usernameLabel.text = viewmodel?.pseudonameString()
-        self.messageLabel.text = viewmodel?.messageString()
-        self.timeStamp.text = viewmodel?.timestamp
-        self.avatarImageView.pseudoname = viewmodel?.pseudonameString()
-        self.avatarImageView.randomInt = viewmodel?.randomInt() ?? 0
-        notificationStamp.text = viewmodel?.unreadMessagesString()
-        circle.isHidden = viewmodel?.hiddenStatus() ?? true
+        self.usernameLabel.text = viewModel?.pseudonameString()
+        self.messageLabel.text = viewModel?.messageString()
+        self.timeStamp.text = viewModel?.timestamp
+        self.avatarImageView.pseudoname = viewModel?.pseudonameString()
+        self.avatarImageView.randomInt = viewModel?.randomInt() ?? 0
+        notificationStamp.text = viewModel?.unreadMessagesString()
+        circle.isHidden = viewModel?.hiddenStatus() ?? true
     }
 }
