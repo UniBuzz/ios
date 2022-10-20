@@ -9,14 +9,10 @@ import UIKit
 import SnapKit
 import Firebase
 
-protocol AuthenticationDelegate: AnyObject {
-    func authenticationComplete()
-}
 
 class LoginViewController: UIViewController {
     
     // MARK: - Properties
-    weak var delegate: AuthenticationDelegate?
     
     private let viewModel = LoginViewModel()
     
@@ -97,6 +93,12 @@ class LoginViewController: UIViewController {
     }()
     
     // MARK: - Lifecycle
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -117,8 +119,7 @@ class LoginViewController: UIViewController {
         
         viewModel.authSuccess = {
             self.loadingSpinner.stopAnimating()
-            self.loginButton.isEnabled = true
-            self.delegate?.authenticationComplete()
+            self.navigationController?.pushViewController(TabBarViewController(), animated: true)
         }
         
         viewModel.notVerified = {
@@ -197,7 +198,6 @@ class LoginViewController: UIViewController {
     //MARK: - Selector
     @objc func handleShowSignUp() {
         let controller = ChooseUniversityViewController()
-//        controller.delegate = delegate
         navigationController?.pushViewController(controller, animated: true)
     }
     

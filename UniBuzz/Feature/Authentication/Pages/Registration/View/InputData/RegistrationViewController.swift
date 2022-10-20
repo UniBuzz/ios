@@ -12,7 +12,6 @@ import Firebase
 class RegistrationViewController: UIViewController {
     
     // MARK: - Properties
-    weak var delegate: AuthenticationDelegate?
     private let viewModel: RegistrationViewModel
     
     private lazy var emailContainerView: UIView = {

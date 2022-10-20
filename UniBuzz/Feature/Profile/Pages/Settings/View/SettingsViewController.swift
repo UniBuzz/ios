@@ -24,8 +24,20 @@ class SettingsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        bindViewModel()
     }
     //MARK: - Functions
+    
+    func bindViewModel() {
+        viewModel.logOutView = {
+            let newViewControllers = NSMutableArray()
+            let loginVC = LoginViewController()
+            loginVC.hidesBottomBarWhenPushed = true
+            newViewControllers.add(loginVC)
+            self.navigationController?.setViewControllers(newViewControllers as! [UIViewController], animated: true)
+        }
+    }
+    
     func configureUI() {
         view.backgroundColor = .midnights
         configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: "Settings", preferredLargeTitle: false)
@@ -43,7 +55,7 @@ class SettingsViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: "Are you sure you want to logout?", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Log Out", style: .destructive, handler: { _ in
             self.dismiss(animated: true) {
-                self.delegate?.handleLogout()
+                self.viewModel.logOut()
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

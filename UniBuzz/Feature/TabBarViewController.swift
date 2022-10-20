@@ -13,6 +13,11 @@ class TabBarViewController: UITabBarController {
     let conversationVC = ConversationViewController()
     
     // MARK: - Lifecycle
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setNavigationBarHidden(true, animated: animated)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -71,7 +76,6 @@ class TabBarViewController: UITabBarController {
     func presentLoginScreen() {
         DispatchQueue.main.async {
             let controller = LoginViewController()
-            controller.delegate = self
             let nav = UINavigationController(rootViewController: controller)
             nav.modalPresentationStyle = .fullScreen
             self.present(nav, animated: true, completion: nil)
@@ -104,13 +108,6 @@ class TabBarViewController: UITabBarController {
         authenticateUser()
     }
 
-}
-
-extension TabBarViewController: AuthenticationDelegate {
-    func authenticationComplete() {
-        configureUI()
-        dismiss(animated: true, completion: nil)
-    }
 }
 
 extension TabBarViewController: ProfileControllerDelegate {
