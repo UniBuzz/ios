@@ -7,13 +7,22 @@
 
 import Firebase
 
+enum CustomMessageError: Error {
+    case dataNotFound
+}
+
 
 class MessageService {
     
     public static let shared = MessageService()
+    private let dbMessage = ServiceConstant.COLLECTION_MESSAGES
+    private let currentUseruid: String = {
+        guard let uid = Auth.auth().currentUser?.uid else { return "" }
+        return uid
+    }()
     
     internal func fetchUser(withUid uid: String, completion: @escaping (User)->Void) {
-        ServiceConstant.COLLECTION_USERS.document(uid).getDocument { snapshot, error in
+        dbMessage.document(uid).getDocument { snapshot, error in
             guard let dictionary = snapshot?.data() else {return}
             let user = User(dictionary: dictionary)
             completion(user)
@@ -24,9 +33,7 @@ class MessageService {
     internal func fetchMessages(forUser user: User, completion: @escaping([Message]) -> Void) {
         var messages = [Message]()
 
-        guard let currentUid = Auth.auth().currentUser?.uid else { return }
-
-        let query = ServiceConstant.COLLECTION_MESSAGES.document(currentUid).collection(user.uid).order(by: "timestamp")
+        let query = dbMessage.document(currentUseruid).collection(user.uid).order(by: "timestamp")
 
         query.addSnapshotListener { snapshot, error in
             snapshot?.documentChanges.forEach({ change in
@@ -39,32 +46,65 @@ class MessageService {
         }
     }
     
-    internal func uploadMessage(_ message: String, to user: User, completion: ((Error?)->Void)?) {
-        guard let currentUid = Auth.auth().currentUser?.uid else { return  }
+    internal func uploadMessage(_ message: String, to user: User, completion: ((Error?)->Void)?) async {
 
         let data = ["text": message,
-                    "fromId": currentUid,
+                    "fromId": currentUseruid,
                     "toId": user.uid,
                     "timestamp": Timestamp(date:Date())] as [String : Any]
-        ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).getDocument(source: .server) { snapshot, error in
-            guard let dictionary = snapshot?.data() else {return}
-            var dataNotif = DataNotification(dictionary: dictionary)
-            print("DEBUG DATA NOTIF: \(dataNotif)")
-            if dataNotif.unreadMessages.isEmpty {
-                dataNotif.unreadMessages = [message]
-            }else {
-                dataNotif.unreadMessages.append(message)
-            }
-            let newData = ["unreadMessages": dataNotif.unreadMessages] as [String : Any]
-            print("DEBUG NEW DATA: \(newData)")
-            ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(newData, merge: true)
-            print("DEBUG NEW DATA POST: \(newData)")
+        
+//        dbMessage.document(user.uid).collection("recent-messages").document(currentUseruid).getDocument(source: .server) { snapshot, error in
+//            guard let dictionary = snapshot?.data() else {return}
+//            var dataNotif = DataNotification(dictionary: dictionary)
+//            print("DEBUG DATA NOTIF: \(dataNotif)")
+//            if dataNotif.unreadMessages.isEmpty {
+//                dataNotif.unreadMessages = [message]
+//            }else {
+//                dataNotif.unreadMessages.append(message)
+//            }
+//            let newData = ["unreadMessages": dataNotif.unreadMessages] as [String : Any]
+//            print("DEBUG NEW DATA: \(newData)")
+//            ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(self.currentUseruid).setData(newData, merge: true)
+//            print("DEBUG NEW DATA POST: \(newData)")
+//        }
+        
+        let notReadByUser = await getNotReadMessageOf(user: user)
+        switch notReadByUser {
+        case let .success(unreadMessagesData):
+            var unreadMessagesDataCopy = unreadMessagesData
+            unreadMessagesDataCopy.append(message)
+            
+            try? await dbMessage.document(user.uid).collection("recent-messages").document(self.currentUseruid).setData(["unreadMessages": unreadMessagesDataCopy], merge: true)
+                print("UNREADNYAAAAA \(unreadMessagesDataCopy)")
+        case let .failure(error):
+            fatalError("Error with message \(error)")
         }
-        ServiceConstant.COLLECTION_MESSAGES.document(currentUid).collection(user.uid).addDocument(data: data) { _ in
-            ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection(currentUid).addDocument(data: data, completion: completion)
-            ServiceConstant.COLLECTION_MESSAGES.document(currentUid).collection("recent-messages").document(user.uid).setData(data)
-            ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(currentUid).setData(data,merge: true)
+        
+        
+        
+        dbMessage.document(currentUseruid).collection(user.uid).addDocument(data: data) { _ in
+            self.dbMessage.document(user.uid).collection(self.currentUseruid).addDocument(data: data, completion: completion)
+            self.dbMessage.document(self.currentUseruid).collection("recent-messages").document(user.uid).setData(data)
+            self.dbMessage.document(user.uid).collection("recent-messages").document(self.currentUseruid).setData(data,merge: true)
         }
+    }
+    
+    internal func getNotReadMessageOf(user: User) async -> Result<[String], CustomMessageError> {
+        do {
+            let documentSnapshot = try await dbMessage.document(user.uid).collection("recent-messages").document(currentUseruid).getDocument(source: .server)
+            
+            guard let data = documentSnapshot.data() else { return .failure(.dataNotFound)}
+            let dictData = DataNotification(dictionary: data)
+            if dictData.unreadMessages.isEmpty {
+                return .success([])
+                }else {
+                return .success(dictData.unreadMessages)
+                }
+            
+        } catch {
+            return .failure(.dataNotFound)
+        }
+        
     }
     
     internal func notifyReadMessage(to user: User) {

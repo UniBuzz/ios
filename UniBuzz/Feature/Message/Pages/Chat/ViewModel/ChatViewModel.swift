@@ -35,11 +35,13 @@ class ChatViewModel {
     
     func uploadMessage(_ message: String, completion: @escaping() -> Void) {
         if let user {
-            service.uploadMessage(message, to: user) { error in
-                if let error {
-                    print("DEBUG: Error sending message with error \(error.localizedDescription)")
+            Task.init {
+                await service.uploadMessage(message, to: user) { error in
+                    if let error {
+                        print("DEBUG: Error sending message with error \(error.localizedDescription)")
+                    }
+                    completion()
                 }
-                completion()
             }
             
         } else {

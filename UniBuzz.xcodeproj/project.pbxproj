@@ -54,7 +54,6 @@
 		CB564B8528EBE9C800D868FB /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */; };
 		CB564B8628EBE9C800D868FB /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
 		CB564B8728EBE9C800D868FB /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4894128E42D020012D67E /* AuthService.swift */; };
-		CB564B8828EBE9C800D868FB /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D4894328E43AF40012D67E /* Service.swift */; };
 		CB564B8928EBE9C800D868FB /* DataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4ECE59428EA884F00E24223 /* DataService.swift */; };
 		CB564B8A28EBE9C800D868FB /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0415028DB6F1E0098395E /* ColorExtension.swift */; };
 		CB564B8B28EBE9C800D868FB /* NavBarExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBE0415228DB86650098395E /* NavBarExtension.swift */; };
@@ -177,7 +176,6 @@
 		D4BB0E3128D86F7A00E28C3D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4C5E59028ED37860012DBFB /* EmailVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailVerificationViewController.swift; sourceTree = "<group>"; };
 		D4D4894128E42D020012D67E /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
-		D4D4894328E43AF40012D67E /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 		D4ECE59228EA87B400E24223 /* University.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = University.swift; sourceTree = "<group>"; };
 		D4ECE59428EA884F00E24223 /* DataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataService.swift; sourceTree = "<group>"; };
 		D4ECE59628EAC66300E24223 /* ButtonThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonThemes.swift; sourceTree = "<group>"; };
@@ -785,7 +783,6 @@
 			isa = PBXGroup;
 			children = (
 				D4D4894128E42D020012D67E /* AuthService.swift */,
-				D4D4894328E43AF40012D67E /* Service.swift */,
 				D4ECE59428EA884F00E24223 /* DataService.swift */,
 				D471F8FC28F5B9AF00972EB6 /* LoginService.swift */,
 				5E7B726528FFBE54003265A7 /* FeedService.swift */,
@@ -961,7 +958,6 @@
 				CB564B8628EBE9C800D868FB /* TabBarViewController.swift in Sources */,
 				CBB97FFE28F65A900001B10B /* DataNotification.swift in Sources */,
 				CB564B8728EBE9C800D868FB /* AuthService.swift in Sources */,
-				CB564B8828EBE9C800D868FB /* Service.swift in Sources */,
 				CB564BAE28F092E000D868FB /* ChangePseudonameView.swift in Sources */,
 				CB1980962902B4960055B4F1 /* MessageService.swift in Sources */,
 				CB564B8928EBE9C800D868FB /* DataService.swift in Sources */,
