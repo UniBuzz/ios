@@ -53,21 +53,6 @@ class MessageService {
                     "toId": user.uid,
                     "timestamp": Timestamp(date:Date())] as [String : Any]
         
-//        dbMessage.document(user.uid).collection("recent-messages").document(currentUseruid).getDocument(source: .server) { snapshot, error in
-//            guard let dictionary = snapshot?.data() else {return}
-//            var dataNotif = DataNotification(dictionary: dictionary)
-//            print("DEBUG DATA NOTIF: \(dataNotif)")
-//            if dataNotif.unreadMessages.isEmpty {
-//                dataNotif.unreadMessages = [message]
-//            }else {
-//                dataNotif.unreadMessages.append(message)
-//            }
-//            let newData = ["unreadMessages": dataNotif.unreadMessages] as [String : Any]
-//            print("DEBUG NEW DATA: \(newData)")
-//            ServiceConstant.COLLECTION_MESSAGES.document(user.uid).collection("recent-messages").document(self.currentUseruid).setData(newData, merge: true)
-//            print("DEBUG NEW DATA POST: \(newData)")
-//        }
-        
         let notReadByUser = await getNotReadMessageOf(user: user)
         switch notReadByUser {
         case let .success(unreadMessagesData):
@@ -75,7 +60,6 @@ class MessageService {
             unreadMessagesDataCopy.append(message)
             
             try? await dbMessage.document(user.uid).collection("recent-messages").document(self.currentUseruid).setData(["unreadMessages": unreadMessagesDataCopy], merge: true)
-                print("UNREADNYAAAAA \(unreadMessagesDataCopy)")
         case let .failure(error):
             fatalError("Error with message \(error)")
         }
