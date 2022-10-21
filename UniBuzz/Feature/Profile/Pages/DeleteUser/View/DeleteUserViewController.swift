@@ -89,9 +89,7 @@ class DeleteUserViewController: UIViewController {
     func deleteUsingPassword() {
         let alert = UIAlertController(title: nil, message: "Enter your password to delete", preferredStyle: .alert)
         alert.addTextField { (textField: UITextField) in
-
             textField.placeholder = "Password"
-
          }
         let ok = UIAlertAction(title: "Delete",
                                style: .destructive) { (action: UIAlertAction) in
@@ -114,14 +112,13 @@ class DeleteUserViewController: UIViewController {
     
     func deleteAccount(password: String) {
         
-        viewmodel.reauthenticateUser(password) { text in
-            if let text {
-                self.alertError(text)
+        viewmodel.reauthenticateUser(password) { passwordError in
+            if let passwordError {
+                self.alertError(passwordError)
             }else {
-                print("correct")
-                self.viewmodel.deleteUser { text2 in
-                    if let text2 {
-                        self.alertError(text2)
+                self.viewmodel.deleteUser { deleteError in
+                    if let deleteError {
+                        self.alertError(deleteError)
                     }else {
                         print("DEBUG Account deleted.")
                         self.delegate?.handleDeleteAccount()

@@ -13,16 +13,13 @@ private let reuseIdentifier = "MessageCell"
 class ChatCollectionViewController: UICollectionViewController {
     
     // MARK: - properties
-    weak var conversationViewmodel: ConversationViewModel?
+    private var viewModel = ChatViewModel()
     
     private lazy var CustomInputView: CustomInputAccessoryView = {
         let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 67))
         iv.delegate = self
         return iv
     }()
-    
-    fileprivate let user: User
-    var messages = [Message]()
     
     private let loadingSpinner: UIActivityIndicatorView = {
        let spin = UIActivityIndicatorView()
@@ -34,7 +31,7 @@ class ChatCollectionViewController: UICollectionViewController {
     
     // MARK: - Lifecycle
     init(user: User){
-        self.user = user
+        self.viewModel.user = user
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
         configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
     }
@@ -73,12 +70,12 @@ class ChatCollectionViewController: UICollectionViewController {
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return messages.count
+        return viewModel.messages.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! MessageCell
-        cell.message = messages[indexPath.row]
+        cell.message = viewModel.messages[indexPath.row]
         return cell
     }
     
@@ -97,18 +94,17 @@ class ChatCollectionViewController: UICollectionViewController {
     // MARK: - fetch message API
     
     func readMessage() {
-        Service.notifyReadMessage(to: user)
+        viewModel.readMessage()
     }
 
     func fectMessages() {
         self.loadingSpinner.startAnimating()
-        Service.fetchMessages(forUser: user) { messages in
-            self.messages = messages
+        viewModel.fetchMessages {
             self.collectionView.reloadData()
-            self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
+            self.collectionView.scrollToItem(at: [0,self.viewModel.messages.count - 1], at: .bottom, animated: true)
             self.loadingSpinner.stopAnimating()
         }
-        self.loadingSpinner.stopAnimating()
+//        self.loadingSpinner.stopAnimating()
     }
 }
 
@@ -118,11 +114,8 @@ class ChatCollectionViewController: UICollectionViewController {
 
 extension ChatCollectionViewController: CustomInputAccessoryViewDelegate {
     func inputView(_ inputView: CustomInputAccessoryView, wantsToSend message: String) {
-        Service.uploadMessage(message, to: user) { error in
-            if let error {
-                print("DEBUG: Error sending message with error \(error.localizedDescription)")
-            }
-            self.collectionView.scrollToItem(at: [0,self.messages.count - 1], at: .bottom, animated: true)
+        viewModel.uploadMessage(message) {
+            self.collectionView.scrollToItem(at: [0,self.viewModel.messages.count - 1], at: .bottom, animated: true)
         }
     }
 }
@@ -136,7 +129,7 @@ extension ChatCollectionViewController: UICollectionViewDelegateFlowLayout {
 
         let frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 50)
         let estimatedSizeCell = MessageCell(frame: frame)
-        estimatedSizeCell.message = messages[indexPath.row]
+        estimatedSizeCell.message = viewModel.messages[indexPath.row]
         estimatedSizeCell.layoutIfNeeded()
         let targetSize = CGSize(width: view.frame.width, height: 500)
         let estimatedSize = estimatedSizeCell.systemLayoutSizeFitting(targetSize)

@@ -41,7 +41,7 @@ class ConversationViewController: UIViewController {
     
     func showChatController(forUser user: User) {
         let controller = ChatCollectionViewController(user: user)
-        controller.conversationViewmodel = viewModel
+//        controller.conversationViewmodel = viewModel
         controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
     }

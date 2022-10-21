@@ -18,6 +18,10 @@
 		C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */; };
 		C4EA0ABF28E1DFE700A013AF /* PostFeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */; };
 		CB0D504A28F1DAF0006C615D /* AvatarGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB0D504928F1DAF0006C615D /* AvatarGenerator.swift */; };
+		CB19809429029ACD0055B4F1 /* ConversationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB19809329029ACD0055B4F1 /* ConversationService.swift */; };
+		CB1980962902B4960055B4F1 /* MessageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1980952902B4960055B4F1 /* MessageService.swift */; };
+		CB1980982902D7530055B4F1 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1980972902D7530055B4F1 /* ProfileService.swift */; };
+		CB19809A2902E3940055B4F1 /* DeleteUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1980992902E3940055B4F1 /* DeleteUserService.swift */; };
 		CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3236F128D880A00098AF14 /* TabBarViewController.swift */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CB564B6928EBE9C800D868FB /* MissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312728D8C04100F6ED1B /* MissionViewController.swift */; };
@@ -115,6 +119,10 @@
 		C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
 		C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewModel.swift; sourceTree = "<group>"; };
 		CB0D504928F1DAF0006C615D /* AvatarGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGenerator.swift; sourceTree = "<group>"; };
+		CB19809329029ACD0055B4F1 /* ConversationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationService.swift; sourceTree = "<group>"; };
+		CB1980952902B4960055B4F1 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
+		CB1980972902D7530055B4F1 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		CB1980992902E3940055B4F1 /* DeleteUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserService.swift; sourceTree = "<group>"; };
 		CB3236F128D880A00098AF14 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
 		CB564B9428ED9E6500D868FB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CB564B9728EDA4F100D868FB /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
@@ -781,6 +789,10 @@
 				D4ECE59428EA884F00E24223 /* DataService.swift */,
 				D471F8FC28F5B9AF00972EB6 /* LoginService.swift */,
 				5E7B726528FFBE54003265A7 /* FeedService.swift */,
+				CB19809329029ACD0055B4F1 /* ConversationService.swift */,
+				CB1980952902B4960055B4F1 /* MessageService.swift */,
+				CB1980972902D7530055B4F1 /* ProfileService.swift */,
+				CB1980992902E3940055B4F1 /* DeleteUserService.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -917,6 +929,7 @@
 				CB564BB828F1937000D868FB /* UseHoneyView.swift in Sources */,
 				CB564B7328EBE9C800D868FB /* ChooseUniversityView.swift in Sources */,
 				CB564B9F28EEAAF000D868FB /* LogoutViewCell.swift in Sources */,
+				CB1980982902D7530055B4F1 /* ProfileService.swift in Sources */,
 				CBD010BB28F476940018791D /* WebViewController.swift in Sources */,
 				CB564B7428EBE9C800D868FB /* UniversityViewCell.swift in Sources */,
 				CB564B7528EBE9C800D868FB /* PageControlView.swift in Sources */,
@@ -930,6 +943,7 @@
 				CBD010B528F466440018791D /* DeleteUserViewModel.swift in Sources */,
 				CB564B7B28EBE9C800D868FB /* ChatViewModel.swift in Sources */,
 				CB564B9828EDA4F100D868FB /* SettingsViewModel.swift in Sources */,
+				CB19809429029ACD0055B4F1 /* ConversationService.swift in Sources */,
 				CB564B9D28EDA72200D868FB /* SettingsItemViewCell.swift in Sources */,
 				CB564B7C28EBE9C800D868FB /* MessageViewModel.swift in Sources */,
 				CB564B7D28EBE9C800D868FB /* ConversationViewController.swift in Sources */,
@@ -949,6 +963,7 @@
 				CB564B8728EBE9C800D868FB /* AuthService.swift in Sources */,
 				CB564B8828EBE9C800D868FB /* Service.swift in Sources */,
 				CB564BAE28F092E000D868FB /* ChangePseudonameView.swift in Sources */,
+				CB1980962902B4960055B4F1 /* MessageService.swift in Sources */,
 				CB564B8928EBE9C800D868FB /* DataService.swift in Sources */,
 				CB564B9528ED9E6500D868FB /* SettingsViewController.swift in Sources */,
 				CB564B8A28EBE9C800D868FB /* ColorExtension.swift in Sources */,
@@ -967,6 +982,7 @@
 				D4F7CF9028F05099004C33EB /* UIViewExtension.swift in Sources */,
 				CBE06C4C28DE203C0059CCFF /* (null) in Sources */,
 				CB3236F228D880A00098AF14 /* TabBarViewController.swift in Sources */,
+				CB19809A2902E3940055B4F1 /* DeleteUserService.swift in Sources */,
 				C42BB94A28DA2A1400006F71 /* FeedViewModel.swift in Sources */,
 				D471F8FD28F5B9AF00972EB6 /* LoginService.swift in Sources */,
 				C44DAF0528DDA4830061A8BE /* PostFeedViewController.swift in Sources */,

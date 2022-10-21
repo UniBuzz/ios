@@ -1,26 +1,18 @@
 //
-//  Service.swift
+//  MessageService.swift
 //  UniBuzz
 //
-//  Created by Muhammad Farhan Almasyhur on 28/09/22.
+//  Created by Kevin ahmad on 21/10/22.
 //
 
 import Firebase
 
 
-class Service { 
-    static func fetchUsers(completion: @escaping([User])-> Void) {
-        ServiceConstant.COLLECTION_USERS.getDocuments { snapshot, error in
-            guard var users = snapshot?.documents.map({ User(dictionary: $0.data())}) else {return}
-            
-            if let i = users.firstIndex(where: {$0.uid == Auth.auth().currentUser?.uid}) {
-                users.remove(at: i)
-            }
-            completion(users)
-        }
-    }
+class MessageService {
     
-    static func fetchUser(withUid uid: String, completion: @escaping (User)->Void) {
+    public static let shared = MessageService()
+    
+    internal func fetchUser(withUid uid: String, completion: @escaping (User)->Void) {
         ServiceConstant.COLLECTION_USERS.document(uid).getDocument { snapshot, error in
             guard let dictionary = snapshot?.data() else {return}
             let user = User(dictionary: dictionary)
@@ -28,28 +20,8 @@ class Service {
         }
     }
     
-    static func fetchConversations(completion: @escaping(([Conversation])-> Void)){
-        var conversations = [Conversation]()
-        guard let uid = Auth.auth().currentUser?.uid else { return  }
-
-        let query = ServiceConstant.COLLECTION_MESSAGES.document(uid).collection("recent-messages").order(by: "timestamp", descending: false)
-
-        query.addSnapshotListener { snapshot, error in
-            snapshot?.documentChanges.forEach({ change in
-                let dictionary = change.document.data()
-                let message = Message(dictionary: dictionary)
-
-                self.fetchUser(withUid: message.chatPartnerId) { user in
-                    let conversation = Conversation(user: user, message: message, unreadMessages: message.unreadMessages.count)
-                    conversations.append(conversation)
-                    
-                    completion(conversations)
-                }
-            })
-        }
-    }
     
-    static func fetchMessages(forUser user: User, completion: @escaping([Message]) -> Void) {
+    internal func fetchMessages(forUser user: User, completion: @escaping([Message]) -> Void) {
         var messages = [Message]()
 
         guard let currentUid = Auth.auth().currentUser?.uid else { return }
@@ -67,7 +39,7 @@ class Service {
         }
     }
     
-    static func uploadMessage(_ message: String, to user: User, completion: ((Error?)->Void)?) {
+    internal func uploadMessage(_ message: String, to user: User, completion: ((Error?)->Void)?) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return  }
 
         let data = ["text": message,
@@ -95,7 +67,7 @@ class Service {
         }
     }
     
-    static func notifyReadMessage(to user: User) {
+    internal func notifyReadMessage(to user: User) {
         guard let currentUid = Auth.auth().currentUser?.uid else { return  }
 
         let data = ["unreadMessages": []] as [String : Any]
