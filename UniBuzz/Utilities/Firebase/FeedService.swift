@@ -60,7 +60,8 @@ class FeedService {
                           "upvoteCount": 0,
                           "commentCount": 0,
                           "buzzType": BuzzType.feed.rawValue,
-                          "userIDs": [String]()] as [String : Any]
+                          "userIDs": [String](),
+                          "randomIntBackground": user.randomInt] as [String : Any]
             dbFeeds.addDocument(data: values)
         case .failure:
             fatalError("Could not get user data to upload feed")
@@ -165,7 +166,8 @@ class FeedService {
                           "commentCount": 0,
                           "userIDs": [String](),
                           "buzzType": "",
-                          "repliedFrom": ""] as [String : Any]
+                          "repliedFrom": "",
+                          "randomIntBackground": user.randomInt] as [String : Any]
             switch from {
             case .feed:
                 // get docRef id to track child comments

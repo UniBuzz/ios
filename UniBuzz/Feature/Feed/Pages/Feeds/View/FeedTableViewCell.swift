@@ -25,15 +25,24 @@ class FeedTableViewCell: UITableViewCell {
     weak var cellDelegate: CellDelegate?
     weak var commentCellDelegate: CommentCellDelegate?
     static var cellIdentifier: String = "FeedCell"
-    let actionContainerColor:UIColor = .rgb(red: 83, green: 83, blue: 83)
-    var userUID: String = ""
-    var parentFeed: String = ""
-    var isUpvoted: Bool = false
-    var isCommentShown: Bool = false
-    var indexPath: IndexPath?
-    var addSeperator: Bool = false
+    private let actionContainerColor:UIColor = .rgb(red: 83, green: 83, blue: 83)
+    internal var userUID: String = ""
+    internal var parentFeed: String = ""
+    internal var isUpvoted: Bool = false
+    internal var isCommentShown: Bool = false
+    internal var indexPath: IndexPath?
+    internal var addSeperator: Bool = false
     
-    var cellViewModel: FeedCellViewModel? {
+    private var avatarImageView: AvatarGenerator = {
+        let avatarImageView = AvatarGenerator(pseudoname: "", background: 0)
+        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
+        avatarImageView.heightAnchor.constraint(equalToConstant: 22).isActive = true
+        avatarImageView.widthAnchor.constraint(equalToConstant: 22).isActive = true
+        avatarImageView.layer.cornerRadius = 22/2
+        return avatarImageView
+    }()
+    
+    internal var cellViewModel: FeedCellViewModel? {
         didSet {
             guard let cellViewModel = cellViewModel else { return }
             userName.text = cellViewModel.feed.userName
@@ -43,6 +52,8 @@ class FeedTableViewCell: UITableViewCell {
             isUpvoted = cellViewModel.feed.isUpvoted
             indexPath = cellViewModel.indexPath
             isCommentShown = cellViewModel.feed.isChildCommentShown
+            avatarImageView.pseudoname = cellViewModel.feed.userName
+            avatarImageView.randomInt = cellViewModel.feed.randomIntBackground
             self.configureCell()
         }
     }
@@ -156,21 +167,22 @@ class FeedTableViewCell: UITableViewCell {
         return showOrHideCommentsButton
     }()
     
-    let hstack1 = UIStackView()
-    let hstack2 = UIStackView()
-    let miniStack2 = UIStackView()
-    var containerWithSpacer = UIStackView()
-    let spacer1 = UIView.spacer(size: 36, for: .horizontal)
-    let spacer2 = UIView.spacer(size: 36, for: .horizontal)
-    let spacer3 = UIView.spacer(size: 16, for: .vertical)
-    let spacer4 = UIView.spacer(size: 16, for: .vertical)
-    let spacer5 = UIView.spacer(size: 20, for: .horizontal)
-    let seperator = UIView()
-    let gradient = CAGradientLayer()
-    let shape = CAShapeLayer()
-    let gradientBorder1 = UIColor(red: 255/255, green: 243/255, blue: 143/255, alpha: 0.3)
-    let gradientBorder2 = UIColor(red: 255/255, green: 243/255, blue: 143/255, alpha: 0.05)
-
+    private let hstack1 = UIStackView()
+    private let hstack2 = UIStackView()
+    private let miniStack2 = UIStackView()
+    private var containerWithSpacer = UIStackView()
+    private let spacer1 = UIView.spacer(size: 36, for: .horizontal)
+    private let spacer2 = UIView.spacer(size: 36, for: .horizontal)
+    private let spacer3 = UIView.spacer(size: 16, for: .vertical)
+    private let spacer4 = UIView.spacer(size: 16, for: .vertical)
+    private let spacer5 = UIView.spacer(size: 20, for: .horizontal)
+    private let spacer6 = UIView.spacer(size: 5, for: .horizontal)
+    private let spacer7 = UIView.spacer(size: 20, for: .horizontal)
+    private let seperator = UIView()
+    private let gradient = CAGradientLayer()
+    private let shape = CAShapeLayer()
+    private let gradientBorder1 = UIColor(red: 255/255, green: 243/255, blue: 143/255, alpha: 0.3)
+    private let gradientBorder2 = UIColor(red: 255/255, green: 243/255, blue: 143/255, alpha: 0.05)
 
     //MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -180,11 +192,10 @@ class FeedTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+  
     override func layoutSublayers(of layer: CALayer) {
         super.layoutSublayers(of: layer)
         guard let feed = cellViewModel?.feed else { return }
-        
         if feed.buzzType == .feed {
             gradient.frame =  CGRect(origin: CGPoint.zero, size: self.container.bounds.size)
             gradient.colors = [gradientBorder1.cgColor, gradientBorder2.cgColor]
@@ -208,7 +219,6 @@ class FeedTableViewCell: UITableViewCell {
             
     }
     
-    
     //MARK: - Selectors
     @objc func upVotePressed() {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
@@ -226,6 +236,7 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCount.tintColor = .eternalBlack
             upVoteCountContainer.backgroundColor = .creamyYellow
         }
+    
         cellDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID), index: indexPath)
         commentCellDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID), index: indexPath)
     }
@@ -249,11 +260,11 @@ class FeedTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
-
+    
     func configureCell() {
         self.contentView.backgroundColor = .midnights
         self.contentView.addSubview(containerStack)
-        
+
         containerStack.snp.makeConstraints { make in
             make.top.equalTo(self.contentView.snp.top)
             make.left.equalTo(self.contentView.snp.left)
@@ -305,11 +316,13 @@ class FeedTableViewCell: UITableViewCell {
             make.right.equalTo(sendMessageButtonContainer).offset(-8)
             make.bottom.equalTo(sendMessageButtonContainer).offset(-4)
         }
-
+        
         hstack1.axis = .horizontal
+        hstack1.addArrangedSubview(avatarImageView)
+        hstack1.addArrangedSubview(spacer6)
         hstack1.addArrangedSubview(userName)
         hstack1.addArrangedSubview(optionButton)
-        hstack1.distribution = .equalSpacing
+//        hstack1.distribution = .fill
         
         miniStack2.axis = .horizontal
         miniStack2.addArrangedSubview(upVoteCountContainer)
@@ -318,8 +331,9 @@ class FeedTableViewCell: UITableViewCell {
         
         hstack2.axis = .horizontal
         hstack2.addArrangedSubview(miniStack2)
+        hstack2.addArrangedSubview(spacer7)
         hstack2.addArrangedSubview(sendMessageButtonContainer)
-        hstack2.distribution = .equalCentering
+        hstack2.distribution = .equalSpacing
         
         mainStack.addArrangedSubview(hstack1)
         mainStack.addArrangedSubview(content)
