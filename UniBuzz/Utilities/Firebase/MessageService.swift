@@ -32,7 +32,7 @@ class MessageService {
     internal func fetchMessages(forUser user: User, completion: @escaping([Message]?) -> Void) {
         var messages = [Message]()
 
-        let query = dbMessage.document(currentUseruid).collection(user.uid).order(by: "timestamp")
+        let query = dbMessage.document(currentUseruid).collection(user.uid).order(by: "timestamp", descending: true).limit(to: 15).order(by: "timestamp")
 
         query.addSnapshotListener { snapshot, error in
             snapshot?.documentChanges.forEach({ change in

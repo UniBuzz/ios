@@ -26,8 +26,6 @@ class ChatViewModel {
             service.fetchMessages(forUser: user) { messages in
                 if let messages {
                     self.messages = messages
-                }else {
-                    
                 }
                 completion()
             }
