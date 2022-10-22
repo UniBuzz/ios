@@ -60,7 +60,8 @@ class FeedService {
                           "upvoteCount": 0,
                           "commentCount": 0,
                           "buzzType": BuzzType.feed.rawValue,
-                          "userIDs": [String]()] as [String : Any]
+                          "userIDs": [String](),
+                          "randomIntBackground": user.randomInt] as [String : Any]
             dbFeeds.addDocument(data: values)
         case .failure:
             fatalError("Could not get user data to upload feed")

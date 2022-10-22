@@ -25,11 +25,13 @@ struct Buzz {
     var buzzType: BuzzType
     var userIDs: [String]
     var repliedFrom: String
+    var randomIntBackground: Int
     
     init(dictionary: [String:Any], feedID: String) {
         self.userName = dictionary["userName"] as? String ?? ""
         self.content = dictionary["content"] as? String ?? ""
         self.userIDs = dictionary["userIDs"] as? [String] ?? []
+        self.randomIntBackground = dictionary["randomIntBackground"] as? Int ?? 0
         self.upvoteCount = userIDs.count
         self.commentCount = dictionary["commentCount"] as? Int ?? 0
         self.uid = dictionary["uid"] as? String ?? ""

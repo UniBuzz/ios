@@ -169,6 +169,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         cell.userUID = uid
         cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row], indexPath: indexPath)
         cell.cellDelegate = self
+        cell.setNeedsLayout()
         return cell
     }
     
