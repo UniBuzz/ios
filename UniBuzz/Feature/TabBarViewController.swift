@@ -31,7 +31,7 @@ class TabBarViewController: UITabBarController {
         self.tabBar.tintColor = UIColor.heavenlyWhite
         configureViewControllers()
         overrideUserInterfaceStyle = .dark
-        self.tabBar.selectedImageTintColor = .creamyYellow
+        self.tabBar.tintColor = .creamyYellow
     }
     
     func navigationController(image: UIImage?, selectedImage: UIImage?, title: String, rootViewController: UIViewController ,badge: String?) ->
@@ -58,7 +58,7 @@ class TabBarViewController: UITabBarController {
     }
     
     func fetchConversations() {
-        Service.fetchConversations { conversations in
+        ConversationService.shared.fetchConversations { conversations in
             conversations.forEach { conversation in
                 let message = conversation.message
                 self.conversationVC.viewModel.conversationsDictionary[message.chatPartnerId] = conversation

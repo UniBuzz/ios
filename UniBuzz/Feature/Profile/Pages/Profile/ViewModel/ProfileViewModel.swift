@@ -12,7 +12,7 @@ class ProfileViewModel {
     
     func fetchCurrentUser(completion: @escaping(User)->Void) {
         let uid = Auth.auth().currentUser?.uid
-        Service.fetchUser(withUid: uid ?? "") { user in
+        ProfileService.shared.fetchUser(withUid: uid ?? "") { user in
             completion(user)
         }
     }
