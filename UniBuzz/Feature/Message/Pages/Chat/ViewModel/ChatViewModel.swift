@@ -24,7 +24,11 @@ class ChatViewModel {
     func fetchMessages(completion: @escaping() -> Void) {
         if let user {
             service.fetchMessages(forUser: user) { messages in
-                self.messages = messages
+                if let messages {
+                    self.messages = messages
+                }else {
+                    
+                }
                 completion()
             }
             

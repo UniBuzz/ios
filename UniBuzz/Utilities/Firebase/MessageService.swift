@@ -29,8 +29,7 @@ class MessageService {
         }
     }
     
-    
-    internal func fetchMessages(forUser user: User, completion: @escaping([Message]) -> Void) {
+    internal func fetchMessages(forUser user: User, completion: @escaping([Message]?) -> Void) {
         var messages = [Message]()
 
         let query = dbMessage.document(currentUseruid).collection(user.uid).order(by: "timestamp")
@@ -43,6 +42,7 @@ class MessageService {
                     completion(messages)
                 }
             })
+            completion(nil)
         }
     }
     
@@ -77,7 +77,7 @@ class MessageService {
         do {
             let documentSnapshot = try await dbMessage.document(user.uid).collection("recent-messages").document(currentUseruid).getDocument(source: .server)
             
-            guard let data = documentSnapshot.data() else { return .failure(.dataNotFound)}
+            guard let data = documentSnapshot.data() else { return .success([]) }
             let dictData = DataNotification(dictionary: data)
             if dictData.unreadMessages.isEmpty {
                 return .success([])
