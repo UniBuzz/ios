@@ -166,7 +166,8 @@ class FeedService {
                           "commentCount": 0,
                           "userIDs": [String](),
                           "buzzType": "",
-                          "repliedFrom": ""] as [String : Any]
+                          "repliedFrom": "",
+                          "randomIntBackground": user.randomInt] as [String : Any]
             switch from {
             case .feed:
                 // get docRef id to track child comments

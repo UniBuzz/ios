@@ -108,9 +108,9 @@ class CommentsViewController: UIViewController {
             Task.init {
                 switch commentsViewModel.feedBuzzTapped.buzzType {
                 case .feed:
-                    await commentsViewModel.replyComments(from: .feed, commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.feedID)
+                    commentsViewModel.replyComments(from: .feed, commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.feedID)
                 case .comment:
-                    await commentsViewModel.replyComments(from: .anotherComment(anotherCommentID: commentsViewModel.feedBuzzTapped.feedID), commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.repliedFrom)
+                    commentsViewModel.replyComments(from: .anotherComment(anotherCommentID: commentsViewModel.feedBuzzTapped.feedID), commentContent: commentText, feedID: commentsViewModel.feedBuzzTapped.repliedFrom)
                 case .childComment:
                     return
                 }
