@@ -11,7 +11,7 @@ import SnapKit
 class ConversationCell: UITableViewCell {
     
     // MARK: - Properties
-    weak var viewModel: ConversationCellViewModel? {
+    var viewModel: ConversationCellViewModel? {
         didSet {
             configure()
         }

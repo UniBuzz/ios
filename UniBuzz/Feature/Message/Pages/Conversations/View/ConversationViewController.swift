@@ -41,7 +41,6 @@ class ConversationViewController: UIViewController {
     
     func showChatController(forUser user: User) {
         let controller = ChatCollectionViewController(user: user)
-//        controller.conversationViewmodel = viewModel
         controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
     }
@@ -55,7 +54,6 @@ extension ConversationViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
-        
         cell.viewModel = ConversationCellViewModel(conversation: viewModel.conversations[indexPath.row])
         return cell
     }
