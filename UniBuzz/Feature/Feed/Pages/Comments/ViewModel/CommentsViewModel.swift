@@ -19,7 +19,7 @@ protocol CommentViewModelDelegate: ViewModelDelegate {
 
 class CommentsViewModel {
     
-    internal weak var delegate: ViewModelDelegate?
+    internal weak var delegate: CommentViewModelDelegate?
     private let service = FeedService.shared
     
     private var childCommentsCounter: [String: Int] = [:]
@@ -45,7 +45,6 @@ class CommentsViewModel {
             case .failure:
                 fatalError("Could not load comments")
             }
-            
             DispatchQueue.main.async {
                 self.delegate?.reloadTableView()
             }
@@ -65,12 +64,12 @@ class CommentsViewModel {
     internal func replyComments(from: CommentFrom, commentContent: String, feedID: String) {
         Task.init {
             let results = await service.replyComments(from: from, commentContent: commentContent, feedID: feedID)
+            await self.incrementCommentCountForParentFirebase(parentID: self.parentFeed.feedID)
             incrementCommentCountLocal()
             switch results {
             case let .success(response):
                 switch from {
                 case .feed:
-                    await self.incrementCommentCountForParentFirebase(parentID: self.feedBuzzTapped.feedID)
                     DispatchQueue.main.async {
                         self.childCommentsCounter[response.1] = 0
                         self.comments.append(response.0)
@@ -112,7 +111,7 @@ class CommentsViewModel {
         }
     }
     
-    private func incrementCommentCountLocal(){
+    private func incrementCommentCountLocal() {
         // for parent
         var updatedParentBuzz = comments[0]
         comments.remove(at: 0)

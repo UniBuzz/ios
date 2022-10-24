@@ -9,7 +9,6 @@ import Firebase
 
 
 class PostFeedViewModel {
-    
     private let service = FeedService.shared
 
     func uploadFeed(content: String) async {
