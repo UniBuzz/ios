@@ -14,11 +14,11 @@ protocol PostFeedDelegate: AnyObject {
 class PostFeedViewController: UIViewController {
 
     //MARK: - Variables
-    let viewModel = PostFeedViewModel()
-    weak var delegate: PostFeedDelegate?
+    private let viewModel = PostFeedViewModel()
+    internal weak var delegate: PostFeedDelegate?
     
     //MARK: - Properties
-    lazy var cancelButton: UIButton = {
+    private lazy var cancelButton: UIButton = {
         let button = UIButton()
         button.setTitle("Cancel", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
@@ -27,45 +27,48 @@ class PostFeedViewController: UIViewController {
         return button
     }()
     
-    lazy var postButtonContainer: UIView = {
+    private lazy var postButtonContainer: UIView = {
         let view = UIView()
         view.backgroundColor = .creamyYellow
         view.layer.cornerRadius = 20
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.3
+        view.layer.shadowOffset = .init(width: 0, height: 4)
+        view.layer.shadowRadius = 10
         return view
     }()
     
-    lazy var postButton: UIButton = {
+    private lazy var postButton: UIButton = {
         let button = UIButton()
-        button.setTitle("Post", for: .normal)
+        button.setTitle("Buzz", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         button.setTitleColor(.eternalBlack, for: .normal)
         button.addTarget(self, action: #selector(postButtonPresseds), for: .touchUpInside)
         return button
     }()
     
-    lazy var textFieldContainer: UIView = {
+    private lazy var textFieldContainer: UIView = {
         let view = UIView()
         view.backgroundColor = .stoneGrey
+        view.layer.borderColor = UIColor.creamyYellow.withAlphaComponent(0.4).cgColor
+        view.layer.borderWidth = 2
         view.layer.cornerRadius = 15
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOpacity = 0.3
+        view.layer.shadowOffset = .init(width: 0, height: 4)
+        view.layer.shadowRadius = 10
         return view
     }()
     
-    lazy var textField: UITextField = {
+    private lazy var textField: UITextField = {
         let tf = UITextField()
         tf.backgroundColor = .stoneGrey
         tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         tf.contentVerticalAlignment = .top
         return tf
     }()
-    
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "What's in your mind?"
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        return label
-    }()
-    
-    lazy var characterCountLabel: UILabel = {
+
+    private lazy var characterCountLabel: UILabel = {
         let label = UILabel()
         label.text = "\(textField.text?.count ?? 0)/150"
         label.textColor = .cloudSky
@@ -73,7 +76,7 @@ class PostFeedViewController: UIViewController {
         return label
     }()
     
-    lazy var placeHolderLabel: UILabel = {
+    private lazy var placeHolderLabel: UILabel = {
         let label = UILabel()
         label.text = "Share your thoughts"
         label.font = UIFont.systemFont(ofSize: 14)
@@ -81,18 +84,24 @@ class PostFeedViewController: UIViewController {
         return label
     }()
     
+    private lazy var beeBackgroundImage: UIImageView = {
+        let beeImage = UIImage(named: "spill_dialogue_1")
+        let beeBackgroundImage = UIImageView(image: beeImage)
+        return beeBackgroundImage
+    }()
+    
     //MARK: - Lifecycle
-    override func viewDidLoad() {
+    internal override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    internal override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.isNavigationBarHidden = true
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
+    internal override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.navigationController?.isNavigationBarHidden = false
     }
@@ -116,13 +125,12 @@ class PostFeedViewController: UIViewController {
     }
     
     //MARK: - Functions
-    func configureUI() {
+    private func configureUI() {
         self.view.backgroundColor = .midnights
         self.navigationItem.hidesBackButton = true
         
+        view.addSubview(beeBackgroundImage)
         view.addSubview(cancelButton)
-        view.addSubview(textField)
-        view.addSubview(titleLabel)
         view.addSubview(textFieldContainer)
         view.addSubview(characterCountLabel)
         view.addSubview(postButtonContainer)
@@ -131,6 +139,13 @@ class PostFeedViewController: UIViewController {
 
         showPlaceHolder()
         
+        beeBackgroundImage.snp.makeConstraints { make in
+            make.top.equalTo(cancelButton).offset(40)
+            make.left.equalToSuperview().offset(20)
+            make.right.equalToSuperview().offset(-20)
+            make.height.equalTo(200)
+        }
+
         cancelButton.snp.makeConstraints { make in
             make.left.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
@@ -150,13 +165,8 @@ class PostFeedViewController: UIViewController {
             make.bottom.equalTo(postButtonContainer).offset(-10)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(cancelButton.snp.bottom).offset(30)
-            make.left.equalTo(cancelButton)
-        }
-        
         textFieldContainer.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(20)
+            make.top.equalTo(beeBackgroundImage.snp.top).offset(beeBackgroundImage.frame.height / 2)
             make.left.equalTo(view).offset(20)
             make.right.equalTo(view).offset(-20)
             make.height.equalTo(185)
@@ -175,7 +185,7 @@ class PostFeedViewController: UIViewController {
         }
     }
     
-    func showPlaceHolder() {
+    private func showPlaceHolder() {
         view.addSubview(placeHolderLabel)
         placeHolderLabel.snp.makeConstraints { make in
             make.left.equalTo(textFieldContainer).offset(20)

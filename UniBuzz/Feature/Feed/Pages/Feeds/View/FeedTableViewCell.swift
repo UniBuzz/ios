@@ -193,32 +193,6 @@ class FeedTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
   
-    override func layoutSublayers(of layer: CALayer) {
-        super.layoutSublayers(of: layer)
-        guard let feed = cellViewModel?.feed else { return }
-        if feed.buzzType == .feed {
-            gradient.frame =  CGRect(origin: CGPoint.zero, size: self.container.bounds.size)
-            gradient.colors = [gradientBorder1.cgColor, gradientBorder2.cgColor]
-            gradient.startPoint = CGPoint(x: 0, y: 1)
-            gradient.endPoint = CGPoint(x: 1, y: 1)
-            
-            shape.lineWidth = 1.5
-            shape.path = UIBezierPath(roundedRect: container.bounds, cornerRadius: container.layer.cornerRadius).cgPath
-            shape.strokeColor = UIColor.black.cgColor
-            shape.fillColor = UIColor.clear.cgColor
-            gradient.mask = shape
-            self.container.layer.addSublayer(gradient)
-        } else {
-            self.gradient.removeFromSuperlayer()
-        }
-        
-        container.layer.shadowColor = UIColor.black.cgColor
-        container.layer.shadowOpacity = 0.3
-        container.layer.shadowOffset = .init(width: 0, height: 4)
-        container.layer.shadowRadius = 10
-            
-    }
-    
     //MARK: - Selectors
     @objc func upVotePressed() {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
@@ -339,6 +313,11 @@ class FeedTableViewCell: UITableViewCell {
         mainStack.addArrangedSubview(content)
         mainStack.addArrangedSubview(hstack2)
         
+        container.layer.shadowColor = UIColor.black.cgColor
+        container.layer.shadowOpacity = 0.3
+        container.layer.shadowOffset = .init(width: 0, height: 4)
+        container.layer.shadowRadius = 10
+        
         checkShowOrHideComments()
         checkUpvoteButton()
         checkBuzzType()
@@ -398,6 +377,8 @@ class FeedTableViewCell: UITableViewCell {
         switch feed.buzzType {
         case .feed:
             container.backgroundColor = .stoneGrey
+            container.layer.borderColor = UIColor.creamyYellow.withAlphaComponent(0.4).cgColor
+            container.layer.borderWidth = 2
             sendMessageButtonContainer.backgroundColor = actionContainerColor
             commentCountContainer.backgroundColor = actionContainerColor
             commentCountContainer.isHidden = false
@@ -406,6 +387,7 @@ class FeedTableViewCell: UITableViewCell {
             seperator.heightAnchor.constraint(equalToConstant: 3).isActive = true
         case .comment:
             container.backgroundColor = .clear
+            container.layer.borderWidth = 0
             sendMessageButtonContainer.backgroundColor = .clear
             commentCountContainer.backgroundColor = .clear
             upVoteCountContainer.backgroundColor = .clear
@@ -419,6 +401,7 @@ class FeedTableViewCell: UITableViewCell {
             }
         case .childComment:
             container.backgroundColor = .clear
+            container.layer.borderWidth = 0
             sendMessageButtonContainer.backgroundColor = .clear
             commentCountContainer.backgroundColor = .clear
             upVoteCountContainer.backgroundColor = .clear
@@ -466,25 +449,5 @@ extension UIView {
         }
         return spacer
     }
-    
-    func addGradient(with layer: CAGradientLayer, gradientFrame: CGRect? = nil, colorSet: [UIColor],
-                     locations: [Double], startEndPoints: (CGPoint, CGPoint)? = nil) {
-        layer.frame = gradientFrame ?? self.bounds
-        layer.frame.origin = .zero
-
-        let layerColorSet = colorSet.map { $0.cgColor }
-        let layerLocations = locations.map { $0 as NSNumber }
-
-        layer.colors = layerColorSet
-        layer.locations = layerLocations
-
-        if let startEndPoints = startEndPoints {
-            layer.startPoint = startEndPoints.0
-            layer.endPoint = startEndPoints.1
-        }
-
-        self.layer.insertSublayer(layer, above: self.layer)
-    }
-
 }
 
