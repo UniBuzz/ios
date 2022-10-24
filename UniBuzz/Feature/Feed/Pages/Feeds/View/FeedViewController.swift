@@ -134,7 +134,7 @@ extension FeedViewController: CellDelegate {
     
     func didTapComment(feed: Buzz, index: IndexPath) {
         let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
-        let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
+        let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel, parentIndexPath: index)
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
@@ -169,19 +169,21 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         cell.userUID = uid
         cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row], indexPath: indexPath)
         cell.cellDelegate = self
+        cell.updateDataSourceDelegate = self.viewModel
         cell.setNeedsLayout()
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let feed =  viewModel.feedsData[indexPath.row]
+        let feed = viewModel.feedsData[indexPath.row]
         let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
-        let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel)
+        let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel, parentIndexPath: indexPath)
+        commentsVC.updateDataSourceDelegate = self.viewModel
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
 }
 
-extension FeedViewController: ViewModelDelegate {
+extension FeedViewController: FeedViewModelDelegate {
     func stopRefresh() {
         refreshControl.endRefreshing()
     }

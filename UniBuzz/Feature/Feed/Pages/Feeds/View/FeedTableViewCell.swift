@@ -19,11 +19,16 @@ protocol CommentCellDelegate: CellDelegate {
     func didTapHideComments(from commentID: String, at index: IndexPath)
 }
 
+protocol UpdateDataSourceDelegate: AnyObject {
+    func update(newData: Buzz, index: IndexPath)
+}
+
 class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Variables
     weak var cellDelegate: CellDelegate?
     weak var commentCellDelegate: CommentCellDelegate?
+    weak var updateDataSourceDelegate: UpdateDataSourceDelegate?
     static var cellIdentifier: String = "FeedCell"
     private let actionContainerColor:UIColor = .rgb(red: 83, green: 83, blue: 83)
     internal var userUID: String = ""
@@ -197,22 +202,32 @@ class FeedTableViewCell: UITableViewCell {
     @objc func upVotePressed() {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
         guard let indexPath = indexPath else { return }
+        guard let feed = cellViewModel?.feed else { return }
+        
         if isUpvoted {
             cellViewModel?.feed.upvoteCount -= 1
             cellViewModel?.feed.isUpvoted = false
             upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
             upVoteCount.tintColor = .heavenlyWhite
-            upVoteCountContainer.backgroundColor = actionContainerColor
         } else {
             cellViewModel?.feed.upvoteCount += 1
             cellViewModel?.feed.isUpvoted = true
-            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
-            upVoteCount.tintColor = .eternalBlack
-            upVoteCountContainer.backgroundColor = .creamyYellow
+            upVoteCount.setTitleColor(.creamyYellow, for: .normal)
+            upVoteCount.tintColor = .creamyYellow
         }
-    
-        cellDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID), index: indexPath)
-        commentCellDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID), index: indexPath)
+        if feed.buzzType == .feed {
+            upVoteCountContainer.backgroundColor = actionContainerColor
+        } else {
+            upVoteCountContainer.backgroundColor = .clear
+        }
+        
+        let upvoteModel = UpvoteModel(buzzType: feed.buzzType, repliedFrom: feed.repliedFrom, feedToVote: feed.feedID, currenUserID: currentUserID)
+        
+        cellDelegate?.didTapUpVote(model: upvoteModel, index: indexPath)
+        commentCellDelegate?.didTapUpVote(model: upvoteModel, index: indexPath)
+        
+        // need to make it safer without force unwrap!!!
+        updateDataSourceDelegate?.update(newData: cellViewModel!.feed, index: indexPath)
     }
     
     @objc func commentCountPressed() {
@@ -227,6 +242,7 @@ class FeedTableViewCell: UITableViewCell {
         guard let feed = cellViewModel?.feed else { return }
 //        print("send message to this id: \(feed.uid)")
         cellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
+        commentCellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
     }
     
     //MARK: - Functions
@@ -325,24 +341,27 @@ class FeedTableViewCell: UITableViewCell {
     
     func checkUpvoteButton() {
         guard let feed = cellViewModel?.feed else { return }
+        
         if userUID == feed.uid {
             upVoteCount.isEnabled = false
-            sendMessageButton.isEnabled = false
+            sendMessageButton.isHidden = true
+            sendMessageButtonContainer.isHidden = true
         } else {
             upVoteCount.isEnabled = true
-            sendMessageButton.isEnabled = true
+            sendMessageButton.isHidden = false
+            sendMessageButtonContainer.isHidden = false
         }
 
         if feed.isUpvoted {
-            upVoteCount.setTitleColor(.eternalBlack, for: .normal)
-            upVoteCount.titleLabel?.textColor = .eternalBlack
-            upVoteCount.tintColor = .eternalBlack
-            upVoteCountContainer.backgroundColor = .creamyYellow
+            upVoteCount.setTitleColor(.creamyYellow, for: .normal)
+            upVoteCount.titleLabel?.textColor = .creamyYellow
+            upVoteCount.tintColor = .creamyYellow
         } else {
             upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
             upVoteCount.tintColor = .heavenlyWhite
-            upVoteCountContainer.backgroundColor = actionContainerColor
         }
+        upVoteCountContainer.backgroundColor = actionContainerColor
+
     }
     
     

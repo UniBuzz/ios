@@ -44,7 +44,10 @@ struct Buzz {
 }
 
 struct UpvoteModel {
-    var feedToVoteID: String
+    var buzzType: BuzzType
+    var parentID: String?
+    var repliedFrom: String
+    var feedToVote: String
     var currenUserID: String
 }
 

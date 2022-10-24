@@ -13,8 +13,9 @@ import RxDataSources
 
 class CommentsViewController: UIViewController {
     
-    var commentsViewModel: CommentsViewModel
-//    var customInputAccessory
+    private var commentsViewModel: CommentsViewModel
+    internal weak var updateDataSourceDelegate: UpdateDataSourceDelegate?
+    internal var parentIndexPath: IndexPath
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -27,6 +28,7 @@ class CommentsViewController: UIViewController {
     lazy var commentTextField: UITextField = {
         let commentTextField = UITextField()
         commentTextField.placeholder = "Aa"
+        commentTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return commentTextField
     }()
     
@@ -64,11 +66,18 @@ class CommentsViewController: UIViewController {
         return footer
     }()
     
+    lazy var tap: UITapGestureRecognizer = {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        return tap
+    }()
+    
     var bottomConstraint = NSLayoutConstraint()
     var originalConstant: CGFloat = 0
     
-    init(commentsViewModel: CommentsViewModel) {
+    init(commentsViewModel: CommentsViewModel, parentIndexPath: IndexPath) {
         self.commentsViewModel = commentsViewModel
+        self.parentIndexPath = parentIndexPath
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -88,7 +97,7 @@ class CommentsViewController: UIViewController {
         tableView.dataSource = self
         commentsViewModel.delegate = self
         Task.init {
-            await commentsViewModel.loadComments()
+            commentsViewModel.loadComments()
         }
     }
     
@@ -100,6 +109,7 @@ class CommentsViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.tabBarController?.tabBar.isHidden = false
+        updateDataSourceDelegate?.update(newData: commentsViewModel.comments[0], index: parentIndexPath)
     }
         
     @objc func postComment() {
@@ -119,6 +129,17 @@ class CommentsViewController: UIViewController {
         }
     }
     
+    @objc func textFieldDidChange() {
+        guard let commentText = commentTextField.text else { return }
+        if commentText.isEmpty {
+            sendButtonContainer.backgroundColor = .cloudSky
+            sendButton.isEnabled = false
+        } else {
+            sendButtonContainer.backgroundColor = .creamyYellow
+            sendButton.isEnabled = true
+        }
+    }
+    
     func configureUI() {
         let textFieldAndSendButtonHeight: CGFloat = 35
         view.addSubview(tableView)
@@ -128,7 +149,8 @@ class CommentsViewController: UIViewController {
         footer.addSubview(sendButtonContainer)
         sendButtonContainer.addSubview(sendButton)
         textFieldContainer.addSubview(commentTextField)
-        
+        tableView.keyboardDismissMode = .onDrag
+    
         self.navigationItem.title = "Comments"
         self.navigationController?.navigationBar.tintColor = .heavenlyWhite
         self.navigationController?.navigationBar.topItem?.title = ""
@@ -148,8 +170,7 @@ class CommentsViewController: UIViewController {
         
         bottomConstraint = NSLayoutConstraint(item: footer, attribute: .bottom, relatedBy: .equal, toItem: view, attribute: .bottom, multiplier: 1, constant: originalConstant)
         bottomConstraint.isActive = true
-        
-        
+
         infoLabelAboveTextField.snp.makeConstraints { make in
             make.top.equalTo(footer).offset(4)
             make.left.equalTo(footer).offset(20)
@@ -186,17 +207,12 @@ class CommentsViewController: UIViewController {
         sendButtonContainer.layer.cornerRadius = textFieldAndSendButtonHeight / 2
         textFieldContainer.layer.cornerRadius = 20
     }
-
 }
 
 extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, CommentCellDelegate, CommentViewModelDelegate {
     
     func scrollTableView(to index: IndexPath) {
         tableView.scrollToRow(at: index, at: .bottom, animated: true)
-    }
-    
-    func stopRefresh() {
-        print("")
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -242,9 +258,8 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
     }
     
     func didTapUpVote(model: UpvoteModel, index: IndexPath) {
-        print("upvote tapped from comment page")
         Task.init {
-            await commentsViewModel.upvoteContent(model: model, index: index)
+            commentsViewModel.upvoteContent(model: model, index: index)
         }
     }
     
@@ -254,7 +269,6 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
         if !feed.isChildCommentShown {
             commentsViewModel.showChildComment(from: feed.feedID, at: index)
         }
-        print("comment tapped from \(feed.content)")
         commentsViewModel.indexTapped = index.row
         commentsViewModel.feedBuzzTapped = feed
     }

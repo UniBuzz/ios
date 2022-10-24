@@ -29,7 +29,7 @@ class PostFeedViewController: UIViewController {
     
     private lazy var postButtonContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = .creamyYellow
+        view.backgroundColor = .stoneGrey
         view.layer.cornerRadius = 20
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.3
@@ -43,6 +43,8 @@ class PostFeedViewController: UIViewController {
         button.setTitle("Buzz", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         button.setTitleColor(.eternalBlack, for: .normal)
+        button.setTitleColor(.heavenlyWhite, for: .disabled)
+        button.isEnabled = false
         button.addTarget(self, action: #selector(postButtonPresseds), for: .touchUpInside)
         return button
     }()
@@ -60,11 +62,11 @@ class PostFeedViewController: UIViewController {
         return view
     }()
     
-    private lazy var textField: UITextField = {
-        let tf = UITextField()
+    private lazy var textField: UITextView = {
+        let tf = UITextView()
         tf.backgroundColor = .stoneGrey
-        tf.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
-        tf.contentVerticalAlignment = .top
+        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.delegate = self
         return tf
     }()
 
@@ -90,9 +92,13 @@ class PostFeedViewController: UIViewController {
         return beeBackgroundImage
     }()
     
+    private var beeImageHeightConstant = NSLayoutConstraint()
+    
     //MARK: - Lifecycle
     internal override func viewDidLoad() {
         super.viewDidLoad()
+        beeImageHeightConstant = NSLayoutConstraint(item: beeBackgroundImage, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 230)
+        hideKeyboardWhenTappedAround()
         configureUI()
     }
     
@@ -136,16 +142,16 @@ class PostFeedViewController: UIViewController {
         view.addSubview(postButtonContainer)
         textFieldContainer.addSubview(textField)
         postButtonContainer.addSubview(postButton)
-
+        
         showPlaceHolder()
         
         beeBackgroundImage.snp.makeConstraints { make in
             make.top.equalTo(cancelButton).offset(40)
             make.left.equalToSuperview().offset(20)
             make.right.equalToSuperview().offset(-20)
-            make.height.equalTo(200)
         }
-
+        beeImageHeightConstant.isActive = true
+        
         cancelButton.snp.makeConstraints { make in
             make.left.equalTo(view.safeAreaLayoutGuide).offset(20)
             make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
@@ -166,12 +172,12 @@ class PostFeedViewController: UIViewController {
         }
         
         textFieldContainer.snp.makeConstraints { make in
-            make.top.equalTo(beeBackgroundImage.snp.top).offset(beeBackgroundImage.frame.height / 2)
+            make.top.equalTo(beeBackgroundImage.snp.centerY).offset(20)
             make.left.equalTo(view).offset(20)
             make.right.equalTo(view).offset(-20)
             make.height.equalTo(185)
         }
-        
+               
         textField.snp.makeConstraints { make in
             make.top.equalTo(textFieldContainer).offset(20)
             make.left.equalTo(textFieldContainer).offset(20)
@@ -191,5 +197,20 @@ class PostFeedViewController: UIViewController {
             make.left.equalTo(textFieldContainer).offset(20)
             make.top.equalTo(textFieldContainer).offset(22)
         }
+    }
+}
+
+extension PostFeedViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            showPlaceHolder()
+            postButtonContainer.backgroundColor = .stoneGrey
+            postButton.isEnabled = false
+        } else {
+            placeHolderLabel.removeFromSuperview()
+            postButtonContainer.backgroundColor = .creamyYellow
+            postButton.isEnabled = true
+        }
+        characterCountLabel.text = "\(textView.text?.count ?? 0)/150"
     }
 }

@@ -12,14 +12,17 @@ import Firebase
 
 protocol ViewModelDelegate: AnyObject {
     func reloadTableView()
+}
+
+protocol FeedViewModelDelegate: ViewModelDelegate {
     func stopRefresh()
 }
 
-class FeedViewModel {
-    
+class FeedViewModel: UpdateDataSourceDelegate {
+
     public var feedsData = [Buzz]()
     private var service = FeedService.shared
-    weak var delegate: ViewModelDelegate?
+    weak var delegate: FeedViewModelDelegate?
     
     internal func fetchData() {
         Task.init {
@@ -43,32 +46,16 @@ class FeedViewModel {
     
     internal func upVoteContent(model: UpvoteModel, index: IndexPath) {
         Task.init {
-            await service.upvoteContent(model: model, index: index)
+            await service.upvoteContent(model: model, index: index, parentID: "")
         }
     }
     
-    // TO-DO for below function!
-    // 1. wait post to complete with await -> refresh data (no need to listen for document changes)
-    func updateForTheLatestData() {
-        ServiceConstant.COLLECTION_FEEDS.order(by: "timestamp", descending: true).limit(to: 1)
-            .getDocuments { querySnapshot, err in
-                if let err = err {
-                    print(err)
-                    return
-                }
-                querySnapshot?.documentChanges.forEach({ change in
-                    switch change.type {
-                    case .added:
-                        self.fetchData()
-                    case .modified:
-                        print("modified")
-                    case .removed:
-                        print("removed")
-                    }
-                })
-            }
+    func update(newData: Buzz, index: IndexPath) {
+        feedsData.remove(at: index.row)
+        feedsData.insert(newData, at: index.row)
+        delegate?.reloadTableView()
     }
-
+    
     func feedOption() {
         
     }
