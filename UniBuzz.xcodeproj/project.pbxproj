@@ -10,6 +10,10 @@
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
+		D48076D12906CE43000D04A8 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D02906CE43000D04A8 /* OnboardingViewController.swift */; };
+		D48076D52906CFAF000D04A8 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D42906CFAF000D04A8 /* OnboardingViewModel.swift */; };
+		D48076D72906CFB9000D04A8 /* OnboardingSlides.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D62906CFB9000D04A8 /* OnboardingSlides.swift */; };
+		D48076D92906D2BD000D04A8 /* OnboardingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D82906D2BD000D04A8 /* OnboardingViewCell.swift */; };
 		D4A8302B29019DE800B2655A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D4A8302A29019DE800B2655A /* GoogleService-Info.plist */; };
 		D4A8302E29064A1100B2655A /* MissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312728D8C04100F6ED1B /* MissionViewController.swift */; };
 		D4A8302F29064A1100B2655A /* DeleteUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010B428F466440018791D /* DeleteUserViewModel.swift */; };
@@ -151,6 +155,10 @@
 		D471F8FA28F5A80900972EB6 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		D471F8FC28F5B9AF00972EB6 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		D471F8FE28F5C3A900972EB6 /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
+		D48076D02906CE43000D04A8 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
+		D48076D42906CFAF000D04A8 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
+		D48076D62906CFB9000D04A8 /* OnboardingSlides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSlides.swift; sourceTree = "<group>"; };
+		D48076D82906D2BD000D04A8 /* OnboardingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewCell.swift; sourceTree = "<group>"; };
 		D4A8302A29019DE800B2655A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D4BB0E2028D86F7900E28C3D /* UniBuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -552,6 +560,41 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		D48076CE2906CE2E000D04A8 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				D48076D32906CF9B000D04A8 /* ViewModel */,
+				D48076D22906CF91000D04A8 /* Model */,
+				D48076CF2906CE35000D04A8 /* Pages */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		D48076CF2906CE35000D04A8 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				D48076D02906CE43000D04A8 /* OnboardingViewController.swift */,
+				D48076D82906D2BD000D04A8 /* OnboardingViewCell.swift */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		D48076D22906CF91000D04A8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D48076D62906CFB9000D04A8 /* OnboardingSlides.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D48076D32906CF9B000D04A8 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				D48076D42906CFAF000D04A8 /* OnboardingViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		D4A8302D2906496000B2655A /* API */ = {
 			isa = PBXGroup;
 			children = (
@@ -597,6 +640,7 @@
 		D4BB0E5328D8715D00E28C3D /* Feature */ = {
 			isa = PBXGroup;
 			children = (
+				D48076CE2906CE2E000D04A8 /* Onboarding */,
 				CB83312328D8C01800F6ED1B /* Mission */,
 				CB83311D28D8BF6000F6ED1B /* Profile */,
 				D4BB0E5928D8719500E28C3D /* Authentication */,
@@ -893,11 +937,13 @@
 				D4A8303F29064A1100B2655A /* User.swift in Sources */,
 				D4A8304029064A1100B2655A /* LoginViewModel.swift in Sources */,
 				D4A8304129064A1100B2655A /* ForgotPasswordViewModel.swift in Sources */,
+				D48076D72906CFB9000D04A8 /* OnboardingSlides.swift in Sources */,
 				D4A8304229064A1100B2655A /* LoginViewController.swift in Sources */,
 				D4A8304329064A1100B2655A /* ForgotPasswordViewController.swift in Sources */,
 				D4A8304429064A1100B2655A /* University.swift in Sources */,
 				D4A8304529064A1100B2655A /* RegistrationViewModel.swift in Sources */,
 				D4A8304629064A1100B2655A /* EmailVerificationViewController.swift in Sources */,
+				D48076D92906D2BD000D04A8 /* OnboardingViewCell.swift in Sources */,
 				D4A8304729064A1100B2655A /* RegistrationViewController.swift in Sources */,
 				D4A8304829064A1100B2655A /* ChooseUniversityViewController.swift in Sources */,
 				D4A8304929064A1100B2655A /* ChooseUniversityView.swift in Sources */,
@@ -916,8 +962,10 @@
 				D4A8305629064A1100B2655A /* ConversationViewModel.swift in Sources */,
 				D4A8305729064A1100B2655A /* ConversationCellViewModel.swift in Sources */,
 				D4A8305829064A1100B2655A /* BuzzModel.swift in Sources */,
+				D48076D12906CE43000D04A8 /* OnboardingViewController.swift in Sources */,
 				D4A8305929064A1100B2655A /* CommentsViewController.swift in Sources */,
 				D4A8305A29064A1100B2655A /* CommentsViewModel.swift in Sources */,
+				D48076D52906CFAF000D04A8 /* OnboardingViewModel.swift in Sources */,
 				D4A8305B29064A1100B2655A /* FeedViewModel.swift in Sources */,
 				D4A8305C29064A1100B2655A /* FeedCellViewModel.swift in Sources */,
 				D4A8305D29064A1100B2655A /* FeedViewController.swift in Sources */,

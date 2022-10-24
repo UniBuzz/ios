@@ -20,10 +20,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         var vc = UIViewController()
-        if Auth.auth().currentUser?.uid == nil || Auth.auth().currentUser?.isEmailVerified == false {
-            vc = LoginViewController()
+        if UserDefaults.standard.bool(forKey: "onboarded") {
+            if Auth.auth().currentUser?.uid == nil || Auth.auth().currentUser?.isEmailVerified == false {
+                vc = LoginViewController()
+            } else {
+                vc = TabBarViewController()
+            }
         } else {
-            vc = TabBarViewController()
+            vc = OnboardingViewController()
         }
         let navigationView = UINavigationController(rootViewController: vc)
         window?.rootViewController = navigationView
