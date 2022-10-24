@@ -11,7 +11,7 @@ import SnapKit
 class ConversationCell: UITableViewCell {
     
     // MARK: - Properties
-    weak var viewModel: ConversationCellViewModel? {
+    var viewModel: ConversationCellViewModel? {
         didSet {
             configure()
         }
@@ -66,7 +66,7 @@ class ConversationCell: UITableViewCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
-        iv.backgroundColor = .heavenlyWhite
+        iv.backgroundColor = .creamyYellow
         return iv
     }()
     

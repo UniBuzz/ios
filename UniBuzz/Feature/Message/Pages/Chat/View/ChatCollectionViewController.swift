@@ -14,6 +14,7 @@ class ChatCollectionViewController: UICollectionViewController {
     
     // MARK: - properties
     private var viewModel = ChatViewModel()
+    private let refreshControl = UIRefreshControl()
     
     private lazy var CustomInputView: CustomInputAccessoryView = {
         let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 67))
@@ -34,6 +35,8 @@ class ChatCollectionViewController: UICollectionViewController {
         self.viewModel.user = user
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
         configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
+        collectionView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(fetchOldData(_:)), for: .valueChanged)
     }
     
     required init?(coder: NSCoder) {
@@ -62,6 +65,15 @@ class ChatCollectionViewController: UICollectionViewController {
     }
 
     // MARK: - CollectionView Functions
+    @objc private func fetchOldData(_ sender: Any) {
+        viewModel.fetchOldData() { numberOfOldMessages in
+            self.collectionView.reloadData()
+            self.refreshControl.endRefreshing()
+//            self.collectionView.scrollToItem(at: <#T##IndexPath#>, at: <#T##UICollectionView.ScrollPosition#>, animated: <#T##Bool#>)
+            self.collectionView.scrollToItem(at: [0,numberOfOldMessages], at: .top, animated: false)
+        }
+    }
+    
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
