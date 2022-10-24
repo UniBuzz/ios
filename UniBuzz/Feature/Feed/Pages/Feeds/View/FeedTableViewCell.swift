@@ -202,6 +202,7 @@ class FeedTableViewCell: UITableViewCell {
     @objc func upVotePressed() {
         guard let currentUserID = Auth.auth().currentUser?.uid else { return }
         guard let indexPath = indexPath else { return }
+        guard let feed = cellViewModel?.feed else { return }
         
         if isUpvoted {
             cellViewModel?.feed.upvoteCount -= 1
@@ -214,10 +215,18 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCount.setTitleColor(.creamyYellow, for: .normal)
             upVoteCount.tintColor = .creamyYellow
         }
-        upVoteCountContainer.backgroundColor = actionContainerColor
-
-        cellDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID), index: indexPath)
-        commentCellDelegate?.didTapUpVote(model: UpvoteModel(feedToVoteID: cellViewModel?.feed.feedID ?? "", currenUserID: currentUserID), index: indexPath)
+        if feed.buzzType == .feed {
+            upVoteCountContainer.backgroundColor = actionContainerColor
+        } else {
+            upVoteCountContainer.backgroundColor = .clear
+        }
+        
+        let upvoteModel = UpvoteModel(buzzType: feed.buzzType, repliedFrom: feed.repliedFrom, feedToVote: feed.feedID, currenUserID: currentUserID)
+        
+        cellDelegate?.didTapUpVote(model: upvoteModel, index: indexPath)
+        commentCellDelegate?.didTapUpVote(model: upvoteModel, index: indexPath)
+        
+        // need to make it safer without force unwrap!!!
         updateDataSourceDelegate?.update(newData: cellViewModel!.feed, index: indexPath)
     }
     
@@ -332,6 +341,7 @@ class FeedTableViewCell: UITableViewCell {
     
     func checkUpvoteButton() {
         guard let feed = cellViewModel?.feed else { return }
+        
         if userUID == feed.uid {
             upVoteCount.isEnabled = false
             sendMessageButton.isHidden = true

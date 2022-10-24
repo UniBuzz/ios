@@ -56,8 +56,23 @@ class CommentsViewModel {
     }
     
     internal func upvoteContent(model: UpvoteModel, index: IndexPath) {
+        updateUpvoteCountLocal(index: index)
         Task.init {
-            await service.upvoteContent(model: model, index: index)
+            await service.upvoteContent(model: model, index: index, parentID: parentFeed.feedID)
+        }
+    }
+    
+    internal func _upvoteContent(buzzType: BuzzType, feedID: String) {
+        // yang gua tau = 1. parent, 2. repliedTo
+        Task.init {
+            switch buzzType {
+            case .feed:
+                break
+            case .comment:
+                break
+            case .childComment:
+                break
+            }
         }
     }
     
@@ -124,7 +139,19 @@ class CommentsViewModel {
             updatedBuzz.commentCount += 1
             comments.insert(updatedBuzz, at: indexTapped)
         }
-        
+    }
+    
+    private func updateUpvoteCountLocal(index: IndexPath) {
+        var updatedParentBuzz = comments[index.row]
+        comments.remove(at: index.row)
+        if updatedParentBuzz.isUpvoted {
+            updatedParentBuzz.upvoteCount -= 1
+            updatedParentBuzz.isUpvoted = false
+        } else {
+            updatedParentBuzz.upvoteCount += 1
+            updatedParentBuzz.isUpvoted = true
+        }
+        comments.insert(updatedParentBuzz, at: index.row)
     }
     
     internal func showChildComment(from commentID: String, at index: IndexPath) {

@@ -29,7 +29,7 @@ class PostFeedViewController: UIViewController {
     
     private lazy var postButtonContainer: UIView = {
         let view = UIView()
-        view.backgroundColor = .creamyYellow
+        view.backgroundColor = .stoneGrey
         view.layer.cornerRadius = 20
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.3
@@ -43,6 +43,8 @@ class PostFeedViewController: UIViewController {
         button.setTitle("Buzz", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         button.setTitleColor(.eternalBlack, for: .normal)
+        button.setTitleColor(.heavenlyWhite, for: .disabled)
+        button.isEnabled = false
         button.addTarget(self, action: #selector(postButtonPresseds), for: .touchUpInside)
         return button
     }()
@@ -200,7 +202,15 @@ class PostFeedViewController: UIViewController {
 
 extension PostFeedViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
-        textView.text == "" ? showPlaceHolder() : placeHolderLabel.removeFromSuperview()
+        if textView.text.isEmpty {
+            showPlaceHolder()
+            postButtonContainer.backgroundColor = .stoneGrey
+            postButton.isEnabled = false
+        } else {
+            placeHolderLabel.removeFromSuperview()
+            postButtonContainer.backgroundColor = .creamyYellow
+            postButton.isEnabled = true
+        }
         characterCountLabel.text = "\(textView.text?.count ?? 0)/150"
     }
 }

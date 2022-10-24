@@ -28,6 +28,7 @@ class CommentsViewController: UIViewController {
     lazy var commentTextField: UITextField = {
         let commentTextField = UITextField()
         commentTextField.placeholder = "Aa"
+        commentTextField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
         return commentTextField
     }()
     
@@ -125,6 +126,17 @@ class CommentsViewController: UIViewController {
                 }
             }
             commentTextField.text = ""
+        }
+    }
+    
+    @objc func textFieldDidChange() {
+        guard let commentText = commentTextField.text else { return }
+        if commentText.isEmpty {
+            sendButtonContainer.backgroundColor = .cloudSky
+            sendButton.isEnabled = false
+        } else {
+            sendButtonContainer.backgroundColor = .creamyYellow
+            sendButton.isEnabled = true
         }
     }
     

@@ -50,7 +50,7 @@ class FeedService {
     }
     
     internal func uploadFeed(content: String) async {
-        let userResult = await getUserData()
+        let userResult = await getCurrentUserData()
         switch userResult {
         case let .success(user):
             let values = ["userName": user.pseudoname,
@@ -68,7 +68,7 @@ class FeedService {
         }
     }
     
-    internal func getUserData() async -> Result<User, CustomFeedError> {
+    internal func getCurrentUserData() async -> Result<User, CustomFeedError> {
         do {
             let documentSnapshot = try await dbUsers.document(currentUseruid).getDocument()
             guard let data = documentSnapshot.data() else { return .failure(.dataNotFound)}
@@ -90,11 +90,52 @@ class FeedService {
         }
     }
     
-    internal func upvoteContent(model: UpvoteModel, index: IndexPath) async {
-        await updateUpvotedFeedsForUser(feedID: model.feedToVoteID)
-        await updateUserIDsForFeed(feedID: model.feedToVoteID)
+    internal func upvoteContent(model: UpvoteModel, index: IndexPath, parentID: String) async {
+        await updateUpvotedFeedsForUser(feedID: model.feedToVote)
+        await updateUserIDsForFeed(model: model, parentID: parentID)
     }
     
+    internal func updateUserIDsForFeed(model: UpvoteModel, parentID: String) async {
+        switch model.buzzType {
+        case .feed:
+            let docRef = dbFeeds.document(model.feedToVote)
+            await updateUpvoteCountFirebase(documentReference: docRef)
+        case .comment:
+            let docRef = dbFeeds.document(model.repliedFrom).collection(commentsCollectionKey).document(model.feedToVote)
+            await updateUpvoteCountFirebase(documentReference: docRef)
+        case .childComment:
+            let docRef = dbFeeds.document(parentID).collection(commentsCollectionKey).document(model.repliedFrom).collection(commentsCollectionKey).document(model.feedToVote)
+            await updateUpvoteCountFirebase(documentReference: docRef)
+        }
+    }
+    
+    private func updateUpvoteCountFirebase(documentReference: DocumentReference) async {
+        do {
+            let documentSnapshot = try await documentReference.getDocument()
+            if documentSnapshot.exists {
+                guard let data = documentSnapshot.data() else { return }
+                guard var userIDs = data["userIDs"] as? [String] else { return }
+                if !userIDs.contains(currentUseruid) {
+                    userIDs.append(currentUseruid)
+                } else {
+                    userIDs.removeAll { $0 == currentUseruid }
+                }
+                try await documentReference.updateData([
+                    "userIDs": userIDs,
+                    "upvotedCount": userIDs.count
+                ])
+            } else {
+                try await documentReference.updateData([
+                    "userIDs": [currentUseruid],
+                    "upvotedCount": 1
+                ])
+            }
+        } catch {
+            fatalError("Could not update UserIDs for feed")
+        }
+    }
+    
+    //gausah di edit
     private func updateUpvotedFeedsForUser(feedID: String) async {
         do {
             let upvotedResult = await getUpvotedFeedsForCurrentUser()
@@ -116,35 +157,16 @@ class FeedService {
 
     }
     
-    private func updateUserIDsForFeed(feedID: String) async {
-        do {
-            let documentSnapshot = try await dbFeeds.document(feedID).getDocument()
-            if documentSnapshot.exists {
-                guard let data = documentSnapshot.data() else { return }
-                guard var userIDs = data["userIDs"] as? [String] else { return }
-                if !userIDs.contains(currentUseruid) {
-                    userIDs.append(currentUseruid)
-                    // update local to true
-                } else {
-                    userIDs.removeAll { $0 == currentUseruid }
-                    // update local buzz to false
-                }
-                try await dbFeeds.document(feedID).updateData(["userIDs": userIDs, "upvotedCount": userIDs.count])
-            } else {
-                try await dbFeeds.document(feedID).updateData(["userIDs": [currentUseruid], "upvotedCount": 1])
-            }
-        } catch {
-            fatalError("Could not update UserIDs for feed")
-        }
-    }
-    
     internal func loadComments(feedID: String) async -> Result<([Buzz], [String:Int]), CustomFeedError> {
         var childCommentsCounter = [String:Int]()
         var comments = [Buzz]()
         do {
             let documentSnapshots = try await dbFeeds.document(feedID).collection(commentsCollectionKey).order(by: "timestamp").getDocuments()
             documentSnapshots.documents.forEach { document in
-                let comment = Buzz(dictionary: document.data(), feedID: document.documentID)
+                var comment = Buzz(dictionary: document.data(), feedID: document.documentID)
+                if comment.userIDs.contains(currentUseruid) {
+                    comment.isUpvoted = true
+                }
                 childCommentsCounter[comment.feedID] = comment.commentCount
                 comments.append(comment)
             }
@@ -155,7 +177,7 @@ class FeedService {
     }
     
     internal func replyComments(from: CommentFrom, commentContent: String, feedID: String) async -> Result<(Buzz, String), CustomFeedError> {
-        let userResult = await getUserData()
+        let userResult = await getCurrentUserData()
         switch userResult {
         case let .success(user):
             var values = ["userName": user.pseudoname,
@@ -237,6 +259,9 @@ class FeedService {
             let documentSnapshots = try await dbFeeds.document(parentID).collection(commentsCollectionKey).document(commentID).collection(commentsCollectionKey).order(by: "timestamp").getDocuments()
             documentSnapshots.documents.forEach { document in
                 var buzz = Buzz(dictionary: document.data(), feedID: document.documentID)
+                if buzz.userIDs.contains(currentUseruid) {
+                    buzz.isUpvoted = true
+                } else { buzz.isUpvoted = false }
                 buzz.buzzType = .childComment
                 childComments.append(buzz)
             }

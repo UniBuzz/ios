@@ -46,7 +46,7 @@ class FeedViewModel: UpdateDataSourceDelegate {
     
     internal func upVoteContent(model: UpvoteModel, index: IndexPath) {
         Task.init {
-            await service.upvoteContent(model: model, index: index)
+            await service.upvoteContent(model: model, index: index, parentID: "")
         }
     }
     
