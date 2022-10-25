@@ -157,6 +157,7 @@ extension FeedViewController: PostFeedDelegate {
 }
 
 extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.feedsData.count
     }
@@ -166,6 +167,15 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: FeedTableViewCell.cellIdentifier, for: indexPath) as! FeedTableViewCell
         let item = viewModel.feedsData
+        let beeImage = UIImage(named: "mascot_dialogue_1")
+        let beeImageView = UIImageView(image: beeImage)
+        
+        if indexPath.row == 0 {
+            cell.beeImageView = beeImageView
+        } else {
+            cell.beeImageView = nil
+        }
+        
         cell.userUID = uid
         cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row], indexPath: indexPath)
         cell.cellDelegate = self
@@ -180,6 +190,15 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel, parentIndexPath: indexPath)
         commentsVC.updateDataSourceDelegate = self.viewModel
         self.navigationController?.pushViewController(commentsVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return UIView.spacer(size: 20)
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        // Header is used to give space for bee background
+        return (250 / 2) - 40
     }
 }
 

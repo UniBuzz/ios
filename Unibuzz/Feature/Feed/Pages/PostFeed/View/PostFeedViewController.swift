@@ -16,6 +16,7 @@ class PostFeedViewController: UIViewController {
     //MARK: - Variables
     private let viewModel = PostFeedViewModel()
     internal weak var delegate: PostFeedDelegate?
+    private let maxCharacters = 150
     
     //MARK: - Properties
     private lazy var cancelButton: UIButton = {
@@ -81,7 +82,7 @@ class PostFeedViewController: UIViewController {
     private lazy var placeHolderLabel: UILabel = {
         let label = UILabel()
         label.text = "Share your thoughts"
-        label.font = UIFont.systemFont(ofSize: 14)
+        label.font = UIFont.systemFont(ofSize: 16)
         label.textColor = .cloudSky
         return label
     }()
@@ -113,10 +114,6 @@ class PostFeedViewController: UIViewController {
     }
     
     //MARK: - Selector Functions
-    @objc func textFieldDidChange() {
-        textField.text == "" ? showPlaceHolder() : placeHolderLabel.removeFromSuperview()
-        characterCountLabel.text = "\(textField.text?.count ?? 0)/150"
-    }
     
     @objc func cancelButtonPressed() {
         self.navigationController?.popViewController(animated: true)
@@ -194,13 +191,20 @@ class PostFeedViewController: UIViewController {
     private func showPlaceHolder() {
         view.addSubview(placeHolderLabel)
         placeHolderLabel.snp.makeConstraints { make in
-            make.left.equalTo(textFieldContainer).offset(20)
-            make.top.equalTo(textFieldContainer).offset(22)
+            make.left.equalTo(textField).offset(8)
+            make.top.equalTo(textField).offset((textField.font?.pointSize)! / 2)
         }
     }
 }
 
 extension PostFeedViewController: UITextViewDelegate {
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let newText = (textView.text as NSString).replacingCharacters(in: range, with: text)
+        let numberOfChars = newText.count
+        return numberOfChars < maxCharacters + 1
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         if textView.text.isEmpty {
             showPlaceHolder()
@@ -211,6 +215,6 @@ extension PostFeedViewController: UITextViewDelegate {
             postButtonContainer.backgroundColor = .creamyYellow
             postButton.isEnabled = true
         }
-        characterCountLabel.text = "\(textView.text?.count ?? 0)/150"
+        characterCountLabel.text = "\(textView.text?.count ?? 0)/\(maxCharacters)"
     }
 }
