@@ -69,6 +69,7 @@ extension ConversationViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
+        cell.selectionStyle = .none
         cell.viewModel = ConversationCellViewModel(conversation: viewModel.conversations[indexPath.row])
         return cell
     }
