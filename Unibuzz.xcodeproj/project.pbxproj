@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E15DC202907D7C800F254E1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5E15DC1F2907D7C800F254E1 /* GoogleService-Info.plist */; };
+		5E36F646290806A3009AB387 /* BeeBackgroundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E36F645290806A3009AB387 /* BeeBackgroundTableViewCell.swift */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
@@ -14,7 +16,6 @@
 		D48076D52906CFAF000D04A8 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D42906CFAF000D04A8 /* OnboardingViewModel.swift */; };
 		D48076D72906CFB9000D04A8 /* OnboardingSlides.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D62906CFB9000D04A8 /* OnboardingSlides.swift */; };
 		D48076D92906D2BD000D04A8 /* OnboardingViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D82906D2BD000D04A8 /* OnboardingViewCell.swift */; };
-		D4A8302B29019DE800B2655A /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D4A8302A29019DE800B2655A /* GoogleService-Info.plist */; };
 		D4A8302E29064A1100B2655A /* MissionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB83312728D8C04100F6ED1B /* MissionViewController.swift */; };
 		D4A8302F29064A1100B2655A /* DeleteUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010B428F466440018791D /* DeleteUserViewModel.swift */; };
 		D4A8303029064A1100B2655A /* DeleteUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD010B128F431580018791D /* DeleteUserViewController.swift */; };
@@ -98,6 +99,8 @@
 
 /* Begin PBXFileReference section */
 		5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
+		5E15DC1F2907D7C800F254E1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		5E36F645290806A3009AB387 /* BeeBackgroundTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BeeBackgroundTableViewCell.swift; path = UniBuzz/Feature/Feed/Pages/Feeds/View/BeeBackgroundTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		5E7B726528FFBE54003265A7 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
 		C42BB94728DA2A1400006F71 /* BuzzModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuzzModel.swift; sourceTree = "<group>"; };
@@ -159,7 +162,6 @@
 		D48076D42906CFAF000D04A8 /* OnboardingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewModel.swift; sourceTree = "<group>"; };
 		D48076D62906CFB9000D04A8 /* OnboardingSlides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSlides.swift; sourceTree = "<group>"; };
 		D48076D82906D2BD000D04A8 /* OnboardingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewCell.swift; sourceTree = "<group>"; };
-		D4A8302A29019DE800B2655A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		D4BB0E2028D86F7900E28C3D /* Unibuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unibuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 			children = (
 				CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */,
 				5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */,
+				5E36F645290806A3009AB387 /* BeeBackgroundTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -628,8 +631,8 @@
 				D4BB0E5528D8716A00E28C3D /* Themes */,
 				D4BB0E5428D8716500E28C3D /* Helper */,
 				D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */,
+				5E15DC1F2907D7C800F254E1 /* GoogleService-Info.plist */,
 				D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */,
-				D4A8302A29019DE800B2655A /* GoogleService-Info.plist */,
 				D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */,
 				D4BB0E2E28D86F7A00E28C3D /* LaunchScreen.storyboard */,
 				D4BB0E3128D86F7A00E28C3D /* Info.plist */,
@@ -875,7 +878,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "Unibuzz" */;
+			buildConfigurationList = D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "UniBuzz" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -906,7 +909,7 @@
 			files = (
 				D4BB0E3028D86F7A00E28C3D /* LaunchScreen.storyboard in Resources */,
 				D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */,
-				D4A8302B29019DE800B2655A /* GoogleService-Info.plist in Resources */,
+				5E15DC202907D7C800F254E1 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -985,6 +988,7 @@
 				D4A8306B29064A1100B2655A /* ColorExtension.swift in Sources */,
 				D4A8306C29064A1100B2655A /* NavBarExtension.swift in Sources */,
 				D4A8306D29064A1100B2655A /* InputThemes.swift in Sources */,
+				5E36F646290806A3009AB387 /* BeeBackgroundTableViewCell.swift in Sources */,
 				D4A8306E29064A1100B2655A /* LoadingExtension.swift in Sources */,
 				D4A8306F29064A1100B2655A /* ButtonThemes.swift in Sources */,
 				D4A8307029064A1100B2655A /* AvatarGenerator.swift in Sources */,
@@ -1180,7 +1184,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "Unibuzz" */ = {
+		D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "UniBuzz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4BB0E4828D86F7B00E28C3D /* Debug */,

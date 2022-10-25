@@ -172,6 +172,8 @@ class FeedTableViewCell: UITableViewCell {
         return showOrHideCommentsButton
     }()
     
+    internal var beeImageView: UIImageView?
+    
     private let hstack1 = UIStackView()
     private let hstack2 = UIStackView()
     private let miniStack2 = UIStackView()
@@ -196,6 +198,11 @@ class FeedTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        beeImageView?.removeFromSuperview()
     }
   
     //MARK: - Selectors
@@ -253,8 +260,18 @@ class FeedTableViewCell: UITableViewCell {
     
     func configureCell() {
         self.contentView.backgroundColor = .midnights
+        
+        if let beeImageView = beeImageView {
+            self.contentView.addSubview(beeImageView)
+            beeImageView.snp.makeConstraints { make in
+                make.left.equalToSuperview()
+                make.right.equalToSuperview().offset(-40)
+                make.top.equalToSuperview().offset(-250 / 2)
+                make.height.equalTo(250)
+            }
+        }
+        
         self.contentView.addSubview(containerStack)
-
         containerStack.snp.makeConstraints { make in
             make.top.equalTo(self.contentView.snp.top)
             make.left.equalTo(self.contentView.snp.left)
