@@ -35,40 +35,73 @@ class MessageService {
         let query = dbMessage.document(currentUseruid).collection(user.uid).order(by: "timestamp", descending: true).limit(to: 15)
         
         query.getDocuments() { snapshot, error in
-            
+            print("DEBUG SNAPSHOT : \(String(describing: snapshot?.documents))")
+
             if let snapshot {
+                print("DEBUG SNAPSHOT FIRST")
                 for documentData in snapshot.documents {
                     let dictionary = documentData.data()
                     messages.append(Message(dictionary: dictionary))
                 }
                 messages.reverse()
                 
-                guard let bottomSnapshot = snapshot.documents.first else {
-                        return
+                let topSnapshot = snapshot.documents.last
+                print("DEBUG SNAPSHOT FIRST2")
+
+                if let bottomSnapshot = snapshot.documents.first {
+                    print("DEBUG SNAPSHOT FIRST3")
+
+                    let nextQuery = self.dbMessage.document(self.currentUseruid).collection(user.uid).order(by: "timestamp").start(afterDocument: bottomSnapshot)
+                    
+                    nextQuery.addSnapshotListener { newSnapshot, error in
+                        print("DEBUG SNAPSHOT FIRST4")
+
+                        if let error {
+                            print("ERROR DEBUG QUERY: \(error)")
+                        } else {
+                            newSnapshot?.documentChanges.forEach({ change in
+                                if change.type == .added {
+                                    let dictionary = change.document.data()
+                                    messages.append(Message(dictionary: dictionary))
+                                    completion(messages, change.document, nil)
+                                }
+                                
+                            })
+                            completion(messages, bottomSnapshot, topSnapshot)
+                        }
                     }
-                guard let topSnapshot = snapshot.documents.last else {
-                        return
-                    }
-                
-                let nextQuery = self.dbMessage.document(self.currentUseruid).collection(user.uid).order(by: "timestamp").start(afterDocument: bottomSnapshot)
-                
-                nextQuery.addSnapshotListener { snapshot, error in
-                    if let error {
-                        print("ERROR DEBUG QUERY: \(error)")
-                    } else {
-                        snapshot?.documentChanges.forEach({ change in
+                } else {
+                    print("DEBUG SNAPSHOT SECOND")
+
+                    let query = self.dbMessage.document(self.currentUseruid).collection(user.uid).order(by: "timestamp")
+
+                    query.addSnapshotListener { newSnapshot, error in
+                        newSnapshot?.documentChanges.forEach({ change in
                             if change.type == .added {
                                 let dictionary = change.document.data()
                                 messages.append(Message(dictionary: dictionary))
-                                completion(messages, change.document, nil)
+                                
+                                guard let bottomSnapshot = newSnapshot?.documents.first else {
+                                        return
+                                    }
+                                guard let topSnapshot = snapshot.documents.last else {
+                                        return
+                                    }
+                                print("DEBUG SNAPSHOT THIRD")
+
+                                completion(messages, bottomSnapshot, topSnapshot)
                             }
-                            
                         })
-                        completion(messages, bottomSnapshot, topSnapshot)
+                        print("DEBUG SNAPSHOT FOURTH")
+
+                        completion(messages, nil, nil)
                     }
                 }
+                
+                
+                
             } else {
-                completion(nil, nil, nil)
+                
             }
         }
     }

@@ -35,17 +35,22 @@ class ChatViewModel {
                     if let messages {
                         self.messages = messages
                     }
+                    print("DEBUG FIRST")
                     completion()
                 }
+                print("DEBUG SECOND")
             } else {
-                service.fetchMessages(forUser: user) { messages in
-                    if let messages {
-                        self.messages = messages
-                    }
-                    completion()
-                }
+//                service.fetchMessages(forUser: user) { messages in
+//                    if let messages {
+//                        self.messages = messages
+//                    }
+//                    print("DEBUG THIRD")
+//                    completion()
+//                }
+                print("DEBUG FOURTH")
             }
-            
+            print("DEBUG FIFTH")
+//            completion()
             
         } else {
             print("DEBUG: Error no user")
