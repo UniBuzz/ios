@@ -15,6 +15,12 @@ class ChatCollectionViewController: UICollectionViewController {
     // MARK: - properties
     private var viewModel = ChatViewModel()
     private let refreshControl = UIRefreshControl()
+    private lazy var bgImage : UIImageView = {
+        let bg = UIImageView()
+        bg.image = UIImage(named: "chat_background")
+        bg.contentMode = .scaleToFill
+        return bg
+    }()
     
     private lazy var CustomInputView: CustomInputAccessoryView = {
         let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 67))
@@ -37,6 +43,7 @@ class ChatCollectionViewController: UICollectionViewController {
         configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
         collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(fetchOldData(_:)), for: .valueChanged)
+        collectionView.backgroundView = bgImage
     }
     
     required init?(coder: NSCoder) {
