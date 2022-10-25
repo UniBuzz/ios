@@ -21,11 +21,6 @@ class FeedService {
     private let dbUsers = ServiceConstant.COLLECTION_USERS
     private let dbFeeds = ServiceConstant.COLLECTION_FEEDS
     
-    private let currentUseruid: String = {
-        guard let uid = Auth.auth().currentUser?.uid else { return "" }
-        return uid
-    }()
-    
     private let commentsCollectionKey = "comments"
     
     internal func getFeedsData() async -> Result<[Buzz], CustomFeedError> {
@@ -51,10 +46,11 @@ class FeedService {
     
     internal func uploadFeed(content: String) async {
         let userResult = await getCurrentUserData()
+        print(userResult)
         switch userResult {
         case let .success(user):
             let values = ["userName": user.pseudoname,
-                          "uid": currentUseruid,
+                          "uid": user.uid,
                           "timestamp": Int(Date().timeIntervalSince1970),
                           "content": content,
                           "upvoteCount": 0,
@@ -70,6 +66,7 @@ class FeedService {
     
     internal func getCurrentUserData() async -> Result<User, CustomFeedError> {
         do {
+            let currentUseruid = Auth.auth().currentUser?.uid ?? ""
             let documentSnapshot = try await dbUsers.document(currentUseruid).getDocument()
             guard let data = documentSnapshot.data() else { return .failure(.dataNotFound)}
                     return .success(User(dictionary: data))
@@ -81,6 +78,7 @@ class FeedService {
     private func getUpvotedFeedsForCurrentUser() async -> Result<[String], CustomFeedError> {
         let upvotedFeedsKey = "upvotedFeeds"
         do {
+            let currentUseruid = Auth.auth().currentUser?.uid ?? ""
             let documentSnapshot = try await dbUsers.document(currentUseruid).getDocument()
             guard let data = documentSnapshot.data() else { return .failure(.dataNotFound)}
             guard let upvotedFeeds = data[upvotedFeedsKey] as? [String] else { return .failure(.dictKeyUnmatched) }
@@ -110,6 +108,7 @@ class FeedService {
     }
     
     private func updateUpvoteCountFirebase(documentReference: DocumentReference) async {
+        let currentUseruid = Auth.auth().currentUser?.uid ?? ""
         do {
             let documentSnapshot = try await documentReference.getDocument()
             if documentSnapshot.exists {
@@ -137,6 +136,7 @@ class FeedService {
     
     //gausah di edit
     private func updateUpvotedFeedsForUser(feedID: String) async {
+        let currentUseruid = Auth.auth().currentUser?.uid ?? ""
         do {
             let upvotedResult = await getUpvotedFeedsForCurrentUser()
             switch upvotedResult {
@@ -160,6 +160,7 @@ class FeedService {
     internal func loadComments(feedID: String) async -> Result<([Buzz], [String:Int]), CustomFeedError> {
         var childCommentsCounter = [String:Int]()
         var comments = [Buzz]()
+        let currentUseruid = Auth.auth().currentUser?.uid ?? ""
         do {
             let documentSnapshots = try await dbFeeds.document(feedID).collection(commentsCollectionKey).order(by: "timestamp").getDocuments()
             documentSnapshots.documents.forEach { document in
@@ -181,7 +182,7 @@ class FeedService {
         switch userResult {
         case let .success(user):
             var values = ["userName": user.pseudoname,
-                          "uid": currentUseruid,
+                          "uid": user.uid,
                           "timestamp": Int(Date().timeIntervalSince1970),
                           "content": commentContent,
                           "upvoteCount": 0,
@@ -255,6 +256,7 @@ class FeedService {
     
     internal func getChildComments(parentID: String, commentID: String) async -> Result<[Buzz], CustomFeedError> {
         var childComments = [Buzz]()
+        let currentUseruid = Auth.auth().currentUser?.uid ?? ""
         do {
             let documentSnapshots = try await dbFeeds.document(parentID).collection(commentsCollectionKey).document(commentID).collection(commentsCollectionKey).order(by: "timestamp").getDocuments()
             documentSnapshots.documents.forEach { document in
