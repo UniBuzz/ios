@@ -35,10 +35,7 @@ class MessageService {
         let query = dbMessage.document(currentUseruid).collection(user.uid).order(by: "timestamp", descending: true).limit(to: 15)
         
         query.getDocuments() { snapshot, error in
-            print("DEBUG SNAPSHOT : \(String(describing: snapshot?.documents))")
-
             if let snapshot {
-                print("DEBUG SNAPSHOT FIRST")
                 for documentData in snapshot.documents {
                     let dictionary = documentData.data()
                     messages.append(Message(dictionary: dictionary))
@@ -46,16 +43,10 @@ class MessageService {
                 messages.reverse()
                 
                 let topSnapshot = snapshot.documents.last
-                print("DEBUG SNAPSHOT FIRST2")
-
                 if let bottomSnapshot = snapshot.documents.first {
-                    print("DEBUG SNAPSHOT FIRST3")
-
                     let nextQuery = self.dbMessage.document(self.currentUseruid).collection(user.uid).order(by: "timestamp").start(afterDocument: bottomSnapshot)
                     
                     nextQuery.addSnapshotListener { newSnapshot, error in
-                        print("DEBUG SNAPSHOT FIRST4")
-
                         if let error {
                             print("ERROR DEBUG QUERY: \(error)")
                         } else {
@@ -71,8 +62,6 @@ class MessageService {
                         }
                     }
                 } else {
-                    print("DEBUG SNAPSHOT SECOND")
-
                     let query = self.dbMessage.document(self.currentUseruid).collection(user.uid).order(by: "timestamp")
 
                     query.addSnapshotListener { newSnapshot, error in
@@ -87,19 +76,12 @@ class MessageService {
                                 guard let topSnapshot = snapshot.documents.last else {
                                         return
                                     }
-                                print("DEBUG SNAPSHOT THIRD")
-
                                 completion(messages, bottomSnapshot, topSnapshot)
                             }
                         })
-                        print("DEBUG SNAPSHOT FOURTH")
-
                         completion(messages, nil, nil)
                     }
                 }
-                
-                
-                
             } else {
                 
             }
@@ -129,23 +111,6 @@ class MessageService {
             }
         }
         
-    }
-    
-    internal func fetchMessages(forUser user: User, completion: @escaping([Message]?) -> Void) {
-        var messages = [Message]()
-
-        let query = dbMessage.document(currentUseruid).collection(user.uid).order(by: "timestamp")
-
-        query.addSnapshotListener { snapshot, error in
-            snapshot?.documentChanges.forEach({ change in
-                if change.type == .added {
-                    let dictionary = change.document.data()
-                    messages.append(Message(dictionary: dictionary))
-                    completion(messages)
-                }
-            })
-            completion(nil)
-        }
     }
     
     internal func uploadMessage(_ message: String, to user: User, completion: ((Error?)->Void)?) async {
