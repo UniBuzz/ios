@@ -35,7 +35,6 @@ class MessageService {
         let query = dbMessage.document(currentUseruid).collection(user.uid).order(by: "timestamp", descending: true).limit(to: 15)
         
         query.getDocuments() { snapshot, error in
-            
             if let snapshot {
                 for documentData in snapshot.documents {
                     let dictionary = documentData.data()
@@ -43,32 +42,48 @@ class MessageService {
                 }
                 messages.reverse()
                 
-                guard let bottomSnapshot = snapshot.documents.first else {
-                        return
+                let topSnapshot = snapshot.documents.last
+                if let bottomSnapshot = snapshot.documents.first {
+                    let nextQuery = self.dbMessage.document(self.currentUseruid).collection(user.uid).order(by: "timestamp").start(afterDocument: bottomSnapshot)
+                    
+                    nextQuery.addSnapshotListener { newSnapshot, error in
+                        if let error {
+                            print("ERROR DEBUG QUERY: \(error)")
+                        } else {
+                            newSnapshot?.documentChanges.forEach({ change in
+                                if change.type == .added {
+                                    let dictionary = change.document.data()
+                                    messages.append(Message(dictionary: dictionary))
+                                    completion(messages, change.document, nil)
+                                }
+                                
+                            })
+                            completion(messages, bottomSnapshot, topSnapshot)
+                        }
                     }
-                guard let topSnapshot = snapshot.documents.last else {
-                        return
-                    }
-                
-                let nextQuery = self.dbMessage.document(self.currentUseruid).collection(user.uid).order(by: "timestamp").start(afterDocument: bottomSnapshot)
-                
-                nextQuery.addSnapshotListener { snapshot, error in
-                    if let error {
-                        print("ERROR DEBUG QUERY: \(error)")
-                    } else {
-                        snapshot?.documentChanges.forEach({ change in
+                } else {
+                    let query = self.dbMessage.document(self.currentUseruid).collection(user.uid).order(by: "timestamp")
+
+                    query.addSnapshotListener { newSnapshot, error in
+                        newSnapshot?.documentChanges.forEach({ change in
                             if change.type == .added {
                                 let dictionary = change.document.data()
                                 messages.append(Message(dictionary: dictionary))
-                                completion(messages, change.document, nil)
+                                
+                                guard let bottomSnapshot = newSnapshot?.documents.first else {
+                                        return
+                                    }
+                                guard let topSnapshot = snapshot.documents.last else {
+                                        return
+                                    }
+                                completion(messages, bottomSnapshot, topSnapshot)
                             }
-                            
                         })
-                        completion(messages, bottomSnapshot, topSnapshot)
+                        completion(messages, nil, nil)
                     }
                 }
             } else {
-                completion(nil, nil, nil)
+                
             }
         }
     }
@@ -96,23 +111,6 @@ class MessageService {
             }
         }
         
-    }
-    
-    internal func fetchMessages(forUser user: User, completion: @escaping([Message]?) -> Void) {
-        var messages = [Message]()
-
-        let query = dbMessage.document(currentUseruid).collection(user.uid).order(by: "timestamp")
-
-        query.addSnapshotListener { snapshot, error in
-            snapshot?.documentChanges.forEach({ change in
-                if change.type == .added {
-                    let dictionary = change.document.data()
-                    messages.append(Message(dictionary: dictionary))
-                    completion(messages)
-                }
-            })
-            completion(nil)
-        }
     }
     
     internal func uploadMessage(_ message: String, to user: User, completion: ((Error?)->Void)?) async {

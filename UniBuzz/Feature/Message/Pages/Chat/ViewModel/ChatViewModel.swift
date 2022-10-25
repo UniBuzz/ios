@@ -38,15 +38,8 @@ class ChatViewModel {
                     completion()
                 }
             } else {
-                service.fetchMessages(forUser: user) { messages in
-                    if let messages {
-                        self.messages = messages
-                    }
-                    completion()
-                }
+                print("DEBUG FOR LOCAL DATA")
             }
-            
-            
         } else {
             print("DEBUG: Error no user")
         }
