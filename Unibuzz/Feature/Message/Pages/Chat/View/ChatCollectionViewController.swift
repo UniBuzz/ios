@@ -40,6 +40,9 @@ class ChatCollectionViewController: UICollectionViewController {
     init(user: User){
         self.viewModel.user = user
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
+        self.configureNavigationItems()
+        self.navigationItem.title = user.pseudoname
+
         configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .eternalBlack, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
         collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(fetchOldData(_:)), for: .valueChanged)
@@ -72,6 +75,18 @@ class ChatCollectionViewController: UICollectionViewController {
     }
 
     // MARK: - CollectionView Functions
+    func configureNavigationItems(){
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .eternalBlack
+        self.navigationController?.navigationBar.standardAppearance = appearance;
+        self.navigationController?.navigationBar.scrollEdgeAppearance = self.navigationController?.navigationBar.standardAppearance
+        self.navigationItem.backBarButtonItem?.tintColor = .heavenlyWhite
+        self.navigationController?.navigationBar.backgroundColor = .eternalBlack
+        self.navigationController?.navigationBar.barTintColor = .eternalBlack
+    }
+    
+    
     @objc private func fetchOldData(_ sender: Any) {
         viewModel.fetchOldData() { numberOfOldMessages in
             self.collectionView.reloadData()
