@@ -160,7 +160,7 @@
 		D48076D62906CFB9000D04A8 /* OnboardingSlides.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingSlides.swift; sourceTree = "<group>"; };
 		D48076D82906D2BD000D04A8 /* OnboardingViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewCell.swift; sourceTree = "<group>"; };
 		D4A8302A29019DE800B2655A /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		D4BB0E2028D86F7900E28C3D /* UniBuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UniBuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D4BB0E2028D86F7900E28C3D /* Unibuzz.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unibuzz.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -606,7 +606,7 @@
 		D4BB0E1728D86F7900E28C3D = {
 			isa = PBXGroup;
 			children = (
-				D4BB0E2228D86F7900E28C3D /* UniBuzz */,
+				D4BB0E2228D86F7900E28C3D /* Unibuzz */,
 				D4BB0E2128D86F7900E28C3D /* Products */,
 				C42BB93E28DA21E700006F71 /* Frameworks */,
 			);
@@ -615,12 +615,12 @@
 		D4BB0E2128D86F7900E28C3D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D4BB0E2028D86F7900E28C3D /* UniBuzz.app */,
+				D4BB0E2028D86F7900E28C3D /* Unibuzz.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		D4BB0E2228D86F7900E28C3D /* UniBuzz */ = {
+		D4BB0E2228D86F7900E28C3D /* Unibuzz */ = {
 			isa = PBXGroup;
 			children = (
 				D4BB0E5328D8715D00E28C3D /* Feature */,
@@ -634,7 +634,7 @@
 				D4BB0E2E28D86F7A00E28C3D /* LaunchScreen.storyboard */,
 				D4BB0E3128D86F7A00E28C3D /* Info.plist */,
 			);
-			path = UniBuzz;
+			path = Unibuzz;
 			sourceTree = "<group>";
 		};
 		D4BB0E5328D8715D00E28C3D /* Feature */ = {
@@ -832,9 +832,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		D4BB0E1F28D86F7900E28C3D /* UniBuzz */ = {
+		D4BB0E1F28D86F7900E28C3D /* Unibuzz */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D4BB0E4A28D86F7B00E28C3D /* Build configuration list for PBXNativeTarget "UniBuzz" */;
+			buildConfigurationList = D4BB0E4A28D86F7B00E28C3D /* Build configuration list for PBXNativeTarget "Unibuzz" */;
 			buildPhases = (
 				D4BB0E1C28D86F7900E28C3D /* Sources */,
 				D4BB0E1D28D86F7900E28C3D /* Frameworks */,
@@ -844,7 +844,7 @@
 			);
 			dependencies = (
 			);
-			name = UniBuzz;
+			name = Unibuzz;
 			packageProductDependencies = (
 				D4BB0E6128D8746000E28C3D /* FirebaseAuth */,
 				D4BB0E6328D8746000E28C3D /* FirebaseDatabase */,
@@ -857,7 +857,7 @@
 				C42BB93F28DA21E700006F71 /* RxCocoa */,
 			);
 			productName = UniBuzz;
-			productReference = D4BB0E2028D86F7900E28C3D /* UniBuzz.app */;
+			productReference = D4BB0E2028D86F7900E28C3D /* Unibuzz.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -875,7 +875,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "UniBuzz" */;
+			buildConfigurationList = D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "Unibuzz" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -894,7 +894,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				D4BB0E1F28D86F7900E28C3D /* UniBuzz */,
+				D4BB0E1F28D86F7900E28C3D /* Unibuzz */,
 			);
 		};
 /* End PBXProject section */
@@ -1130,7 +1130,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2CYTFH24FS;
+				DEVELOPMENT_TEAM = L54R5L5GQL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniBuzz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1157,7 +1157,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 2CYTFH24FS;
+				DEVELOPMENT_TEAM = L54R5L5GQL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = UniBuzz/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -1180,7 +1180,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "UniBuzz" */ = {
+		D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "Unibuzz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4BB0E4828D86F7B00E28C3D /* Debug */,
@@ -1189,7 +1189,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D4BB0E4A28D86F7B00E28C3D /* Build configuration list for PBXNativeTarget "UniBuzz" */ = {
+		D4BB0E4A28D86F7B00E28C3D /* Build configuration list for PBXNativeTarget "Unibuzz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4BB0E4B28D86F7B00E28C3D /* Debug */,
