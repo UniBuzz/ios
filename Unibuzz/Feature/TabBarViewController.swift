@@ -102,6 +102,7 @@ class TabBarViewController: UITabBarController {
     func logout() {
         do {
             try Auth.auth().signOut()
+            Firestore.firestore().clearPersistence()
         } catch {
             print("DEBUG: Error signin out..")
         }
