@@ -40,7 +40,7 @@ class ChatCollectionViewController: UICollectionViewController {
     init(user: User){
         self.viewModel.user = user
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
-        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
+        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .eternalBlack, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
         collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(fetchOldData(_:)), for: .valueChanged)
         collectionView.backgroundView = bgImage
