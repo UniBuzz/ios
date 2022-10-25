@@ -64,6 +64,7 @@ class TabBarViewController: UITabBarController {
                 self.conversationVC.viewModel.conversationsDictionary[message.chatPartnerId] = conversation
             }
             self.conversationVC.viewModel.conversations = Array(self.conversationVC.viewModel.conversationsDictionary.values)
+            self.conversationVC.viewModel.conversations = self.conversationVC.viewModel.conversations.sorted(by: { $0.message.timestamp.dateValue() > $1.message.timestamp.dateValue() })
             self.conversationVC.totalNotifications = 0
             for conversation in self.conversationVC.viewModel.conversations {
                 self.conversationVC.totalNotifications += conversation.unreadMessages
