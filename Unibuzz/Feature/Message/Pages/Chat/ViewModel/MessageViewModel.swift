@@ -12,7 +12,7 @@ struct MessageViewModel {
     private let message:Message
     
     var messageBackgroundColor: UIColor {
-        return message.isFromCurrentUser ? UIColor.creamyYellow : UIColor.stoneGrey
+        return message.isFromCurrentUser ? UIColor.creamyYellow : UIColor.eternalBlack
         
     }
     

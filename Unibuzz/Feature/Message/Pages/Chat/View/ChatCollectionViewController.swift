@@ -15,6 +15,12 @@ class ChatCollectionViewController: UICollectionViewController {
     // MARK: - properties
     private var viewModel = ChatViewModel()
     private let refreshControl = UIRefreshControl()
+    private lazy var bgImage : UIImageView = {
+        let bg = UIImageView()
+        bg.image = UIImage(named: "chat_background")
+        bg.contentMode = .scaleToFill
+        return bg
+    }()
     
     private lazy var CustomInputView: CustomInputAccessoryView = {
         let iv = CustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 67))
@@ -34,9 +40,13 @@ class ChatCollectionViewController: UICollectionViewController {
     init(user: User){
         self.viewModel.user = user
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
-        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
+        self.configureNavigationItems()
+        self.navigationItem.title = user.pseudoname
+
+        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .eternalBlack, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
         collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(fetchOldData(_:)), for: .valueChanged)
+        collectionView.backgroundView = bgImage
     }
     
     required init?(coder: NSCoder) {
@@ -65,6 +75,18 @@ class ChatCollectionViewController: UICollectionViewController {
     }
 
     // MARK: - CollectionView Functions
+    func configureNavigationItems(){
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .eternalBlack
+        self.navigationController?.navigationBar.standardAppearance = appearance;
+        self.navigationController?.navigationBar.scrollEdgeAppearance = self.navigationController?.navigationBar.standardAppearance
+        self.navigationItem.backBarButtonItem?.tintColor = .heavenlyWhite
+        self.navigationController?.navigationBar.backgroundColor = .eternalBlack
+        self.navigationController?.navigationBar.barTintColor = .eternalBlack
+    }
+    
+    
     @objc private func fetchOldData(_ sender: Any) {
         viewModel.fetchOldData() { numberOfOldMessages in
             self.collectionView.reloadData()

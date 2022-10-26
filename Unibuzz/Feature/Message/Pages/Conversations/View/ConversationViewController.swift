@@ -14,16 +14,14 @@ class ConversationViewController: UIViewController {
     var viewModel = ConversationViewModel()
     fileprivate let reuseIdentifier = "ConversationCell"
     let tableView = UITableView()
+    let appearance = UINavigationBarAppearance()
     var totalNotifications: Int = 0
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-    }
-    
-    override func viewWillAppear(_ animated:Bool) {
-        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .midnights, tintColor: .heavenlyWhite, title: "Message", preferredLargeTitle: true)
+        configureNavigationItems()
     }
     
     //MARK: - Functions
@@ -37,6 +35,23 @@ class ConversationViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(ConversationCell.self, forCellReuseIdentifier: reuseIdentifier)
+    }
+    
+    func configureNavigationItems(){
+        let title = UILabel()
+        title.frame = .init(x: 0, y: 0, width: view.frame.width, height: 50)
+        title.text = "Message"
+        title.font = UIFont.boldSystemFont(ofSize: 25)
+        title.textAlignment = .left
+        title.textColor = .heavenlyWhite
+        
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .midnights
+        self.navigationController?.navigationBar.standardAppearance = appearance;
+        self.navigationController?.navigationBar.scrollEdgeAppearance = self.navigationController?.navigationBar.standardAppearance
+        self.navigationController?.navigationBar.tintColor = .heavenlyWhite
+        self.navigationItem.titleView = title
+        self.navigationController?.navigationBar.barTintColor = .midnights
     }
     
     func showChatController(forUser user: User) {
@@ -54,6 +69,7 @@ extension ConversationViewController: UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ConversationCell
+        cell.selectionStyle = .none
         cell.viewModel = ConversationCellViewModel(conversation: viewModel.conversations[indexPath.row])
         return cell
     }
