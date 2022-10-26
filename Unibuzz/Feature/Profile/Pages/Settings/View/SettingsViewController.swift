@@ -92,7 +92,15 @@ extension SettingsViewController: UITableViewDelegate{
             let deletePage = DeleteUserViewController()
             deletePage.delegate = self
             navigationController?.pushViewController(deletePage, animated: true)
-        }else {
+        } else if indexPath.row == 0{
+            var webPage = WebViewController()
+            webPage.link = "https://www.unibuzz.app/community-guidelines"
+            navigationController?.pushViewController(webPage, animated: true)
+        } else if indexPath.row == 1{
+            var webPage = WebViewController()
+            webPage.link = "https://www.unibuzz.app/Privacy-and-safety"
+            navigationController?.pushViewController(webPage, animated: true)
+        } else {
             var webPage = WebViewController()
             webPage.link = "https://www.unibuzz.app"
             navigationController?.pushViewController(webPage, animated: true)
