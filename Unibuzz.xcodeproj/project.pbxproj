@@ -12,6 +12,7 @@
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
+		D409075529110916004EF929 /* DropOfHoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D409075429110916004EF929 /* DropOfHoneyView.swift */; };
 		D48076D12906CE43000D04A8 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D02906CE43000D04A8 /* OnboardingViewController.swift */; };
 		D48076D52906CFAF000D04A8 /* OnboardingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D42906CFAF000D04A8 /* OnboardingViewModel.swift */; };
 		D48076D72906CFB9000D04A8 /* OnboardingSlides.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D62906CFB9000D04A8 /* OnboardingSlides.swift */; };
@@ -155,6 +156,7 @@
 		CBE06C4F28DE20C30059CCFF /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CBE06C5328DF118C0059CCFF /* LoadingExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingExtension.swift; sourceTree = "<group>"; };
 		CBE06C5728E037470059CCFF /* MessageViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageViewModel.swift; sourceTree = "<group>"; };
+		D409075429110916004EF929 /* DropOfHoneyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropOfHoneyView.swift; sourceTree = "<group>"; };
 		D471F8FA28F5A80900972EB6 /* ForgotPasswordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewController.swift; sourceTree = "<group>"; };
 		D471F8FC28F5B9AF00972EB6 /* LoginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginService.swift; sourceTree = "<group>"; };
 		D471F8FE28F5C3A900972EB6 /* ForgotPasswordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForgotPasswordViewModel.swift; sourceTree = "<group>"; };
@@ -324,7 +326,6 @@
 			children = (
 				CB564BA428EEE24C00D868FB /* HoneyViewController.swift */,
 				CB564BB328F1275A00D868FB /* EarnMoneyView.swift */,
-				CB564BB528F1541C00D868FB /* HoneyItemView.swift */,
 				CB564BB728F1937000D868FB /* UseHoneyView.swift */,
 			);
 			path = View;
@@ -578,6 +579,7 @@
 			children = (
 				D48076D02906CE43000D04A8 /* OnboardingViewController.swift */,
 				D48076D82906D2BD000D04A8 /* OnboardingViewCell.swift */,
+				D409075429110916004EF929 /* DropOfHoneyView.swift */,
 			);
 			path = Pages;
 			sourceTree = "<group>";
@@ -665,6 +667,7 @@
 		D4BB0E5528D8716A00E28C3D /* Themes */ = {
 			isa = PBXGroup;
 			children = (
+				CB564BB528F1541C00D868FB /* HoneyItemView.swift */,
 				CBE0415028DB6F1E0098395E /* ColorExtension.swift */,
 				CBE0415228DB86650098395E /* NavBarExtension.swift */,
 				CBE06C4528DD5D360059CCFF /* InputThemes.swift */,
@@ -878,7 +881,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "UniBuzz" */;
+			buildConfigurationList = D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "Unibuzz" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -945,6 +948,7 @@
 				D4A8304329064A1100B2655A /* ForgotPasswordViewController.swift in Sources */,
 				D4A8304429064A1100B2655A /* University.swift in Sources */,
 				D4A8304529064A1100B2655A /* RegistrationViewModel.swift in Sources */,
+				D409075529110916004EF929 /* DropOfHoneyView.swift in Sources */,
 				D4A8304629064A1100B2655A /* EmailVerificationViewController.swift in Sources */,
 				D48076D92906D2BD000D04A8 /* OnboardingViewCell.swift in Sources */,
 				D4A8304729064A1100B2655A /* RegistrationViewController.swift in Sources */,
@@ -1184,7 +1188,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "UniBuzz" */ = {
+		D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "Unibuzz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4BB0E4828D86F7B00E28C3D /* Debug */,

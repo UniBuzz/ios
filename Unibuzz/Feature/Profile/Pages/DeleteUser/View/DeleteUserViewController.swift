@@ -124,6 +124,7 @@ class DeleteUserViewController: UIViewController {
                         self.delegate?.handleDeleteAccount()
                     }
                 }
+                self.viewmodel.deletePersistent()
             }
         }
         

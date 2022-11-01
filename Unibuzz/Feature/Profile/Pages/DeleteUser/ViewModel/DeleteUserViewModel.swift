@@ -21,4 +21,10 @@ class DeleteUserViewModel {
             completion(error)
         }
     }
+    
+    func deletePersistent() {
+        if let appDomain = Bundle.main.bundleIdentifier {
+            UserDefaults.standard.removePersistentDomain(forName: appDomain)
+        }
+    }
 }

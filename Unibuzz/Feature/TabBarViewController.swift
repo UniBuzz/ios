@@ -11,6 +11,24 @@ import Firebase
 class TabBarViewController: UITabBarController {
     // MARK: - properties
     let conversationVC = ConversationViewController()
+    private lazy var blurView: UIVisualEffectView = {
+        let effect = UIBlurEffect(style: .dark)
+        let blur = UIVisualEffectView(effect: effect)
+        return blur
+    }()
+    private lazy var dropHoneyImage: UIImageView = {
+        let image = UIImageView()
+        image.image = #imageLiteral(resourceName: "dropofhoney")
+        return image
+    }()
+    
+    private lazy var honeyView: UIView = {
+        let hv = DropOfHoneyView()
+        hv.startButton.addTarget(self, action: #selector(startHive), for: .touchUpInside)
+        return hv
+    }()
+    
+    let comebackUser = UserDefaults.standard.bool(forKey: "comebackUser")
     
     // MARK: - Lifecycle
     override func viewWillAppear(_ animated: Bool) {
@@ -21,8 +39,16 @@ class TabBarViewController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        authenticateUser()
-        fetchConversations()
+        if !comebackUser {
+            presentDropHoney()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                self.presentGetHoney()
+            }
+        } else {
+            fetchConversations()
+        }
+        
+        
     }
     
     // MARK: - Functions and Selectors
@@ -83,6 +109,46 @@ class TabBarViewController: UITabBarController {
         }
     }
     
+    func presentDropHoney() {
+        view.addSubview(blurView)
+        blurView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalToSuperview()
+        }
+        
+        dropHoneyImage.bounds = CGRect(x: 0, y: 0, width: 300, height: 300)
+        dropHoneyImage.center = view.center
+        view.addSubview(dropHoneyImage)
+        dropHoneyImage.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        dropHoneyImage.alpha = 0
+        
+        UIView.animate(withDuration: 1) {
+            self.dropHoneyImage.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.dropHoneyImage.alpha = 1
+        }
+        
+    }
+    
+    func presentGetHoney() {
+        UIView.animate(withDuration: 1) {
+            self.dropHoneyImage.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            self.dropHoneyImage.alpha = 0
+        } completion: { _ in
+            self.dropHoneyImage.removeFromSuperview()
+        }
+        
+        honeyView.bounds = CGRect(x: 0, y: 0, width: view.bounds.size.width, height: view.bounds.size.height)
+        honeyView.center = view.center
+        view.addSubview(honeyView)
+        honeyView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+        honeyView.alpha = 0
+        
+        UIView.animate(withDuration: 1) {
+            self.honeyView.transform = CGAffineTransform(scaleX: 1, y: 1)
+            self.honeyView.alpha = 1
+        }
+
+    }
+    
     // MARK: - API
     func authenticateUser() {
         do {
@@ -108,6 +174,19 @@ class TabBarViewController: UITabBarController {
             print("DEBUG: Error signin out..")
         }
         authenticateUser()
+    }
+    
+    //MARK: - Selector
+    
+    @objc func startHive() {
+        UserDefaults.standard.setValue(true, forKey: "comebackUser")
+        UIView.animate(withDuration: 1) {
+            self.honeyView.transform = CGAffineTransform(scaleX: 1.2, y: 1.2)
+            self.honeyView.alpha = 0
+        } completion: { _ in
+            self.dropHoneyImage.removeFromSuperview()
+            self.blurView.removeFromSuperview()
+        }
     }
 
 }
