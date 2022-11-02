@@ -139,15 +139,20 @@ class FeedService {
         let currentUseruid = Auth.auth().currentUser?.uid ?? ""
         do {
             let upvotedResult = await getUpvotedFeedsForCurrentUser()
+            let userHoney = await getUserHoney()
             switch upvotedResult {
             case let .success(upvotedFeeds):
                 var upvotedFeedsCopy = upvotedFeeds
+                var userHoneyCopy = try userHoney.get()
                 if !upvotedFeeds.contains(feedID) {
                     upvotedFeedsCopy.append(feedID)
+                    userHoneyCopy += 1
                 } else {
                     upvotedFeedsCopy.removeAll { $0 == feedID }
+                    userHoneyCopy -= 1
                 }
                 try await dbUsers.document(currentUseruid).updateData(["upvotedFeeds": upvotedFeedsCopy])
+                try await dbUsers.document(currentUseruid).updateData(["honey": userHoneyCopy])
             case let .failure(error):
                 fatalError("Error with message \(error)")
             }
@@ -155,6 +160,22 @@ class FeedService {
             fatalError("Could not update upvoted feeds for user")
         }
 
+    }
+    
+    private func getUserHoney() async -> Result<Int,CustomFeedError> {
+        let honeyKey = "honey"
+        do {
+            let currentUseruid = Auth.auth().currentUser?.uid ?? ""
+            let documentSnapshot = try await dbUsers.document(currentUseruid).getDocument()
+            guard let data = documentSnapshot.data() else { return .failure(.dataNotFound)}
+            guard let userHoney = data[honeyKey] as? Int else {
+                try await dbUsers.document(currentUseruid).updateData(["honey": 1])
+                return .success(1)
+            }
+            return .success(userHoney)
+        } catch {
+            return .failure(.dataNotFound)
+        }
     }
     
     internal func loadComments(feedID: String) async -> Result<([Buzz], [String:Int]), CustomFeedError> {
