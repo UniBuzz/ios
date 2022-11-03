@@ -147,11 +147,9 @@ class FeedService {
         let currentUseruid = Auth.auth().currentUser?.uid ?? ""
         do {
             let upvotedResult = await getUpvotedFeedsForCurrentUser()
-            let userHoney = await getUserHoney()
             switch upvotedResult {
             case let .success(upvotedFeeds):
                 var upvotedFeedsCopy = upvotedFeeds
-                var userHoneyCopy = try userHoney.get()
                 if !upvotedFeeds.contains(feedID) {
                     upvotedFeedsCopy.append(feedID)
                     upvoted = true
@@ -160,7 +158,6 @@ class FeedService {
                     upvoted = false
                 }
                 try await dbUsers.document(currentUseruid).updateData(["upvotedFeeds": upvotedFeedsCopy])
-                try await dbUsers.document(currentUseruid).updateData(["honey": userHoneyCopy])
             case let .failure(error):
                 fatalError("Error with message \(error)")
             }
