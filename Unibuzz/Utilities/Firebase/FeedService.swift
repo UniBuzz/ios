@@ -14,6 +14,13 @@ enum CustomFeedError: Error {
     case failedToGetShapshot
 }
 
+enum ReceiveHoneyType: Int {
+    case ReceiveComment = 20
+    case CommentUpvoted = 15
+    case PostUpvoted = 5
+    case GivingUpvote = 1
+}
+
 class FeedService {
     
     public static let shared = FeedService()
@@ -26,10 +33,12 @@ class FeedService {
     private var upvoted: Bool = false {
         didSet {
             Task {
-                await changeUserHoney()
+                await changeUserHoney(honeyType: .GivingUpvote)
             }
         }
     }
+    
+    
     
     internal func getFeedsData() async -> Result<[Buzz], CustomFeedError> {
         var buzzArray = [Buzz]()
@@ -182,20 +191,32 @@ class FeedService {
         }
     }
     
-    internal func changeUserHoney() async {
+    internal func changeUserHoney(honeyType: ReceiveHoneyType) async {
         let currentUseruid = Auth.auth().currentUser?.uid ?? ""
         let userHoneyResult = await getUserHoney(currentUseruid: currentUseruid)
         switch userHoneyResult {
         case .success(let userHoney):
             var userHoneyCopy = userHoney
-            if upvoted {
-                userHoneyCopy += 1
-            } else {
-                if userHoneyCopy <= 0 {
-                    userHoneyCopy = 0
+            switch honeyType {
+            case .PostUpvoted:
+                break
+                //TODO: User's Post getting upvoted by another user
+            case .CommentUpvoted:
+                break
+                //TODO: User's Comment getting upvoted by another user
+            case .GivingUpvote:
+                if upvoted {
+                    userHoneyCopy += honeyType.rawValue
                 } else {
-                    userHoneyCopy -= 1
+                    if userHoneyCopy <= 0 {
+                        userHoneyCopy = 0
+                    } else {
+                        userHoneyCopy -= honeyType.rawValue
+                    }
                 }
+            case .ReceiveComment:
+                break
+                //TODO: User's Post getting commented by another user
             }
             do {
                 try await dbUsers.document(currentUseruid).updateData(["honey": userHoneyCopy])
