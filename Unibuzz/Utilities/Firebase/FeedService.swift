@@ -207,7 +207,7 @@ class FeedService {
         return ""
     }
     
-    internal func changeBuzzPosterHoneyGetUpvoted(buzzId: String, honeyType: ReceiveHoneyType) async {
+    internal func changeTargetPosterHoneyGetUpvoted(buzzId: String, honeyType: ReceiveHoneyType) async {
         var buzzCreatorUid = ""
         if honeyType == .PostUpvoted {
             buzzCreatorUid = await getBuzzCreatorUid(buzzId: buzzId)
@@ -237,30 +237,21 @@ class FeedService {
         }
     }
     
-    internal func changeUserHoney(honeyType: ReceiveHoneyType, buzzId: String = "") async {
+    internal func giveHoneyToUser(honeyType: ReceiveHoneyType) async {
         let currentUseruid = Auth.auth().currentUser?.uid ?? ""
         let userHoneyResult = await getUserHoney(currentUseruid: currentUseruid)
+        
         switch userHoneyResult {
         case .success(let userHoney):
             var userHoneyCopy = userHoney
-            switch honeyType {
-            case .PostUpvoted:
-               await changeBuzzPosterHoneyGetUpvoted(buzzId: buzzId, honeyType: honeyType)
-            case .CommentUpvoted:
-                await changeBuzzPosterHoneyGetUpvoted(buzzId: buzzId, honeyType: honeyType)
-            case .GivingUpvote:
-                if upvoted {
-                    userHoneyCopy += honeyType.rawValue
+            if upvoted {
+                userHoneyCopy += honeyType.rawValue
+            } else {
+                if userHoneyCopy <= 0 {
+                    userHoneyCopy = 0
                 } else {
-                    if userHoneyCopy <= 0 {
-                        userHoneyCopy = 0
-                    } else {
-                        userHoneyCopy -= honeyType.rawValue
-                    }
+                    userHoneyCopy -= honeyType.rawValue
                 }
-            case .ReceiveComment:
-                break
-                //TODO: User's Post getting commented by another user
             }
             do {
                 try await dbUsers.document(currentUseruid).updateData(["honey": userHoneyCopy])
@@ -269,6 +260,14 @@ class FeedService {
             }
         case .failure(let error):
             fatalError("Error with message \(error)")
+        }
+    }
+    
+    internal func changeUserHoney(honeyType: ReceiveHoneyType, buzzId: String = "") async {
+        if honeyType == .GivingUpvote {
+            await giveHoneyToUser(honeyType: honeyType)
+        } else if honeyType == .PostUpvoted || honeyType == .CommentUpvoted {
+            await changeTargetPosterHoneyGetUpvoted(buzzId: buzzId, honeyType: honeyType)
         }
     }
     
