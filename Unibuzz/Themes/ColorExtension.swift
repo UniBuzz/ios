@@ -20,4 +20,5 @@ extension UIColor {
     static let heavenlyWhite = UIColor.rgb(red: 249, green: 249, blue: 249)
     static let storm = UIColor.rgb(red: 32, green: 32, blue: 32)
     static let warningRed = UIColor.rgb(red: 255, green: 142, blue: 142)
+    static let greyBackground = UIColor.rgb(red: 83, green: 83, blue: 83)
 }
