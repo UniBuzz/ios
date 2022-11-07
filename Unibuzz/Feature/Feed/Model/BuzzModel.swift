@@ -49,5 +49,6 @@ struct UpvoteModel {
     var repliedFrom: String
     var feedToVote: String
     var currenUserID: String
+    var posterID: String
 }
 

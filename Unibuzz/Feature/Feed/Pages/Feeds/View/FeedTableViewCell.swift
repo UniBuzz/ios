@@ -228,7 +228,7 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCountContainer.backgroundColor = .clear
         }
         
-        let upvoteModel = UpvoteModel(buzzType: feed.buzzType, repliedFrom: feed.repliedFrom, feedToVote: feed.feedID, currenUserID: currentUserID)
+        let upvoteModel = UpvoteModel(buzzType: feed.buzzType, repliedFrom: feed.repliedFrom, feedToVote: feed.feedID, currenUserID: currentUserID, posterID: feed.uid)
         
         cellDelegate?.didTapUpVote(model: upvoteModel, index: indexPath)
         commentCellDelegate?.didTapUpVote(model: upvoteModel, index: indexPath)
