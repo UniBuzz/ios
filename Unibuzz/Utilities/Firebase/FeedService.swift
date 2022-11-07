@@ -286,6 +286,21 @@ class FeedService {
     
     internal func replyComments(from: CommentFrom, commentContent: String, feedID: String) async -> Result<(Buzz, String), CustomFeedError> {
         let userResult = await getCurrentUserData()
+        
+        // Update creator honey
+        let buzzCreatorUid = await getBuzzCreatorUid(buzzId: feedID)
+        let creatorHoneyResult = await getUserHoney(currentUseruid: buzzCreatorUid)
+        switch creatorHoneyResult {
+        case let .success(honey):
+            do {
+                try await dbUsers.document(buzzCreatorUid).updateData(["honey": honey + 20])
+            } catch {
+                print(error)
+            }
+        case let .failure(error):
+            print(error)
+        }
+        
         switch userResult {
         case let .success(user):
             var values = ["userName": user.pseudoname,
