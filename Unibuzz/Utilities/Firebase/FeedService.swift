@@ -107,7 +107,11 @@ class FeedService {
     
     internal func upvoteContent(model: UpvoteModel, index: IndexPath, parentID: String) async {
         await updateUpvotedFeedsForUser(feedID: model.feedToVote)
-        await changeUserHoney(honeyType: .PostUpvoted, buzzId: model.feedToVote)
+        if model.buzzType != .feed {
+            await changeUserHoney(honeyType: .CommentUpvoted, buzzId: model.posterID)
+        } else {
+            await changeUserHoney(honeyType: .PostUpvoted, buzzId: model.feedToVote)
+        }
         await updateUserIDsForFeed(model: model, parentID: parentID)
     }
     
@@ -204,7 +208,12 @@ class FeedService {
     }
     
     internal func changeBuzzPosterHoneyGetUpvoted(buzzId: String, honeyType: ReceiveHoneyType) async {
-        let buzzCreatorUid = await getBuzzCreatorUid(buzzId: buzzId)
+        var buzzCreatorUid = ""
+        if honeyType == .PostUpvoted {
+            buzzCreatorUid = await getBuzzCreatorUid(buzzId: buzzId)
+        } else {
+            buzzCreatorUid = buzzId
+        }
         let creatorHoneyResult = await getUserHoney(currentUseruid: buzzCreatorUid)
         switch creatorHoneyResult {
         case .success(let creatorHoney):
@@ -238,8 +247,7 @@ class FeedService {
             case .PostUpvoted:
                await changeBuzzPosterHoneyGetUpvoted(buzzId: buzzId, honeyType: honeyType)
             case .CommentUpvoted:
-                break
-                //TODO: User's Comment getting upvoted by another user
+                await changeBuzzPosterHoneyGetUpvoted(buzzId: buzzId, honeyType: honeyType)
             case .GivingUpvote:
                 if upvoted {
                     userHoneyCopy += honeyType.rawValue
