@@ -38,6 +38,9 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .midnights
         configureUI()
         configureNavigationItems()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         getUserHoney()
     }
     
