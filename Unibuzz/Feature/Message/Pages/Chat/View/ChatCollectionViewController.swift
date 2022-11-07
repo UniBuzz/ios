@@ -42,8 +42,6 @@ class ChatCollectionViewController: UICollectionViewController {
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
         self.configureNavigationItems()
         self.navigationItem.title = user.pseudoname
-
-        configureNavigationBar(largeTitleColor: .heavenlyWhite, backgoundColor: .eternalBlack, tintColor: .heavenlyWhite, title: user.pseudoname, preferredLargeTitle: true)
         collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(fetchOldData(_:)), for: .valueChanged)
         collectionView.backgroundView = bgImage
@@ -52,6 +50,12 @@ class ChatCollectionViewController: UICollectionViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureNavigationItems()
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -78,12 +82,11 @@ class ChatCollectionViewController: UICollectionViewController {
     func configureNavigationItems(){
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .eternalBlack
+        appearance.backgroundColor = .midnights
         self.navigationController?.navigationBar.standardAppearance = appearance;
         self.navigationController?.navigationBar.scrollEdgeAppearance = self.navigationController?.navigationBar.standardAppearance
         self.navigationItem.backBarButtonItem?.tintColor = .heavenlyWhite
-        self.navigationController?.navigationBar.backgroundColor = .eternalBlack
-        self.navigationController?.navigationBar.barTintColor = .eternalBlack
+        self.navigationController?.navigationBar.backgroundColor = .midnights
     }
     
     
