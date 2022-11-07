@@ -82,12 +82,16 @@ class ProfileViewController: UIViewController {
         }
         changePseudo.changeButton.addTarget(self, action: #selector(changeButtonTapped), for: .touchUpInside)
         
+        getUserPseudoname()
+        
+    }
+    
+    func getUserPseudoname() {
         viewModel.fetchCurrentUser { user in
             self.usernameText.text = user.pseudoname
             self.avatarImageView.pseudoname = user.pseudoname
             self.avatarImageView.randomInt = user.randomInt
         }
-        
     }
     
     func configureNavigationItems(){
@@ -117,6 +121,7 @@ class ProfileViewController: UIViewController {
                     self.changePseudo.changeButton.isEnabled = true
                 }
                 self.changePseudo.currentHoneyLabel.text = String(honey)
+                self.dropsOfHoney.totalHoneyLabel.text = String(honey)
             }
         }
     }
@@ -153,6 +158,13 @@ extension ProfileViewController: SettingsProfileDelegate {
 }
 
 extension ProfileViewController: ChangePseudonameDelegate {
+    func changePseudoname(newName: String) {
+        Task.init {
+            await viewModel.changePseudoname(newName: newName)
+            getUserPseudoname()
+        }
+    }
+    
     func decrementHoney() {
         Task.init {
             await viewModel.decrementHoneyChangePseudoname()

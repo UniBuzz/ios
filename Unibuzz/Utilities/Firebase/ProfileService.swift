@@ -13,6 +13,7 @@ class ProfileService {
     
     public static let shared = ProfileService()
     private let dbUsers = ServiceConstant.COLLECTION_USERS
+    private let db = Firestore.firestore()
 
     internal func fetchUser(withUid uid: String, completion: @escaping (User)->Void) {
         ServiceConstant.COLLECTION_USERS.document(uid).getDocument { snapshot, error in
@@ -50,6 +51,32 @@ class ProfileService {
             }
         case let .failure(error):
             print(error)
+        }
+    }
+    
+    internal func changeUserPseudoname(newName: String) async {
+        let currentUseruid = Auth.auth().currentUser?.uid ?? ""
+        do {
+            try await dbUsers.document(currentUseruid).updateData(["pseudoname": newName])
+        } catch {
+            print(error)
+        }
+    }
+    
+    internal func checkPseudonameExist(pseudoname: String, university: String, completion: @escaping (Result<Bool,Error>) -> Void) {
+        
+        let docRef = db.collection("university").document(university).collection("users").whereField("pseudoname", isEqualTo: pseudoname).limit(to: 1)
+        
+        docRef.getDocuments { querySnapshot, error in
+            if let error = error {
+                completion(.failure(error))
+            }
+            if let doc = querySnapshot?.documents, !doc.isEmpty {
+                completion(.success(true))
+            } else {
+                completion(.success(false))
+            }
+            
         }
     }
 }

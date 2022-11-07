@@ -10,6 +10,7 @@
 		5E15DC202907D7C800F254E1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 5E15DC1F2907D7C800F254E1 /* GoogleService-Info.plist */; };
 		5E36F646290806A3009AB387 /* BeeBackgroundTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E36F645290806A3009AB387 /* BeeBackgroundTableViewCell.swift */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
+		CB09B80A2919277000F348AD /* ChangePseudonameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB09B8092919276F00F348AD /* ChangePseudonameViewModel.swift */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		D409075529110916004EF929 /* DropOfHoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D409075429110916004EF929 /* DropOfHoneyView.swift */; };
@@ -110,6 +111,7 @@
 		C433EBF328ECA12600EF6C6A /* CommentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewController.swift; sourceTree = "<group>"; };
 		C44DAF0428DDA4830061A8BE /* PostFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewController.swift; sourceTree = "<group>"; };
 		C4EA0ABE28E1DFE700A013AF /* PostFeedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFeedViewModel.swift; sourceTree = "<group>"; };
+		CB09B8092919276F00F348AD /* ChangePseudonameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ChangePseudonameViewModel.swift; path = UniBuzz/Feature/Profile/Pages/ChangePseudoname/ViewModel/ChangePseudonameViewModel.swift; sourceTree = SOURCE_ROOT; };
 		CB0D504928F1DAF0006C615D /* AvatarGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarGenerator.swift; sourceTree = "<group>"; };
 		CB19809329029ACD0055B4F1 /* ConversationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationService.swift; sourceTree = "<group>"; };
 		CB1980952902B4960055B4F1 /* MessageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageService.swift; sourceTree = "<group>"; };
@@ -277,6 +279,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		CB09B8082919275F00F348AD /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				CB09B8092919276F00F348AD /* ChangePseudonameViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		CB564B9228ED9E4600D868FB /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -334,6 +344,7 @@
 		CB564BAF28F0930600D868FB /* ChangePseudoname */ = {
 			isa = PBXGroup;
 			children = (
+				CB09B8082919275F00F348AD /* ViewModel */,
 				CB564BB028F0931800D868FB /* View */,
 			);
 			path = ChangePseudoname;
@@ -926,6 +937,7 @@
 				D4A8302E29064A1100B2655A /* MissionViewController.swift in Sources */,
 				D4A8302F29064A1100B2655A /* DeleteUserViewModel.swift in Sources */,
 				D4A8303029064A1100B2655A /* DeleteUserViewController.swift in Sources */,
+				CB09B80A2919277000F348AD /* ChangePseudonameViewModel.swift in Sources */,
 				D4A8303129064A1100B2655A /* ChangePseudonameViewController.swift in Sources */,
 				D4A8303229064A1100B2655A /* HoneyViewController.swift in Sources */,
 				D4A8303329064A1100B2655A /* EarnMoneyView.swift in Sources */,

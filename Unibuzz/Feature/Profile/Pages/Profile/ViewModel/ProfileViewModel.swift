@@ -34,4 +34,8 @@ class ProfileViewModel {
         await service.decrementHoneyChangePseudoname()
     }
     
+    internal func changePseudoname(newName: String) async {
+        await service.changeUserPseudoname(newName: newName)
+    }
+    
 }
