@@ -10,11 +10,14 @@ import SnapKit
 
 protocol ChangePseudonameDelegate: AnyObject {
     func decrementHoney()
+    func changePseudoname(newName: String)
 }
 
 class ChangePseudonameViewController: UIViewController {
     
     //MARK: - Properties
+    lazy var viewModel = ChangePseudonameViewModel()
+    
     lazy var currentTitleText: UILabel = {
         var label: UILabel = UILabel()
         label.text = "Current Pseudoname"
@@ -50,6 +53,15 @@ class ChangePseudonameViewController: UIViewController {
         return tv
     }()
     
+    private let loadingSpinner: UIActivityIndicatorView = {
+       let spin = UIActivityIndicatorView()
+        spin.sizeToFit()
+        spin.style = .large
+        spin.backgroundColor = .eternalBlack
+        spin.color = .heavenlyWhite
+        return spin
+    }()
+    
     lazy var placeholderLabel: UILabel = {
         let label = UILabel()
         label.text = "new_pseudoname"
@@ -59,7 +71,6 @@ class ChangePseudonameViewController: UIViewController {
     }()
     
     lazy var changeButton = ButtonThemes(buttonTitle: "Done")
-    
     weak var delegate: ChangePseudonameDelegate?
     
     //MARK: - Lifecycle
@@ -118,6 +129,23 @@ class ChangePseudonameViewController: UIViewController {
         changeButton.layer.cornerRadius = 50/2
         
         NotificationCenter.default.addObserver(self, selector: #selector(handleTextInputChange), name: UITextView.textDidChangeNotification, object: nil)
+        bindViewModel()
+    }
+    
+    func bindViewModel() {
+        viewModel.pseudonameNotPassed = {
+            let alert = UIAlertController(title: "Pseudoname not valid", message: "Total character for pseudoname are between 2 and 20 and not contains spaces", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.loadingSpinner.stopAnimating()
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.pseudonameExists = {
+            let alert = UIAlertController(title: "Pseudoname exists", message: "Pseudoname that you input already exists!", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+            self.loadingSpinner.stopAnimating()
+            self.present(alert, animated: true,completion: nil)
+        }
     }
     
     @objc func handleTextInputChange() {
@@ -125,7 +153,13 @@ class ChangePseudonameViewController: UIViewController {
     }
     
     @objc func doneButtonPressed() {
-        delegate?.decrementHoney()
-        navigationController?.popViewController(animated: true)
+        viewModel.checkPseudonameExist(pseudo: inputTextView.text, completion: {
+            status in
+            if status && self.viewModel.checkPseudonameValid(pseudo: self.inputTextView.text){
+                self.delegate?.decrementHoney()
+                self.delegate?.changePseudoname(newName: self.inputTextView.text)
+                self.navigationController?.popViewController(animated: true)
+            }
+        })
     }
 }
