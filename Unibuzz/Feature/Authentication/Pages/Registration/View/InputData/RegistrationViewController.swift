@@ -21,7 +21,7 @@ class RegistrationViewController: UIViewController {
     
     private lazy var emailTextField: UITextField = {
         let tf = InputThemes().textField(withPlaceholder: "insert your email")
-        tf.addTarget(self, action: #selector(handleTextChange), for: .editingDidEnd)
+        tf.addTarget(self, action: #selector(checkFormValid), for: .editingDidEnd)
         return tf
     }()
     
@@ -33,7 +33,7 @@ class RegistrationViewController: UIViewController {
     private lazy var passwordTextField: UITextField = {
         let tf = InputThemes().textField(withPlaceholder: "insert password")
         tf.isSecureTextEntry = true
-        tf.addTarget(self, action: #selector(handleTextChange), for: .editingDidEnd)
+        tf.addTarget(self, action: #selector(checkFormValid), for: .editingDidEnd)
         return tf
     }()
     
@@ -44,7 +44,7 @@ class RegistrationViewController: UIViewController {
     
     private lazy var pseudoTextField: UITextField = {
         let tf = InputThemes().textField(withPlaceholder: "insert pseudoname")
-        tf.addTarget(self, action: #selector(handleTextChange), for: .editingDidEnd)
+        tf.addTarget(self, action: #selector(checkFormValid), for: .editingDidEnd)
         return tf
     }()
     
@@ -78,6 +78,36 @@ class RegistrationViewController: UIViewController {
         spin.color = .heavenlyWhite
         return spin
     }()
+    
+    private lazy var agreeWithTermsConditionButton: UIButton = {
+        let button = UIButton(type: .system)
+        let attributedTitle = NSMutableAttributedString(string: "I Agree with the ", attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.heavenlyWhite])
+        attributedTitle.append(NSAttributedString(string: "terms and conditions", attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.creamyYellow, .underlineStyle: NSUnderlineStyle.single.rawValue]))
+        
+        button.setAttributedTitle(attributedTitle, for: .normal)
+        button.addTarget(self, action: #selector(agreeWithTermsAction), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var agreeWithTermsConditionChecklist: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(UIImage(named: "checkbox"), for: .normal)
+        button.addTarget(self, action: #selector(handleAgree), for: .touchUpInside)
+        return button
+    }()
+    
+    private var agreeWithTerms: Bool = false {
+        didSet {
+            if agreeWithTerms {
+                agreeWithTermsConditionChecklist.setImage(UIImage(named: "checkbox-fill"), for: .normal)
+            } else {
+                agreeWithTermsConditionChecklist.setImage(UIImage(named: "checkbox"), for: .normal)
+            }
+            checkFormValid()
+        }
+    }
+    
+    private var agreeWithTermsClicked: Bool = false
 
     // MARK: - Lifecycle
     init(viewModel: RegistrationViewModel = RegistrationViewModel()){
@@ -97,6 +127,12 @@ class RegistrationViewController: UIViewController {
         overrideUserInterfaceStyle = .dark
     }
     
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: true)
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.tintColor = .heavenlyWhite
+    }
     
     // MARK: - Helpers
     
@@ -148,17 +184,8 @@ class RegistrationViewController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .midnights
-        let backButton = UIBarButtonItem()
-        backButton.title = "Sign Up"
-        backButton.tintColor = .heavenlyWhite
-        self.navigationController?.navigationBar.topItem?.backBarButtonItem = backButton
-        self.hideKeyboardWhenTappedAround()
         
-        view.addSubview(emailContainerView)
-        view.addSubview(passwordContainerView)
-        view.addSubview(pseudoContainerView)
-        view.addSubview(registButton)
-        view.addSubview(loadingSpinner)
+        self.hideKeyboardWhenTappedAround()
         
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints { make in
@@ -173,33 +200,54 @@ class RegistrationViewController: UIViewController {
             make.leading.trailing.equalToSuperview().inset(30)
         }
         
+        view.addSubview(emailContainerView)
         emailContainerView.snp.makeConstraints { make in
             make.top.equalTo(tellUs.snp.bottom).offset(40)
             make.left.right.equalToSuperview()
         }
         
+        view.addSubview(passwordContainerView)
         passwordContainerView.snp.makeConstraints { make in
             make.top.equalTo(emailContainerView.snp.bottom).offset(30)
             make.left.right.equalToSuperview()
         }
         
+        view.addSubview(pseudoContainerView)
         pseudoContainerView.snp.makeConstraints { make in
             make.top.equalTo(passwordContainerView.snp.bottom).offset(30)
             make.left.right.equalToSuperview()
         }
         
-        registButton.snp.makeConstraints { make in
+        let stack = UIStackView(arrangedSubviews: [agreeWithTermsConditionChecklist, agreeWithTermsConditionButton])
+        stack.axis = .horizontal
+        view.addSubview(stack)
+        stack.snp.makeConstraints { make in
             make.top.equalTo(pseudoContainerView.snp.bottom).offset(30)
+            make.leading.trailing.equalToSuperview().inset(30)
+        }
+        
+        view.addSubview(registButton)
+        registButton.snp.makeConstraints { make in
+            make.top.equalTo(stack.snp.bottom).offset(30)
             make.leading.trailing.equalToSuperview().inset(30)
             make.height.equalTo(50)
         }
         
+        view.addSubview(loadingSpinner)
         loadingSpinner.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.height.width.equalTo(100)
         }
+        
     }
     
+    func showMustReadTermsCondition() {
+        let alert = UIAlertController(title: "Terms and Conditions", message: "Read The terms and Condition first!", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Okay", style: .cancel, handler: nil))
+        self.present(alert, animated: true,completion: nil)
+    }
+    
+    //MARK: - Selector
     @objc func handleShowLogin() {
         navigationController?.popViewController(animated: true)
     }
@@ -216,14 +264,36 @@ class RegistrationViewController: UIViewController {
         
     }
     
-    @objc func handleTextChange(){
-        if emailTextField.hasText && passwordTextField.hasText && passwordTextField.hasText {
+    @objc func checkFormValid(){
+        if emailTextField.hasText && passwordTextField.hasText && pseudoTextField.hasText && agreeWithTerms {
             registButton.backgroundColor = .creamyYellow
             registButton.isEnabled = true
             registButton.setTitleColor(.eternalBlack, for: .normal)
+        } else {
+            registButton.backgroundColor = .storm
+            registButton.isEnabled = false
+            registButton.setTitleColor(.heavenlyWhite, for: .normal)
         }
         
     }
-
+    
+    @objc func agreeWithTermsAction() {
+        if let url = URL(string: "https://www.unibuzz.app/terms-and-conditions"), UIApplication.shared.canOpenURL(url) {
+           if #available(iOS 10.0, *) {
+              UIApplication.shared.open(url, options: [:], completionHandler: nil)
+           } else {
+              UIApplication.shared.openURL(url)
+           }
+            agreeWithTermsClicked = true
+        }
+    }
+    
+    @objc func handleAgree() {
+        if agreeWithTermsClicked {
+            agreeWithTerms.toggle()
+        } else {
+            showMustReadTermsCondition()
+        }
+    }
 }
 

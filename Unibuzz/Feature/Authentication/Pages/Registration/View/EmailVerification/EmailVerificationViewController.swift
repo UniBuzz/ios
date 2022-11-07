@@ -58,6 +58,11 @@ class EmailVerificationViewController: UIViewController {
         return button
     }()
     
+    private lazy var emailImage: UIImageView = {
+        let image = UIImageView(image: UIImage(named: "emailverification"))
+        return image
+    }()
+
     let viewModel: RegistrationViewModel
     let email: String
     
@@ -107,6 +112,13 @@ class EmailVerificationViewController: UIViewController {
         stack.snp.makeConstraints { make in
             make.top.equalTo(verifyAccount.snp.bottom).offset(20)
             make.leading.trailing.equalToSuperview().inset(20)
+        }
+        
+        view.addSubview(emailImage)
+        emailImage.snp.makeConstraints { make in
+            make.top.equalTo(stack.snp.bottom).offset(20)
+            make.height.width.equalTo(250)
+            make.centerX.equalToSuperview()
         }
         
         view.addSubview(resendVerification)

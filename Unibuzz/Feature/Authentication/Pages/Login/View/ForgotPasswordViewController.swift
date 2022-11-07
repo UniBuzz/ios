@@ -68,6 +68,16 @@ class ForgotPasswordViewController: UIViewController {
         bindViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.setNavigationBarHidden(false, animated: animated)
+        navigationController?.navigationBar.barTintColor = .white
+        navigationController?.navigationBar.tintColor = .heavenlyWhite
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationItem.hidesBackButton = true
+    }
+    
     //MARK: - Helper
     
     func configureUI() {
