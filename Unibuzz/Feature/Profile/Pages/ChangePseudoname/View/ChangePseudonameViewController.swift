@@ -8,8 +8,12 @@
 import UIKit
 import SnapKit
 
-class ChangePseudonameViewController: UIViewController {
+protocol ChangePseudonameDelegate: AnyObject {
+    func decrementHoney()
+}
 
+class ChangePseudonameViewController: UIViewController {
+    
     //MARK: - Properties
     lazy var currentTitleText: UILabel = {
         var label: UILabel = UILabel()
@@ -55,9 +59,11 @@ class ChangePseudonameViewController: UIViewController {
     }()
     
     lazy var changeButton = ButtonThemes(buttonTitle: "Done")
-
+    
+    weak var delegate: ChangePseudonameDelegate?
+    
     //MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -73,6 +79,8 @@ class ChangePseudonameViewController: UIViewController {
         view.addSubview(inputTextView)
         view.addSubview(placeholderLabel)
         view.addSubview(changeButton)
+        
+        changeButton.addTarget(self, action: #selector(doneButtonPressed), for: .touchUpInside)
         
         currentTitleText.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide).offset(25)
@@ -114,5 +122,10 @@ class ChangePseudonameViewController: UIViewController {
     
     @objc func handleTextInputChange() {
         placeholderLabel.isHidden = !self.inputTextView.text.isEmpty
+    }
+    
+    @objc func doneButtonPressed() {
+        delegate?.decrementHoney()
+        navigationController?.popViewController(animated: true)
     }
 }

@@ -38,6 +38,7 @@ class ProfileViewController: UIViewController {
         view.backgroundColor = .midnights
         configureUI()
         configureNavigationItems()
+        getUserHoney()
     }
     
     //MARK: - Functions
@@ -106,6 +107,20 @@ class ProfileViewController: UIViewController {
         self.navigationController?.navigationBar.barTintColor = .midnights
     }
     
+    func getUserHoney() {
+        Task.init {
+            let honey = await viewModel.getCurrentUserHoney()
+            DispatchQueue.main.async {
+                if honey < 200 {
+                    self.changePseudo.changeButton.isEnabled = false
+                } else {
+                    self.changePseudo.changeButton.isEnabled = true
+                }
+                self.changePseudo.currentHoneyLabel.text = String(honey)
+            }
+        }
+    }
+    
     @objc func settingButtonPressed() {
         let settings = SettingsViewController()
         settings.delegate = self
@@ -119,6 +134,7 @@ class ProfileViewController: UIViewController {
     
     @objc func changeButtonTapped() {
         let changePseudo = ChangePseudonameViewController()
+        changePseudo.delegate = self
         changePseudo.userPseudonameText.text = usernameText.text
         navigationController?.pushViewController(changePseudo, animated: true)
     }
@@ -133,6 +149,15 @@ extension ProfileViewController: SettingsProfileDelegate {
     
     func handleDeleteAccount() {
         delegate?.handleDeleteAccount()
+    }
+}
+
+extension ProfileViewController: ChangePseudonameDelegate {
+    func decrementHoney() {
+        Task.init {
+            await viewModel.decrementHoneyChangePseudoname()
+            getUserHoney()
+        }
     }
 }
 

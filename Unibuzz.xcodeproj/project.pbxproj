@@ -881,7 +881,7 @@
 					};
 				};
 			};
-			buildConfigurationList = D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "Unibuzz" */;
+			buildConfigurationList = D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "UniBuzz" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -1188,7 +1188,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "Unibuzz" */ = {
+		D4BB0E1B28D86F7900E28C3D /* Build configuration list for PBXProject "UniBuzz" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				D4BB0E4828D86F7B00E28C3D /* Debug */,

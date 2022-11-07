@@ -37,7 +37,9 @@ class ChangePseudonameView: UIView {
     var changeButton: UIButton = {
         let button = UIButton()
         button.setTitleColor(.eternalBlack, for: .normal)
-        button.backgroundColor = .creamyYellow
+        button.setTitleColor(.heavenlyWhite, for: .disabled)
+        button.setBackgroundColor(color: .creamyYellow, forState: .normal)
+        button.setBackgroundColor(color: .greyBackground, forState: .disabled)
         button.layer.cornerRadius = 10
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
         button.setTitle("Change", for: .normal)
