@@ -88,6 +88,7 @@ class FeedTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = "sampleUserName"
         label.textColor = .heavenlyWhite
+        label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         return label
     }()
@@ -135,6 +136,8 @@ class FeedTableViewCell: UITableViewCell {
     lazy var optionButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .bold)), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 22).isActive = true
         button.tintColor = .heavenlyWhite
         return button
     }()
@@ -185,7 +188,15 @@ class FeedTableViewCell: UITableViewCell {
     private let spacer5 = UIView.spacer(size: 20, for: .horizontal)
     private let spacer6 = UIView.spacer(size: 5, for: .horizontal)
     private let spacer7 = UIView.spacer(size: 20, for: .horizontal)
-    private let seperator = UIView()
+    
+    private lazy var seperator: UIView = {
+        let seperator = UIView()
+        seperator.translatesAutoresizingMaskIntoConstraints = false
+        return seperator
+    }()
+    
+    private var seperatorConstraint = NSLayoutConstraint()
+    
     private let gradient = CAGradientLayer()
     private let shape = CAShapeLayer()
     private let gradientBorder1 = UIColor(red: 255/255, green: 243/255, blue: 143/255, alpha: 0.3)
@@ -194,6 +205,9 @@ class FeedTableViewCell: UITableViewCell {
     //MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        seperatorConstraint = NSLayoutConstraint(item: seperator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 3)
+        seperatorConstraint.isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -329,7 +343,7 @@ class FeedTableViewCell: UITableViewCell {
         hstack1.addArrangedSubview(spacer6)
         hstack1.addArrangedSubview(userName)
         hstack1.addArrangedSubview(optionButton)
-//        hstack1.distribution = .fill
+        hstack1.distribution = .fillProportionally
         
         miniStack2.axis = .horizontal
         miniStack2.addArrangedSubview(upVoteCountContainer)
@@ -403,13 +417,6 @@ class FeedTableViewCell: UITableViewCell {
             seperator.removeFromSuperview()
         }
         
-        if addSeperator {
-            containerStack.addArrangedSubview(seperator)
-        } else {
-            containerStack.removeArrangedSubview(seperator)
-            seperator.removeFromSuperview()
-        }
-        
         switch feed.buzzType {
         case .feed:
             container.backgroundColor = .stoneGrey
@@ -420,7 +427,7 @@ class FeedTableViewCell: UITableViewCell {
             commentCountContainer.isHidden = false
             mainStack.removeArrangedSubview(showOrHideCommentsButton)
             showOrHideCommentsButton.removeFromSuperview()
-            seperator.heightAnchor.constraint(equalToConstant: 3).isActive = true
+            seperatorConstraint.constant = 3
         case .comment:
             container.backgroundColor = .clear
             container.layer.borderWidth = 0
@@ -428,7 +435,7 @@ class FeedTableViewCell: UITableViewCell {
             commentCountContainer.backgroundColor = .clear
             upVoteCountContainer.backgroundColor = .clear
             commentCountContainer.isHidden = false
-            seperator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+            seperatorConstraint.constant = 0.5
             if cellViewModel?.feed.commentCount != 0 {
                 mainStack.addArrangedSubview(showOrHideCommentsButton)
             } else {
@@ -445,7 +452,7 @@ class FeedTableViewCell: UITableViewCell {
             mainStack.removeArrangedSubview(showOrHideCommentsButton)
             showOrHideCommentsButton.removeFromSuperview()
             containerWithSpacer.insertArrangedSubview(spacer5, at: 0)
-            seperator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+            seperatorConstraint.constant = 0.5
         }
     }
     
