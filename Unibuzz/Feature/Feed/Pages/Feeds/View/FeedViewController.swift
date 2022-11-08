@@ -44,6 +44,7 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNavigationItems()
+        viewModel.setInitialQuery()
         viewModel.fetchData()
         feedTableView.delegate = self
         feedTableView.dataSource = self
@@ -190,6 +191,12 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel, parentIndexPath: indexPath)
         commentsVC.updateDataSourceDelegate = self.viewModel
         self.navigationController?.pushViewController(commentsVC, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.feedsData.count - 2 {
+            viewModel.paginate()
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
