@@ -44,6 +44,7 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNavigationItems()
+        viewModel.setInitialQuery()
         viewModel.fetchData()
         feedTableView.delegate = self
         feedTableView.dataSource = self

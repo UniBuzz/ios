@@ -29,7 +29,6 @@ class FeedViewModel: UpdateDataSourceDelegate {
     
     internal func fetchData() {
         Task.init {
-            query = service.dbFeeds.order(by: "timestamp", descending: true).limit(to: 15)
             let feedsResult = await service.getFeedsData(query: query)
             switch feedsResult {
             case let .success(responseArray):
@@ -64,6 +63,10 @@ class FeedViewModel: UpdateDataSourceDelegate {
         feedsData.remove(at: index.row)
         feedsData.insert(newData, at: index.row)
         delegate?.reloadTableView()
+    }
+    
+    func setInitialQuery() {
+        query = service.dbFeeds.order(by: "timestamp", descending: true).limit(to: 15)
     }
     
     func feedOption() {
