@@ -23,12 +23,17 @@ protocol UpdateDataSourceDelegate: AnyObject {
     func update(newData: Buzz, index: IndexPath)
 }
 
+protocol OptionButtonPressedDelegate: AnyObject {
+    func optionButtonHandler(feed: Buzz)
+}
+
 class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Variables
     weak var cellDelegate: CellDelegate?
     weak var commentCellDelegate: CommentCellDelegate?
     weak var updateDataSourceDelegate: UpdateDataSourceDelegate?
+    weak var optionButtonPressedDelegate: OptionButtonPressedDelegate?
     static var cellIdentifier: String = "FeedCell"
     private let actionContainerColor:UIColor = .rgb(red: 83, green: 83, blue: 83)
     internal var userUID: String = ""
@@ -139,6 +144,7 @@ class FeedTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.widthAnchor.constraint(equalToConstant: 22).isActive = true
         button.tintColor = .heavenlyWhite
+        button.addTarget(self, action: #selector(handleOption), for: .touchUpInside)
         return button
     }()
     
@@ -478,6 +484,10 @@ class FeedTableViewCell: UITableViewCell {
         }
     }
     
+    @objc func handleOption() {
+        guard let feed = cellViewModel?.feed else { return }
+        optionButtonPressedDelegate?.optionButtonHandler(feed: feed)
+    }
 }
 
 extension UIView {
