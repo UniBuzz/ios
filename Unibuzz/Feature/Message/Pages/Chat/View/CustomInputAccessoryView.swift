@@ -16,7 +16,7 @@ class CustomInputAccessoryView: UIView {
 
     // MARK: - properties
     weak var delegate: CustomInputAccessoryViewDelegate?
-    
+        
     private lazy var messageInputTextView: UITextView = {
         let tv = UITextView()
         tv.backgroundColor = .midnights
@@ -25,8 +25,6 @@ class CustomInputAccessoryView: UIView {
         tv.isScrollEnabled = true
         tv.layer.cornerRadius = 15
         tv.textContainerInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-//        tv.textContainer.maximumNumberOfLines = 4
-//        tv.textContainer.lineBreakMode = .
         return tv
     }()
     
@@ -93,7 +91,6 @@ class CustomInputAccessoryView: UIView {
         messageInputTextView.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
             make.left.equalToSuperview().offset(4)
-//            make.bottom.equalTo(safeAreaLayoutGuide).offset(-12)
             make.right.equalTo(sendButton.snp.left).offset(-20)
             make.height.greaterThanOrEqualTo(35)
         }
@@ -114,7 +111,6 @@ class CustomInputAccessoryView: UIView {
     }
     
     @objc func handleSendMessage() {
-//        print(messageInputTextView.text as Any)
         guard let message = messageInputTextView.text else { return  }
         delegate?.inputView(self, wantsToSend: message)
         messageInputTextView.text = nil

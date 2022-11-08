@@ -28,6 +28,11 @@ class ChatCollectionViewController: UICollectionViewController {
         return iv
     }()
     
+    private lazy var BlockedCustomInputView: BlockedCustomInputAccessoryView = {
+        let iv = BlockedCustomInputAccessoryView(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: 67))
+        return iv
+    }()
+    
     private let loadingSpinner: UIActivityIndicatorView = {
        let spin = UIActivityIndicatorView()
         spin.sizeToFit()
@@ -45,6 +50,7 @@ class ChatCollectionViewController: UICollectionViewController {
         collectionView.refreshControl = refreshControl
         refreshControl.addTarget(self, action: #selector(fetchOldData(_:)), for: .valueChanged)
         collectionView.backgroundView = bgImage
+        
     }
     
     required init?(coder: NSCoder) {
@@ -54,6 +60,11 @@ class ChatCollectionViewController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureNavigationItems()
+        viewModel.checkUserBlocked {
+            DispatchQueue.main.async {
+                self.reloadInputViews()
+            }
+        }
     }
     
     
@@ -63,6 +74,7 @@ class ChatCollectionViewController: UICollectionViewController {
         readMessage()
         self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         configureUI()
+        bindViewModel()
         fectMessages()
     }
     
@@ -71,7 +83,7 @@ class ChatCollectionViewController: UICollectionViewController {
     }
     
     override var inputAccessoryView: UIView? {
-        get {return CustomInputView}
+        get {return setupKeyboard()}
     }
     
     override var canBecomeFirstResponder: Bool {
@@ -83,18 +95,129 @@ class ChatCollectionViewController: UICollectionViewController {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .midnights
+        
+        let settingsButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(reportButtonPressed))
+        settingsButton.tintColor = .heavenlyWhite
+        
+        
         self.navigationController?.navigationBar.standardAppearance = appearance;
         self.navigationController?.navigationBar.scrollEdgeAppearance = self.navigationController?.navigationBar.standardAppearance
         self.navigationItem.backBarButtonItem?.tintColor = .heavenlyWhite
+        self.navigationItem.rightBarButtonItem = settingsButton
         self.navigationController?.navigationBar.backgroundColor = .midnights
     }
     
+    func setupKeyboard() -> UIView {
+        if viewModel.isChatBlocked {
+            return BlockedCustomInputView
+        } else {
+            return CustomInputView
+        }
+    }
+    
+    func bindViewModel() {
+        viewModel.chooseReportOption = {
+            let alert = UIAlertController(title: nil, message: "Mengapa ingin melapor?", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Spam", style: .default, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.reportUser(reason: "Spam")
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Nudity atau aktivitas seksual", style: .default, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.reportUser(reason: "Nudity atau aktivitas seksual")
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Informasi yang salah", style: .default, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.reportUser(reason: "Informasi yang salah")
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Bullying atau pelecehan", style: .default, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.reportUser(reason: "Bullying atau pelecehan")
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Ujaran kebencian", style: .default, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.reportUser(reason: "Ujaran kebencian")
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Doxing", style: .default, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.reportUser(reason: "Doxing")
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Batalkan", style: .cancel, handler: nil))
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.doneReporting = {
+            let alert = UIAlertController(title: nil, message: "Terima kasih, laporan kamu sudah masuk. Ini langkah berikutnya yang bisa kamu lakukan", preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Blokir Akun", style: .destructive, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.blockUser(completion: {
+                                DispatchQueue.main.async {
+                                    self.reloadInputViews()
+                                }
+                            })
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Selesai", style: .cancel, handler: nil))
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.showBlockModal = {
+            let alert = UIAlertController(title: nil, message: self.viewModel.user?.pseudoname, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Laporkan Akun", style: .default, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.chooseReportOption?()
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Blokir Akun", style: .destructive, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.blockUser(completion: {
+                                DispatchQueue.main.async {
+                                    self.reloadInputViews()
+                                }
+                            })
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.showUnblockModal = {
+            let alert = UIAlertController(title: nil, message: self.viewModel.user?.pseudoname, preferredStyle: .actionSheet)
+            alert.addAction(UIAlertAction(title: "Buka Blokir Akun", style: .destructive, handler: { _ in
+                        self.dismiss(animated: true) {
+                            self.viewModel.unblockUser(completion: {
+                                DispatchQueue.main.async {
+                                    self.reloadInputViews()
+                                }
+                            })
+                        }
+                }))
+            alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            self.present(alert, animated: true,completion: nil)
+        }
+        
+        viewModel.cannotSendMessageBlocked = {
+            let alert = UIAlertController(title: nil, message: "Kamu sudah tidak bisa mengobrol dengan  orang ini.", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            DispatchQueue.main.async {
+                self.present(alert, animated: true,completion: nil)            }
+        }
+    }
+    
+    @objc private func reportButtonPressed() {
+        viewModel.reportClicked()
+    }
     
     @objc private func fetchOldData(_ sender: Any) {
         viewModel.fetchOldData() { numberOfOldMessages in
             self.collectionView.reloadData()
             self.refreshControl.endRefreshing()
-//            self.collectionView.scrollToItem(at: <#T##IndexPath#>, at: <#T##UICollectionView.ScrollPosition#>, animated: <#T##Bool#>)
             self.collectionView.scrollToItem(at: [0,numberOfOldMessages], at: .top, animated: false)
         }
     }
@@ -141,7 +264,6 @@ class ChatCollectionViewController: UICollectionViewController {
             self.collectionView.scrollToItem(at: [0,self.viewModel.messages.count - 1], at: .bottom, animated: true)
             self.loadingSpinner.stopAnimating()
         }
-//        self.loadingSpinner.stopAnimating()
     }
 }
 
