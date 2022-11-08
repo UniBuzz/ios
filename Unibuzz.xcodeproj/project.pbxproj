@@ -12,6 +12,8 @@
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		CB09B80A2919277000F348AD /* ChangePseudonameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB09B8092919276F00F348AD /* ChangePseudonameViewModel.swift */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
+		CB3EE529291A6F5600C2A585 /* ReportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3EE528291A6F5600C2A585 /* ReportService.swift */; };
+		CB3EE52B291A9DE900C2A585 /* BlockedCustomInputAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3EE52A291A9DE900C2A585 /* BlockedCustomInputAccessoryView.swift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
 		D409075529110916004EF929 /* DropOfHoneyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D409075429110916004EF929 /* DropOfHoneyView.swift */; };
 		D48076D12906CE43000D04A8 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48076D02906CE43000D04A8 /* OnboardingViewController.swift */; };
@@ -118,6 +120,8 @@
 		CB1980972902D7530055B4F1 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		CB1980992902E3940055B4F1 /* DeleteUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteUserService.swift; sourceTree = "<group>"; };
 		CB3236F128D880A00098AF14 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		CB3EE528291A6F5600C2A585 /* ReportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ReportService.swift; path = UniBuzz/Utilities/Firebase/ReportService.swift; sourceTree = SOURCE_ROOT; };
+		CB3EE52A291A9DE900C2A585 /* BlockedCustomInputAccessoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BlockedCustomInputAccessoryView.swift; path = UniBuzz/Feature/Message/Pages/Chat/View/BlockedCustomInputAccessoryView.swift; sourceTree = SOURCE_ROOT; };
 		CB564B9428ED9E6500D868FB /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		CB564B9728EDA4F100D868FB /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		CB564B9A28EDA58800D868FB /* SettingsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsItem.swift; sourceTree = "<group>"; };
@@ -490,6 +494,7 @@
 				CB83313128D8DD0700F6ED1B /* ChatCollectionViewController.swift */,
 				CBE0413F28D972C90098395E /* CustomInputAccessoryView.swift */,
 				CBE0414C28DAFCA20098395E /* MessageCell.swift */,
+				CB3EE52A291A9DE900C2A585 /* BlockedCustomInputAccessoryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -826,6 +831,7 @@
 				CB1980952902B4960055B4F1 /* MessageService.swift */,
 				CB1980972902D7530055B4F1 /* ProfileService.swift */,
 				CB1980992902E3940055B4F1 /* DeleteUserService.swift */,
+				CB3EE528291A6F5600C2A585 /* ReportService.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -956,6 +962,7 @@
 				D4A8304029064A1100B2655A /* LoginViewModel.swift in Sources */,
 				D4A8304129064A1100B2655A /* ForgotPasswordViewModel.swift in Sources */,
 				D48076D72906CFB9000D04A8 /* OnboardingSlides.swift in Sources */,
+				CB3EE529291A6F5600C2A585 /* ReportService.swift in Sources */,
 				D4A8304229064A1100B2655A /* LoginViewController.swift in Sources */,
 				D4A8304329064A1100B2655A /* ForgotPasswordViewController.swift in Sources */,
 				D4A8304429064A1100B2655A /* University.swift in Sources */,
@@ -987,6 +994,7 @@
 				D48076D52906CFAF000D04A8 /* OnboardingViewModel.swift in Sources */,
 				D4A8305B29064A1100B2655A /* FeedViewModel.swift in Sources */,
 				D4A8305C29064A1100B2655A /* FeedCellViewModel.swift in Sources */,
+				CB3EE52B291A9DE900C2A585 /* BlockedCustomInputAccessoryView.swift in Sources */,
 				D4A8305D29064A1100B2655A /* FeedViewController.swift in Sources */,
 				D4A8305E29064A1100B2655A /* FeedTableViewCell.swift in Sources */,
 				D4A8305F29064A1100B2655A /* PostFeedViewModel.swift in Sources */,

@@ -13,7 +13,8 @@ struct ServiceConstant {
 
     public static let COLLECTION_MESSAGES = Firestore.firestore().collection("university").document(universityName).collection("messages")
     public static let COLLECTION_USERS = Firestore.firestore().collection("university").document(universityName).collection("users")
-    public static let COLLECTION_FEEDS = Firestore.firestore().collection("university").document(universityName).collection("feeds")    
+    public static let COLLECTION_FEEDS = Firestore.firestore().collection("university").document(universityName).collection("feeds")
+    public static let COLLECTION_REPORTS = Firestore.firestore().collection("university").document(universityName).collection("reports")  
     
 }
 
