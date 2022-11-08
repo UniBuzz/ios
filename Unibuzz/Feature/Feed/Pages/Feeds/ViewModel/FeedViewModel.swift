@@ -20,7 +20,8 @@ protocol FeedViewModelDelegate: ViewModelDelegate {
 
 class FeedViewModel: UpdateDataSourceDelegate {
 
-    private var service = FeedService.shared
+    private let service = FeedService.shared
+    private let reportService = ReportService.shared
     weak var delegate: FeedViewModelDelegate?
     
     public var feedsData = [Buzz]()
@@ -71,6 +72,14 @@ class FeedViewModel: UpdateDataSourceDelegate {
     
     func feedOption() {
         
+    }
+    
+    func reportUser(reason: String, feed: Buzz) {
+        if feed.buzzType == .feed {
+            reportService.reportUser(targetUid: feed.uid, reportFrom: .Buzz, reportReason: reason)
+        } else {
+            reportService.reportUser(targetUid: feed.uid, reportFrom: .Comment, reportReason: reason)
+        }
     }
     
 }
