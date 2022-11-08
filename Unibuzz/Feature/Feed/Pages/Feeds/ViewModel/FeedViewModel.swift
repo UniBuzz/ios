@@ -20,17 +20,22 @@ protocol FeedViewModelDelegate: ViewModelDelegate {
 
 class FeedViewModel: UpdateDataSourceDelegate {
 
-    public var feedsData = [Buzz]()
     private var service = FeedService.shared
     weak var delegate: FeedViewModelDelegate?
     
+    public var feedsData = [Buzz]()
+    private var query: Query!
+    private var documents = [QueryDocumentSnapshot]()
+    
     internal func fetchData() {
         Task.init {
-            let feedsResult = await service.getFeedsData()
+            query = service.dbFeeds.order(by: "timestamp", descending: true).limit(to: 15)
+            let feedsResult = await service.getFeedsData(query: query)
             switch feedsResult {
-            case let .success(buzzArray):
-                feedsData = buzzArray
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) { [weak self] in
+            case let .success(responseArray):
+                feedsData += responseArray.0
+                documents += responseArray.1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
                     self?.delegate?.stopRefresh()
                     self?.delegate?.reloadTableView()
                 }
@@ -38,6 +43,11 @@ class FeedViewModel: UpdateDataSourceDelegate {
                 fatalError("Could not get the feeds data")
             }
         }
+    }
+    
+    internal func paginate() {
+        query = query.start(afterDocument: documents.last!)
+        fetchData()
     }
     
     internal func getDataForFeedCell(feed: Buzz, indexPath: IndexPath) -> FeedCellViewModel {

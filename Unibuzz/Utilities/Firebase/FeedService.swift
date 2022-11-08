@@ -25,8 +25,8 @@ class FeedService {
     
     public static let shared = FeedService()
     private let firebaseAuth = Auth.auth()
-    private let dbUsers = ServiceConstant.COLLECTION_USERS
-    private let dbFeeds = ServiceConstant.COLLECTION_FEEDS
+    internal let dbUsers = ServiceConstant.COLLECTION_USERS
+    internal let dbFeeds = ServiceConstant.COLLECTION_FEEDS
     
     private let commentsCollectionKey = "comments"
     
@@ -38,21 +38,21 @@ class FeedService {
         }
     }
     
-    
-    
-    internal func getFeedsData() async -> Result<[Buzz], CustomFeedError> {
+    internal func getFeedsData(query: Query) async -> Result<([Buzz],[QueryDocumentSnapshot]), CustomFeedError> {
         var buzzArray = [Buzz]()
+        var documents = [QueryDocumentSnapshot]()
         let upvotedFeedsResult = await getUpvotedFeedsForCurrentUser()
         switch upvotedFeedsResult {
         case let .success(upvotedFeeds):
             do {
-                let documentSnapshots = try await dbFeeds.order(by: "timestamp", descending: true).getDocuments()
+                let documentSnapshots = try await query.getDocuments()
                 documentSnapshots.documents.forEach { document in
                     var buzz = Buzz(dictionary: document.data(), feedID: document.documentID)
                     if upvotedFeeds.contains(document.documentID) { buzz.isUpvoted = true }
                     buzzArray.append(buzz)
+                    documents.append(document)
                 }
-                return .success(buzzArray)
+                return .success((buzzArray, documents))
             } catch {
                 return .failure(.failedToGetShapshot)
             }

@@ -192,6 +192,12 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(commentsVC, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.feedsData.count - 2 {
+            viewModel.paginate()
+        }
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return UIView.spacer(size: 20)
     }
