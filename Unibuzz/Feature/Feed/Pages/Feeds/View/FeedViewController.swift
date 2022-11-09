@@ -101,7 +101,7 @@ class FeedViewController: UIViewController {
         }
         
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .allEvents)
         feedTableView.refreshControl = refreshControl
     }
     

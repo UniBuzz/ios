@@ -105,7 +105,7 @@ class ReportService {
         
     }
     
-    private func getBlockedUser(uid: String) async -> Result<[String], CustomFeedError> {
+    internal func getBlockedUser(uid: String) async -> Result<[String], CustomFeedError> {
         let blockedUserKey = "blockedUser"
         do {
             let documentSnapshot = try await dbUsers.document(uid).getDocument()
