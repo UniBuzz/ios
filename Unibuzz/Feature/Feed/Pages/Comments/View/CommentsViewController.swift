@@ -231,6 +231,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
                         
         let item = commentsViewModel.comments[indexPath.row]
         cell.commentCellDelegate = self
+        cell.optionButtonPressedDelegate = self
         cell.indexPath = indexPath
         cell.parentFeed = commentsViewModel.feedBuzzTapped.feedID
         cell.userUID = uid
@@ -296,6 +297,84 @@ extension CommentsViewController {
             self.bottomConstraint.constant = self.originalConstant
             self.view.layoutIfNeeded()
         }
+    }
+}
+
+extension CommentsViewController: OptionButtonPressedDelegate {
+    func optionButtonHandler(feed: Buzz) {
+        let alert = UIAlertController(title: feed.userName, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Report this post", style: .destructive, handler: { _ in
+            self.dismiss(animated: true) {
+                //TODO: Report Post
+                print("TODO: report buzz")
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Report Account", style: .destructive, handler: { _ in
+            self.dismiss(animated: true) {
+                self.reportAccountAction(feed: feed)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Block", style: .default, handler: { _ in
+            self.dismiss(animated: true) {
+                self.commentsViewModel.blockAccount(targetAccountUid: feed.uid)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true,completion: nil)
+    }
+    
+    func reportAccountAction(feed: Buzz) {
+        let alert = UIAlertController(title: nil, message: "Mengapa ingin melapor?", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Spam", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    self.commentsViewModel.reportUser(reason: "Spam", feed: feed)
+                    self.afterReportAction(targetUserUid: feed.uid)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Nudity atau aktivitas seksual", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    self.commentsViewModel.reportUser(reason: "Nudity atau aktivitas seksual", feed: feed)
+                    self.afterReportAction(targetUserUid: feed.uid)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Informasi yang salah", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    self.commentsViewModel.reportUser(reason: "Informasi yang salah", feed: feed)
+                    self.afterReportAction(targetUserUid: feed.uid)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Bullying atau pelecehan", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    self.commentsViewModel.reportUser(reason: "Bullying atau pelecehan", feed: feed)
+                    self.afterReportAction(targetUserUid: feed.uid)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Ujaran kebencian", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    self.commentsViewModel.reportUser(reason: "Ujaran kebencian", feed: feed)
+                    self.afterReportAction(targetUserUid: feed.uid)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Doxing", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    self.commentsViewModel.reportUser(reason: "Doxing", feed: feed)
+                    self.afterReportAction(targetUserUid: feed.uid)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Batalkan", style: .cancel, handler: nil))
+        self.present(alert, animated: true,completion: nil)
+    }
+    
+    func afterReportAction(targetUserUid: String) {
+        let alert = UIAlertController(title: nil, message: "Terima kasih, laporan kamu sudah masuk. Ini langkah berikutnya yang bisa kamu lakukan", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Blokir Akun", style: .destructive, handler: { _ in
+                self.dismiss(animated: true) {
+                    self.commentsViewModel.blockAccount(targetAccountUid: targetUserUid)
+                    
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Selesai", style: .cancel, handler: nil))
+        self.present(alert, animated: true,completion: nil)
     }
 }
 
