@@ -86,16 +86,26 @@ class FeedViewModel: UpdateDataSourceDelegate {
     func setInitialQuery() {
         query = service.dbFeeds.order(by: "timestamp", descending: true).limit(to: 15)
     }
-    
-    func feedOption() {
-        
-    }
-    
+  
     func reportUser(reason: String, feed: Buzz) {
         if feed.buzzType == .feed {
             reportService.reportUser(targetUid: feed.uid, reportFrom: .Buzz, reportReason: reason)
         } else {
             reportService.reportUser(targetUid: feed.uid, reportFrom: .Comment, reportReason: reason)
+        }
+    }
+    
+    func reportHive(reason: String, feed: Buzz) {
+        guard let currentUseruid = Auth.auth().currentUser?.uid else { return }
+        let reportBuzzModel = ReportBuzzModel(
+            uidBuzz: feed.feedID,
+            uidReporter: currentUseruid,
+            buzzType: feed.buzzType,
+            timeStamp: Int(Date().timeIntervalSince1970),
+            uidTarget: feed.uid
+        )
+        Task.init {
+            await reportService.reportBuzz(reportModel: reportBuzzModel, reportReason: reason)
         }
     }
     
