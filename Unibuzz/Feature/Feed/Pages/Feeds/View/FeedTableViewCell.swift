@@ -383,10 +383,12 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCount.isEnabled = false
             sendMessageButton.isHidden = true
             sendMessageButtonContainer.isHidden = true
+            optionButton.isHidden = true
         } else {
             upVoteCount.isEnabled = true
             sendMessageButton.isHidden = false
             sendMessageButtonContainer.isHidden = false
+            optionButton.isHidden = false
         }
 
         if feed.isUpvoted {
