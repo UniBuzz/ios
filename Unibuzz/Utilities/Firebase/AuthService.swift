@@ -47,11 +47,11 @@ class AuthService {
                         if let result = result {
                             
                             let uid = result.user.uid
-                            let data = ["email" : email,
-                                        "pseudoname" : pseudo,
+                            let data = ["pseudoname" : pseudo,
                                         "uid" : uid,
                                         "university": university,
                                         "upvotedFeeds": [],
+                                        "honey": 1,
                                         "randomInt": Int.random(in: 0...9)] as [String : Any]
                             
                             self.saveUserToCollection(uid: uid, university:university, data: data) { err in
