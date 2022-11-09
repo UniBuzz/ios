@@ -120,5 +120,17 @@ class ReportService {
             return .failure(.dataNotFound)
         }
     }
+    
+    internal func reportBuzz(reportModel: ReportBuzzModel, reportReason: String) async {
+        let values: [String: Any] = [
+            "reason": reportReason,
+            "uidBuzz": reportModel.uidBuzz,
+            "uidReporter": reportModel.uidReporter,
+            "buzzType": reportModel.buzzType.rawValue,
+            "timeStamp": reportModel.timeStamp,
+            "uidTarget": reportModel.uidTarget
+        ] as [String : Any]
+        dbReports.document("Buzz").collection("Buzz").addDocument(data: values)
+    }
 
 }

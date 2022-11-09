@@ -220,18 +220,21 @@ extension FeedViewController: FeedViewModelDelegate {
     }
 }
 
+enum ReportFor {
+    case account, buzz
+}
+
 extension FeedViewController: OptionButtonPressedDelegate {
     func optionButtonHandler(feed: Buzz) {
         let alert = UIAlertController(title: feed.userName, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Report this post", style: .destructive, handler: { _ in
             self.dismiss(animated: true) {
-                //TODO: Report Post
-                print("TODO: report buzz")
+                self.reportAction(feed: feed, reportFor: .buzz)
             }
         }))
         alert.addAction(UIAlertAction(title: "Report Account", style: .destructive, handler: { _ in
             self.dismiss(animated: true) {
-                self.reportAccountAction(feed: feed)
+                self.reportAction(feed: feed, reportFor: .account)
             }
         }))
         alert.addAction(UIAlertAction(title: "Block", style: .default, handler: { _ in
@@ -243,41 +246,71 @@ extension FeedViewController: OptionButtonPressedDelegate {
         present(alert, animated: true,completion: nil)
     }
     
-    func reportAccountAction(feed: Buzz) {
+    func reportAction(feed: Buzz, reportFor: ReportFor) {
         let alert = UIAlertController(title: nil, message: "Mengapa ingin melapor?", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Spam", style: .default, handler: { _ in
                 self.dismiss(animated: true) {
-                    self.viewModel.reportUser(reason: "Spam", feed: feed)
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Spam", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Spam", feed: feed)
+                    }
                     self.afterReportAction(targetUserUid: feed.uid)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Nudity atau aktivitas seksual", style: .default, handler: { _ in
                 self.dismiss(animated: true) {
-                    self.viewModel.reportUser(reason: "Nudity atau aktivitas seksual", feed: feed)
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Nudity atau aktivitas seksual", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Nudity atau aktivitas seksual", feed: feed)
+                    }
                     self.afterReportAction(targetUserUid: feed.uid)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Informasi yang salah", style: .default, handler: { _ in
                 self.dismiss(animated: true) {
-                    self.viewModel.reportUser(reason: "Informasi yang salah", feed: feed)
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Informasi yang salah", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Informasi yang salah", feed: feed)
+                    }
                     self.afterReportAction(targetUserUid: feed.uid)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Bullying atau pelecehan", style: .default, handler: { _ in
                 self.dismiss(animated: true) {
-                    self.viewModel.reportUser(reason: "Bullying atau pelecehan", feed: feed)
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Bullying atau pelecehan", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Bullying atau pelecehan", feed: feed)
+                    }
                     self.afterReportAction(targetUserUid: feed.uid)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Ujaran kebencian", style: .default, handler: { _ in
                 self.dismiss(animated: true) {
-                    self.viewModel.reportUser(reason: "Ujaran kebencian", feed: feed)
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Ujaran kebencian", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Ujaran kebencian", feed: feed)
+                    }
                     self.afterReportAction(targetUserUid: feed.uid)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Doxing", style: .default, handler: { _ in
                 self.dismiss(animated: true) {
-                    self.viewModel.reportUser(reason: "Doxing", feed: feed)
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Doxing", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Doxing", feed: feed)
+                    }
                     self.afterReportAction(targetUserUid: feed.uid)
                 }
         }))
