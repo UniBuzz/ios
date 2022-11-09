@@ -21,6 +21,7 @@ class CommentsViewModel {
     
     internal weak var delegate: CommentViewModelDelegate?
     private let service = FeedService.shared
+    private let reportService = ReportService.shared
     
     private var childCommentsCounter: [String: Int] = [:]
     internal var feedBuzzTapped: Buzz
@@ -202,5 +203,19 @@ class CommentsViewModel {
         self.delegate?.reloadTableView()
         currentChildCount += 1
         childCommentsCounter[childComment.repliedFrom] = currentChildCount
+    }
+    
+    func reportUser(reason: String, feed: Buzz) {
+        if feed.buzzType == .feed {
+            reportService.reportUser(targetUid: feed.uid, reportFrom: .Buzz, reportReason: reason)
+        } else {
+            reportService.reportUser(targetUid: feed.uid, reportFrom: .Comment, reportReason: reason)
+        }
+    }
+    
+    func blockAccount(targetAccountUid: String) {
+        Task.init {
+            await reportService.blockUser(targetUid: targetAccountUid)
+        }
     }
 }
