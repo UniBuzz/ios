@@ -82,5 +82,11 @@ class FeedViewModel: UpdateDataSourceDelegate {
         }
     }
     
+    func blockAccount(targetAccountUid: String) {
+        Task.init {
+            await reportService.blockUser(targetUid: targetAccountUid)
+        }
+    }
+    
 }
 
