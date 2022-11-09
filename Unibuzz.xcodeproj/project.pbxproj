@@ -90,7 +90,7 @@
 		D46F0E2A291AB3F0002DA4E0 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4F7CF8F28F05099004C33EB /* UIViewExtension.swift */; };
 		D46F0E2B291AB3F0002DA4E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2328D86F7900E28C3D /* AppDelegate.swift */; };
 		D46F0E2C291AB3F0002DA4E0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BB0E2528D86F7900E28C3D /* SceneDelegate.swift */; };
-		D46F0E2E291AB4B9002DA4E0 /* ReportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46F0E2D291AB4B9002DA4E0 /* ReportService.swift */; };
+		D46F0E2F291ABC3B002DA4E0 /* ReportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46F0E2D291AB4B9002DA4E0 /* ReportService.swift */; };
 		D4BB0E2D28D86F7A00E28C3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2C28D86F7A00E28C3D /* Assets.xcassets */; };
 		D4BB0E3028D86F7A00E28C3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4BB0E2E28D86F7A00E28C3D /* LaunchScreen.storyboard */; };
 		D4BB0E6228D8746000E28C3D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = D4BB0E6128D8746000E28C3D /* FirebaseAuth */; };
@@ -983,7 +983,7 @@
 				D46F0E05291AB3F0002DA4E0 /* MessageCell.swift in Sources */,
 				D46F0E06291AB3F0002DA4E0 /* BlockedCustomInputAccessoryView.swift in Sources */,
 				D46F0E07291AB3F0002DA4E0 /* ChatViewModel.swift in Sources */,
-				D46F0E2E291AB4B9002DA4E0 /* ReportService.swift in Sources */,
+				D46F0E2F291ABC3B002DA4E0 /* ReportService.swift in Sources */,
 				D46F0E08291AB3F0002DA4E0 /* MessageViewModel.swift in Sources */,
 				D46F0E09291AB3F0002DA4E0 /* ConversationViewController.swift in Sources */,
 				D46F0E0A291AB3F0002DA4E0 /* ConversationCell.swift in Sources */,
