@@ -63,20 +63,6 @@ class CommentsViewModel {
         }
     }
     
-    internal func _upvoteContent(buzzType: BuzzType, feedID: String) {
-        // yang gua tau = 1. parent, 2. repliedTo
-        Task.init {
-            switch buzzType {
-            case .feed:
-                break
-            case .comment:
-                break
-            case .childComment:
-                break
-            }
-        }
-    }
-    
     internal func replyComments(from: CommentFrom, commentContent: String, feedID: String) {
         Task.init {
             let results = await service.replyComments(from: from, commentContent: commentContent, feedID: feedID)
@@ -210,6 +196,20 @@ class CommentsViewModel {
             reportService.reportUser(targetUid: feed.uid, reportFrom: .Buzz, reportReason: reason)
         } else {
             reportService.reportUser(targetUid: feed.uid, reportFrom: .Comment, reportReason: reason)
+        }
+    }
+    
+    func reportHive(reason: String, feed: Buzz) {
+        guard let currentUseruid = Auth.auth().currentUser?.uid else { return }
+        let reportBuzzModel = ReportBuzzModel(
+            uidBuzz: feed.feedID,
+            uidReporter: currentUseruid,
+            buzzType: feed.buzzType,
+            timeStamp: Int(Date().timeIntervalSince1970),
+            uidTarget: feed.uid
+        )
+        Task.init {
+            await reportService.reportBuzz(reportModel: reportBuzzModel, reportReason: reason)
         }
     }
     
