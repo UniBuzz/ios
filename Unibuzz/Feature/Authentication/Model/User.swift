@@ -14,6 +14,7 @@ struct User {
     let randomInt: Int
     let university: String
     let honey: Int
+    let blockedUsers: [String]
     
     init(dictionary: [String: Any]) {
         self.uid = dictionary["uid"] as? String ?? ""
@@ -22,5 +23,6 @@ struct User {
         self.randomInt = dictionary["randomInt"] as? Int ?? 0
         self.university = dictionary["university"] as? String ?? ""
         self.honey = dictionary["honey"] as? Int ?? 1
+        self.blockedUsers = dictionary["blockedUser"] as? [String] ?? []
     }
 }
