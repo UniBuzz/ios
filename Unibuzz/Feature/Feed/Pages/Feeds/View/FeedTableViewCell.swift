@@ -49,6 +49,7 @@ class FeedTableViewCell: UITableViewCell {
         avatarImageView.heightAnchor.constraint(equalToConstant: 22).isActive = true
         avatarImageView.widthAnchor.constraint(equalToConstant: 22).isActive = true
         avatarImageView.layer.cornerRadius = 22/2
+        avatarImageView.nameLabel.font = .systemFont(ofSize: 9)
         return avatarImageView
     }()
     
