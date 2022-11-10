@@ -125,6 +125,7 @@ class FeedViewController: UIViewController {
     }
     
     @objc func refresh() {
+        viewModel.setInitialQuery()
         viewModel.fetchData()
     }
 }
