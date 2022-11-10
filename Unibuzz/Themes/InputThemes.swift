@@ -16,7 +16,7 @@ class InputThemes {
             let label = UILabel()
             label.text = title
             label.font = UIFont.boldSystemFont(ofSize: 16)
-            label.textColor = .heavenlyWhite
+            label.textColor = .cloudSky
             return label
         }()
         
@@ -66,7 +66,7 @@ class InputThemes {
         
         let attributtedTitle = NSMutableAttributedString(string: firstPart, attributes: [NSAttributedString.Key.font: UIFont.systemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.white])
         
-        attributtedTitle.append(NSMutableAttributedString(string: secondPart, attributes: [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 16), NSAttributedString.Key.foregroundColor: UIColor.creamyYellow]))
+        attributtedTitle.append(NSAttributedString(string: secondPart, attributes: [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: UIColor.creamyYellow, .underlineStyle: NSUnderlineStyle.single.rawValue]))
         
         button.setAttributedTitle(attributtedTitle, for: .normal)
         

@@ -675,6 +675,7 @@
 		D4BB0E5428D8716500E28C3D /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				CBE0415028DB6F1E0098395E /* ColorExtension.swift */,
 				D4F7CF8F28F05099004C33EB /* UIViewExtension.swift */,
 			);
 			path = Helper;
@@ -684,7 +685,6 @@
 			isa = PBXGroup;
 			children = (
 				CB564BB528F1541C00D868FB /* HoneyItemView.swift */,
-				CBE0415028DB6F1E0098395E /* ColorExtension.swift */,
 				CBE0415228DB86650098395E /* NavBarExtension.swift */,
 				CBE06C4528DD5D360059CCFF /* InputThemes.swift */,
 				CBE06C5328DF118C0059CCFF /* LoadingExtension.swift */,
