@@ -10,7 +10,6 @@ import Firebase
 class DeleteUserViewModel {
     
     func reauthenticateUser(_ password: String, completion: @escaping(String?) -> Void) {
-        
         DeleteUserService.shared.reauthenticateUser(password) { error in
             completion(error)
         }
