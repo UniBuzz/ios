@@ -23,6 +23,8 @@ class OnboardingViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 28, weight: .bold)
         label.textColor = .creamyYellow
+        label.minimumScaleFactor = 0.7
+        label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 0
         return label
     }()
@@ -31,6 +33,8 @@ class OnboardingViewCell: UICollectionViewCell {
         let label = UILabel()
         label.font = .systemFont(ofSize: 18, weight: .regular)
         label.textColor = .heavenlyWhite
+        label.minimumScaleFactor = 0.7
+        label.adjustsFontSizeToFitWidth = true
         label.numberOfLines = 0
         return label
     }()
@@ -46,19 +50,21 @@ class OnboardingViewCell: UICollectionViewCell {
     }
     
     func configureUI() {
-        contentView.addSubview(imageView)
-        imageView.snp.makeConstraints { make in
-            make.height.equalTo(380)
-            make.leading.trailing.equalToSuperview()
-        }
-        
         let stackview = UIStackView(arrangedSubviews: [headingLabel,descriptionLabel])
         stackview.axis = .vertical
         stackview.spacing = 15
+        stackview.distribution = .fillProportionally
         contentView.addSubview(stackview)
         stackview.snp.makeConstraints { make in
-            make.top.equalTo(imageView.snp.bottom).offset(30)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-10)
             make.leading.trailing.equalToSuperview().inset(32)
+        }
+        
+        contentView.addSubview(imageView)
+        imageView.snp.makeConstraints { make in
+            make.bottom.equalTo(stackview.snp.top).offset(-10)
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
         }
         
     }
