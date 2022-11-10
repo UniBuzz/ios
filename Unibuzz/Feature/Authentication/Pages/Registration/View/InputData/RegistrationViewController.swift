@@ -53,7 +53,7 @@ class RegistrationViewController: UIViewController {
         button.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         button.backgroundColor = .storm
         button.isEnabled = false
-        button.setTitleColor(.heavenlyWhite, for: .normal)
+        button.setTitleColor(.cloudSky, for: .normal)
         return button
     }()
     
