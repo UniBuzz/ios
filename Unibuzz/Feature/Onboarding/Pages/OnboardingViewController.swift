@@ -18,12 +18,16 @@ class OnboardingViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: cvFlow)
         cv.backgroundColor = .midnights
         cv.register(OnboardingViewCell.self, forCellWithReuseIdentifier: OnboardingViewCell.identifier)
+        cv.alwaysBounceHorizontal = true
+        cv.canCancelContentTouches = true
+        cv.isScrollEnabled = false
         return cv
     }()
     
     private lazy var pageControl: UIPageControl = {
         let pc = UIPageControl()
         pc.numberOfPages = viewModel.slides.count
+        pc.addTarget(self, action: #selector(pageControlAction(_:)), for: .touchUpInside)
         return pc
     }()
     
@@ -101,6 +105,14 @@ class OnboardingViewController: UIViewController {
         
     }
     
+    @objc func pageControlAction(_ sender: UIPageControl) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            self.currentPage = sender.currentPage
+            let indexPath = IndexPath(item: self.currentPage, section: 0)
+            self.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+        }
+    }
+    
     
 }
 
@@ -119,11 +131,5 @@ extension OnboardingViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         CGSize(width: collectionView.frame.width, height: collectionView.frame.height)
     }
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        let width = scrollView.frame.width
-        currentPage = Int(scrollView.contentOffset.x / width)
-    }
-    
     
 }
