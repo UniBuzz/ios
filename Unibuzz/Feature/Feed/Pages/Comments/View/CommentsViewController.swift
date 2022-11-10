@@ -115,6 +115,7 @@ class CommentsViewController: UIViewController {
     @objc func postComment() {
         guard let commentText = commentTextField.text else { return }
         if commentText != "" {
+            commentTextField.resignFirstResponder()
             Task.init {
                 switch commentsViewModel.feedBuzzTapped.buzzType {
                 case .feed:

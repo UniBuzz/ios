@@ -75,6 +75,8 @@ class CommentsViewModel {
                     DispatchQueue.main.async {
                         self.childCommentsCounter[response.1] = 0
                         self.comments.append(response.0)
+                        self.delegate?.reloadTableView()
+                        self.delegate?.scrollTableView(to: IndexPath(row: self.comments.count - 1, section: 0))
                     }
                 case let .anotherComment(anotherCommentID):
                     await self.incrementCommentCountForChildCommentFirebase(childCommentID: anotherCommentID)
@@ -153,7 +155,10 @@ class CommentsViewModel {
             case let .success(childComments):
                 self.childCommentsCounter[commentID] = childComments.count
                 self.comments.insert(contentsOf: childComments, at: index.row + 1)
-                DispatchQueue.main.async {             self.delegate?.reloadTableView() }
+                DispatchQueue.main.async {
+                    self.delegate?.reloadTableView()
+                    self.delegate?.scrollTableView(to: IndexPath(row: childComments.count + 1, section: 0))
+                }
             case .failure:
                 fatalError("Failed to get child comments")
             }
@@ -187,6 +192,7 @@ class CommentsViewModel {
         }
         
         self.delegate?.reloadTableView()
+        self.delegate?.scrollTableView(to: IndexPath(row: indexToInsert, section: 0))
         currentChildCount += 1
         childCommentsCounter[childComment.repliedFrom] = currentChildCount
     }
