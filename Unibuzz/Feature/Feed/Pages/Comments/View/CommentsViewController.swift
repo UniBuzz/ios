@@ -10,6 +10,7 @@ import Firebase
 import SnapKit
 import RxSwift
 import RxDataSources
+import Mixpanel
 
 class CommentsViewController: UIViewController {
     
@@ -126,6 +127,10 @@ class CommentsViewController: UIViewController {
                 }
             }
             commentTextField.text = ""
+            Mixpanel.mainInstance().track(event: "reply comment", properties: [
+                "from": "\(Auth.auth().currentUser?.uid ?? "")",
+                "buzz_content": "\(commentText)"
+            ])
         }
     }
     

@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import Mixpanel
 
 protocol CellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
@@ -231,16 +232,20 @@ class FeedTableViewCell: UITableViewCell {
         guard let indexPath = indexPath else { return }
         guard let feed = cellViewModel?.feed else { return }
         
+        var event = ""
+        
         if isUpvoted {
             cellViewModel?.feed.upvoteCount -= 1
             cellViewModel?.feed.isUpvoted = false
             upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
             upVoteCount.tintColor = .heavenlyWhite
+            event = "Downvote"
         } else {
             cellViewModel?.feed.upvoteCount += 1
             cellViewModel?.feed.isUpvoted = true
             upVoteCount.setTitleColor(.creamyYellow, for: .normal)
             upVoteCount.tintColor = .creamyYellow
+            event = "Upvote"
         }
         if feed.buzzType == .feed {
             upVoteCountContainer.backgroundColor = actionContainerColor
@@ -255,6 +260,11 @@ class FeedTableViewCell: UITableViewCell {
         
         // need to make it safer without force unwrap!!!
         updateDataSourceDelegate?.update(newData: cellViewModel!.feed, index: indexPath)
+        
+        Mixpanel.mainInstance().track(event: event, properties: [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(feed.content)"
+        ])
     }
     
     @objc func commentCountPressed() {
@@ -270,6 +280,10 @@ class FeedTableViewCell: UITableViewCell {
 //        print("send message to this id: \(feed.uid)")
         cellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
         commentCellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
+        Mixpanel.mainInstance().track(event: "Tap Message from Buzz", properties: [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(feed.content)"
+        ])
     }
     
     //MARK: - Functions
@@ -476,14 +490,21 @@ class FeedTableViewCell: UITableViewCell {
     @objc func showOrHideComments() {
         guard let cellViewModel = cellViewModel else { return }
         guard let indexPath = indexPath else { return }
+        var event = ""
         isCommentShown.toggle()
         if isCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
             commentCellDelegate?.didTapShowComments(from: cellViewModel.feed.feedID, at: indexPath)
+            event = "Show comments"
         } else {
             showOrHideCommentsButton.setTitle("See more", for: .normal)
             commentCellDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)
         }
+        
+        Mixpanel.mainInstance().track(event: event, properties: [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(cellViewModel.feed.content)"
+        ])
     }
     
     @objc func handleOption() {

@@ -7,15 +7,15 @@
 
 import UIKit
 import Firebase
+import Mixpanel
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         FirebaseApp.configure()
+        Mixpanel.initialize(token: "b6a888cb802bb898d5a017056707b545", trackAutomaticEvents: true)
         return true
     }
 

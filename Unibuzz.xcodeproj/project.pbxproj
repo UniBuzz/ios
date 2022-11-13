@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E4C5C72291D00AF0093B69C /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 5E4C5C71291D00AF0093B69C /* Mixpanel */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
@@ -200,6 +201,7 @@
 				D4BB0E6628D8746000E28C3D /* FirebaseFirestore in Frameworks */,
 				D4BB0E6D28D8751200E28C3D /* SnapKit in Frameworks */,
 				D4BB0E6A28D8746000E28C3D /* FirebaseStorage in Frameworks */,
+				5E4C5C72291D00AF0093B69C /* Mixpanel in Frameworks */,
 				CBE0414528DA10090098395E /* RxDataSources in Frameworks */,
 				D4BB0E6828D8746000E28C3D /* FirebaseFunctions in Frameworks */,
 				CB3236F528D881A10098AF14 /* RxSwift in Frameworks */,
@@ -878,6 +880,7 @@
 				CB3236F428D881A10098AF14 /* RxSwift */,
 				CBE0414428DA10090098395E /* RxDataSources */,
 				C42BB93F28DA21E700006F71 /* RxCocoa */,
+				5E4C5C71291D00AF0093B69C /* Mixpanel */,
 			);
 			productName = UniBuzz;
 			productReference = D4BB0E2028D86F7900E28C3D /* Unibuzz.app */;
@@ -912,6 +915,7 @@
 				D4BB0E6B28D8751200E28C3D /* XCRemoteSwiftPackageReference "SnapKit" */,
 				CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				CBE0414328DA10090098395E /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				5E4C5C70291D00AF0093B69C /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
 			);
 			productRefGroup = D4BB0E2128D86F7900E28C3D /* Products */;
 			projectDirPath = "";
@@ -1229,6 +1233,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5E4C5C70291D00AF0093B69C /* XCRemoteSwiftPackageReference "mixpanel-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mixpanel/mixpanel-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -1264,6 +1276,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5E4C5C71291D00AF0093B69C /* Mixpanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5E4C5C70291D00AF0093B69C /* XCRemoteSwiftPackageReference "mixpanel-swift" */;
+			productName = Mixpanel;
+		};
 		C42BB93F28DA21E700006F71 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */;
