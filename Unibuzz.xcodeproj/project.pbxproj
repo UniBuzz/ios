@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E4C5C72291D00AF0093B69C /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 5E4C5C71291D00AF0093B69C /* Mixpanel */; };
+		5ED5C0EF2920E67700192444 /* TrackerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C0EE2920E67700192444 /* TrackerService.swift */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
 		CB3236F528D881A10098AF14 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = CB3236F428D881A10098AF14 /* RxSwift */; };
 		CBE0414528DA10090098395E /* RxDataSources in Frameworks */ = {isa = PBXBuildFile; productRef = CBE0414428DA10090098395E /* RxDataSources */; };
@@ -106,6 +108,7 @@
 		5E36F645290806A3009AB387 /* BeeBackgroundTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BeeBackgroundTableViewCell.swift; path = UniBuzz/Feature/Feed/Pages/Feeds/View/BeeBackgroundTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		5E7B726528FFBE54003265A7 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
+		5ED5C0EE2920E67700192444 /* TrackerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TrackerService.swift; path = UniBuzz/Utilities/Tracker/TrackerService.swift; sourceTree = SOURCE_ROOT; };
 		C42BB94728DA2A1400006F71 /* BuzzModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BuzzModel.swift; sourceTree = "<group>"; };
 		C42BB94828DA2A1400006F71 /* FeedViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedViewModel.swift; sourceTree = "<group>"; };
 		C433EBF128ECA10000EF6C6A /* CommentsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsViewModel.swift; sourceTree = "<group>"; };
@@ -200,6 +203,7 @@
 				D4BB0E6628D8746000E28C3D /* FirebaseFirestore in Frameworks */,
 				D4BB0E6D28D8751200E28C3D /* SnapKit in Frameworks */,
 				D4BB0E6A28D8746000E28C3D /* FirebaseStorage in Frameworks */,
+				5E4C5C72291D00AF0093B69C /* Mixpanel in Frameworks */,
 				CBE0414528DA10090098395E /* RxDataSources in Frameworks */,
 				D4BB0E6828D8746000E28C3D /* FirebaseFunctions in Frameworks */,
 				CB3236F528D881A10098AF14 /* RxSwift in Frameworks */,
@@ -209,6 +213,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5ED5C0ED2920E66300192444 /* Tracker */ = {
+			isa = PBXGroup;
+			children = (
+				5ED5C0EE2920E67700192444 /* TrackerService.swift */,
+			);
+			path = Tracker;
+			sourceTree = "<group>";
+		};
 		C42BB93E28DA21E700006F71 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -698,6 +710,7 @@
 		D4BB0E5628D8717000E28C3D /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				5ED5C0ED2920E66300192444 /* Tracker */,
 				D4A8302D2906496000B2655A /* API */,
 				D4D4893F28E42CAE0012D67E /* Firebase */,
 			);
@@ -878,6 +891,7 @@
 				CB3236F428D881A10098AF14 /* RxSwift */,
 				CBE0414428DA10090098395E /* RxDataSources */,
 				C42BB93F28DA21E700006F71 /* RxCocoa */,
+				5E4C5C71291D00AF0093B69C /* Mixpanel */,
 			);
 			productName = UniBuzz;
 			productReference = D4BB0E2028D86F7900E28C3D /* Unibuzz.app */;
@@ -912,6 +926,7 @@
 				D4BB0E6B28D8751200E28C3D /* XCRemoteSwiftPackageReference "SnapKit" */,
 				CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */,
 				CBE0414328DA10090098395E /* XCRemoteSwiftPackageReference "RxDataSources" */,
+				5E4C5C70291D00AF0093B69C /* XCRemoteSwiftPackageReference "mixpanel-swift" */,
 			);
 			productRefGroup = D4BB0E2128D86F7900E28C3D /* Products */;
 			projectDirPath = "";
@@ -1018,6 +1033,7 @@
 				D46F0E28291AB3F0002DA4E0 /* AvatarGenerator.swift in Sources */,
 				D46F0E29291AB3F0002DA4E0 /* WebViewController.swift in Sources */,
 				D46F0E2A291AB3F0002DA4E0 /* UIViewExtension.swift in Sources */,
+				5ED5C0EF2920E67700192444 /* TrackerService.swift in Sources */,
 				D46F0E2B291AB3F0002DA4E0 /* AppDelegate.swift in Sources */,
 				D46F0E2C291AB3F0002DA4E0 /* SceneDelegate.swift in Sources */,
 			);
@@ -1229,6 +1245,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		5E4C5C70291D00AF0093B69C /* XCRemoteSwiftPackageReference "mixpanel-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mixpanel/mixpanel-swift";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 		CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/ReactiveX/RxSwift";
@@ -1264,6 +1288,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		5E4C5C71291D00AF0093B69C /* Mixpanel */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 5E4C5C70291D00AF0093B69C /* XCRemoteSwiftPackageReference "mixpanel-swift" */;
+			productName = Mixpanel;
+		};
 		C42BB93F28DA21E700006F71 /* RxCocoa */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CB3236F328D881A10098AF14 /* XCRemoteSwiftPackageReference "RxSwift" */;

@@ -7,11 +7,13 @@
 
 import UIKit
 import Firebase
+import Mixpanel
 
 class FeedViewController: UIViewController {
     
     //MARK: - Variables
     private var viewModel = FeedViewModel()
+    private var trackerService = TrackerService.shared
 
     //MARK: - Properties
     lazy var feedTableView: UITableView = {
@@ -138,6 +140,11 @@ extension FeedViewController: CellDelegate {
         let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
         let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel, parentIndexPath: index)
         self.navigationController?.pushViewController(commentsVC, animated: true)
+        var properties = [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(feed.content)"
+        ]
+        trackerService.trackEvent(event: "Open detail buzz", properties: properties)
     }
     
     func didTapUpVote(model: UpvoteModel, index: IndexPath) {
@@ -193,6 +200,11 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel, parentIndexPath: indexPath)
         commentsVC.updateDataSourceDelegate = self.viewModel
         self.navigationController?.pushViewController(commentsVC, animated: true)
+        var properties = [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(feed.content)"
+        ]
+        trackerService.trackEvent(event: "Open detail buzz", properties: properties)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
