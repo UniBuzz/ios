@@ -35,7 +35,8 @@ class FeedTableViewCell: UITableViewCell {
     weak var commentCellDelegate: CommentCellDelegate?
     weak var updateDataSourceDelegate: UpdateDataSourceDelegate?
     weak var optionButtonPressedDelegate: OptionButtonPressedDelegate?
-    static var cellIdentifier: String = "FeedCell"
+    internal static var cellIdentifier: String = "FeedCell"
+    private var trackerService = TrackerService.shared
     private let actionContainerColor:UIColor = .rgb(red: 83, green: 83, blue: 83)
     internal var userUID: String = ""
     internal var parentFeed: String = ""
@@ -261,10 +262,12 @@ class FeedTableViewCell: UITableViewCell {
         // need to make it safer without force unwrap!!!
         updateDataSourceDelegate?.update(newData: cellViewModel!.feed, index: indexPath)
         
-        Mixpanel.mainInstance().track(event: event, properties: [
+        var properties = [
             "from": "\(Auth.auth().currentUser?.uid ?? "")",
             "buzz_content": "\(feed.content)"
-        ])
+        ]
+        
+        trackerService.trackEvent(event: event, properties: properties)
     }
     
     @objc func commentCountPressed() {
@@ -280,10 +283,11 @@ class FeedTableViewCell: UITableViewCell {
 //        print("send message to this id: \(feed.uid)")
         cellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
         commentCellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
-        Mixpanel.mainInstance().track(event: "Tap Message from Buzz", properties: [
+        var properties = [
             "from": "\(Auth.auth().currentUser?.uid ?? "")",
             "buzz_content": "\(feed.content)"
-        ])
+        ]
+        trackerService.trackEvent(event: "Tap Message from Buzz", properties: properties)
     }
     
     //MARK: - Functions
@@ -490,21 +494,19 @@ class FeedTableViewCell: UITableViewCell {
     @objc func showOrHideComments() {
         guard let cellViewModel = cellViewModel else { return }
         guard let indexPath = indexPath else { return }
-        var event = ""
+        var properties = [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(cellViewModel.feed.content)"
+        ]
         isCommentShown.toggle()
         if isCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
             commentCellDelegate?.didTapShowComments(from: cellViewModel.feed.feedID, at: indexPath)
-            event = "Show comments"
+            trackerService.trackEvent(event: "Show comments", properties: properties)
         } else {
             showOrHideCommentsButton.setTitle("See more", for: .normal)
             commentCellDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)
         }
-        
-        Mixpanel.mainInstance().track(event: event, properties: [
-            "from": "\(Auth.auth().currentUser?.uid ?? "")",
-            "buzz_content": "\(cellViewModel.feed.content)"
-        ])
     }
     
     @objc func handleOption() {
