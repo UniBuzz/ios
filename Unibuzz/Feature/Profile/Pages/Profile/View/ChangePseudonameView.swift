@@ -36,6 +36,7 @@ class ChangePseudonameView: UIView {
     
     var changeButton: UIButton = {
         let button = UIButton()
+        button.isEnabled = false
         button.setTitleColor(.eternalBlack, for: .normal)
         button.setTitleColor(.heavenlyWhite, for: .disabled)
         button.setBackgroundColor(color: .creamyYellow, forState: .normal)
