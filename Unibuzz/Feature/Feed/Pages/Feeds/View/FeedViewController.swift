@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import Mixpanel
 
 class FeedViewController: UIViewController {
     
@@ -44,11 +45,17 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNavigationItems()
+        viewModel.setInitialQuery()
         viewModel.fetchData()
         feedTableView.delegate = self
         feedTableView.dataSource = self
         viewModel.delegate = self
         hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.trackEvent(event: "open_hive", properties: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -100,7 +107,7 @@ class FeedViewController: UIViewController {
         }
         
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(refresh), for: .allEvents)
         feedTableView.refreshControl = refreshControl
     }
     
@@ -124,6 +131,7 @@ class FeedViewController: UIViewController {
     }
     
     @objc func refresh() {
+        viewModel.setInitialQuery()
         viewModel.fetchData()
     }
 }
@@ -136,6 +144,11 @@ extension FeedViewController: CellDelegate {
         let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
         let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel, parentIndexPath: index)
         self.navigationController?.pushViewController(commentsVC, animated: true)
+        var properties = [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(feed.content)"
+        ]
+        viewModel.trackEvent(event: "click_post", properties: properties)
     }
     
     func didTapUpVote(model: UpvoteModel, index: IndexPath) {
@@ -180,6 +193,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row], indexPath: indexPath)
         cell.cellDelegate = self
         cell.updateDataSourceDelegate = self.viewModel
+        cell.optionButtonPressedDelegate = self
         cell.setNeedsLayout()
         return cell
     }
@@ -190,6 +204,17 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel, parentIndexPath: indexPath)
         commentsVC.updateDataSourceDelegate = self.viewModel
         self.navigationController?.pushViewController(commentsVC, animated: true)
+        var properties = [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(feed.content)"
+        ]
+        viewModel.trackEvent(event: "click_post", properties: properties)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == viewModel.feedsData.count - 2 {
+            viewModel.paginate()
+        }
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -212,5 +237,114 @@ extension FeedViewController: FeedViewModelDelegate {
     }
 }
 
+enum ReportFor {
+    case account, buzz
+}
 
+extension FeedViewController: OptionButtonPressedDelegate {
+    func optionButtonHandler(feed: Buzz) {
+        let alert = UIAlertController(title: feed.userName, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Report this post", style: .destructive, handler: { _ in
+            self.dismiss(animated: true) {
+                self.reportAction(feed: feed, reportFor: .buzz)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Report Account", style: .destructive, handler: { _ in
+            self.dismiss(animated: true) {
+                self.reportAction(feed: feed, reportFor: .account)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Block", style: .default, handler: { _ in
+            self.dismiss(animated: true) {
+                self.viewModel.blockAccount(feed: feed)
+            }
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true,completion: nil)
+    }
+    
+    func reportAction(feed: Buzz, reportFor: ReportFor) {
+        let alert = UIAlertController(title: nil, message: "Mengapa ingin melapor?", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Spam", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Spam", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Spam", feed: feed)
+                    }
+                    self.afterReportAction(feed: feed)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Nudity atau aktivitas seksual", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Nudity atau aktivitas seksual", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Nudity atau aktivitas seksual", feed: feed)
+                    }
+                    self.afterReportAction(feed: feed)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Informasi yang salah", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Informasi yang salah", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Informasi yang salah", feed: feed)
+                    }
+                    self.afterReportAction(feed: feed)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Bullying atau pelecehan", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Bullying atau pelecehan", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Bullying atau pelecehan", feed: feed)
+                    }
+                    self.afterReportAction(feed: feed)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Ujaran kebencian", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Ujaran kebencian", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Ujaran kebencian", feed: feed)
+                    }
+                    self.afterReportAction(feed: feed)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Doxing", style: .default, handler: { _ in
+                self.dismiss(animated: true) {
+                    switch reportFor {
+                    case .account:
+                        self.viewModel.reportUser(reason: "Doxing", feed: feed)
+                    case .buzz:
+                        self.viewModel.reportHive(reason: "Doxing", feed: feed)
+                    }
+                    self.afterReportAction(feed: feed)
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Batalkan", style: .cancel, handler: nil))
+        self.present(alert, animated: true,completion: nil)
+    }
+    
+    func afterReportAction(feed: Buzz) {
+        let alert = UIAlertController(title: nil, message: "Terima kasih, laporan kamu sudah masuk. Ini langkah berikutnya yang bisa kamu lakukan", preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Blokir Akun", style: .destructive, handler: { _ in
+                self.dismiss(animated: true) {
+                    self.viewModel.blockAccount(feed: feed)
+                    
+                }
+        }))
+        alert.addAction(UIAlertAction(title: "Selesai", style: .cancel, handler: nil))
+        self.present(alert, animated: true,completion: nil)
+    }
+}
 

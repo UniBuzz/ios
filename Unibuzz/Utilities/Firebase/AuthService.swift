@@ -47,14 +47,17 @@ class AuthService {
                         if let result = result {
                             
                             let uid = result.user.uid
-                            let data = ["email" : email,
-                                        "pseudoname" : pseudo,
+                            let data = ["pseudoname" : pseudo,
                                         "uid" : uid,
                                         "university": university,
                                         "upvotedFeeds": [],
+                                        "honey": 1,
                                         "randomInt": Int.random(in: 0...9)] as [String : Any]
                             
                             self.saveUserToCollection(uid: uid, university:university, data: data) { err in
+                                completion(.failure(err))
+                            }
+                            self.createSelfRecentMessage(uid: uid, university: university) { err in
                                 completion(.failure(err))
                             }
                             self.saveUserUniversity(uid: uid, university: university) { err in
@@ -73,6 +76,21 @@ class AuthService {
     private func saveUserToCollection(uid: String, university: String, data: [String:Any], completion: @escaping (Error) -> Void){
         
         db.collection("university").document(university).collection("users").document(uid).setData(data) { error in
+            if let error = error {
+                completion(error)
+            }
+        }
+        
+    }
+    
+    private func createSelfRecentMessage(uid: String, university: String, completion: @escaping (Error) -> Void){
+        
+        let data = ["text": "empty chat",
+                    "fromId": uid,
+                    "toId": uid,
+                    "timestamp": Timestamp(date:Date())] as [String : Any]
+        
+        db.collection("university").document(university).collection("messages").document(uid).collection("recent-messages").document(uid).setData(data) { error in
             if let error = error {
                 completion(error)
             }

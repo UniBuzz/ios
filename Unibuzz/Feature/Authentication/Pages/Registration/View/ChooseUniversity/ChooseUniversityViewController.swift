@@ -26,15 +26,16 @@ class ChooseUniversityViewController: UIViewController {
         let button = ButtonThemes(buttonTitle: "Tell us about yourself")
         button.backgroundColor = .storm
         button.isEnabled = false
-        button.setTitleColor(.heavenlyWhite, for: .normal)
+        button.setTitleColor(.cloudSky, for: .normal)
+        button.alpha = 1
         button.addTarget(self, action: #selector(nextPage), for: .touchUpInside)
         return button
     }()
     
     private lazy var alreadyHaveAccountButton: UIButton = {
         let button = UIButton(type: .system)
-        let attributedTitle = NSMutableAttributedString(string: "Already have an account?", attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.white])
-        attributedTitle.append(NSAttributedString(string: " Log In", attributes: [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: UIColor.white]))
+        let attributedTitle = NSMutableAttributedString(string: "Already have an account? ", attributes: [.font: UIFont.systemFont(ofSize: 16), .foregroundColor: UIColor.heavenlyWhite])
+        attributedTitle.append(NSAttributedString(string: "Login", attributes: [.font: UIFont.boldSystemFont(ofSize: 16), .foregroundColor: UIColor.creamyYellow, .underlineStyle: NSUnderlineStyle.single.rawValue]))
         
         button.setAttributedTitle(attributedTitle, for: .normal)
         button.addTarget(self, action: #selector(handleBackLogin), for: .touchUpInside)

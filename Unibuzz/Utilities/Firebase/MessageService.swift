@@ -110,7 +110,6 @@ class MessageService {
                 completion (nil, nil)
             }
         }
-        
     }
     
     internal func uploadMessage(_ message: String, to user: User, completion: ((Error?)->Void)?) async {
@@ -130,8 +129,6 @@ class MessageService {
         case let .failure(error):
             fatalError("Error with message \(error)")
         }
-        
-        
         
         dbMessage.document(currentUseruid).collection(user.uid).addDocument(data: data) { _ in
             self.dbMessage.document(user.uid).collection(self.currentUseruid).addDocument(data: data, completion: completion)

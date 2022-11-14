@@ -53,7 +53,7 @@ class RegistrationViewController: UIViewController {
         button.addTarget(self, action: #selector(handleRegistration), for: .touchUpInside)
         button.backgroundColor = .storm
         button.isEnabled = false
-        button.setTitleColor(.heavenlyWhite, for: .normal)
+        button.setTitleColor(.cloudSky, for: .normal)
         return button
     }()
     
@@ -278,7 +278,7 @@ class RegistrationViewController: UIViewController {
     }
     
     @objc func agreeWithTermsAction() {
-        if let url = URL(string: "https://www.unibuzz.app/terms-and-conditions"), UIApplication.shared.canOpenURL(url) {
+        if let url = URL(string: "https://www.unibuzz.app/syarat-dan-ketentuan"), UIApplication.shared.canOpenURL(url) {
            if #available(iOS 10.0, *) {
               UIApplication.shared.open(url, options: [:], completionHandler: nil)
            } else {

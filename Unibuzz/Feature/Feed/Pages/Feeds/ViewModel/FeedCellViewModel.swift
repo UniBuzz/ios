@@ -6,8 +6,19 @@
 //
 
 import Foundation
+import Mixpanel
 
-struct FeedCellViewModel {
+class FeedCellViewModel {
+    let trackerService = TrackerService.shared
     var feed: Buzz
     var indexPath: IndexPath
+    
+    init(feed: Buzz, indexPath: IndexPath) {
+        self.feed = feed
+        self.indexPath = indexPath
+    }
+    
+    func trackEvent(event: String, properties: Properties?) {
+        trackerService.trackEvent(event: event, properties: properties)
+    }
 }

@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import Mixpanel
 
 class ChatViewModel {
     
@@ -15,6 +16,16 @@ class ChatViewModel {
     private var bottomSnapshot: QueryDocumentSnapshot?
     private var topSnapshot: QueryDocumentSnapshot?
     private var service = MessageService.shared
+    private var reportService = ReportService.shared
+    private var trackerService = TrackerService.shared
+    public var isThisUserBlocked: Bool = false
+    public var isChatBlocked: Bool = false
+    
+    var chooseReportOption: (() -> Void)?
+    var doneReporting: (() -> Void)?
+    var showBlockModal: (() -> Void)?
+    var showUnblockModal: (() -> Void)?
+    var cannotSendMessageBlocked: (() -> Void)?
     
     func readMessage() {
         if let user {
@@ -63,20 +74,85 @@ class ChatViewModel {
     }
     
     func uploadMessage(_ message: String, completion: @escaping() -> Void) {
-        if let user {
-            Task.init {
-                await service.uploadMessage(message, to: user) { error in
-                    if let error {
-                        print("DEBUG: Error sending message with error \(error.localizedDescription)")
+        checkUserBlocked {
+            if self.isChatBlocked {
+                self.cannotSendMessageBlocked?()
+                completion()
+            } else {
+                if let user = self.user {
+                    Task.init {
+                        await self.service.uploadMessage(message, to: user) { error in
+                            if let error {
+                                print("DEBUG: Error sending message with error \(error.localizedDescription)")
+                            }
+                            let properties = ["from": Auth.auth().currentUser?.uid ?? "",
+                                              "targetUseruid": user.uid]
+                            self.trackerService.trackEvent(event: "message_user", properties: properties)
+                            completion()
+                        }
                     }
-                    completion()
+                    
+                } else {
+                    print("DEBUG: Error no user")
                 }
             }
-            
-        } else {
-            print("DEBUG: Error no user")
         }
+        
 
+    }
+    
+    func reportUser(reason: String) {
+        let properties = ["targetuid": user?.uid ?? "",
+                          "reason": reason]
+        reportService.reportUser(targetUid: user?.uid ?? "", reportFrom: .Message, reportReason: reason)
+        trackEvent(event: "report_account_message", properties: properties)
+        doneReporting?()
+    }
+    
+    func blockUser(completion: @escaping() -> Void) {
+        Task.init {
+            await reportService.blockUser(targetUid: user?.uid ?? "")
+            trackEvent(event: "block_user_message", properties: ["targetuid": user?.uid ?? ""])
+            checkUserBlocked {
+                completion()
+            }
+        }
+    }
+    
+    func unblockUser(completion: @escaping()->Void) {
+        Task.init {
+            await reportService.unblockUser(targetUid: user?.uid ?? "")
+            checkUserBlocked {
+                completion()
+            }
+        }
+    }
+    
+    func reportClicked() {
+        if isThisUserBlocked{
+            showUnblockModal?()
+            
+        }else {
+            showBlockModal?()
+        }
+    }
+    
+    func checkUserBlocked(completion: @escaping() -> Void) {
+        Task.init {
+            let userIsBlocked = await reportService.isThisUserBlocked(target: user?.uid ?? "")
+            self.isThisUserBlocked = userIsBlocked
+            let userBLockedMe = await reportService.amIBlockedByThisUser(target: user?.uid ?? "")
+            if userIsBlocked || userBLockedMe {
+                self.isChatBlocked = true
+            } else {
+                self.isChatBlocked = false
+            }
+            completion()
+        }
+    }
+    
+    func trackEvent(event: String, properties: Properties?) {
+        trackerService.trackEvent(event: event, properties: properties)
     }
     
 }

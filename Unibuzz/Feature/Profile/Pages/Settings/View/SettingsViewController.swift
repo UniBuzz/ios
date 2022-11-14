@@ -94,15 +94,19 @@ extension SettingsViewController: UITableViewDelegate{
             navigationController?.pushViewController(deletePage, animated: true)
         } else if indexPath.row == 0{
             var webPage = WebViewController()
-            webPage.link = "https://www.unibuzz.app/community-guidelines"
+            webPage.link = "https://www.unibuzz.app/panduan-komunitas"
             navigationController?.pushViewController(webPage, animated: true)
         } else if indexPath.row == 1{
             var webPage = WebViewController()
-            webPage.link = "https://www.unibuzz.app/Privacy-and-safety"
+            webPage.link = "https://www.unibuzz.app/privasi-dan-keamanan"
+            navigationController?.pushViewController(webPage, animated: true)
+        } else if indexPath.row == 2{
+            var webPage = WebViewController()
+            webPage.link = "https://www.unibuzz.app/syarat-dan-ketentuan"
             navigationController?.pushViewController(webPage, animated: true)
         } else {
             var webPage = WebViewController()
-            webPage.link = "https://www.unibuzz.app"
+            webPage.link = "https://www.unibuzz.app/hubungi-kami"
             navigationController?.pushViewController(webPage, animated: true)
         }
 

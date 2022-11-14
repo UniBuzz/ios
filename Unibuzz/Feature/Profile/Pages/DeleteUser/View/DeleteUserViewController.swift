@@ -90,6 +90,7 @@ class DeleteUserViewController: UIViewController {
         let alert = UIAlertController(title: nil, message: "Enter your password to delete", preferredStyle: .alert)
         alert.addTextField { (textField: UITextField) in
             textField.placeholder = "Password"
+            textField.isSecureTextEntry = true
          }
         let ok = UIAlertAction(title: "Delete",
                                style: .destructive) { (action: UIAlertAction) in

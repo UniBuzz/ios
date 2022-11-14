@@ -42,6 +42,7 @@ class ProfileViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         getUserHoney()
+        viewModel.trackEvent(event: "click_profile", properties: nil)
     }
     
     //MARK: - Functions
@@ -137,6 +138,7 @@ class ProfileViewController: UIViewController {
     
     @objc func honeyButtonPressed(sender: UITapGestureRecognizer) {
         let honey = HoneyViewController()
+        viewModel.trackEvent(event: "click_dropofhoney", properties: ["totalhoney": viewModel.totalHoney])
         navigationController?.pushViewController(honey, animated: true)
     }
     
@@ -144,6 +146,7 @@ class ProfileViewController: UIViewController {
         let changePseudo = ChangePseudonameViewController()
         changePseudo.delegate = self
         changePseudo.userPseudonameText.text = usernameText.text
+        viewModel.trackEvent(event: "change_pseudoname", properties: ["totalhoney": viewModel.totalHoney])
         navigationController?.pushViewController(changePseudo, animated: true)
     }
 }

@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import Mixpanel
 
 protocol CellDelegate: AnyObject {
     func didTapMessage(uid: String, pseudoname: String)
@@ -23,13 +24,19 @@ protocol UpdateDataSourceDelegate: AnyObject {
     func update(newData: Buzz, index: IndexPath)
 }
 
+protocol OptionButtonPressedDelegate: AnyObject {
+    func optionButtonHandler(feed: Buzz)
+}
+
 class FeedTableViewCell: UITableViewCell {
     
     //MARK: - Variables
     weak var cellDelegate: CellDelegate?
     weak var commentCellDelegate: CommentCellDelegate?
     weak var updateDataSourceDelegate: UpdateDataSourceDelegate?
-    static var cellIdentifier: String = "FeedCell"
+    weak var optionButtonPressedDelegate: OptionButtonPressedDelegate?
+    internal static var cellIdentifier: String = "FeedCell"
+    private var trackerService = TrackerService.shared
     private let actionContainerColor:UIColor = .rgb(red: 83, green: 83, blue: 83)
     internal var userUID: String = ""
     internal var parentFeed: String = ""
@@ -44,6 +51,7 @@ class FeedTableViewCell: UITableViewCell {
         avatarImageView.heightAnchor.constraint(equalToConstant: 22).isActive = true
         avatarImageView.widthAnchor.constraint(equalToConstant: 22).isActive = true
         avatarImageView.layer.cornerRadius = 22/2
+        avatarImageView.nameLabel.font = .systemFont(ofSize: 9)
         return avatarImageView
     }()
     
@@ -88,6 +96,7 @@ class FeedTableViewCell: UITableViewCell {
         let label = UILabel()
         label.text = "sampleUserName"
         label.textColor = .heavenlyWhite
+        label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         return label
     }()
@@ -135,7 +144,10 @@ class FeedTableViewCell: UITableViewCell {
     lazy var optionButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .bold)), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.widthAnchor.constraint(equalToConstant: 22).isActive = true
         button.tintColor = .heavenlyWhite
+        button.addTarget(self, action: #selector(handleOption), for: .touchUpInside)
         return button
     }()
     
@@ -185,7 +197,15 @@ class FeedTableViewCell: UITableViewCell {
     private let spacer5 = UIView.spacer(size: 20, for: .horizontal)
     private let spacer6 = UIView.spacer(size: 5, for: .horizontal)
     private let spacer7 = UIView.spacer(size: 20, for: .horizontal)
-    private let seperator = UIView()
+    
+    private lazy var seperator: UIView = {
+        let seperator = UIView()
+        seperator.translatesAutoresizingMaskIntoConstraints = false
+        return seperator
+    }()
+    
+    private var seperatorConstraint = NSLayoutConstraint()
+    
     private let gradient = CAGradientLayer()
     private let shape = CAShapeLayer()
     private let gradientBorder1 = UIColor(red: 255/255, green: 243/255, blue: 143/255, alpha: 0.3)
@@ -194,6 +214,9 @@ class FeedTableViewCell: UITableViewCell {
     //MARK: - Lifecycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        seperatorConstraint = NSLayoutConstraint(item: seperator, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 3)
+        seperatorConstraint.isActive = true
     }
     
     required init?(coder: NSCoder) {
@@ -211,16 +234,26 @@ class FeedTableViewCell: UITableViewCell {
         guard let indexPath = indexPath else { return }
         guard let feed = cellViewModel?.feed else { return }
         
+        var event = ""
+        let properties = [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(feed.content)",
+            "buzzid": "\(feed.uid)"
+        ]
         if isUpvoted {
             cellViewModel?.feed.upvoteCount -= 1
             cellViewModel?.feed.isUpvoted = false
             upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
             upVoteCount.tintColor = .heavenlyWhite
+            event = "Downvote"
+            cellViewModel?.trackEvent(event: "cancel_upvote_\(feed.buzzType.rawValue)", properties: properties)
         } else {
             cellViewModel?.feed.upvoteCount += 1
             cellViewModel?.feed.isUpvoted = true
             upVoteCount.setTitleColor(.creamyYellow, for: .normal)
             upVoteCount.tintColor = .creamyYellow
+            event = "Upvote"
+            cellViewModel?.trackEvent(event: "upvote_\(feed.buzzType.rawValue)", properties: properties)
         }
         if feed.buzzType == .feed {
             upVoteCountContainer.backgroundColor = actionContainerColor
@@ -250,6 +283,12 @@ class FeedTableViewCell: UITableViewCell {
 //        print("send message to this id: \(feed.uid)")
         cellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
         commentCellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
+        let properties = [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "targetUseruid": feed.uid,
+            "buzz_content": "\(feed.content)"
+        ]
+        trackerService.trackEvent(event: "direct_message", properties: properties)
     }
     
     //MARK: - Functions
@@ -329,7 +368,7 @@ class FeedTableViewCell: UITableViewCell {
         hstack1.addArrangedSubview(spacer6)
         hstack1.addArrangedSubview(userName)
         hstack1.addArrangedSubview(optionButton)
-//        hstack1.distribution = .fill
+        hstack1.distribution = .fillProportionally
         
         miniStack2.axis = .horizontal
         miniStack2.addArrangedSubview(upVoteCountContainer)
@@ -363,10 +402,12 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCount.isEnabled = false
             sendMessageButton.isHidden = true
             sendMessageButtonContainer.isHidden = true
+            optionButton.isHidden = true
         } else {
             upVoteCount.isEnabled = true
             sendMessageButton.isHidden = false
             sendMessageButtonContainer.isHidden = false
+            optionButton.isHidden = false
         }
 
         if feed.isUpvoted {
@@ -403,13 +444,6 @@ class FeedTableViewCell: UITableViewCell {
             seperator.removeFromSuperview()
         }
         
-        if addSeperator {
-            containerStack.addArrangedSubview(seperator)
-        } else {
-            containerStack.removeArrangedSubview(seperator)
-            seperator.removeFromSuperview()
-        }
-        
         switch feed.buzzType {
         case .feed:
             container.backgroundColor = .stoneGrey
@@ -420,7 +454,7 @@ class FeedTableViewCell: UITableViewCell {
             commentCountContainer.isHidden = false
             mainStack.removeArrangedSubview(showOrHideCommentsButton)
             showOrHideCommentsButton.removeFromSuperview()
-            seperator.heightAnchor.constraint(equalToConstant: 3).isActive = true
+            seperatorConstraint.constant = 3
         case .comment:
             container.backgroundColor = .clear
             container.layer.borderWidth = 0
@@ -428,7 +462,7 @@ class FeedTableViewCell: UITableViewCell {
             commentCountContainer.backgroundColor = .clear
             upVoteCountContainer.backgroundColor = .clear
             commentCountContainer.isHidden = false
-            seperator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+            seperatorConstraint.constant = 0.5
             if cellViewModel?.feed.commentCount != 0 {
                 mainStack.addArrangedSubview(showOrHideCommentsButton)
             } else {
@@ -445,7 +479,7 @@ class FeedTableViewCell: UITableViewCell {
             mainStack.removeArrangedSubview(showOrHideCommentsButton)
             showOrHideCommentsButton.removeFromSuperview()
             containerWithSpacer.insertArrangedSubview(spacer5, at: 0)
-            seperator.heightAnchor.constraint(equalToConstant: 0.5).isActive = true
+            seperatorConstraint.constant = 0.5
         }
     }
     
@@ -461,16 +495,25 @@ class FeedTableViewCell: UITableViewCell {
     @objc func showOrHideComments() {
         guard let cellViewModel = cellViewModel else { return }
         guard let indexPath = indexPath else { return }
+        var properties = [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(cellViewModel.feed.content)"
+        ]
         isCommentShown.toggle()
         if isCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
             commentCellDelegate?.didTapShowComments(from: cellViewModel.feed.feedID, at: indexPath)
+            trackerService.trackEvent(event: "load_more_comment", properties: properties)
         } else {
             showOrHideCommentsButton.setTitle("See more", for: .normal)
             commentCellDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)
         }
     }
     
+    @objc func handleOption() {
+        guard let feed = cellViewModel?.feed else { return }
+        optionButtonPressedDelegate?.optionButtonHandler(feed: feed)
+    }
 }
 
 extension UIView {

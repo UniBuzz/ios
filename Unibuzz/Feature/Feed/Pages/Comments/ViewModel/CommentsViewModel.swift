@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import Mixpanel
 
 enum CommentFrom {
     case feed
@@ -21,6 +22,8 @@ class CommentsViewModel {
     
     internal weak var delegate: CommentViewModelDelegate?
     private let service = FeedService.shared
+    private let reportService = ReportService.shared
+    private var trackerService = TrackerService.shared
     
     private var childCommentsCounter: [String: Int] = [:]
     internal var feedBuzzTapped: Buzz
@@ -62,20 +65,6 @@ class CommentsViewModel {
         }
     }
     
-    internal func _upvoteContent(buzzType: BuzzType, feedID: String) {
-        // yang gua tau = 1. parent, 2. repliedTo
-        Task.init {
-            switch buzzType {
-            case .feed:
-                break
-            case .comment:
-                break
-            case .childComment:
-                break
-            }
-        }
-    }
-    
     internal func replyComments(from: CommentFrom, commentContent: String, feedID: String) {
         Task.init {
             let results = await service.replyComments(from: from, commentContent: commentContent, feedID: feedID)
@@ -88,6 +77,8 @@ class CommentsViewModel {
                     DispatchQueue.main.async {
                         self.childCommentsCounter[response.1] = 0
                         self.comments.append(response.0)
+                        self.delegate?.reloadTableView()
+                        self.delegate?.scrollTableView(to: IndexPath(row: self.comments.count - 1, section: 0))
                     }
                 case let .anotherComment(anotherCommentID):
                     await self.incrementCommentCountForChildCommentFirebase(childCommentID: anotherCommentID)
@@ -166,7 +157,10 @@ class CommentsViewModel {
             case let .success(childComments):
                 self.childCommentsCounter[commentID] = childComments.count
                 self.comments.insert(contentsOf: childComments, at: index.row + 1)
-                DispatchQueue.main.async {             self.delegate?.reloadTableView() }
+                DispatchQueue.main.async {
+                    self.delegate?.reloadTableView()
+                    self.delegate?.scrollTableView(to: IndexPath(row: childComments.count + 1, section: 0))
+                }
             case .failure:
                 fatalError("Failed to get child comments")
             }
@@ -200,7 +194,40 @@ class CommentsViewModel {
         }
         
         self.delegate?.reloadTableView()
+        self.delegate?.scrollTableView(to: IndexPath(row: indexToInsert, section: 0))
         currentChildCount += 1
         childCommentsCounter[childComment.repliedFrom] = currentChildCount
+    }
+    
+    func reportUser(reason: String, feed: Buzz) {
+        if feed.buzzType == .feed {
+            reportService.reportUser(targetUid: feed.uid, reportFrom: .Buzz, reportReason: reason)
+        } else {
+            reportService.reportUser(targetUid: feed.uid, reportFrom: .Comment, reportReason: reason)
+        }
+    }
+    
+    func reportHive(reason: String, feed: Buzz) {
+        guard let currentUseruid = Auth.auth().currentUser?.uid else { return }
+        let reportBuzzModel = ReportBuzzModel(
+            uidBuzz: feed.feedID,
+            uidReporter: currentUseruid,
+            buzzType: feed.buzzType,
+            timeStamp: Int(Date().timeIntervalSince1970),
+            uidTarget: feed.uid
+        )
+        Task.init {
+            await reportService.reportBuzz(reportModel: reportBuzzModel, reportReason: reason)
+        }
+    }
+    
+    func blockAccount(targetAccountUid: String) {
+        Task.init {
+            await reportService.blockUser(targetUid: targetAccountUid)
+        }
+    }
+    
+    func trackEvent(event: String, properties: Properties?) {
+        trackerService.trackEvent(event: event, properties: properties)
     }
 }

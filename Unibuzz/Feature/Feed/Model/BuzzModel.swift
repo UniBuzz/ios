@@ -52,3 +52,11 @@ struct UpvoteModel {
     var posterID: String
 }
 
+struct ReportBuzzModel {
+    var uidBuzz: String
+    var uidReporter: String
+    var buzzType: BuzzType
+    var timeStamp: Int
+    var uidTarget: String
+}
+
