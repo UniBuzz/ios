@@ -35,17 +35,28 @@ class ConversationService {
         let query = ServiceConstant.COLLECTION_MESSAGES.document(uid).collection("recent-messages").order(by: "timestamp", descending: false)
 
         query.addSnapshotListener { snapshot, error in
-            snapshot?.documentChanges.forEach({ change in
-                let dictionary = change.document.data()
-                let message = Message(dictionary: dictionary)
+            if let snapshot {
+                snapshot.documentChanges.forEach({ change in
+                    let dictionary = change.document.data()
+                    let message = Message(dictionary: dictionary)
 
-                self.fetchUser(withUid: message.chatPartnerId) { user in
-                    let conversation = Conversation(user: user, message: message, unreadMessages: message.unreadMessages.count)
-                    conversations.append(conversation)
-                    
-                    completion(conversations)
-                }
-            })
+                    self.fetchUser(withUid: message.chatPartnerId) { user in
+                        let conversation = Conversation(user: user, message: message, unreadMessages: message.unreadMessages.count)
+                        if conversation.user.uid != uid {
+                            conversations.append(conversation)
+                        }
+                        completion(conversations)
+                    }
+                })
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3, execute: {
+                    self.fetchConversations { returnedConversations in
+                        completion(returnedConversations)
+                    }
+                })
+            }
+            
+            
         }
     }
 }
