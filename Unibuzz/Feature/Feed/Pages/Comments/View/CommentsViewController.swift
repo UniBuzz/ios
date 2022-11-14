@@ -274,7 +274,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
     func didTapComment(feed: Buzz, index: IndexPath) {
         self.infoLabelAboveTextField.text = "Replying to \(feed.userName)"
         self.commentTextField.becomeFirstResponder()
-        if !feed.isChildCommentShown {
+        if !feed.isChildCommentShown && feed.buzzType != .feed {
             commentsViewModel.showChildComment(from: feed.feedID, at: index)
         }
         commentsViewModel.indexTapped = index.row
