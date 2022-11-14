@@ -44,10 +44,8 @@ class TabBarViewController: UITabBarController {
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 self.presentGetHoney()
             }
-            fetchConversations()
-        } else {
-            fetchConversations()
         }
+        fetchConversations()
         
         
     }
