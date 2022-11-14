@@ -235,19 +235,25 @@ class FeedTableViewCell: UITableViewCell {
         guard let feed = cellViewModel?.feed else { return }
         
         var event = ""
-        
+        let properties = [
+            "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "buzz_content": "\(feed.content)",
+            "buzzid": "\(feed.uid)"
+        ]
         if isUpvoted {
             cellViewModel?.feed.upvoteCount -= 1
             cellViewModel?.feed.isUpvoted = false
             upVoteCount.setTitleColor(.heavenlyWhite, for: .normal)
             upVoteCount.tintColor = .heavenlyWhite
             event = "Downvote"
+            cellViewModel?.trackEvent(event: "cancel_upvote_\(feed.buzzType.rawValue)", properties: properties)
         } else {
             cellViewModel?.feed.upvoteCount += 1
             cellViewModel?.feed.isUpvoted = true
             upVoteCount.setTitleColor(.creamyYellow, for: .normal)
             upVoteCount.tintColor = .creamyYellow
             event = "Upvote"
+            cellViewModel?.trackEvent(event: "upvote_\(feed.buzzType.rawValue)", properties: properties)
         }
         if feed.buzzType == .feed {
             upVoteCountContainer.backgroundColor = actionContainerColor
@@ -262,13 +268,6 @@ class FeedTableViewCell: UITableViewCell {
         
         // need to make it safer without force unwrap!!!
         updateDataSourceDelegate?.update(newData: cellViewModel!.feed, index: indexPath)
-        
-        var properties = [
-            "from": "\(Auth.auth().currentUser?.uid ?? "")",
-            "buzz_content": "\(feed.content)"
-        ]
-        
-        trackerService.trackEvent(event: event, properties: properties)
     }
     
     @objc func commentCountPressed() {
@@ -284,11 +283,12 @@ class FeedTableViewCell: UITableViewCell {
 //        print("send message to this id: \(feed.uid)")
         cellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
         commentCellDelegate?.didTapMessage(uid: feed.uid, pseudoname: feed.userName)
-        var properties = [
+        let properties = [
             "from": "\(Auth.auth().currentUser?.uid ?? "")",
+            "targetUseruid": feed.uid,
             "buzz_content": "\(feed.content)"
         ]
-        trackerService.trackEvent(event: "Tap Message from Buzz", properties: properties)
+        trackerService.trackEvent(event: "direct_message", properties: properties)
     }
     
     //MARK: - Functions
@@ -503,7 +503,7 @@ class FeedTableViewCell: UITableViewCell {
         if isCommentShown {
             showOrHideCommentsButton.setTitle("See less", for: .normal)
             commentCellDelegate?.didTapShowComments(from: cellViewModel.feed.feedID, at: indexPath)
-            trackerService.trackEvent(event: "Show comments", properties: properties)
+            trackerService.trackEvent(event: "load_more_comment", properties: properties)
         } else {
             showOrHideCommentsButton.setTitle("See more", for: .normal)
             commentCellDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)

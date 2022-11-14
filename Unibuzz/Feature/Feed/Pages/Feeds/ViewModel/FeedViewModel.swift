@@ -6,9 +6,8 @@
 //
 
 import Foundation
-import RxSwift
-import RxRelay
 import Firebase
+import Mixpanel
 
 protocol ViewModelDelegate: AnyObject {
     func reloadTableView()
@@ -22,6 +21,7 @@ class FeedViewModel: UpdateDataSourceDelegate {
 
     private let service = FeedService.shared
     private let reportService = ReportService.shared
+    private var trackerService = TrackerService.shared
     weak var delegate: FeedViewModelDelegate?
     
     public var feedsData = [Buzz]()
@@ -93,6 +93,12 @@ class FeedViewModel: UpdateDataSourceDelegate {
         } else {
             reportService.reportUser(targetUid: feed.uid, reportFrom: .Comment, reportReason: reason)
         }
+        let properties = ["buzzid": feed.feedID,
+                          "buzztype": feed.buzzType.rawValue,
+                          "buzzcreatorid": feed.uid,
+                          "reason": reason,
+                          "buzz_content": feed.content]
+        trackEvent(event: "report_account_hive", properties: properties)
     }
     
     func reportHive(reason: String, feed: Buzz) {
@@ -104,15 +110,31 @@ class FeedViewModel: UpdateDataSourceDelegate {
             timeStamp: Int(Date().timeIntervalSince1970),
             uidTarget: feed.uid
         )
+        let properties = ["buzzid": feed.feedID,
+                          "buzztype": feed.buzzType.rawValue,
+                          "buzzcreatorid": feed.uid,
+                          "reason": reason,
+                          "buzz_content": feed.content]
         Task.init {
             await reportService.reportBuzz(reportModel: reportBuzzModel, reportReason: reason)
+            trackEvent(event: "report_post", properties: properties)
         }
     }
     
-    func blockAccount(targetAccountUid: String) {
+    func blockAccount(feed: Buzz) {
+        let properties = ["buzzid": feed.feedID,
+                          "buzztype": feed.buzzType.rawValue,
+                          "buzzcreatorid": feed.uid,
+                          "buzz_content": feed.content]
         Task.init {
-            await reportService.blockUser(targetUid: targetAccountUid)
+            await reportService.blockUser(targetUid: feed.uid)
+            trackEvent(event: "block_user", properties: properties)
         }
+        
+    }
+    
+    func trackEvent(event: String,properties: Properties?) {
+        trackerService.trackEvent(event: event, properties: properties)
     }
     
 }

@@ -13,7 +13,6 @@ class FeedViewController: UIViewController {
     
     //MARK: - Variables
     private var viewModel = FeedViewModel()
-    private var trackerService = TrackerService.shared
 
     //MARK: - Properties
     lazy var feedTableView: UITableView = {
@@ -52,6 +51,11 @@ class FeedViewController: UIViewController {
         feedTableView.dataSource = self
         viewModel.delegate = self
         hideKeyboardWhenTappedAround()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.trackEvent(event: "open_hive", properties: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -144,7 +148,7 @@ extension FeedViewController: CellDelegate {
             "from": "\(Auth.auth().currentUser?.uid ?? "")",
             "buzz_content": "\(feed.content)"
         ]
-        trackerService.trackEvent(event: "Open detail buzz", properties: properties)
+        viewModel.trackEvent(event: "click_post", properties: properties)
     }
     
     func didTapUpVote(model: UpvoteModel, index: IndexPath) {
@@ -204,7 +208,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
             "from": "\(Auth.auth().currentUser?.uid ?? "")",
             "buzz_content": "\(feed.content)"
         ]
-        trackerService.trackEvent(event: "Open detail buzz", properties: properties)
+        viewModel.trackEvent(event: "click_post", properties: properties)
     }
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -252,7 +256,7 @@ extension FeedViewController: OptionButtonPressedDelegate {
         }))
         alert.addAction(UIAlertAction(title: "Block", style: .default, handler: { _ in
             self.dismiss(animated: true) {
-                self.viewModel.blockAccount(targetAccountUid: feed.uid)
+                self.viewModel.blockAccount(feed: feed)
             }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -269,7 +273,7 @@ extension FeedViewController: OptionButtonPressedDelegate {
                     case .buzz:
                         self.viewModel.reportHive(reason: "Spam", feed: feed)
                     }
-                    self.afterReportAction(targetUserUid: feed.uid)
+                    self.afterReportAction(feed: feed)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Nudity atau aktivitas seksual", style: .default, handler: { _ in
@@ -280,7 +284,7 @@ extension FeedViewController: OptionButtonPressedDelegate {
                     case .buzz:
                         self.viewModel.reportHive(reason: "Nudity atau aktivitas seksual", feed: feed)
                     }
-                    self.afterReportAction(targetUserUid: feed.uid)
+                    self.afterReportAction(feed: feed)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Informasi yang salah", style: .default, handler: { _ in
@@ -291,7 +295,7 @@ extension FeedViewController: OptionButtonPressedDelegate {
                     case .buzz:
                         self.viewModel.reportHive(reason: "Informasi yang salah", feed: feed)
                     }
-                    self.afterReportAction(targetUserUid: feed.uid)
+                    self.afterReportAction(feed: feed)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Bullying atau pelecehan", style: .default, handler: { _ in
@@ -302,7 +306,7 @@ extension FeedViewController: OptionButtonPressedDelegate {
                     case .buzz:
                         self.viewModel.reportHive(reason: "Bullying atau pelecehan", feed: feed)
                     }
-                    self.afterReportAction(targetUserUid: feed.uid)
+                    self.afterReportAction(feed: feed)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Ujaran kebencian", style: .default, handler: { _ in
@@ -313,7 +317,7 @@ extension FeedViewController: OptionButtonPressedDelegate {
                     case .buzz:
                         self.viewModel.reportHive(reason: "Ujaran kebencian", feed: feed)
                     }
-                    self.afterReportAction(targetUserUid: feed.uid)
+                    self.afterReportAction(feed: feed)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Doxing", style: .default, handler: { _ in
@@ -324,18 +328,18 @@ extension FeedViewController: OptionButtonPressedDelegate {
                     case .buzz:
                         self.viewModel.reportHive(reason: "Doxing", feed: feed)
                     }
-                    self.afterReportAction(targetUserUid: feed.uid)
+                    self.afterReportAction(feed: feed)
                 }
         }))
         alert.addAction(UIAlertAction(title: "Batalkan", style: .cancel, handler: nil))
         self.present(alert, animated: true,completion: nil)
     }
     
-    func afterReportAction(targetUserUid: String) {
+    func afterReportAction(feed: Buzz) {
         let alert = UIAlertController(title: nil, message: "Terima kasih, laporan kamu sudah masuk. Ini langkah berikutnya yang bisa kamu lakukan", preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Blokir Akun", style: .destructive, handler: { _ in
                 self.dismiss(animated: true) {
-                    self.viewModel.blockAccount(targetAccountUid: targetUserUid)
+                    self.viewModel.blockAccount(feed: feed)
                     
                 }
         }))
