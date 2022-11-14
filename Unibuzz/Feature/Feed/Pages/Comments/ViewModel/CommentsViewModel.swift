@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import Mixpanel
 
 enum CommentFrom {
     case feed
@@ -22,6 +23,7 @@ class CommentsViewModel {
     internal weak var delegate: CommentViewModelDelegate?
     private let service = FeedService.shared
     private let reportService = ReportService.shared
+    private var trackerService = TrackerService.shared
     
     private var childCommentsCounter: [String: Int] = [:]
     internal var feedBuzzTapped: Buzz
@@ -223,5 +225,9 @@ class CommentsViewModel {
         Task.init {
             await reportService.blockUser(targetUid: targetAccountUid)
         }
+    }
+    
+    func trackEvent(event: String, properties: Properties?) {
+        trackerService.trackEvent(event: event, properties: properties)
     }
 }

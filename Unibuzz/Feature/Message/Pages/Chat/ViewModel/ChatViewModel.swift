@@ -7,6 +7,7 @@
 
 import Foundation
 import Firebase
+import Mixpanel
 
 class ChatViewModel {
     
@@ -16,6 +17,7 @@ class ChatViewModel {
     private var topSnapshot: QueryDocumentSnapshot?
     private var service = MessageService.shared
     private var reportService = ReportService.shared
+    private var trackerService = TrackerService.shared
     public var isThisUserBlocked: Bool = false
     public var isChatBlocked: Bool = false
     
@@ -83,6 +85,9 @@ class ChatViewModel {
                             if let error {
                                 print("DEBUG: Error sending message with error \(error.localizedDescription)")
                             }
+                            let properties = ["from": Auth.auth().currentUser?.uid ?? "",
+                                              "targetUseruid": user.uid]
+                            self.trackerService.trackEvent(event: "message_user", properties: properties)
                             completion()
                         }
                     }
@@ -97,13 +102,17 @@ class ChatViewModel {
     }
     
     func reportUser(reason: String) {
+        let properties = ["targetuid": user?.uid ?? "",
+                          "reason": reason]
         reportService.reportUser(targetUid: user?.uid ?? "", reportFrom: .Message, reportReason: reason)
+        trackEvent(event: "report_account_message", properties: properties)
         doneReporting?()
     }
     
     func blockUser(completion: @escaping() -> Void) {
         Task.init {
             await reportService.blockUser(targetUid: user?.uid ?? "")
+            trackEvent(event: "block_user_message", properties: ["targetuid": user?.uid ?? ""])
             checkUserBlocked {
                 completion()
             }
@@ -140,6 +149,10 @@ class ChatViewModel {
             }
             completion()
         }
+    }
+    
+    func trackEvent(event: String, properties: Properties?) {
+        trackerService.trackEvent(event: event, properties: properties)
     }
     
 }

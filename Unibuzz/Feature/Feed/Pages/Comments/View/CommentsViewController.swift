@@ -17,7 +17,6 @@ class CommentsViewController: UIViewController {
     private var commentsViewModel: CommentsViewModel
     internal weak var updateDataSourceDelegate: UpdateDataSourceDelegate?
     internal var parentIndexPath: IndexPath
-    private var trackerService = TrackerService.shared
     
     lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -133,7 +132,7 @@ class CommentsViewController: UIViewController {
                 "from": "\(Auth.auth().currentUser?.uid ?? "")",
                 "buzz_content": "\(commentText)"
             ]
-            trackerService.trackEvent(event: "reply comment", properties: properties)
+            commentsViewModel.trackEvent(event: "comment_post", properties: properties)
         }
     }
     

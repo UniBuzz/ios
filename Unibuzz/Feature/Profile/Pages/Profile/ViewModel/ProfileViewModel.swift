@@ -7,10 +7,14 @@
 
 import Foundation
 import Firebase
+import Mixpanel
 
 class ProfileViewModel {
     
     private let service = ProfileService.shared
+    private let trackerService = TrackerService.shared
+    
+    var totalHoney = 0
     
     func fetchCurrentUser(completion: @escaping(User)->Void) {
         let uid = Auth.auth().currentUser?.uid
@@ -23,6 +27,7 @@ class ProfileViewModel {
         let result = await service.getUserHoney()
         switch result {
         case let .success(honey):
+            totalHoney = honey
             return honey
         case let .failure(error):
             print(error)
@@ -38,4 +43,7 @@ class ProfileViewModel {
         await service.changeUserPseudoname(newName: newName)
     }
     
+    internal func trackEvent(event: String, properties: Properties?) {
+        trackerService.trackEvent(event: event, properties: properties)
+    }
 }
