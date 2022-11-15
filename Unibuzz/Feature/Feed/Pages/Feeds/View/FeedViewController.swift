@@ -45,7 +45,6 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNavigationItems()
-        viewModel.setInitialQuery()
         viewModel.fetchData()
         feedTableView.delegate = self
         feedTableView.dataSource = self
@@ -124,14 +123,13 @@ class FeedViewController: UIViewController {
         let notificationButton = UIBarButtonItem(image: UIImage(systemName: "bell"), style: .plain, target: self, action: #selector(notificationButtonPressed))
         searchButton.tintColor = .heavenlyWhite
         notificationButton.tintColor = .heavenlyWhite
-        navigationItem.rightBarButtonItems = [notificationButton, searchButton]
+//        navigationItem.rightBarButtonItems = [notificationButton, searchButton]
         self.navigationController?.navigationBar.backgroundColor = .midnights
         self.navigationItem.titleView = title
         self.navigationController?.navigationBar.barTintColor = .midnights
     }
     
     @objc func refresh() {
-        viewModel.setInitialQuery()
         viewModel.fetchData()
     }
 }
