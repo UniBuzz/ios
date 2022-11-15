@@ -19,6 +19,7 @@ class DropOfHoneyView: UIView {
     private lazy var honeyImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "honey")
+        image.contentMode = .scaleAspectFit
         return image
     }()
     private lazy var subtitleLabel: UILabel = {
@@ -79,44 +80,44 @@ class DropOfHoneyView: UIView {
     
     
     func configureUI() {
+
+        addSubview(startButton)
+        startButton.snp.makeConstraints { make in
+            make.bottom.equalToSuperview().offset(-40)
+            make.leading.trailing.equalToSuperview().inset(32)
+            make.height.equalTo(50)
+        }
+        
+        addSubview(descriptionLabel)
+        descriptionLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(startButton.snp.top).offset(-30)
+            make.leading.trailing.equalToSuperview().inset(32)
+        }
+        
+        addSubview(honeyInfo)
+        honeyInfo.snp.makeConstraints { make in
+            make.bottom.equalTo(descriptionLabel.snp.top).offset(-30)
+            make.leading.trailing.equalToSuperview().inset(32)
+            make.height.equalTo(70)
+        }
+        
+        addSubview(subtitleLabel)
+        subtitleLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(honeyInfo.snp.top).offset(-40)
+            make.leading.trailing.equalToSuperview()
+        }
+        
         addSubview(headingLabel)
         headingLabel.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview()
             make.top.equalToSuperview().offset(100)
         }
-        
+
         addSubview(honeyImage)
         honeyImage.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.top.equalTo(headingLabel.snp.bottom).offset(20)
-            make.width.equalTo(114)
-            make.height.equalTo(136)
-        }
-        
-        addSubview(subtitleLabel)
-        subtitleLabel.snp.makeConstraints { make in
-            make.top.equalTo(honeyImage.snp.bottom).offset(40)
-            make.leading.trailing.equalToSuperview()
-        }
-        
-        addSubview(honeyInfo)
-        honeyInfo.snp.makeConstraints { make in
-            make.top.equalTo(subtitleLabel.snp.bottom).offset(20)
-            make.leading.trailing.equalToSuperview().inset(32)
-            make.height.equalTo(70)
-        }
-        
-        addSubview(descriptionLabel)
-        descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(honeyInfo.snp.bottom).offset(40)
-            make.leading.trailing.equalToSuperview().inset(32)
-        }
-        
-        addSubview(startButton)
-        startButton.snp.makeConstraints { make in
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(100)
-            make.leading.trailing.equalToSuperview().inset(32)
-            make.height.equalTo(50)
+            make.bottom.equalTo(subtitleLabel.snp.top).offset(-20)
         }
         
     }
