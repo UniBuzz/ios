@@ -85,7 +85,7 @@ extension ChooseUniversityView: UICollectionViewDelegate,UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         currentSelected = indexPath.row
         if currentSelected == viewModel?.universityList.count {
-            if let url = URL(string: "https://www.unibuzz.app/"), UIApplication.shared.canOpenURL(url) {
+            if let url = URL(string: "https://www.unibuzz.app/tambah-universitas"), UIApplication.shared.canOpenURL(url) {
                if #available(iOS 10.0, *) {
                   UIApplication.shared.open(url, options: [:], completionHandler: nil)
                } else {
