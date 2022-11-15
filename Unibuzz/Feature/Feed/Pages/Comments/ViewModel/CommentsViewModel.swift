@@ -143,6 +143,7 @@ class CommentsViewModel {
             updatedParentBuzz.isUpvoted = true
         }
         comments.insert(updatedParentBuzz, at: index.row)
+        delegate?.reloadTableView()
     }
     
     internal func showChildComment(from commentID: String, at index: IndexPath) {

@@ -30,6 +30,7 @@ class FeedViewModel: UpdateDataSourceDelegate {
     
     internal func fetchData() {
         Task.init {
+            query = service.dbFeeds.order(by: "timestamp", descending: true).limit(to: 15)
             let feedsResult = await service.getFeedsData(query: query)
             switch feedsResult {
             case let .success(responseArray):
@@ -83,10 +84,6 @@ class FeedViewModel: UpdateDataSourceDelegate {
         delegate?.reloadTableView()
     }
     
-    func setInitialQuery() {
-        query = service.dbFeeds.order(by: "timestamp", descending: true).limit(to: 15)
-    }
-  
     func reportUser(reason: String, feed: Buzz) {
         if feed.buzzType == .feed {
             reportService.reportUser(targetUid: feed.uid, reportFrom: .Buzz, reportReason: reason)
