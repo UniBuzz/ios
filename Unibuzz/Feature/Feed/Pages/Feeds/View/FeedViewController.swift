@@ -191,7 +191,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
         cell.cellViewModel = self.viewModel.getDataForFeedCell(feed: item[indexPath.row], indexPath: indexPath)
         cell.cellDelegate = self
         cell.updateDataSourceDelegate = self.viewModel
-        cell.optionButtonPressedDelegate = self
+        cell.header.optionButtonPressedDelegate = self
         cell.setNeedsLayout()
         return cell
     }
