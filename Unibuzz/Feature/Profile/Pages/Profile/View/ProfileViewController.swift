@@ -28,6 +28,12 @@ class ProfileViewController: UIViewController {
     }()
 
     let avatarImageView = AvatarGenerator(pseudoname: "", background: 0)
+    let honeyJarImage: UIImageView = {
+       let imageView = UIImageView()
+        imageView.image = UIImage(named: "Honey_jar")
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
     
     let dropsOfHoney = DropsOfHoneyView()
     let changePseudo = ChangePseudonameView()
@@ -49,6 +55,7 @@ class ProfileViewController: UIViewController {
     func configureUI() {
         self.view.addSubview(avatarImageView)
         self.view.addSubview(usernameText)
+        self.view.addSubview(honeyJarImage)
         self.view.addSubview(dropsOfHoney)
         self.view.addSubview(changePseudo)
 
@@ -61,18 +68,24 @@ class ProfileViewController: UIViewController {
         avatarImageView.snp.makeConstraints { make in
             make.width.height.equalTo(80)
             make.centerX.equalTo(self.view)
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(30    )
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(15)
         }
         
         usernameText.snp.makeConstraints { make in
             make.centerX.equalTo(self.view)
-            make.top.equalTo(avatarImageView.snp.bottom).offset(20)
+            make.top.equalTo(avatarImageView.snp.bottom).offset(10)
+        }
+        
+        honeyJarImage.snp.makeConstraints { make in
+            make.top.equalTo(usernameText.snp.bottom).offset(15)
+            make.centerX.equalToSuperview()
+            make.height.equalTo(120)
         }
         
         let honeyTapGesture = UITapGestureRecognizer(target: self, action: #selector(honeyButtonPressed))
         dropsOfHoney.addGestureRecognizer(honeyTapGesture)
         dropsOfHoney.snp.makeConstraints { make in
-            make.top.equalTo(usernameText.snp.bottom).offset(30)
+            make.top.equalTo(honeyJarImage.snp.bottom).offset(15)
             make.leading.equalToSuperview().offset(20)
             make.trailing.equalToSuperview().offset(-20)
             make.height.equalTo(62)
@@ -121,8 +134,12 @@ class ProfileViewController: UIViewController {
             DispatchQueue.main.async {
                 if honey < 200 {
                     self.changePseudo.changeButton.isEnabled = false
+                    self.changePseudo.currentHoneyLabel.textColor = .cloudSky
+                    self.changePseudo.neededHoneyLabel.textColor = .cloudSky
                 } else {
                     self.changePseudo.changeButton.isEnabled = true
+                    self.changePseudo.currentHoneyLabel.textColor = .creamyYellow
+                    self.changePseudo.neededHoneyLabel.textColor = .creamyYellow
                 }
                 self.changePseudo.currentHoneyLabel.text = String(honey)
                 self.dropsOfHoney.totalHoneyLabel.text = String(honey)

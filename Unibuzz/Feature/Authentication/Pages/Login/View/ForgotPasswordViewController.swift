@@ -13,7 +13,7 @@ class ForgotPasswordViewController: UIViewController {
     //MARK: - Properties
     private let headingLabel: UILabel = {
         let label = UILabel()
-        label.text = "Forgot Password"
+        label.text = "Forgot Password?"
         label.textColor = .creamyYellow
         label.font = .systemFont(ofSize: 25, weight: .bold)
         return label
