@@ -73,6 +73,7 @@ class FeedService {
             let values = ["userName": user.pseudoname,
                           "uid": user.uid,
                           "timestamp": Int(Date().timeIntervalSince1970),
+                          "hotTimestamp": Int(Date().timeIntervalSince1970),
                           "content": content,
                           "upvoteCount": 0,
                           "commentCount": 0,
@@ -138,21 +139,37 @@ class FeedService {
         do {
             let documentSnapshot = try await documentReference.getDocument()
             if documentSnapshot.exists {
+                var blacklistUpvoteHotTimestamp: [String] = []
                 guard let data = documentSnapshot.data() else { return }
                 guard var userIDs = data["userIDs"] as? [String] else { return }
+                if let blacklistData = data["blacklistUpvoteHotTimestamp"] as? [String]{
+                    blacklistUpvoteHotTimestamp = blacklistData
+                }
                 if !userIDs.contains(currentUseruid) {
                     userIDs.append(currentUseruid)
                 } else {
                     userIDs.removeAll { $0 == currentUseruid }
                 }
-                try await documentReference.updateData([
-                    "userIDs": userIDs,
-                    "upvotedCount": userIDs.count
-                ])
+                if !blacklistUpvoteHotTimestamp.contains(currentUseruid) {
+                    blacklistUpvoteHotTimestamp.append(currentUseruid)
+                    try await documentReference.updateData([
+                        "userIDs": userIDs,
+                        "upvotedCount": userIDs.count,
+                        "hotTimestamp": Int(Date().timeIntervalSince1970),
+                        "blacklistUpvoteHotTimestamp": blacklistUpvoteHotTimestamp
+                    ])
+                } else {
+                    try await documentReference.updateData([
+                        "userIDs": userIDs,
+                        "upvotedCount": userIDs.count,
+                    ])
+                }
+                
             } else {
                 try await documentReference.updateData([
                     "userIDs": [currentUseruid],
-                    "upvotedCount": 1
+                    "upvotedCount": 1,
+                    "blacklistUpvoteHotTimestamp": [currentUseruid]
                 ])
             }
         } catch {
@@ -334,6 +351,7 @@ class FeedService {
                 let buzz = Buzz(dictionary: values, feedID: id)
                 do {
                     try await docRef.setData(values)
+                    await updateHotTimestampComment(documentReference: dbFeeds.document(feedID))
                     return .success((buzz, id))
                 } catch {
                     fatalError("Could not set comment data \(error)")
@@ -342,11 +360,40 @@ class FeedService {
                 values["buzzType"] = BuzzType.childComment.rawValue
                 values["repliedFrom"] = anotherCommentID
                 dbFeeds.document(feedID).collection(commentsCollectionKey).document(anotherCommentID).collection(commentsCollectionKey).addDocument(data: values)
+                await updateHotTimestampComment(documentReference: dbFeeds.document(feedID))
                 let buzz = Buzz(dictionary: values, feedID: feedID)
                 return .success((buzz, ""))
             }
         case .failure:
             fatalError("Could not get user data")
+        }
+    }
+    
+    private func updateHotTimestampComment(documentReference: DocumentReference) async {
+        let currentUseruid = Auth.auth().currentUser?.uid ?? ""
+        do {
+            let documentSnapshot = try await documentReference.getDocument()
+            if documentSnapshot.exists {
+                var blacklistCommentHotTimestamp: [String] = []
+                guard let data = documentSnapshot.data() else { return }
+                if let blacklistData = data["blacklistCommentHotTimestamp"] as? [String]{
+                    blacklistCommentHotTimestamp = blacklistData
+                }
+                if !blacklistCommentHotTimestamp.contains(currentUseruid) {
+                    blacklistCommentHotTimestamp.append(currentUseruid)
+                    try await documentReference.updateData([
+                        "hotTimestamp": Int(Date().timeIntervalSince1970),
+                        "blacklistCommentHotTimestamp": blacklistCommentHotTimestamp
+                    ])
+                }
+            } else {
+                try await documentReference.updateData([
+                    "hotTimestamp": Int(Date().timeIntervalSince1970),
+                    "blacklistCommentHotTimestamp": [currentUseruid]
+                ])
+            }
+        } catch {
+            fatalError("Could not update Hotness from comment for feed")
         }
     }
     
