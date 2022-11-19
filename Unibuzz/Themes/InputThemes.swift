@@ -16,7 +16,7 @@ class InputThemes {
             let label = UILabel()
             label.text = title
             label.font = UIFont.boldSystemFont(ofSize: 16)
-            label.textColor = .cloudSky
+            label.textColor = .white
             return label
         }()
         
