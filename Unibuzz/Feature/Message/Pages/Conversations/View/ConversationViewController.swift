@@ -40,7 +40,7 @@ class ConversationViewController: UIViewController {
     func configureNavigationItems(){
         let title = UILabel()
         title.frame = .init(x: 0, y: 0, width: view.frame.width, height: 50)
-        title.text = "Message"
+        title.text = "Chat"
         title.font = UIFont.boldSystemFont(ofSize: 25)
         title.textAlignment = .left
         title.textColor = .heavenlyWhite
