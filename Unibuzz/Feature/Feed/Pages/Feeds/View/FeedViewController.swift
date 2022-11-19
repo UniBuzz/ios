@@ -13,6 +13,7 @@ class FeedViewController: UIViewController {
     
     //MARK: - Variables
     private var viewModel = FeedViewModel()
+    private var previousTabBarIndex = 0
 
     //MARK: - Properties
     lazy var feedTableView: UITableView = {
@@ -49,6 +50,7 @@ class FeedViewController: UIViewController {
         feedTableView.delegate = self
         feedTableView.dataSource = self
         viewModel.delegate = self
+        tabBarController?.delegate = self
         hideKeyboardWhenTappedAround()
     }
     
@@ -343,6 +345,16 @@ extension FeedViewController: OptionButtonPressedDelegate {
         }))
         alert.addAction(UIAlertAction(title: "Selesai", style: .cancel, handler: nil))
         self.present(alert, animated: true,completion: nil)
+    }
+}
+
+extension FeedViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        let tabBarIndex = tabBarController.selectedIndex
+        if tabBarIndex == previousTabBarIndex {
+            feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
+        }
+        previousTabBarIndex = tabBarIndex
     }
 }
 
