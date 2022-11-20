@@ -34,7 +34,6 @@ class FeedTableViewCell: UITableViewCell {
     weak var cellDelegate: CellDelegate?
     weak var commentCellDelegate: CommentCellDelegate?
     weak var updateDataSourceDelegate: UpdateDataSourceDelegate?
-    weak var optionButtonPressedDelegate: OptionButtonPressedDelegate?
     internal static var cellIdentifier: String = "FeedCell"
     private var trackerService = TrackerService.shared
     private let actionContainerColor:UIColor = .rgb(red: 83, green: 83, blue: 83)
@@ -45,28 +44,20 @@ class FeedTableViewCell: UITableViewCell {
     internal var indexPath: IndexPath?
     internal var addSeperator: Bool = false
     
-    private var avatarImageView: AvatarGenerator = {
-        let avatarImageView = AvatarGenerator(pseudoname: "", background: 0)
-        avatarImageView.translatesAutoresizingMaskIntoConstraints = false
-        avatarImageView.heightAnchor.constraint(equalToConstant: 22).isActive = true
-        avatarImageView.widthAnchor.constraint(equalToConstant: 22).isActive = true
-        avatarImageView.layer.cornerRadius = 22/2
-        avatarImageView.nameLabel.font = .systemFont(ofSize: 9)
-        return avatarImageView
-    }()
-    
     internal var cellViewModel: FeedCellViewModel? {
         didSet {
             guard let cellViewModel = cellViewModel else { return }
-            userName.text = cellViewModel.feed.userName
+            let timeStampConversion = TimeStampConversion(buzzTimeStamp: cellViewModel.feed.timestamp)
+            header.userName.text = cellViewModel.feed.userName
             content.text = cellViewModel.feed.content
+            header.timeLabel.text = timeStampConversion.getFormattedComponents()
             commentCount.setTitle("  \(cellViewModel.feed.commentCount)", for: .normal)
             upVoteCount.setTitle(" \(cellViewModel.feed.upvoteCount)", for: .normal)
             isUpvoted = cellViewModel.feed.isUpvoted
             indexPath = cellViewModel.indexPath
             isCommentShown = cellViewModel.feed.isChildCommentShown
-            avatarImageView.pseudoname = cellViewModel.feed.userName
-            avatarImageView.randomInt = cellViewModel.feed.randomIntBackground
+            header.avatarImageView.pseudoname = cellViewModel.feed.userName
+            header.avatarImageView.randomInt = cellViewModel.feed.randomIntBackground
             self.configureCell()
         }
     }
@@ -91,16 +82,7 @@ class FeedTableViewCell: UITableViewCell {
         containerStack.axis = .vertical
         return containerStack
     }()
-    
-    lazy var userName: UILabel = {
-        let label = UILabel()
-        label.text = "sampleUserName"
-        label.textColor = .heavenlyWhite
-        label.textAlignment = .left
-        label.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
-        return label
-    }()
-    
+
     lazy var content: UILabel = {
         let label = UILabel()
         label.text = "sampleContent"
@@ -141,16 +123,6 @@ class FeedTableViewCell: UITableViewCell {
         return button
     }()
     
-    lazy var optionButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "ellipsis", withConfiguration: UIImage.SymbolConfiguration(pointSize: 22, weight: .bold)), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.widthAnchor.constraint(equalToConstant: 22).isActive = true
-        button.tintColor = .heavenlyWhite
-        button.addTarget(self, action: #selector(handleOption), for: .touchUpInside)
-        return button
-    }()
-    
     lazy var sendMessageButtonContainer: UIView = {
         let view = UIView()
         view.backgroundColor = actionContainerColor
@@ -183,6 +155,8 @@ class FeedTableViewCell: UITableViewCell {
         showOrHideCommentsButton.addTarget(self, action: #selector(showOrHideComments), for: .touchUpInside)
         return showOrHideCommentsButton
     }()
+
+    internal let header = HeaderCell()
     
     internal var beeImageView: UIImageView?
     
@@ -197,6 +171,7 @@ class FeedTableViewCell: UITableViewCell {
     private let spacer5 = UIView.spacer(size: 20, for: .horizontal)
     private let spacer6 = UIView.spacer(size: 5, for: .horizontal)
     private let spacer7 = UIView.spacer(size: 20, for: .horizontal)
+    private let spacer8 = UIView.spacer(size: 100, for: .horizontal)
     
     private lazy var seperator: UIView = {
         let seperator = UIView()
@@ -310,6 +285,8 @@ class FeedTableViewCell: UITableViewCell {
             }
         }
         
+        self.contentView.addSubview(header)
+        
         self.contentView.addSubview(containerStack)
         containerStack.snp.makeConstraints { make in
             make.top.equalTo(self.contentView.snp.top)
@@ -363,13 +340,6 @@ class FeedTableViewCell: UITableViewCell {
             make.bottom.equalTo(sendMessageButtonContainer).offset(-4)
         }
         
-        hstack1.axis = .horizontal
-        hstack1.addArrangedSubview(avatarImageView)
-        hstack1.addArrangedSubview(spacer6)
-        hstack1.addArrangedSubview(userName)
-        hstack1.addArrangedSubview(optionButton)
-        hstack1.distribution = .fillProportionally
-        
         miniStack2.axis = .horizontal
         miniStack2.addArrangedSubview(upVoteCountContainer)
         miniStack2.addArrangedSubview(commentCountContainer)
@@ -381,7 +351,9 @@ class FeedTableViewCell: UITableViewCell {
         hstack2.addArrangedSubview(sendMessageButtonContainer)
         hstack2.distribution = .equalSpacing
         
-        mainStack.addArrangedSubview(hstack1)
+        guard let viewModel = cellViewModel else { return }
+        header.viewModel = viewModel
+        mainStack.addArrangedSubview(header)
         mainStack.addArrangedSubview(content)
         mainStack.addArrangedSubview(hstack2)
         
@@ -402,12 +374,12 @@ class FeedTableViewCell: UITableViewCell {
             upVoteCount.isEnabled = false
             sendMessageButton.isHidden = true
             sendMessageButtonContainer.isHidden = true
-            optionButton.isHidden = true
+            header.optionButton.isHidden = true
         } else {
             upVoteCount.isEnabled = true
             sendMessageButton.isHidden = false
             sendMessageButtonContainer.isHidden = false
-            optionButton.isHidden = false
+            header.optionButton.isHidden = false
         }
 
         if feed.isUpvoted {
@@ -508,11 +480,6 @@ class FeedTableViewCell: UITableViewCell {
             showOrHideCommentsButton.setTitle("See more", for: .normal)
             commentCellDelegate?.didTapHideComments(from: cellViewModel.feed.feedID, at: indexPath)
         }
-    }
-    
-    @objc func handleOption() {
-        guard let feed = cellViewModel?.feed else { return }
-        optionButtonPressedDelegate?.optionButtonHandler(feed: feed)
     }
 }
 

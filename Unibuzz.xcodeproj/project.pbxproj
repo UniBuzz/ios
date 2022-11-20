@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5E26B18529287FCA00147B60 /* TimeStampConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26B18429287FCA00147B60 /* TimeStampConversion.swift */; };
+		5E26B1882929241300147B60 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26B1872929241300147B60 /* HeaderCell.swift */; };
+		5E26B18A2929242100147B60 /* FooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26B1892929242100147B60 /* FooterCell.swift */; };
 		5E4C5C72291D00AF0093B69C /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 5E4C5C71291D00AF0093B69C /* Mixpanel */; };
 		5ED5C0EF2920E67700192444 /* TrackerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C0EE2920E67700192444 /* TrackerService.swift */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
@@ -105,6 +108,9 @@
 
 /* Begin PBXFileReference section */
 		5E0F380528F4139200FDE867 /* FeedCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedCellViewModel.swift; sourceTree = "<group>"; };
+		5E26B18429287FCA00147B60 /* TimeStampConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimeStampConversion.swift; path = UniBuzz/Helper/TimeStampConversion.swift; sourceTree = SOURCE_ROOT; };
+		5E26B1872929241300147B60 /* HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeaderCell.swift; path = UniBuzz/Feature/Feed/Pages/Feeds/View/Components/HeaderCell.swift; sourceTree = SOURCE_ROOT; };
+		5E26B1892929242100147B60 /* FooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FooterCell.swift; path = UniBuzz/Feature/Feed/Pages/Feeds/View/Components/FooterCell.swift; sourceTree = SOURCE_ROOT; };
 		5E36F645290806A3009AB387 /* BeeBackgroundTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BeeBackgroundTableViewCell.swift; path = UniBuzz/Feature/Feed/Pages/Feeds/View/BeeBackgroundTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		5E7B726528FFBE54003265A7 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
@@ -213,6 +219,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5E26B1862929240800147B60 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5E26B1872929241300147B60 /* HeaderCell.swift */,
+				5E26B1892929242100147B60 /* FooterCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		5ED5C0ED2920E66300192444 /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
@@ -547,6 +562,7 @@
 		CBE0413E28D948CC0098395E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				5E26B1862929240800147B60 /* Components */,
 				CB83311B28D8BEC400F6ED1B /* FeedViewController.swift */,
 				5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */,
 				5E36F645290806A3009AB387 /* BeeBackgroundTableViewCell.swift */,
@@ -689,6 +705,7 @@
 			children = (
 				CBE0415028DB6F1E0098395E /* ColorExtension.swift */,
 				D4F7CF8F28F05099004C33EB /* UIViewExtension.swift */,
+				5E26B18429287FCA00147B60 /* TimeStampConversion.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -957,6 +974,7 @@
 			files = (
 				D46F0DDD291AB3F0002DA4E0 /* OnboardingViewModel.swift in Sources */,
 				D46F0DDE291AB3F0002DA4E0 /* OnboardingSlides.swift in Sources */,
+				5E26B1882929241300147B60 /* HeaderCell.swift in Sources */,
 				D46F0DDF291AB3F0002DA4E0 /* OnboardingViewController.swift in Sources */,
 				D46F0DE0291AB3F0002DA4E0 /* OnboardingViewCell.swift in Sources */,
 				D46F0DE1291AB3F0002DA4E0 /* DropOfHoneyView.swift in Sources */,
@@ -972,6 +990,7 @@
 				D46F0DEB291AB3F0002DA4E0 /* SettingsViewModel.swift in Sources */,
 				D46F0DEC291AB3F0002DA4E0 /* SettingsViewController.swift in Sources */,
 				D46F0DED291AB3F0002DA4E0 /* SettingsItemViewCell.swift in Sources */,
+				5E26B18A2929242100147B60 /* FooterCell.swift in Sources */,
 				D46F0DEE291AB3F0002DA4E0 /* LogoutViewCell.swift in Sources */,
 				D46F0DEF291AB3F0002DA4E0 /* ProfileViewModel.swift in Sources */,
 				D46F0DF0291AB3F0002DA4E0 /* ProfileViewController.swift in Sources */,
@@ -1035,6 +1054,7 @@
 				D46F0E2A291AB3F0002DA4E0 /* UIViewExtension.swift in Sources */,
 				5ED5C0EF2920E67700192444 /* TrackerService.swift in Sources */,
 				D46F0E2B291AB3F0002DA4E0 /* AppDelegate.swift in Sources */,
+				5E26B18529287FCA00147B60 /* TimeStampConversion.swift in Sources */,
 				D46F0E2C291AB3F0002DA4E0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

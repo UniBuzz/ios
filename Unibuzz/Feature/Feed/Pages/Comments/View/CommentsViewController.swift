@@ -238,7 +238,7 @@ extension CommentsViewController: UITableViewDelegate, UITableViewDataSource, Co
                         
         let item = commentsViewModel.comments[indexPath.row]
         cell.commentCellDelegate = self
-        cell.optionButtonPressedDelegate = self
+        cell.header.optionButtonPressedDelegate = self
         cell.indexPath = indexPath
         cell.parentFeed = commentsViewModel.feedBuzzTapped.feedID
         cell.userUID = uid
