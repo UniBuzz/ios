@@ -85,8 +85,10 @@ class UniversityViewCell: UICollectionViewCell {
         if isSelected {
             universityImage.layer.borderWidth = 1.5
             universityImage.layer.borderColor = UIColor.white.cgColor
+            universityName.textColor = .creamyYellow
         } else {
             universityImage.layer.borderWidth = 0
+            universityName.textColor = .heavenlyWhite
         }
     }
     
