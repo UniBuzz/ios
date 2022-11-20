@@ -10,6 +10,7 @@
 		5E26B18529287FCA00147B60 /* TimeStampConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26B18429287FCA00147B60 /* TimeStampConversion.swift */; };
 		5E26B1882929241300147B60 /* HeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26B1872929241300147B60 /* HeaderCell.swift */; };
 		5E26B18A2929242100147B60 /* FooterCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26B1892929242100147B60 /* FooterCell.swift */; };
+		5E26B18C2929EE7900147B60 /* Toggle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E26B18B2929EE7900147B60 /* Toggle.swift */; };
 		5E4C5C72291D00AF0093B69C /* Mixpanel in Frameworks */ = {isa = PBXBuildFile; productRef = 5E4C5C71291D00AF0093B69C /* Mixpanel */; };
 		5ED5C0EF2920E67700192444 /* TrackerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ED5C0EE2920E67700192444 /* TrackerService.swift */; };
 		C42BB94028DA21E700006F71 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = C42BB93F28DA21E700006F71 /* RxCocoa */; };
@@ -111,6 +112,7 @@
 		5E26B18429287FCA00147B60 /* TimeStampConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = TimeStampConversion.swift; path = UniBuzz/Helper/TimeStampConversion.swift; sourceTree = SOURCE_ROOT; };
 		5E26B1872929241300147B60 /* HeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HeaderCell.swift; path = UniBuzz/Feature/Feed/Pages/Feeds/View/Components/HeaderCell.swift; sourceTree = SOURCE_ROOT; };
 		5E26B1892929242100147B60 /* FooterCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = FooterCell.swift; path = UniBuzz/Feature/Feed/Pages/Feeds/View/Components/FooterCell.swift; sourceTree = SOURCE_ROOT; };
+		5E26B18B2929EE7900147B60 /* Toggle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Toggle.swift; path = UniBuzz/Feature/Feed/Pages/Feeds/View/Components/Toggle.swift; sourceTree = SOURCE_ROOT; };
 		5E36F645290806A3009AB387 /* BeeBackgroundTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = BeeBackgroundTableViewCell.swift; path = UniBuzz/Feature/Feed/Pages/Feeds/View/BeeBackgroundTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		5E7B726528FFBE54003265A7 /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		5ED5331E28F6BE82009BDB0D /* FeedTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedTableViewCell.swift; sourceTree = "<group>"; };
@@ -224,6 +226,7 @@
 			children = (
 				5E26B1872929241300147B60 /* HeaderCell.swift */,
 				5E26B1892929242100147B60 /* FooterCell.swift */,
+				5E26B18B2929EE7900147B60 /* Toggle.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1054,6 +1057,7 @@
 				D46F0E2A291AB3F0002DA4E0 /* UIViewExtension.swift in Sources */,
 				5ED5C0EF2920E67700192444 /* TrackerService.swift in Sources */,
 				D46F0E2B291AB3F0002DA4E0 /* AppDelegate.swift in Sources */,
+				5E26B18C2929EE7900147B60 /* Toggle.swift in Sources */,
 				5E26B18529287FCA00147B60 /* TimeStampConversion.swift in Sources */,
 				D46F0E2C291AB3F0002DA4E0 /* SceneDelegate.swift in Sources */,
 			);
