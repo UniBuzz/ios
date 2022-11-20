@@ -17,7 +17,7 @@ class ChooseUniversityViewController: UIViewController {
     private lazy var universityView = ChooseUniversityView()
     private lazy var chooseUni: UILabel = {
         let label = UILabel()
-        label.text = "Choose your University"
+        label.text = "Choose your university"
         label.textColor = .heavenlyWhite
         label.font = .systemFont(ofSize: 24, weight: .bold)
         return label
