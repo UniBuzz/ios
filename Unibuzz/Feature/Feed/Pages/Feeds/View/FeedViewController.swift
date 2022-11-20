@@ -16,7 +16,7 @@ class FeedViewController: UIViewController {
     private var previousTabBarIndex = 0
 
     //MARK: - Properties
-    lazy var feedTableView: UITableView = {
+    private lazy var feedTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(FeedTableViewCell.self, forCellReuseIdentifier: FeedTableViewCell.cellIdentifier)
         tableView.separatorStyle = .none
@@ -24,14 +24,14 @@ class FeedViewController: UIViewController {
         return tableView
     }()
     
-    lazy var addFeedButtonContainer: UIView = {
+    private lazy var addFeedButtonContainer: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 56/2
         view.backgroundColor = .creamyYellow
         return view
     }()
     
-    lazy var addFeedButton: UIButton = {
+    private lazy var addFeedButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "plus", withConfiguration: UIImage.SymbolConfiguration(pointSize: 32, weight: .regular)), for: .normal)
         button.tintColor = .eternalBlack
@@ -39,7 +39,10 @@ class FeedViewController: UIViewController {
         return button
     }()
     
-    let refreshControl = UIRefreshControl()
+    private let toggleHotAndNew = Toggle()
+    
+    private let refreshControl = UIRefreshControl()
+    private let activityIndicator = UIActivityIndicatorView(style: .large)
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -47,6 +50,7 @@ class FeedViewController: UIViewController {
         configureUI()
         configureNavigationItems()
         viewModel.fetchData()
+        toggleHotAndNew.delegate = self
         feedTableView.delegate = self
         feedTableView.dataSource = self
         viewModel.delegate = self
@@ -84,12 +88,20 @@ class FeedViewController: UIViewController {
         view.backgroundColor = .midnights
         self.view.addSubview(feedTableView)
         self.view.addSubview(addFeedButtonContainer)
+        self.view.addSubview(toggleHotAndNew)
         addFeedButtonContainer.addSubview(addFeedButton)
 
+        toggleHotAndNew.snp.makeConstraints { make in
+            make.left.equalTo(view).offset(20)
+            make.right.equalTo(view).offset(-20)
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(20)
+            make.height.equalTo(36)
+        }
+        
         feedTableView.snp.makeConstraints { make in
             make.left.equalTo(view)
             make.right.equalTo(view)
-            make.top.equalTo(view)
+            make.top.equalTo(toggleHotAndNew.snp.bottom).offset(10)
             make.bottom.equalTo(view)
         }
         
@@ -110,6 +122,9 @@ class FeedViewController: UIViewController {
         refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
         refreshControl.addTarget(self, action: #selector(refresh), for: .allEvents)
         feedTableView.refreshControl = refreshControl
+        feedTableView.addSubview(activityIndicator)
+        activityIndicator.startAnimating()
+        feedTableView.backgroundView = activityIndicator
     }
     
     func configureNavigationItems(){
@@ -144,7 +159,7 @@ extension FeedViewController: CellDelegate {
         let commentsViewModel = CommentsViewModel(feedBuzzTapped: feed)
         let commentsVC = CommentsViewController(commentsViewModel: commentsViewModel, parentIndexPath: index)
         self.navigationController?.pushViewController(commentsVC, animated: true)
-        var properties = [
+        let properties = [
             "from": "\(Auth.auth().currentUser?.uid ?? "")",
             "buzz_content": "\(feed.content)"
         ]
@@ -229,6 +244,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension FeedViewController: FeedViewModelDelegate {
     func stopRefresh() {
+        activityIndicator.stopAnimating()
         refreshControl.endRefreshing()
     }
     
@@ -355,6 +371,13 @@ extension FeedViewController: UITabBarControllerDelegate {
             feedTableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .bottom, animated: true)
         }
         previousTabBarIndex = tabBarIndex
+    }
+}
+
+extension FeedViewController: ToggleDelegate {
+    func changeSection(section: FeedSection) {
+        viewModel.feedSection = section
+        activityIndicator.startAnimating()
     }
 }
 
