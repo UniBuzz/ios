@@ -131,7 +131,7 @@ class FeedViewController: UIViewController {
                 
         let title = UILabel()
         title.frame = .init(x: 0, y: 0, width: view.frame.width, height: 50)
-        title.text = "Feeds"
+        title.text = "Hive"
         title.font = UIFont.boldSystemFont(ofSize: 25)
         title.textAlignment = .left
         title.textColor = .heavenlyWhite
