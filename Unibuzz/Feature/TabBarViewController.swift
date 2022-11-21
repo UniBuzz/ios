@@ -46,8 +46,6 @@ class TabBarViewController: UITabBarController {
             }
         }
         fetchConversations()
-        
-        
     }
     
     // MARK: - Functions and Selectors
@@ -74,11 +72,11 @@ class TabBarViewController: UITabBarController {
     
     func configureViewControllers() {
         let feeds = FeedViewController()
-        let nav1 = navigationController(image: UIImage(systemName: "circle.hexagongrid.fill"), selectedImage: UIImage(systemName: "circle.hexagongrid.fill")?.withTintColor(.creamyYellow),title: "Hive", rootViewController: feeds, badge: nil)
-        let nav3 = navigationController(image: UIImage(systemName: "envelope"),selectedImage: UIImage(systemName: "envelope.fill"), title: "Message", rootViewController: conversationVC,badge: nil)
+        let nav1 = navigationController(image: UIImage(named: "hive_nonactive"), selectedImage: UIImage(named: "hive_active"),title: "Hive", rootViewController: feeds, badge: nil)
+        let nav3 = navigationController(image: UIImage(systemName: "envelope"),selectedImage: UIImage(systemName: "envelope"), title: "Chat", rootViewController: conversationVC,badge: nil)
         let profile = ProfileViewController()
         profile.delegate = self
-        let nav4 = navigationController(image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person.fill"),title: "Profile", rootViewController: profile, badge: nil)
+        let nav4 = navigationController(image: UIImage(systemName: "person"), selectedImage: UIImage(systemName: "person"),title: "Profile", rootViewController: profile, badge: nil)
         viewControllers = [nav1,nav3,nav4]
     }
     

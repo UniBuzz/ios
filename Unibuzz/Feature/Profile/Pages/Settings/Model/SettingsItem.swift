@@ -18,9 +18,9 @@ struct SettingsItem {
     
     let itemsDescription = [
         "Read the guidelines to maintain a healthy and safe online environment within your community.",
-        "Read how UnBuzz uses your data.",
+        "Read how Unibuzz uses your data.",
         "Read the terms and agreements.",
         "Send any feedback directly to our team.",
-        "Delete your account from UniBuzz permanently."
+        "Delete your account from Unibuzz permanently."
     ]
 }

@@ -15,7 +15,7 @@ class DropsOfHoneyView: UIView {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
         label.textColor = .heavenlyWhite
-        label.text = "Drops of Honey"
+        label.text = "My Drops of Honey"
         return label
     }()
     

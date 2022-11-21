@@ -14,7 +14,7 @@ class LogoutViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 18)
         label.textColor = .warningRed
-        label.text = "Logout"
+        label.text = "Log Out"
         return label
     }()
     

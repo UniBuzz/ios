@@ -17,6 +17,10 @@ protocol FeedViewModelDelegate: ViewModelDelegate {
     func stopRefresh()
 }
 
+enum FeedSection {
+    case new, hot
+}
+
 class FeedViewModel: UpdateDataSourceDelegate {
 
     private let service = FeedService.shared
@@ -27,9 +31,22 @@ class FeedViewModel: UpdateDataSourceDelegate {
     public var feedsData = [Buzz]()
     private var query: Query!
     private var documents = [QueryDocumentSnapshot]()
+    internal var feedSection: FeedSection = .new {
+        didSet {
+            feedsData = []
+            self.delegate?.reloadTableView()
+            fetchData()
+        }
+    }
     
     internal func fetchData() {
         Task.init {
+            switch feedSection {
+            case .new:
+                query = service.dbFeeds.order(by: "timestamp", descending: true).limit(to: 15)
+            case .hot:
+                query = service.dbFeeds.order(by: "hotTimestamp", descending: true).limit(to: 15)
+            }
             let feedsResult = await service.getFeedsData(query: query)
             switch feedsResult {
             case let .success(responseArray):
@@ -83,10 +100,6 @@ class FeedViewModel: UpdateDataSourceDelegate {
         delegate?.reloadTableView()
     }
     
-    func setInitialQuery() {
-        query = service.dbFeeds.order(by: "timestamp", descending: true).limit(to: 15)
-    }
-  
     func reportUser(reason: String, feed: Buzz) {
         if feed.buzzType == .feed {
             reportService.reportUser(targetUid: feed.uid, reportFrom: .Buzz, reportReason: reason)

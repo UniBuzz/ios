@@ -22,14 +22,14 @@ class ChangePseudonameView: UIView {
     var currentHoneyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = .creamyYellow
+        label.textColor = .cloudSky
         return label
     }()
     
     var neededHoneyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
-        label.textColor = .creamyYellow
+        label.textColor = .cloudSky
         label.text = "/200"
         return label
     }()
@@ -38,12 +38,12 @@ class ChangePseudonameView: UIView {
         let button = UIButton()
         button.isEnabled = false
         button.setTitleColor(.eternalBlack, for: .normal)
-        button.setTitleColor(.heavenlyWhite, for: .disabled)
+        button.setTitleColor(.cloudSky, for: .disabled)
         button.setBackgroundColor(color: .creamyYellow, forState: .normal)
         button.setBackgroundColor(color: .greyBackground, forState: .disabled)
         button.layer.cornerRadius = 10
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 17)
-        button.setTitle("Change", for: .normal)
+        button.setTitle("Change my name!", for: .normal)
         return button
     }()
     

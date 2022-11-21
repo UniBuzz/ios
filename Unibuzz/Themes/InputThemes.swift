@@ -16,7 +16,7 @@ class InputThemes {
             let label = UILabel()
             label.text = title
             label.font = UIFont.boldSystemFont(ofSize: 16)
-            label.textColor = .cloudSky
+            label.textColor = .white
             return label
         }()
         
@@ -56,7 +56,7 @@ class InputThemes {
         let tf = UITextField()
         tf.textColor = .heavenlyWhite
         tf.font = UIFont.systemFont(ofSize: 16)
-        tf.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.heavenlyWhite])
+        tf.attributedPlaceholder = NSAttributedString(string: placeholder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.cloudSky])
         tf.autocorrectionType = .no
         return tf
     }
